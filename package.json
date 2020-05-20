@@ -1,0 +1,31 @@
+{
+  "name": "blockland",
+  "version": "0.2.0",
+  "description": "basic physics and graphics",
+  "main": "index.js",
+  "scripts": {
+    "build:scss": "node-sass ./scss/ -o ./public/css",
+    "watch:scss": "yarn build:scss && node-sass -w -r ./scss/ -o ./public/css",
+    "test": "echo \"Error: No Test Specified\" && exit 1",
+    "start": "yarn build:scss && node server.js",
+    "dev": "concurrently \"nodemon -e js, ejs server.js\" \"yarn watch:scss\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dan-atack/BlockLand.git"
+  },
+  "author": "Dan Atack",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dan-atack/BlockLand/issues"
+  },
+  "homepage": "https://github.com/dan-atack/BlockLand#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.1.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "node-sass": "^4.13.1",
+    "nodemon": "^2.0.2"
+  }
+}

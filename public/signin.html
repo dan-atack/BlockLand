@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BlockLand: Sign-in</title>
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body class="sign-in">
+        <div class="sign-in header">
+            <h1>Welcome to Block Land!</h1>
+            <h3>Please sign in, or create an account if this is your first visit:</h3>
+        </div>
+        <div class="options">
+            <div class="existing-user">
+                <form class="signin-form" id="signin-as-user" onsubmit="signinAsUser(event)">
+                    <label for="username">Sign in here with existing username:</label>
+                    <input class="input-field" type="text" id="existing-username" name="username" required>
+                    <label for="password">Password:</label>
+                    <input class="input-field" type="password" id="existing-user-password" name="password">
+                    <button class="submit-ready" type="submit">GO!</button>
+                    <span id="existing-user-retry"></span>
+                </form>
+            </div>
+            <div class="create-account">
+                <form class="signin-form" id="create-account" onsubmit="createNewUser(event)">
+                    <label for="username">First Time? Sign up here:</label>
+                    <input class="input-field" type="text" id="new-username" name="username" required>
+                    <label for="password">Password:</label>
+                    <input class="input-field" type="password" id="new-password" name="password">
+                    <label for="password-conf">Confirm Password:</label>
+                    <input class="input-field" type="password" id="new-password-conf" name="password-conf">
+                    <button class="submit-ready" type="submit">GO!</button>
+                    <span id="new-user-retry"></span>
+                </form>
+            </div>
+        </div>
+        <script src="scripts/constants.js"></script>
+        <script src="scripts/serverFunctions.js"></script>
+    </body>
+</html>
