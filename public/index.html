@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>BlockLand</title>
-        <link rel="stylesheet" href="css/styles.css">
-    </head>
-    <body>
-        <div class="world" id="world">
-            <div class="background"></div>
-        </div>
-        <div class="sidebar-container" id="sidebar">
-            <div class="sidebar top">
-                <span class="username" id="username"></span>
-                <button class="logout" id="logout" onmouseup="logout(event)">Logout</button>
-            </div>
-            <span class="sidebar clock" id="clock">Current Time: Block O'Clock</span>
-            <button class="sidebar-button" id="pause">Pause</button>
-            <span class="sidebar" id="mission-statement"></span>
-            <span class="sidebar" id="player-coords"></span>
-            <span class="sidebar" id="player-xp"></span>
-            <span class="sidebar" id="standing-on"></span>
-            <span class="sidebar bottom" id="standing-in"></span>
-            <button class="sidebar-button" id="reset">RESTART</button>
-        </div>
-        <script src="assets/libraries/biomes.js"></script>
-        <script src="assets/libraries/mission_data.js"></script>
-        <script src="scripts/constants.js"></script>
-        <script src="scripts/serverFunctions.js"></script>
-        <script src="scripts/physics.js"></script>
-        <script src="scripts/obstructions.js"></script>
-        <script src="scripts/objective.js"></script>
-        <script src="scripts/mission.js"></script>
-        <script src="scripts/columns.js"></script>
-        <script src="scripts/text.js"></script>
-        <script src="scripts/engine.js"></script>
-        <script src="scripts/block.js"></script>
-        <script src="scripts/player.js"></script>
-        <script src="scripts/main.js"></script>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <title>BlockLand</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="world" id="world">
+      <div class="background"></div>
+    </div>
+    <div class="sidebar-container" id="sidebar">
+      <div class="sidebar top">
+        <span class="username" id="username"></span>
+        <button class="logout" id="logout" onmouseup="logout(event)">
+          Logout
+        </button>
+      </div>
+      <span class="sidebar clock" id="clock">Current Time: Block O'Clock</span>
+      <button class="sidebar-button" id="pause">Pause</button>
+      <span class="sidebar" id="mission-statement"></span>
+      <span class="sidebar" id="player-coords"></span>
+      <span class="sidebar" id="player-xp"></span>
+      <span class="sidebar" id="standing-on"></span>
+      <span class="sidebar bottom" id="standing-in"></span>
+      <button class="sidebar-button" id="reset">RESTART</button>
+    </div>
+    <script src="assets/libraries/biomes.js"></script>
+    <script src="assets/libraries/mission_data.js"></script>
+    <script src="assets/libraries/blocktionary.js"></script>
+    <script src="scripts/constants.js"></script>
+    <script src="scripts/serverFunctions.js"></script>
+    <script src="scripts/physics.js"></script>
+    <script src="scripts/obstructions.js"></script>
+    <script src="scripts/objective.js"></script>
+    <script src="scripts/mission.js"></script>
+    <script src="scripts/columns.js"></script>
+    <script src="scripts/text.js"></script>
+    <script src="scripts/engine.js"></script>
+    <script src="scripts/block.js"></script>
+    <script src="scripts/player.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
 </html>
