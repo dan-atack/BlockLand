@@ -1,6 +1,7 @@
 // The Blocktionary is our special repository of all the blocks and their special attributes:
 
 const blocktionary = [
+  { id: '000', name: 'Air', properties: ['permeable'] },
   {
     id: '001',
     name: 'Dirt',
@@ -15,7 +16,7 @@ const blocktionary = [
     ],
   },
   { id: '003', name: 'Stone_A', properties: [] },
-  { id: '004', name: 'Lava', properties: ['lethal', 'permeable'] },
+  { id: '004', name: 'Lava', properties: ['lethal' /*'permeable'*/] },
   { id: '005', name: 'Water_Top', properties: ['permeable'] },
   { id: '006', name: 'Tree_Trunk', properties: [] },
   { id: '007', name: 'Leaves_A', properties: [] },
@@ -24,14 +25,14 @@ const blocktionary = [
   { id: '010', name: 'Wood_Planks_A', properties: [] },
   { id: '012', name: 'Water_Deep', properties: ['permeable'] },
   { id: '200', name: 'Swamp_Water_Deep', properties: ['permeable'] },
-  { id: '201', name: 'Swamp_Water_Top', properties: ['permable'] },
+  { id: '201', name: 'Swamp_Water_Top', properties: ['permeable'] },
   { id: '970', name: 'Bacon_Horizontal_Middle', properties: [] },
-  { id: '971 ', name: 'Bacon_Vertical_Middle', properties: [] },
+  { id: '971', name: 'Bacon_Vertical_Middle', properties: [] },
   { id: '972', name: 'Bacon_Horizontal_Right', properties: [] },
   { id: '973', name: 'Bacon_Horizontal_Left', properties: [] },
   { id: '974', name: 'Bacon_Vertical_Bottom', properties: [] },
   { id: '975', name: 'Bacon_Vertical_Top', properties: [] },
-  { id: '989', name: 'Portal', properties: ['permable', 'animated'] },
+  { id: '989', name: 'Portal', properties: ['permeable', 'animated'] },
   { id: '999', name: 'Golden_Egg', properties: [] },
 ];
 

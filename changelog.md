@@ -262,22 +262,80 @@ Phase Five, while it saw the introduction of several key features, was far too a
 
 15. Allow new users to enter a name/pw and submit that to the server; if the name isn't taken the server adds it to its database and lets them proceed; if not, the user is asked to either sign in with that name, or create a new username.
 
-### 16. Add Logout button to the sidebar + functionality for said button.
+16. Add function in the game's code to toggle server dependency.
 
-17. Add function in the game's code to toggle server dependency.
+17. Art Department: Player XP display and Mission statement area glow briefly when new level loads.
 
-### 18. Update the Bacon Land server contact to add some data to the userid for the current player (xp, time played).
+18. Finishing touches: Rumble effect for level 2 (world widening)
 
-### 19. Finishing touches: Rumble effect for level 2 (world widening)
+19. Code Cleanup Extraordinaire: Introduced Blocktionary file to simplify addition of new blocks and their features. Modified Block object class template to take block data from here instead of being directly hard-coded.
 
-### 20. Finishing touches: Vortex effect (spin and blur) for level 3 (interdimensional)
-
-### 21. Player XP display and Mission statement area glow briefly when new level loads.
+20. Re-add lava lethality (and remove its permeability) in accordance with the new Blocktionary principles (tinker with Engine slightly, methinks?)
 
 # PHASE SIX (AKA Version 0.4): Say Hello to the Bad Guys!
 
-I have just one word for you, just one word: Baddies.
+I have just one word for you, just one word: Baddies...
 
-# Food for Future Thought: On Scalability for smaller screens: Screen Scroll distance variable might be worth its weight in gold.
+And now for several more words on that happy subject! Bad guys will of course be the first non-player entities to be brought into existence which makes their presence on the map quite unprecedented. We'll have to do this in stages, starting with the creation of an Enemy object class. Next step will be to render an actual bad guy, initially as though he were a motionless version of the player. Next we'll do some movement tests where the baddy is ordered to move around on the screen over a given range of columns, and verify that this works with all our existing physics (i.e. he only appears when you walk up to him and does not do anything else). Then for the hard part: wiring up a physics module to control a baddie's movements, and give him a movement script of some sort to test the physics engine's handling of a (non-player) entity. Theoretically it should be no different than controlling the player's sprite but with simulated key-strokes/movement requests instead of real ones, but who knows what will happen! Once all of this is figured out and the bastard moves we can think about killing him/having him kill the player, but let's not get ahead of ourselves just yet!
 
-# Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit.
+Start by drawing one Draw.io chart of the villain's interaction with the existing systems in this world, to refresh your memory of your own creation and seriously contemplate the entirety of this relation from initial rendering to death/murder.
+
+## Phase 6.I: Render unto Caesar
+
+1. Alter the Engine's instance of the physics system to name it 'playerPhysics', as there will be other entities who need to use physics.
+
+2. Setup Enemy object class. Be sure to include a 'movement script' attribute so it can be programmed later on. 'Territory' as well.
+
+3. Add 'Handle Baddie Renders' method to the Engine; run it right after checkScreenScroll method in the game's loop.
+
+4. Add this.enemies array to the Engine.
+
+5. On initialization, tell the engine to add one Baddie to its enemies array, with a location just off the screen.
+
+6. Test if the 'scan for baddies' method pings. If so, use it to render the enemy in the appropriate spot, and to horizontally translate its DOM element appropriately. Once this works Phase I is complete.
+
+## Phase 6.II: Move damn you, MOVE!
+
+7. Add CSS rules to baddies - consider the difference between them 'snapping' to a translated position and their regular 'motion' - maybe this is the reason for initial jerkiness? Addendum: Yes, it is! So we'll definitely have 2 classes of baddie motion here so they snap when they need to snap, and transition when they 'move.' Remember: All CSS is now in the SCSS file.
+
+8. Add start/end values to enemy's 'territory' and a movement method for them to move back and forth within this range.
+
+9. Movement rules should be carried out regardless of whether a baddie is rendered (x position is still measured even if there is no DOM element to manipulate), with the upshot that they will occasionally move into your view even if you're not moving.
+
+10. Create flat test-site 'provingGround' biome to test rudimentary baddie motion.
+
+## Phase 6.III: Fall damn you, FALL!
+
+11. Read through the physics module and abstract out anything that ties it specifically to the player so it is a neutral set of rules for motion for any sprite.
+
+12. Bad guys currently move by jumping from grid location to grid location. We need them to request speed whenever the patrol action fires, like the arrow keys request motion for the player (speed is actually set immediately and then collisions are verified then movement is authorized).
+
+13. Added a rule where bad guys only have physics applied to them if they're rendered, to stop them falling into the bottomless hole that exists before the blocks are rendered.
+
+## Phase 6.IV: Jump damn you, JUMP!
+
+14. Add 'jump' method to baddie class.
+
+15. Detect if baddie is obstructed by terrain.
+
+16. If a baddie is obstructed by terrain, have them jump.
+
+# BUG-HUNTERS' BOUNTY LIST:
+
+### 1. You still can't jump when you're > 50% over a ledge, and now to top that off it also says you're standing on 'undefined' in the Game's Sidebar, which pretty much screams 'bug!'
+
+### 2. Physics engine's movement loop still has the player's coordinates hardwired to the display output. Abstract that out and give it to the player class instead.
+
+### 3. Make sure enemy de-rendering is satisfactory.
+
+# PHASE X - Art Department:
+
+### 1. Touch up water and swamp-water block images to make them more transparent... OR alter the player sprite's
+
+### 2. Vortex effect (spin and blur) for level 3 (interdimensional) and teleportation in general.
+
+# Food for Future Thought/ General Notes:
+
+## On Scalability for smaller screens: Screen Scroll distance variable might be worth its weight in gold.
+
+## Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit.

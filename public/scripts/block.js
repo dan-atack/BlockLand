@@ -3,9 +3,9 @@
 // we make it so there are multiple block types.
 
 class Block {
-  // constructor takes 5 arguments: root HTML element, x and y position and block type are all givens, plus we now have
-  // the rendered value which is contingent on whether it is appearing in a visible column.
-  constructor(root, x, y, type = 1, rendered, horizontalOffset = 0) {
+  // constructor takes 5 arguments: root HTML element, x and y position, and block type which represents an ID in the blocktionary,
+  // plus we now have the rendered value which is contingent on whether it is appearing in a visible column.
+  constructor(root, x, y, type = '001', rendered, horizontalOffset = 0) {
     this.root = root;
     this.x = x;
     this.y = y;

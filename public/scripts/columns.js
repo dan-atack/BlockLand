@@ -20,7 +20,7 @@ class Columns {
     // Now, to broaden the diversity of the wider world:
     // block Printer function will take these arguments, skillfully inserted into the block printer's logic.
     // At first it might be a bit like, identical volcanoes to the left, identical forests to the right, but it's a starT:
-    this.currentBiomeLeft = castleA;
+    this.currentBiomeLeft = provingGroundsB;
     this.currentLeftwardBiomeIdx = 0;
     this.currentBiomeRight = startStage;
     this.currentRightwardBiomeIdx = 0;
@@ -185,11 +185,11 @@ class Columns {
   blockTypeDetector = (column, yPos) => {
     // the logic here is that the zero will be falsy, as in 'there is nothing in your way' and any other number will be truthy
     // as in "yes, your way is blocked, here is the number of the thing that's obstructing you."
-    let blocked = 0;
+    let blocked = '';
     // Given a column, check all its blocks:
     this[`column_${column}`].blocks.forEach((block) => {
       // if one if them is at the target y position, return its type:
-      if (block.y == yPos) blocked = block.type;
+      if (block.y == yPos) blocked = block.blockData;
     });
     return blocked;
   };
