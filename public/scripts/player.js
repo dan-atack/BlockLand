@@ -12,6 +12,7 @@ class Player {
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
     this.domElement.style.bottom = `${this.y * PLAYER_WIDTH}px`;
     this.position = `${this.x},${this.y}`;
+    this.id = 'player';
     this.domElement.id = 'player';
     this.domElement.className = 'player';
     root.appendChild(this.domElement);
@@ -20,7 +21,9 @@ class Player {
     // The type of block you are standing on will inform your movement over it
     this.standingOn = 0;
     // The medium you're in will affect your movement (air is normal, water will be slower)
-    this.medium = '';
+    this.medium = { id: '000', name: 'Air', properties: ['permeable'] };
+    // Collision status will record your interactions with other sprites (AKA baddies):
+    this.collisionStatus = 'clear';
     this.topSpeed = 0.25;
     // Movement handling now in the form of impulse values, largely handled by the physics object now:
     this.xSpeed = 0;
@@ -95,12 +98,43 @@ class Player {
   determineMedium(columns) {
     this.medium = columns.blockTypeDetector(this.gridX, this.y);
     // Show the first word of the name of the medium you're in (excluding air):
-    if (this.medium) {
+    if (this.medium.name.split('_').length > 1) {
       this.displayPlayerMedium.innerText = `Player is in ${
         this.medium.name.split('_')[0]
       }`;
     } else {
       this.displayPlayerMedium.innerText = '';
     }
+  }
+
+  // Check for death:
+  checkForDeath() {
+    // Check for terrain death: if what you're ON or what you're IN is lethal, it's a terrain death:
+    if (
+      (this.standingOn.properties.length > 0 &&
+        this.standingOn.properties.includes('lethal')) ||
+      (this.medium.properties.length > 0 &&
+        this.medium.properties.includes('lethal'))
+    ) {
+      this.isDead = true;
+      this.experience = 0;
+      this.displayPlayerStandingOn.innerText = `Player has been killed by ${this.standingOn.name}!`;
+      // Player's collision status will be modified by the Engine (which sort of acts as the state here I suppose) and then
+      // the player itself will determine what happens based on that. A healthy and confusion-free division of tasks!
+    } else if (this.collisionStatus != 'clear') {
+      this.isDead = true;
+      this.experience = 0;
+      this.displayPlayerStandingOn.innerText = `Player has been killed by ${this.collisionStatus}!`;
+    }
+  }
+
+  // And since this is video games and not real life, resurrect the player when the restart button is pressed:
+  resurrect() {
+    // Resurrection: first, undeclare your legally dead status:
+    this.isDead = false;
+    // Next, eliminate player statuses related to death:
+    this.standingOn = blocktionary[0];
+    this.medium = blocktionary[0];
+    this.collisionStatus = 'clear';
   }
 }

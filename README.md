@@ -22,12 +22,14 @@
 
 7. Server create-account/login: Initially added a server-side just to prove to myself that I could, but this will be useful down the line for saving a player's stats like XP, inventory status, current level, etc.
 
+8. Baddies patrol the map, and until a combat system is invented the player has to stay clear if they want to survive!
+
+## <img src="public/assets/Screenshots/Baddies!.png" style="width: 60%;">
+
 ## Coming Soon:
 
-1. Bad guys. Can't have a great adventure without some villainous types, after all.
+1. Vertical scrolling - right now you can only move horizontally, but in future versions you'll be able to climb tall mountains and swim to the depths of the sea.
 
-2. Vertical scrolling - right now you can only move horizontally, but in future versions you'll be able to climb tall mountains and swim to the depths of the sea.
+2. More interesting missions! Right now you just run around fairly aimlessly, but as the story develops you will be sent on quests to recover items, kill specific adversaries and so on.
 
-3. More interesting missions! Right now you just run around fairly aimlessly, but as the story develops you will be sent on quests to recover items, kill specific adversaries and so on.
-
-4. A database for long-term storage of player information.
+3. HOSTING!!!

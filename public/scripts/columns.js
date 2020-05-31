@@ -185,7 +185,7 @@ class Columns {
   blockTypeDetector = (column, yPos) => {
     // the logic here is that the zero will be falsy, as in 'there is nothing in your way' and any other number will be truthy
     // as in "yes, your way is blocked, here is the number of the thing that's obstructing you."
-    let blocked = '';
+    let blocked = blocktionary[0];
     // Given a column, check all its blocks:
     this[`column_${column}`].blocks.forEach((block) => {
       // if one if them is at the target y position, return its type:

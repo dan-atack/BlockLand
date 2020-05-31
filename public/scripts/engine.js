@@ -22,15 +22,12 @@ class Engine {
     // Cue experimental baddie deployment!
     this.baddies.push(
       // Must always meet baddies at the far edge of their range (they always start walking towards you... instead of into the abyss):
-      new Baddie(world, -10, 5, 1002, 1001, [-9, -8, -7, -6, -5, -4, -3, -2])
+      new Baddie(world, -10, 5, 1002, 1001, range(-10, -2))
     );
-    // this.baddies.push(
-    //   new Baddie(world, -9, 5, 1001, 1001, [-9, -8, -7, -6, -5, -4, -3])
-    // );
-    // this.baddies.push(
-    //   new Baddie(world, -7, 5, 1002, 1001, [-7, -6, -5, -4, -3])
-    // );
-    // this.baddies.push(new Baddie(world, 11, 6, 1001, 1001, true));
+    this.baddies.push(
+      // Must always meet baddies at the far edge of their range (they always start walking towards you... instead of into the abyss):
+      new Baddie(world, -19, 5, 1001, 1001, range(-19, -10))
+    );
     // Mission objectives come next!
     this.currentMission = 0; // We'll use this to keep track of which mission you're on to update between levels:
     this.mission = new Mission(
@@ -48,6 +45,8 @@ class Engine {
     this.baddies.forEach((baddie) =>
       this.scripts.push(new Physics(this.blocks, baddie))
     );
+    // Collisions monitor checks the player's coords vs each of the baddies (passed as an array)
+    this.collisions = new Collisions(this.player, this.baddies);
     // Game loop will only run when game is "on"; main file's any key sets this to true when you start; dying should make it false.
     this.gameOn = false;
     this.resetButton = resetButton;
@@ -166,11 +165,14 @@ class Engine {
         this.checkScreenScroll();
         // Say hello to the bad guys:
         this.handleBaddieMotion();
+        // Initiate collision detection between objects in motion:
+        this.collisions.compare(1);
         // Victory: Filter out accomplished objectives, then check for mission objective achievements, then update sidebar:
         this.mission.manageAchievements();
         // The game will freeze if you finish a mission, then unfreeze after 4.5 seconds and load a new mission:
         if (this.mission.objectivesRemaining.length == 0) this.updateMission();
-        // Lastly, check for DEATH:
+        // Lastly, check for DEATH: First the player checks, then the engine follows up in case of death:
+        this.player.checkForDeath();
         this.checkForPlayerDeath();
         // Refresh the universe every 40 ms
       }
@@ -275,20 +277,19 @@ class Engine {
   }
 
   checkForPlayerDeath() {
-    // currently only standing on lava will kill you, which makes for a nice simple conditional:
-    if (this.player.standingOn.id === '004') {
-      this.player.isDead = true;
+    // the player can handle their own death now, but some things the engine's gotta do itself:
+    if (this.player.isDead) {
       this.gameOn = false;
       this.resetButton.style.display = 'initial';
       this.resetButton.style.width = '192px';
       pauseButton.style.display = 'none';
-      this.playerPhysics.displaySubjectStandingOn.innerText =
-        'YOU HAVE FALLEN INTO LAVA!';
       // this.announcement = new Text COMING SOON!
     }
   }
 
   handleReset() {
+    // First, resurrect the player:
+    this.player.resurrect();
     // we'll move you back to the start real quick when you die:
     this.player.y = 8;
     let distFromStart = this.player.x - 5;
@@ -306,8 +307,7 @@ class Engine {
         this.checkScreenScroll();
       }
     }
-    // Then we have to strip away your XP and reset the *current* mission objectives:
-    this.player.experience = 0;
+    // Then we have to reset the *current* mission objectives, and bring you back to life:
     this.mission.objectivesAchieved.forEach(
       (objective) => (objective.achieved = false)
     );

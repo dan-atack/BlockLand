@@ -280,6 +280,8 @@ And now for several more words on that happy subject! Bad guys will of course be
 
 Start by drawing one Draw.io chart of the villain's interaction with the existing systems in this world, to refresh your memory of your own creation and seriously contemplate the entirety of this relation from initial rendering to death/murder.
 
+## <img src="public/assets/Screenshots/Baddies!.png" style="width: 60%;">
+
 ## Phase 6.I: Render unto Caesar
 
 1. Alter the Engine's instance of the physics system to name it 'playerPhysics', as there will be other entities who need to use physics.
@@ -319,6 +321,18 @@ Start by drawing one Draw.io chart of the villain's interaction with the existin
 15. Detect if baddie is obstructed by terrain.
 
 16. If a baddie is obstructed by terrain, have them jump.
+
+## Phase 6.V: Kill damn you... KILL!!!
+
+17. Create Collisions Object. It will keep track of the distance between moving objects and their angles to each other.
+
+18. Make this new system ping if you approach an enemy unit to within 1 square on either the X or Y axis.
+
+19. Second challenge: make it tell you the direction from which you approached an enemy (what end of you faced what end of them)
+
+20. The player has a 'determineIfDead' method which is invoked every cycle by the engine. This checks for whether the tile you're on has the 'lethal' property, and if you've had a collision with a baddie. Either results in death.
+
+21. Change range calculation to use pythagorean distance instead of basic x or y range to make for closer encounters!!
 
 # BUG-HUNTERS' BOUNTY LIST:
 

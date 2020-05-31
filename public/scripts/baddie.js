@@ -21,6 +21,7 @@ class Baddie {
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
     this.domElement.style.bottom = `${this.y * PLAYER_WIDTH}px`;
     this.domElement.id = `baddie_${baddieSerial}`;
+    this.id = `baddie_${baddieSerial}`;
     // Initial CSS image class is baddie-trans, which is short for 'translation-mode,' used for lockstep motion with passing terrain:
     this.domElement.className = 'baddie-trans';
     root.appendChild(this.domElement);
@@ -40,6 +41,8 @@ class Baddie {
     this.patrolTick = 0;
     this.xSpeed = 0;
     this.ySpeed = 0;
+    // This will eventually be used to kill the baddie (or the player!):
+    this.collisionStatus = 'clear';
     this.isAlive = true;
     // For future games:
     this.movementScript = null;
@@ -137,5 +140,11 @@ class Baddie {
   // Verify obstruction: If you're trying to leave from the same place as your last attempt was made from, you are stuck:
   verifyObstruction() {
     if (this.hasBeenRendered) return this.x === this.lastMoveAttemptStart;
+  }
+
+  // Handle Collision: Like the player class, baddies will register collisions they're involved in:
+  handleCollisions() {
+    if (this.collisionStatus !== 'clear')
+      console.log(`${this.id} has been involved in an ${this.collisionStatus}`);
   }
 }

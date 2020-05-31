@@ -1,81 +1,60 @@
 @keyframes spin {
   from {
-    transform: rotateZ(0deg);
-  }
+    transform: rotateZ(0deg); }
   to {
-    transform: rotateZ(360deg);
-  }
-}
+    transform: rotateZ(360deg); } }
 
 @keyframes rumble {
   0% {
-    transform: translate3d(0px, 0, 0);
-  }
+    transform: translate3d(0px, 0, 0); }
   10%,
   90% {
-    transform: translate3d(-2px, -2px, 0);
-  }
+    transform: translate3d(-2px, -2px, 0); }
   20%,
   80% {
-    transform: translate3d(4px, 4px, 0);
-  }
+    transform: translate3d(4px, 4px, 0); }
   30%,
   50%,
   70% {
-    transform: translate3d(-8px, -8px, 0);
-  }
+    transform: translate3d(-8px, -8px, 0); }
   40%,
   60% {
-    transform: translate3d(8px, 8px, 0);
-  }
-}
+    transform: translate3d(8px, 8px, 0); } }
 
 @keyframes glow {
   from {
-    text-shadow: 1px 1px 15px #89d3db, -1px -1px 15px #89d3db;
-  }
+    text-shadow: 1px 1px 15px #89d3db, -1px -1px 15px #89d3db; }
   to {
-    text-shadow: 0px 0px 20px #175b63, 0px 0px 10px #188692;
-  }
-}
+    text-shadow: 0px 0px 20px #175b63, 0px 0px 10px #188692; } }
 
 @keyframes shine {
   from {
-    text-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db;
-  }
+    text-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db; }
   to {
-    text-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63;
-  }
-}
+    text-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63; } }
 
 @keyframes vortex {
   0% {
-    transform: rotateZ(0deg);
-  }
+    transform: rotateZ(0deg); }
   100% {
-    transform: rotateZ(360deg);
-  }
-}
+    transform: rotateZ(360deg); } }
 
 body {
   background-color: #0d0f0d;
   color: white;
-  display: flex;
-}
+  display: flex; }
 
 .sign-in {
   text-align: center;
   align-items: center;
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: column; }
 
 .options {
   display: flex;
   flex-direction: row;
   text-align: center;
-  padding: 16px;
-}
+  padding: 16px; }
 
 .create-account,
 .existing-user {
@@ -87,44 +66,36 @@ body {
   flex-direction: column;
   height: 360px;
   width: 240px;
-  background-color: #0d1818;
-}
+  background-color: #0d1818; }
 
 .signin-form {
   height: 80%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
+  align-items: center; }
 
 .input-field {
-  margin: 16px;
-}
+  margin: 16px; }
 
 .submit-ready {
   width: 128px;
-  background-color: yellowgreen;
-}
+  background-color: yellowgreen; }
 
 .submit-unready {
   width: 128px;
-  background-color: tomato;
-}
+  background-color: tomato; }
 
 .player {
   transition-duration: 0.125s;
-  position: absolute;
-}
+  position: absolute; }
 
 .baddie-moving {
   transition-duration: 0.25s;
-  position: absolute;
-}
+  position: absolute; }
 
 .baddie-trans {
-  position: absolute;
-}
+  position: absolute; }
 
 .world {
   margin-top: 1%;
@@ -135,22 +106,18 @@ body {
   position: relative;
   font-size: 36px;
   border-radius: 8px;
-  overflow: hidden;
-}
+  overflow: hidden; }
 
 @media (prefers-reduced-motion: no-preference) {
   .rumbling {
-    animation: rumble 1.25s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  }
-}
+    animation: rumble 1.25s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; } }
 
 .background {
   width: 576px;
   height: 704px;
   position: absolute;
-  background-image: url('../assets/backgrounds/background001.png');
-  opacity: 33%;
-}
+  background-image: url("../assets/backgrounds/background001.png");
+  opacity: 33%; }
 
 .sidebar-container {
   margin-top: 1%;
@@ -160,8 +127,7 @@ body {
   flex-direction: column;
   width: 290px;
   border: 2px solid cyan;
-  border-radius: 8px;
-}
+  border-radius: 8px; }
 
 .sidebar {
   color: white;
@@ -169,28 +135,23 @@ body {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 256px;
   padding: 16px;
-  border: 1px solid cyan;
-}
+  border: 1px solid cyan; }
 
 .username {
   max-width: 50%;
-  color: white;
-}
+  color: white; }
 
 .logout {
   position: relative;
   margin-left: 30%;
-  border-radius: 8px;
-}
+  border-radius: 8px; }
 
 .top {
   border-radius: 8px 8px 0px 0px;
-  display: flex;
-}
+  display: flex; }
 
 .bottom {
-  border-radius: 0px 0px 8px 8px;
-}
+  border-radius: 0px 0px 8px 8px; }
 
 .sidebar-button {
   margin: 16px;
@@ -202,27 +163,23 @@ body {
   background-color: aqua;
   color: darkred;
   font-size: 28px;
-  font-weight: bold;
-}
+  font-weight: bold; }
 
 .block {
   position: absolute;
-  width: 64px;
-}
+  width: 64px; }
 
 .achievement {
   background-color: black;
   padding: 4px;
   border: 1px solid whitesmoke;
   border-radius: 8px;
-  animation: glow 1.5s ease-in-out infinite alternate;
-}
+  animation: glow 1.5s ease-in-out infinite alternate; }
 
 .golden-egg {
   box-sizing: border-box;
   border-radius: 50%;
-  box-shadow: 0px 0px 12px 12px gold;
-}
+  box-shadow: 0px 0px 12px 12px gold; }
 
 .portal {
   margin-left: -16px;
@@ -231,13 +188,10 @@ body {
   filter: blur(1px);
   border-radius: 50%;
   z-index: 100;
-  animation: spin 6s linear infinite reverse;
-}
+  animation: spin 6s linear infinite reverse; }
 
 .XP {
-  animation: shine 1.5s ease-in-out alternate;
-}
+  animation: shine 1.5s ease-in-out alternate; }
 
 .levelup {
-  animation: shine 1.5s ease-in-out infinite alternate;
-}
+  animation: shine 1.5s ease-in-out infinite alternate; }
