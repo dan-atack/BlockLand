@@ -20,7 +20,7 @@ class Columns {
     // Now, to broaden the diversity of the wider world:
     // block Printer function will take these arguments, skillfully inserted into the block printer's logic.
     // At first it might be a bit like, identical volcanoes to the left, identical forests to the right, but it's a starT:
-    this.currentBiomeLeft = provingGroundsB;
+    this.currentBiomeLeft = provingGrounds;
     this.currentLeftwardBiomeIdx = 0;
     this.currentBiomeRight = startStage;
     this.currentRightwardBiomeIdx = 0;

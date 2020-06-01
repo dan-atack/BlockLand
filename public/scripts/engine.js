@@ -154,6 +154,8 @@ class Engine {
         // Before movement is calculated, check what surface the player is standing on, and what medium (if any) they are immersed in:
         this.player.updateStandingOnDisplay(this.blocks);
         this.player.determineMedium(this.blocks);
+        // Advance player attack countdown:
+        this.player.advanceAttackCountdown();
         // The New Physics: Now completely in the hands of the Physics object... Now ~ 83% bug free!
         this.playerPhysics.collisionManager();
         // Run physics for the bad guys:
@@ -166,7 +168,9 @@ class Engine {
         // Say hello to the bad guys:
         this.handleBaddieMotion();
         // Initiate collision detection between objects in motion:
-        this.collisions.compare(1);
+        this.collisions.compare(1.5);
+        this.baddies.forEach((baddie) => baddie.handleCollisions());
+        this.checkforBaddieDeaths();
         // Victory: Filter out accomplished objectives, then check for mission objective achievements, then update sidebar:
         this.mission.manageAchievements();
         // The game will freeze if you finish a mission, then unfreeze after 4.5 seconds and load a new mission:
@@ -285,6 +289,11 @@ class Engine {
       pauseButton.style.display = 'none';
       // this.announcement = new Text COMING SOON!
     }
+  }
+
+  // Check if any baddies have died and remove them:
+  checkforBaddieDeaths() {
+    this.baddies = this.baddies.filter((baddie) => !baddie.isDead);
   }
 
   handleReset() {

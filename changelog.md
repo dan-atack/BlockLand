@@ -334,13 +334,19 @@ Start by drawing one Draw.io chart of the villain's interaction with the existin
 
 21. Change range calculation to use pythagorean distance instead of basic x or y range to make for closer encounters!!
 
+# PHASE SEVEN: BASIC COMBAT!
+
+Since baddies have been added there is mounting excitement about the prospect of sharing/hosting this game! Before we are ready for that however, there are still a few loose ends to tie up: Adding the ability for you, the player, to fight back against your new adversaries is the top priority, and then organizing the creation/deletion of bad guys into the mission-setup structure rather than cramming them into the Engine's constructor function. Finally we'll make a couple more levels to showcase all the fun new things that can happen now that we have baddies roaming the land!
+
+### 1.
+
 # BUG-HUNTERS' BOUNTY LIST:
 
 ### 1. You still can't jump when you're > 50% over a ledge, and now to top that off it also says you're standing on 'undefined' in the Game's Sidebar, which pretty much screams 'bug!'
 
 ### 2. Physics engine's movement loop still has the player's coordinates hardwired to the display output. Abstract that out and give it to the player class instead.
 
-### 3. Make sure enemy de-rendering is satisfactory.
+### 3. Enemy translation/derendering is sometimes still abrupt/jerky. Fix that by adjusting baddie CSS rules/render distance rules.
 
 # PHASE X - Art Department:
 

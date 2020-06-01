@@ -7,6 +7,7 @@ class Baddie {
   constructor(root, xStart, yStart, baddieType = 1001, baddieSerial, xRange) {
     this.x = xStart;
     this.y = yStart;
+    this.type = baddieType;
     this.serialNum = baddieSerial;
     // Presumes that all enemies start off the initial screen; corrected further below after DOM element is appended to document:
     this.rendered = false;
@@ -43,7 +44,8 @@ class Baddie {
     this.ySpeed = 0;
     // This will eventually be used to kill the baddie (or the player!):
     this.collisionStatus = 'clear';
-    this.isAlive = true;
+    // Only you can change this:
+    this.isDead = false;
     // For future games:
     this.movementScript = null;
     // Movement obstructions checker - record the last place movement was attempted from:
@@ -144,7 +146,10 @@ class Baddie {
 
   // Handle Collision: Like the player class, baddies will register collisions they're involved in:
   handleCollisions() {
-    if (this.collisionStatus !== 'clear')
+    if (this.collisionStatus !== 'clear') {
       console.log(`${this.id} has been involved in an ${this.collisionStatus}`);
+      this.isDead = true;
+      this.domElement.style.display = 'none';
+    }
   }
 }

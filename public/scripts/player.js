@@ -35,10 +35,13 @@ class Player {
     this.displayPlayerStandingOn = playerStandingOnBlockType;
     // Display medium (water and such):
     this.displayPlayerMedium = playerStandingInMedium;
+    // COMBAT ZONE - Player attack status and cooldown:
+    this.isAttacking = false;
+    this.attackCountdown = 0;
   }
 
   // Player methods!
-  // Movement responders come first, now bundled into one mega function (but with switch cases, to mitigate the chunkiness):
+  // Movement responders come first, taking keydown inputs and translating to physics module impulse requests:
 
   handlePlayerMovement = (event) => {
     // Adding one reference to the game's engine here:
@@ -72,9 +75,29 @@ class Player {
             this.ySpeed = -0.25;
           }
           break;
+        // Key responder for spacebar activates attack sequence:
+        case 'Space':
+          this.attack();
+          break;
       }
     }
   };
+
+  // Attack method:
+  attack() {
+    if (this.attackCountdown === 0) {
+      this.isAttacking = true;
+      this.attackCountdown = 10;
+      console.log('attacking!');
+    }
+  }
+
+  // Advance countdown:
+  advanceAttackCountdown() {
+    this.attackCountdown > 0
+      ? (this.attackCountdown -= 1)
+      : (this.isAttacking = false);
+  }
 
   // And down at the bottom we have the method for horizontal dom element translation, distinct from regular motion:
 
