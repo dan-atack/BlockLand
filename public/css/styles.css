@@ -90,6 +90,9 @@ body {
   transition-duration: 0.125s;
   position: absolute; }
 
+.attack {
+  position: absolute; }
+
 .baddie-moving {
   transition-duration: 0.25s;
   position: absolute; }

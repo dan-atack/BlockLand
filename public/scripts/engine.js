@@ -21,13 +21,27 @@ class Engine {
     this.baddies = [];
     // Cue experimental baddie deployment!
     this.baddies.push(
-      // Must always meet baddies at the far edge of their range (they always start walking towards you... instead of into the abyss):
-      new Baddie(world, -10, 5, 1002, 1001, range(-10, -2))
+      // Must always meet baddies at the NEAREST EDGE of their range (they always start walking towards you instead of into the abyss):
+      new Baddie(world, -12, 4, 1001, 1001, range(-12, -3))
+    );
+    this.baddies.push(
+      // Must always meet baddies at the NEAREST EDGE of their range (they always start walking towards you instead of into the abyss):
+      new Baddie(world, -24, 4, 1002, 1002, range(-24, -3))
+    );
+    this.baddies.push(
+      // Must always meet baddies at the NEAREST EDGE of their range (they always start walking towards you instead of into the abyss):
+      new Baddie(world, -18, 4, 1002, 1003, range(-18, -3))
+    );
+    this.baddies.push(
+      // Must always meet baddies at the NEAREST EDGE of their range (they always start walking towards you instead of into the abyss):
+      new Baddie(world, -8, 4, 1002, 1004, range(-8, -3))
     );
     this.baddies.push(
       // Must always meet baddies at the far edge of their range (they always start walking towards you... instead of into the abyss):
-      new Baddie(world, -19, 5, 1001, 1001, range(-19, -10))
+      new Baddie(world, -19, 5, 1002, 1005, range(-19, -10))
     );
+    this.baddies.push(new Baddie(world, 24, 6, 1002, 1005, range(21, 24)));
+    this.baddies.push(new Baddie(world, 28, 6, 1002, 1005, range(24, 28)));
     // Mission objectives come next!
     this.currentMission = 0; // We'll use this to keep track of which mission you're on to update between levels:
     this.mission = new Mission(
@@ -168,7 +182,7 @@ class Engine {
         // Say hello to the bad guys:
         this.handleBaddieMotion();
         // Initiate collision detection between objects in motion:
-        this.collisions.compare(1.5);
+        this.collisions.compare(3, this.baddies);
         this.baddies.forEach((baddie) => baddie.handleCollisions());
         this.checkforBaddieDeaths();
         // Victory: Filter out accomplished objectives, then check for mission objective achievements, then update sidebar:
@@ -180,7 +194,7 @@ class Engine {
         this.checkForPlayerDeath();
         // Refresh the universe every 40 ms
       }
-    }, 40);
+    }, 50);
   }
 
   updateMission() {

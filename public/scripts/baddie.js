@@ -5,13 +5,15 @@ class Baddie {
   // New to the bad guys since they're not unique: type (for which sprite to render) and serial number (for the engine)
   // New constructor variable xRange is an array of the column numbers in a baddie's "territory":
   constructor(root, xStart, yStart, baddieType = 1001, baddieSerial, xRange) {
+    this.root = root;
     this.x = xStart;
     this.y = yStart;
     this.type = baddieType;
     this.serialNum = baddieSerial;
+    // X range is the territory a baddie will patrol:
+    this.xRange = xRange;
     // Presumes that all enemies start off the initial screen; corrected further below after DOM element is appended to document:
     this.rendered = false;
-    // Omitting 'Grid-<coord>' variable as an experiment in non-gridear motion. Experiment postponed. Bring in the grid. * sigh *
     this.gridX = xStart;
     this.gridY = yStart;
     this.facing = 'right';
@@ -46,13 +48,15 @@ class Baddie {
     this.collisionStatus = 'clear';
     // Only you can change this:
     this.isDead = false;
+    // Baddies stick around so you can watch them die, but we say they're dying so they can't harm you while they perish:
+    this.isDying = false;
+    // DeathLoops! A value for how many cycles the engine should keep your sprite around for to watch you die:
+    this.deathLoops = 20;
     // For future games:
     this.movementScript = null;
     // Movement obstructions checker - record the last place movement was attempted from:
     this.lastMoveAttemptStart = null;
     this.xObstructions = 0;
-    // Range is a whole array, like [1, 2, 3, 4, 5]:
-    this.xRange = xRange;
   }
 
   // Baddie Methods: First, Render. Then, fall. Then jump... THEN ANNIHILIATE!!!
@@ -91,38 +95,41 @@ class Baddie {
   // Run the patrol method every engine cycle. Patrol will first tick off an internal counter (movement every 5 engine cycles),
   // then determine where a baddie is in terms of his patrol route, then move then reset the counter.
   patrol() {
-    // Add a tick:
-    this.patrolTick += 1;
-    // If it's time to move then we enter our first block, and reset the ticker:
-    if (this.patrolTick === this.patrolInterval) {
-      this.domElement.classList.add('baddie-moving');
-      this.patrolTick = 0;
-      // Oh boy oh boy oh boy!!
-      if (this.verifyObstruction()) this.jump();
-      // Next determine the direction of movement. We'll do rightwards first:
-      if (this.facing === 'right') {
-        // Final condition: if you're going right, where are you now? If not at the right edge, keep going (add to x):
-        if (this.x < this.xRange[this.xRange.length - 1]) {
-          this.xSpeed = this.topSpeed;
-          this.lastMoveAttemptStart = this.x;
+    // You can't patrol if you're dying:
+    if (!this.isDying) {
+      // Add a tick:
+      this.patrolTick += 1;
+      // If it's time to move then we enter our first block, and reset the ticker:
+      if (this.patrolTick === this.patrolInterval) {
+        this.domElement.classList.add('baddie-moving');
+        this.patrolTick = 0;
+        // Oh boy oh boy oh boy!!
+        if (this.verifyObstruction()) this.jump();
+        // Next determine the direction of movement. We'll do rightwards first:
+        if (this.facing === 'right') {
+          // Final condition: if you're going right, where are you now? If not at the right edge, keep going (add to x):
+          if (this.x < this.xRange[this.xRange.length - 1]) {
+            this.xSpeed = this.topSpeed;
+            this.lastMoveAttemptStart = this.x;
+          } else {
+            // If you ARE at the far right, turn around and move leftwards by reducing x:
+            this.facing = 'left';
+            this.domElement.style.transform = 'rotateY(180deg)';
+            this.xSpeed = -this.topSpeed;
+            this.lastMoveAttemptStart = this.x;
+          }
+          // Leftward motion:
         } else {
-          // If you ARE at the far right, turn around and move leftwards by reducing x:
-          this.facing = 'left';
-          this.domElement.style.transform = 'rotateY(180deg)';
-          this.xSpeed = -this.topSpeed;
-          this.lastMoveAttemptStart = this.x;
-        }
-        // Leftward motion:
-      } else {
-        // Leftward edge detection - the mirror image:
-        if (this.x > this.xRange[0]) {
-          this.xSpeed = -this.topSpeed;
-          this.lastMoveAttemptStart = this.x;
-        } else {
-          this.facing = 'right';
-          this.domElement.style.transform = 'rotateY(0deg)';
-          this.xSpeed = this.topSpeed;
-          this.lastMoveAttemptStart = this.x;
+          // Leftward edge detection - the mirror image:
+          if (this.x > this.xRange[0]) {
+            this.xSpeed = -this.topSpeed;
+            this.lastMoveAttemptStart = this.x;
+          } else {
+            this.facing = 'right';
+            this.domElement.style.transform = 'rotateY(0deg)';
+            this.xSpeed = this.topSpeed;
+            this.lastMoveAttemptStart = this.x;
+          }
         }
       }
     }
@@ -147,9 +154,36 @@ class Baddie {
   // Handle Collision: Like the player class, baddies will register collisions they're involved in:
   handleCollisions() {
     if (this.collisionStatus !== 'clear') {
-      console.log(`${this.id} has been involved in an ${this.collisionStatus}`);
+      // Forward thinking here: when HP are introduced there will be more options here, and the collision status
+      // is the key (status should be the name of a type of attack, or better still an attack object with a name and a damage amount!)
+      this.handleDeath();
+    }
+  }
+
+  // Death - A baddie's final moments are his finest:
+  handleDeath() {
+    // Engine can check a baddie for deathLoops and remove them when the counter reaches zero:
+    if (this.deathLoops > 0) {
+      // Death of a baddie: baddie sprite is replaced by a gif of them dying which plays for a certain amount of game loops:
+      if (this.deathLoops === 20) {
+        // collision status is the key to HP: hit by Attack object: {name: 'claws', id: 101, dmg: 5, type: 'slashing'}
+        console.log(`${this.id} has been hit by ${this.collisionStatus}`);
+        this.domElement.src = `./assets/effects/animations/baddie-${this.type}-death.gif`;
+        // ensure proper sprite orientation:
+        this.facing === 'right'
+          ? (this.domElement.style.transform = 'rotateY(0deg)')
+          : 'rotate&(180deg)';
+      }
+      this.isDying = true;
+      this.domElement.style.width = '64px';
+      this.domElement.style.height = '64px';
+      this.domElement.style.zIndex = 100;
+      this.deathLoops -= 1;
+    } else {
+      this.isDying = false;
       this.isDead = true;
-      this.domElement.style.display = 'none';
+      console.log('removing element');
+      this.root.removeChild(this.domElement);
     }
   }
 }

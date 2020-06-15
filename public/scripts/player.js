@@ -2,6 +2,7 @@
 // Addendum: Who would have thought moving would be so hard!
 class Player {
   constructor(root, xStart, yStart) {
+    this.root = root;
     this.x = xStart;
     this.y = yStart;
     this.gridX = Math.floor(xStart);
@@ -25,7 +26,7 @@ class Player {
     // Collision status will record your interactions with other sprites (AKA baddies):
     this.collisionStatus = 'clear';
     this.topSpeed = 0.25;
-    // Movement handling now in the form of impulse values, largely handled by the physics object now:
+    // Movement handling now in the form of speed requests, which get handled by the physics object in the engine:
     this.xSpeed = 0;
     this.ySpeed = 0;
     // Let's RPG it up a bit!
@@ -37,6 +38,12 @@ class Player {
     this.displayPlayerMedium = playerStandingInMedium;
     // COMBAT ZONE - Player attack status and cooldown:
     this.isAttacking = false;
+    this.attackRange = 0;
+    // Experimental upgraded combat system test:
+    this.attackRadius = 0;
+    // We'll keep the attack animation here to make it easier to render/de-render:
+    this.attackAnimation = document.createElement('img');
+    this.root.appendChild(this.attackAnimation);
     this.attackCountdown = 0;
   }
 
@@ -49,12 +56,26 @@ class Player {
       // Relocate the blockade check?! YES.
       switch (event.code) {
         case 'ArrowLeft':
+          // Cancel attacks when you turn around:
+          if (this.facing === 'right' && this.isAttacking) {
+            this.isAttacking = false;
+            this.attackRange = 0;
+            this.attackRadius = 0;
+            this.attackAnimation.style.display = 'none';
+          }
           // face the appropriate direction:
           this.facing = 'left';
           this.domElement.style.transform = 'rotateY(180deg)';
           this.xSpeed = -this.topSpeed;
           break;
         case 'ArrowRight':
+          // Cancel attacks when you turn around:
+          if (this.facing === 'left' && this.isAttacking) {
+            this.isAttacking = false;
+            this.attackRange = 0;
+            this.attackRadius = 0;
+            this.attackAnimation.style.display = 'none';
+          }
           this.facing = 'right';
           this.domElement.style.transform = 'rotateY(0deg)';
           this.xSpeed = this.topSpeed;
@@ -77,26 +98,91 @@ class Player {
           break;
         // Key responder for spacebar activates attack sequence:
         case 'Space':
-          this.attack();
+          this.clawAttack();
           break;
       }
     }
   };
 
-  // Attack method:
-  attack() {
+  // Attack method: the general attack method takes care of the attack's paperwork, being requested by a specific attack type:
+
+  attack(attackType) {
+    // set attacking to true:
+    this.isAttacking = true;
+    // attack range will represent the ABSOLUTE x value of the attack's kill zone, such that anything between that and you is hit:
+    // Deprecation in progress:
+    this.attackRange = this.facing === 'right' ? this.x + 1 : this.x - 1;
+    // set width of attack animation:
+    this.attackAnimation.style.width = `${this.attackRadius * PLAYER_WIDTH}px`;
+    // set display to visible and ensure prominence with z-index value:
+    this.attackAnimation.style.zIndex = 10;
+    this.attackAnimation.style.display = 'initial';
+    this.attackAnimation.style.bottom = `${this.y * PLAYER_WIDTH}px`;
+    this.attackAnimation.className = 'attack';
+    this.attackAnimation.id = 'attack';
+    // Position attack animation (rightward orientation first):
+    if (this.facing === 'right') {
+      // Horizontal offset is introduced into the animation here since the animation is the offset (non-absolute) position:
+      this.attackAnimation.style.left = `${
+        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
+      }px`;
+      this.attackAnimation.style.transform = 'rotateY(180deg)';
+      // Leftward orientation and positioning:
+    } else {
+      this.attackAnimation.style.transform = 'rotateY(0deg)';
+      // ensure attack animation is rendered as originating from the edge of the player's sprite:
+      this.attackAnimation.style.left = `${
+        (this.attackRange - this.horizontalOffset + (1 - this.attackRadius)) *
+        PLAYER_WIDTH
+      }px`;
+    }
+    // Add attack animation:
+    this.attackAnimation.src = `./assets/effects/animations/${attackType}.gif`;
+  }
+
+  // Specific attacks are linked to keys and contain only the specific info needed for a particular attack:
+
+  clawAttack() {
     if (this.attackCountdown === 0) {
-      this.isAttacking = true;
+      // NOTE ON ATTACK RANGE: When you're facing to the right, add one to your position when factoring in attack radii
+      // Since your position is counted starting from the leftmost edge!
+      this.attackRadius = 0.6;
       this.attackCountdown = 10;
-      console.log('attacking!');
+      // then call the general purpose attack function, and tell it which animation to use:
+      this.attack('slash');
     }
   }
 
-  // Advance countdown:
+  // Advance countdown: Reduce the counter and update attack range based on player's current position;
+  // when countdown reaches zero remove attack animation and radius:
+  // NOTE: Turning around cancels a regular attack (see movement responder rules):
   advanceAttackCountdown() {
-    this.attackCountdown > 0
-      ? (this.attackCountdown -= 1)
-      : (this.isAttacking = false);
+    // IF attack is cooling down that means you are in the state of attacking:
+    if (this.attackCountdown > 0) {
+      // begin cooling down:
+      this.attackCountdown -= 1;
+      // calculate attack Range (your position +/- 1)
+      this.attackRange = this.facing === 'right' ? this.x + 1 : this.x - 1;
+      // render attack animation in the appropriate position:
+      this.facing === 'right'
+        ? (this.attackAnimation.style.left = `${
+            (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
+          }px`)
+        : (this.attackAnimation.style.left = `${
+            (this.attackRange -
+              this.horizontalOffset +
+              (1 - this.attackRadius)) *
+            PLAYER_WIDTH
+          }px`);
+      this.attackAnimation.style.bottom = `${this.y * PLAYER_WIDTH}px`;
+      // make sure there is an attack animation before attempting to reset it!
+    } else if (this.attackAnimation) {
+      // current attack is replacing isattacking to switch between attack moves:
+      this.isAttacking = false;
+      this.attackRange = 0;
+      this.attackRadius = 0;
+      this.attackAnimation.src = '';
+    }
   }
 
   // And down at the bottom we have the method for horizontal dom element translation, distinct from regular motion:
@@ -109,6 +195,11 @@ class Player {
     this.domElement.style.left = `${
       (this.x - horizontalOffset) * PLAYER_WIDTH
     }px`;
+    // if attacking, ensure the attack animation is also shifted:
+    if (this.isAttacking)
+      this.attackAnimation.style.left = `${
+        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
+      }px`;
   }
 
   // Player Vital Display Functions:
@@ -148,6 +239,7 @@ class Player {
       this.isDead = true;
       this.experience = 0;
       this.displayPlayerStandingOn.innerText = `Player has been killed by ${this.collisionStatus}!`;
+      console.log('I am killed!');
     }
   }
 

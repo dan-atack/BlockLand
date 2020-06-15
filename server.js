@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 // Experimental Micro-Database (for storing user submitted info from the game):
 

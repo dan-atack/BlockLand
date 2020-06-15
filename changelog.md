@@ -338,7 +338,25 @@ Start by drawing one Draw.io chart of the villain's interaction with the existin
 
 Since baddies have been added there is mounting excitement about the prospect of sharing/hosting this game! Before we are ready for that however, there are still a few loose ends to tie up: Adding the ability for you, the player, to fight back against your new adversaries is the top priority, and then organizing the creation/deletion of bad guys into the mission-setup structure rather than cramming them into the Engine's constructor function. Finally we'll make a couple more levels to showcase all the fun new things that can happen now that we have baddies roaming the land!
 
-### 1.
+1. Create combat-checks dictionary with outcomes for different angles of approach and distances tailored to each baddie.
+
+2. Hook this up to the direction-checking function in collisions object.
+
+3. Run basic tests (approaching baddies from different angles to see what pings).
+
+4. Add baddie death method to their class, and have engine filter and remove dead baddies with each cycle.
+
+5. Add player attack method and attack cooldown method (run by the engine each cycle) to allow you to fight back!
+
+6. Add simple attack animation to display player's striking distance; play this whenever the attack method is used.
+
+7. Using the strike distance animation as a guideline, fine-tune the kill/be-killed distance values for our two baddies so they are nice and specific.
+
+8. Once these have been tested out, create an animation sequence for baddie deaths. Use GIFs to add some much needed animation to the ensemble.
+
+9. Add baddie 'isDying' property to allow baddie sprites to persist while we watch them die without posing a hazard to the player.
+
+10. Take the range bracket out of the Baddictionary and move it to the player's (specific) attack method for the range checks; call the value that positions the attack's DOM element 'attack range' and store the numeric value of your attack's strike radius as 'attack radius.'
 
 # BUG-HUNTERS' BOUNTY LIST:
 
@@ -356,6 +374,10 @@ Since baddies have been added there is mounting excitement about the prospect of
 
 # Food for Future Thought/ General Notes:
 
-## On Scalability for smaller screens: Screen Scroll distance variable might be worth its weight in gold.
+### 9. New ideas: Attack object class? gets created when the player hits the attack button/s and is used to pass information relating to an attack to bad guys... and/or the environment?!
 
-## Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit.
+### On Scalability for smaller screens: Screen Scroll distance variable might be worth its weight in gold.
+
+### Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit.
+
+### More/different attacks for the player? Different cooldown times, greater or shorter ranges, Y-axis specific moves, should all be combinable with our current system.
