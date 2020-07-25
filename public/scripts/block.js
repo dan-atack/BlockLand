@@ -30,13 +30,26 @@ class Block {
     this.isAnimated = false;
     this.hasAbnormalFriction = false;
     this.isLethal = false;
+    // Block DOM elements get created here:
+    this.domElement = document.createElement('img');
+    this.domElement.src = `./assets/blocks/block${this.blockData.id}.png`;
+    // Block dom Element positions are new given in terms of coordinates multiplied by width, to form a 'pseudo-grid':
+    this.domElement.style.left = `${(x - horizontalOffset) * BLOCK_WIDTH}px`;
+    this.domElement.style.bottom = `${y * BLOCK_WIDTH}px`;
+    this.domElement.classList.add('block');
+    this.domElement.id = `${this.x},${this.y}`;
     // Now use Blocktionary's properties array to determine the block's attributes:
     if (this.blockData.properties.length > 0) {
       this.blockData.properties.forEach((property) => {
         switch (property) {
           case 'permeable':
             this.isPermeable = true;
+            this.domElement.style.opacity = 0.5;
             break;
+          // certain blocks appear solid but can in fact be bypassed:
+          case 'passable':
+            this.isPermeable = true;
+            this.domElement.style.zIndex = 0;
           case 'lethal':
             this.isLethal = true;
             break;
@@ -51,18 +64,6 @@ class Block {
         }
       });
     }
-    // // Replace this with an array of 'Permeable blocks' and check if that array contains the block type:
-    // if (this.type === 0 || this.type === 5 || this.type === 989)
-    //   this.isSolid = false;
-    this.domElement = document.createElement('img');
-    this.domElement.src = `./assets/blocks/block${this.blockData.id}.png`;
-    // Block dom Element positions are new given in terms of coordinates multiplied by width, to form a 'pseudo-grid':
-    this.domElement.style.position = 'absolute';
-    this.domElement.style.left = `${(x - horizontalOffset) * BLOCK_WIDTH}px`;
-    // I'm tired of y values descending from the cieling. Let's change that:
-    this.domElement.style.bottom = `${y * BLOCK_WIDTH}px`;
-    this.domElement.classList.add('block');
-    this.domElement.id = `${this.x},${this.y}`;
     // Blocks will only appear if the printer tells them to:
     this.rendered = rendered;
     if (this.rendered) root.appendChild(this.domElement);

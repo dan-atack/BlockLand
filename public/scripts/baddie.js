@@ -3,8 +3,16 @@
 class Baddie {
   // Just like the player class! Oh boy, it's like they're RELATED or something >:-(
   // New to the bad guys since they're not unique: type (for which sprite to render) and serial number (for the engine)
-  // New constructor variable xRange is an array of the column numbers in a baddie's "territory":
-  constructor(root, xStart, yStart, baddieType = 1001, baddieSerial, xRange) {
+  // New constructor variable xRange is an array of the start/stop values of the baddie's territory:
+  constructor(
+    root,
+    xStart,
+    yStart,
+    baddieType = 1001,
+    baddieSerial,
+    xRange,
+    special = null
+  ) {
     this.root = root;
     this.x = xStart;
     this.y = yStart;
@@ -12,6 +20,9 @@ class Baddie {
     this.serialNum = baddieSerial;
     // X range is the territory a baddie will patrol:
     this.xRange = xRange;
+    // Optional special property will allow us to pass additional class types to the baddie's DOM element, as well as add various
+    // secondary characteristics later on (greater HP, for instance, or altered patrol logic):
+    this.special = special;
     // Presumes that all enemies start off the initial screen; corrected further below after DOM element is appended to document:
     this.rendered = false;
     this.gridX = xStart;
@@ -27,9 +38,10 @@ class Baddie {
     this.id = `baddie_${baddieSerial}`;
     // Initial CSS image class is baddie-trans, which is short for 'translation-mode,' used for lockstep motion with passing terrain:
     this.domElement.className = 'baddie-trans';
+    if (this.special) this.domElement.classList.add(this.special);
     root.appendChild(this.domElement);
     // Hard code to start invisible if you're outside the screen:
-    if (!this.x >= 0 && this.x <= 9) {
+    if (!this.x >= 0 && this.x <= 15) {
       this.domElement.style.display = 'none';
     } else {
       this.domElement.display = 'initial';
@@ -54,8 +66,10 @@ class Baddie {
     this.deathLoops = 20;
     // For future games:
     this.movementScript = null;
-    // Movement obstructions checker - record the last place movement was attempted from:
+    // Movement obstructions checker - record the last x-value that movement was attempted from:
     this.lastMoveAttemptStart = null;
+    // Also record the starting height of the previous jump:
+    this.lastJumpInitialHeight = null;
     this.xObstructions = 0;
   }
 
@@ -101,38 +115,54 @@ class Baddie {
       this.patrolTick += 1;
       // If it's time to move then we enter our first block, and reset the ticker:
       if (this.patrolTick === this.patrolInterval) {
+        // Reset jump height history if movement has been successful:
+        if (!this.verifyXObstruction()) this.lastJumpInitialHeight = null;
         this.domElement.classList.add('baddie-moving');
         this.patrolTick = 0;
-        // Oh boy oh boy oh boy!!
-        if (this.verifyObstruction()) this.jump();
+        // If you've already jumped and you're still stuck, turn around:
+        if (this.verifyYObstruction() && this.verifyXObstruction()) {
+          // depending on which way you're facing, move the other way:
+          this.facing === 'right' ? this.moveLeft() : this.moveRight();
+          // Resent jump evaluator:
+          this.lastJumpInitialHeight = null;
+          // If the baddie encounters an obstacle, jump:
+        } else if (this.verifyXObstruction()) {
+          this.jump();
+        }
         // Next determine the direction of movement. We'll do rightwards first:
         if (this.facing === 'right') {
           // Final condition: if you're going right, where are you now? If not at the right edge, keep going (add to x):
-          if (this.x < this.xRange[this.xRange.length - 1]) {
-            this.xSpeed = this.topSpeed;
-            this.lastMoveAttemptStart = this.x;
+          if (this.x < this.xRange[1]) {
+            this.moveRight();
           } else {
             // If you ARE at the far right, turn around and move leftwards by reducing x:
-            this.facing = 'left';
-            this.domElement.style.transform = 'rotateY(180deg)';
-            this.xSpeed = -this.topSpeed;
-            this.lastMoveAttemptStart = this.x;
+            this.moveLeft();
           }
           // Leftward motion:
         } else {
           // Leftward edge detection - the mirror image:
           if (this.x > this.xRange[0]) {
-            this.xSpeed = -this.topSpeed;
-            this.lastMoveAttemptStart = this.x;
+            this.moveLeft();
           } else {
-            this.facing = 'right';
-            this.domElement.style.transform = 'rotateY(0deg)';
-            this.xSpeed = this.topSpeed;
-            this.lastMoveAttemptStart = this.x;
+            this.moveRight();
           }
         }
       }
     }
+  }
+
+  moveRight() {
+    this.facing = 'right';
+    this.domElement.style.transform = 'rotateY(0deg)';
+    this.xSpeed = this.topSpeed;
+    this.lastMoveAttemptStart = this.x;
+  }
+
+  moveLeft() {
+    this.facing = 'left';
+    this.domElement.style.transform = 'rotateY(180deg)';
+    this.xSpeed = -this.topSpeed;
+    this.lastMoveAttemptStart = this.x;
   }
 
   // Jump! To be used in case a baddie gets stuck:
@@ -143,12 +173,17 @@ class Baddie {
       Number.isInteger(this.y)
     ) {
       this.ySpeed = 0.6875;
+      this.lastJumpInitialHeight = this.y;
     }
   }
 
   // Verify obstruction: If you're trying to leave from the same place as your last attempt was made from, you are stuck:
-  verifyObstruction() {
+  verifyXObstruction() {
     if (this.hasBeenRendered) return this.x === this.lastMoveAttemptStart;
+  }
+
+  verifyYObstruction() {
+    if (this.hasBeenRendered) return this.y === this.lastJumpInitialHeight;
   }
 
   // Handle Collision: Like the player class, baddies will register collisions they're involved in:
@@ -167,7 +202,6 @@ class Baddie {
       // Death of a baddie: baddie sprite is replaced by a gif of them dying which plays for a certain amount of game loops:
       if (this.deathLoops === 20) {
         // collision status is the key to HP: hit by Attack object: {name: 'claws', id: 101, dmg: 5, type: 'slashing'}
-        console.log(`${this.id} has been hit by ${this.collisionStatus}`);
         this.domElement.src = `./assets/effects/animations/baddie-${this.type}-death.gif`;
         // ensure proper sprite orientation:
         this.facing === 'right'
@@ -175,14 +209,13 @@ class Baddie {
           : 'rotate&(180deg)';
       }
       this.isDying = true;
-      this.domElement.style.width = '64px';
-      this.domElement.style.height = '64px';
+      this.domElement.style.width = `${PLAYER_WIDTH}px`;
+      this.domElement.style.height = `${PLAYER_WIDTH}px`;
       this.domElement.style.zIndex = 100;
       this.deathLoops -= 1;
     } else {
       this.isDying = false;
       this.isDead = true;
-      console.log('removing element');
       this.root.removeChild(this.domElement);
     }
   }

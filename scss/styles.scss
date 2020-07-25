@@ -11,23 +11,19 @@
   0% {
     transform: translate3d(0px, 0, 0);
   }
-
   10%,
   90% {
     transform: translate3d(-2px, -2px, 0);
   }
-
   20%,
   80% {
     transform: translate3d(4px, 4px, 0);
   }
-
   30%,
   50%,
   70% {
     transform: translate3d(-8px, -8px, 0);
   }
-
   40%,
   60% {
     transform: translate3d(8px, 8px, 0);
@@ -40,6 +36,15 @@
   }
   to {
     text-shadow: 0px 0px 20px #175b63, 0px 0px 10px #188692;
+  }
+}
+
+@keyframes redglow {
+  from {
+    text-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504;
+  }
+  to {
+    text-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763;
   }
 }
 
@@ -65,6 +70,7 @@ body {
   background-color: #0d0f0d;
   color: white;
   display: flex;
+  max-height: 88vh;
 }
 
 .sign-in {
@@ -91,7 +97,7 @@ body {
   flex-direction: column;
   height: 360px;
   width: 240px;
-  background-color: rgb(13, 24, 24);
+  background-color: #0d1818;
 }
 
 .signin-form {
@@ -119,6 +125,8 @@ body {
 .player {
   transition-duration: 0.125s;
   position: absolute;
+  width: 32px;
+  z-index: 1;
 }
 
 .attack {
@@ -128,22 +136,33 @@ body {
 .baddie-moving {
   transition-duration: 0.25s;
   position: absolute;
+  width: 36px;
+  height: 36px;
 }
 
 .baddie-trans {
   position: absolute;
+  transition-duration: 0s;
+  width: 36px;
+  height: 36px;
+}
+
+.boss {
+  width: 48px;
+  height: 48px;
 }
 
 .world {
   margin-top: 1%;
   margin-left: 10%;
   border: 2px solid #ffaee5;
-  width: 576px;
-  height: 704px;
+  width: 512px;
+  height: 480px;
   position: relative;
   font-size: 36px;
   border-radius: 8px;
   overflow: hidden;
+  text-align: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -153,8 +172,8 @@ body {
 }
 
 .background {
-  width: 576px;
-  height: 704px;
+  width: 512px;
+  height: 480px;
   position: absolute;
   background-image: url('../assets/backgrounds/background001.png');
   opacity: 33%;
@@ -175,7 +194,7 @@ body {
   color: white;
   width: 20%;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  width: 256px;
+  width: 240px;
   padding: 16px;
   border: 1px solid cyan;
 }
@@ -206,7 +225,7 @@ body {
   border-radius: 8px;
   border: 2px solid whitesmoke;
   height: 64px;
-  width: 256px;
+  width: 240px;
   background-color: aqua;
   color: darkred;
   font-size: 28px;
@@ -215,15 +234,8 @@ body {
 
 .block {
   position: absolute;
-  width: 64px;
-}
-
-.achievement {
-  background-color: black;
-  padding: 4px;
-  border: 1px solid whitesmoke;
-  border-radius: 8px;
-  animation: glow 1.5s ease-in-out infinite alternate;
+  width: 32px;
+  z-index: 1;
 }
 
 .golden-egg {
@@ -233,9 +245,10 @@ body {
 }
 
 .portal {
-  margin-left: -16px;
-  height: 96px;
-  width: 96px;
+  margin-left: -22px;
+  margin-bottom: -22px;
+  height: 90px;
+  width: 90px;
   filter: blur(1px);
   border-radius: 50%;
   z-index: 100;
@@ -248,4 +261,32 @@ body {
 
 .levelup {
   animation: shine 1.5s ease-in-out infinite alternate;
+}
+
+.text {
+  position: relative;
+  z-index: 100;
+}
+
+.intro {
+  animation: shine 2.5s ease-in-out infinite alternate;
+  position: relative;
+}
+
+.achievement {
+  background-color: black;
+  padding: 4px;
+  border: 1px solid whitesmoke;
+  border-radius: 8px;
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+.obituary {
+  color: rgb(231, 91, 91);
+  background-color: black;
+  padding: 4px;
+  border: 1px solid whitesmoke;
+  border-radius: 8px;
+  animation: redglow 1.5s ease-in-out infinite alternate;
+  z-index: 100;
 }

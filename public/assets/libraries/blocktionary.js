@@ -1,4 +1,18 @@
-// The Blocktionary is our special repository of all the blocks and their special attributes:
+// The Blocktionary is our special repository of all the blocks and their special attributes.
+
+// Block numbers are assigned by categories, with each range of 100 numbers roughly corresponding to a particular category/theme:
+
+// 001 - 010: "The basic ten" - lava, shallow water, grass, dirt, rock, ice, tree trunk, leaves, bricks, and wooden planks
+// 11 - 99: Jungle - more types of leaves, tree trunks, some Aztec-style temple stones, mossy rocks, etc.
+// 100 - 199: Desert - Sand, cacti, various rock formations... in short, plants and rocks and birds and things.
+// 200 - 299: Swamp - Willow trees, mud, swamp water, pirhanna water (dangerous like lava), lily pads, boardwalk, etc.
+// 300 - 399: Arctic - Snow, more kinds of ice, candy-canes (for X-mas themed level??), pine trees, etc.
+// 400 - 499: BadLands - Cracked dry mud, tar, buttes (or their components), sun-bleached bones, acid lakes, etc.
+// 500 - 599: Forest (non-rain variety) - Variety of trees, logs, stumps, mushrooms, flowers, etc.
+// 600 - 699: Aquatic - More types of deep and shallow water, coral reefs, cliffs, sunken ships, etc.
+// 700 - 799: Civilisation - Pipes, concrete, masonry, fences, electrical lines, and anything else from the world of Man.
+// 800 - 899: Psychedelica - Bubbles, giant flowers, tie-dyed stuff, balloons, clouds, other-worldly stuff, etc.
+// 900 - 999: Bonuses/Utility Blocks/ Miscellaneous: Golden Eggs, Portals, Reward chests, and... BACON???
 
 const blocktionary = [
   { id: '000', name: 'Air', properties: ['permeable'] },
@@ -18,7 +32,7 @@ const blocktionary = [
   { id: '003', name: 'Stone_A', properties: [] },
   { id: '004', name: 'Lava', properties: ['lethal' /*'permeable'*/] },
   { id: '005', name: 'Water_Top', properties: ['permeable'] },
-  { id: '006', name: 'Tree_Trunk', properties: [] },
+  { id: '006', name: 'Tree_Trunk', properties: ['passable'] },
   { id: '007', name: 'Leaves_A', properties: [] },
   { id: '008', name: 'Ice_A', properties: ['low_friction'] },
   { id: '009', name: 'Bricks', properties: [] },
@@ -26,6 +40,16 @@ const blocktionary = [
   { id: '012', name: 'Water_Deep', properties: ['permeable'] },
   { id: '200', name: 'Swamp_Water_Deep', properties: ['permeable'] },
   { id: '201', name: 'Swamp_Water_Top', properties: ['permeable'] },
+  { id: '700', name: 'Fence', properties: ['passable'] },
+  { id: '701', name: 'Concrete', properties: [] },
+  { id: '702', name: 'Girder-I-Bar', properties: [] },
+  { id: '703', name: 'Girder-H-Bar', properties: [] },
+  { id: '710', name: 'Pipes-Horizontal', properties: [] },
+  { id: '711', name: 'Pipes-Vertical', properties: [] },
+  { id: '712', name: 'Pipe-Bend-Top-Left', properties: [] },
+  { id: '713', name: 'Pipe-Bend-Top-Right', properties: [] },
+  { id: '714', name: 'Pipe-Bend-Bottom-Right', properties: [] },
+  { id: '715', name: 'Pipe-Bend-Bottom-Left', properties: [] },
   { id: '970', name: 'Bacon_Horizontal_Middle', properties: [] },
   { id: '971', name: 'Bacon_Vertical_Middle', properties: [] },
   { id: '972', name: 'Bacon_Horizontal_Right', properties: [] },

@@ -13,6 +13,7 @@ class Player {
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
     this.domElement.style.bottom = `${this.y * PLAYER_WIDTH}px`;
     this.position = `${this.x},${this.y}`;
+    this.domElement.zIndex = 1;
     this.id = 'player';
     this.domElement.id = 'player';
     this.domElement.className = 'player';
@@ -26,7 +27,11 @@ class Player {
     // Collision status will record your interactions with other sprites (AKA baddies):
     this.collisionStatus = 'clear';
     this.topSpeed = 0.25;
-    // Movement handling now in the form of speed requests, which get handled by the physics object in the engine:
+    // MOVEMENT 2.0: Key responders set movement requests, which are converted by movement-handler functions to x/y speeds:
+    this.movingRight = false;
+    this.movingLeft = false;
+    this.jumping = false;
+    this.crouching = false;
     this.xSpeed = 0;
     this.ySpeed = 0;
     // Let's RPG it up a bit!
@@ -45,56 +50,36 @@ class Player {
     this.attackAnimation = document.createElement('img');
     this.root.appendChild(this.attackAnimation);
     this.attackCountdown = 0;
+    // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):
+    this.baddiesDestroyed = 0;
+    this.baddiesKilledThisInning = 0;
+    // A list of the dudes you've killed:
+    this.baddieDogTags = [];
   }
 
   // Player methods!
-  // Movement responders come first, taking keydown inputs and translating to physics module impulse requests:
+  // Movement responders come first, in two parts: A keydown responder series and a keyup responder series, for smoother movement:
 
-  handlePlayerMovement = (event) => {
+  handlePlayerKeydowns = (event) => {
     // Adding one reference to the game's engine here:
     if (thomas.gameOn) {
-      // Relocate the blockade check?! YES.
       switch (event.code) {
+        // Now with paired switch cases to allow WASD controls!
         case 'ArrowLeft':
-          // Cancel attacks when you turn around:
-          if (this.facing === 'right' && this.isAttacking) {
-            this.isAttacking = false;
-            this.attackRange = 0;
-            this.attackRadius = 0;
-            this.attackAnimation.style.display = 'none';
-          }
-          // face the appropriate direction:
-          this.facing = 'left';
-          this.domElement.style.transform = 'rotateY(180deg)';
-          this.xSpeed = -this.topSpeed;
+        case 'KeyA':
+          this.movingLeft = true;
           break;
         case 'ArrowRight':
-          // Cancel attacks when you turn around:
-          if (this.facing === 'left' && this.isAttacking) {
-            this.isAttacking = false;
-            this.attackRange = 0;
-            this.attackRadius = 0;
-            this.attackAnimation.style.display = 'none';
-          }
-          this.facing = 'right';
-          this.domElement.style.transform = 'rotateY(0deg)';
-          this.xSpeed = this.topSpeed;
+        case 'KeyD':
+          this.movingRight = true;
           break;
         case 'ArrowUp':
-          // If you're not at the top of the board, and you're not standing on air (disable second and third conditions to allow flight):
-          if (
-            this.y <= SCREEN_HEIGHT / PLAYER_WIDTH - 1 &&
-            this.standingOn != 0 &&
-            Number.isInteger(this.y)
-          ) {
-            this.ySpeed = 0.6875;
-          }
+        case 'KeyW':
+          this.jumping = true;
           break;
         case 'ArrowDown':
-          // if you're not at the bottom you can move down...
-          if (!(this.y == 0)) {
-            this.ySpeed = -0.25;
-          }
+        case 'KeyS':
+          this.crouching = true;
           break;
         // Key responder for spacebar activates attack sequence:
         case 'Space':
@@ -103,6 +88,91 @@ class Player {
       }
     }
   };
+
+  // Movement responses part II: Keyup responder (cancels keydown effects):
+
+  handlePlayerKeyups = (event) => {
+    switch (event.code) {
+      case 'ArrowLeft':
+      case 'KeyA':
+        this.movingLeft = false;
+        break;
+      case 'ArrowRight':
+      case 'KeyD':
+        this.movingRight = false;
+        break;
+      case 'ArrowUp':
+      case 'KeyW':
+        this.jumping = false;
+        break;
+      case 'ArrowDown':
+      case 'KeyS':
+        this.crouching = false;
+        break;
+      // No case needed yet for spacebar handler, since it still calls the attack function directly!
+    }
+  };
+
+  // Final stage of the new movement process: Movement Request Handler calls movement functions each game cycle
+  // based on what keys are still depressed vs keyed up. Should result in smoother jumping and responsiveness:
+  handleMovementRequests = () => {
+    // For each type of movement, check if it's requested:
+    if (this.movingRight) this.moveRight();
+    if (this.movingLeft) this.moveLeft();
+    if (this.jumping) this.jump();
+    if (this.crouching) {
+      this.crouch();
+    } else {
+      this.standUp();
+    }
+  };
+
+  // Next are the movement functions, abstracted from the responders for reusability:
+
+  moveRight() {
+    // Cancel attacks when you turn around:
+    if (this.facing === 'left' && this.isAttacking) {
+      this.haltAttack();
+    }
+    // execute movement:
+    this.facing = 'right';
+    this.domElement.style.transform = 'rotateY(0deg)';
+    this.xSpeed = this.topSpeed;
+  }
+
+  moveLeft() {
+    // Cancel attacks when you turn around:
+    if (this.facing === 'right' && this.isAttacking) {
+      this.haltAttack();
+    }
+    // execute movement:
+    this.facing = 'left';
+    this.domElement.style.transform = 'rotateY(180deg)';
+    this.xSpeed = -this.topSpeed;
+  }
+
+  jump() {
+    // If you're not at the top of the board, and you're not standing on air (disable second and third conditions to allow flight):
+    if (
+      this.y <= SCREEN_HEIGHT / PLAYER_WIDTH - 1 &&
+      this.standingOn != 0 &&
+      Number.isInteger(this.y) &&
+      this.standingOn.id != '000'
+    ) {
+      this.ySpeed = 0.6875;
+    }
+  }
+
+  crouch() {
+    // It seems a logical thing that a raptor should be able to crouch...
+    if (!(this.y == 0)) {
+      this.domElement.style.height = `${PLAYER_WIDTH * 0.6}px`;
+    }
+  }
+
+  standUp() {
+    this.domElement.style.height = `${PLAYER_WIDTH}px`;
+  }
 
   // Attack method: the general attack method takes care of the attack's paperwork, being requested by a specific attack type:
 
@@ -146,7 +216,7 @@ class Player {
     if (this.attackCountdown === 0) {
       // NOTE ON ATTACK RANGE: When you're facing to the right, add one to your position when factoring in attack radii
       // Since your position is counted starting from the leftmost edge!
-      this.attackRadius = 0.6;
+      this.attackRadius = 0.5;
       this.attackCountdown = 10;
       // then call the general purpose attack function, and tell it which animation to use:
       this.attack('slash');
@@ -177,12 +247,17 @@ class Player {
       this.attackAnimation.style.bottom = `${this.y * PLAYER_WIDTH}px`;
       // make sure there is an attack animation before attempting to reset it!
     } else if (this.attackAnimation) {
-      // current attack is replacing isattacking to switch between attack moves:
-      this.isAttacking = false;
-      this.attackRange = 0;
-      this.attackRadius = 0;
-      this.attackAnimation.src = '';
+      // if the countdown expires, halt the attack:
+      this.haltAttack();
     }
+  }
+
+  // Deactivate attack: the scram function to cancel attacks fast - NOTE: this doesn't affect cooldowns, it just stops attacks.
+  haltAttack() {
+    this.isAttacking = false;
+    this.attackRange = 0;
+    this.attackRadius = 0;
+    this.attackAnimation.src = '';
   }
 
   // And down at the bottom we have the method for horizontal dom element translation, distinct from regular motion:
@@ -204,7 +279,7 @@ class Player {
 
   // Player Vital Display Functions:
 
-  updateStandingOnDisplay(columns) {
+  updateStandingOnDisplay() {
     this.displayPlayerStandingOn.innerText = `Standing on block type: ${this.standingOn.name}`;
   }
 
@@ -230,16 +305,38 @@ class Player {
       (this.medium.properties.length > 0 &&
         this.medium.properties.includes('lethal'))
     ) {
-      this.isDead = true;
-      this.experience = 0;
-      this.displayPlayerStandingOn.innerText = `Player has been killed by ${this.standingOn.name}!`;
-      // Player's collision status will be modified by the Engine (which sort of acts as the state here I suppose) and then
-      // the player itself will determine what happens based on that. A healthy and confusion-free division of tasks!
+      this.handleDeath('terrain');
+      // Otherwise, if your collision status isn't clear... well...
     } else if (this.collisionStatus != 'clear') {
-      this.isDead = true;
-      this.experience = 0;
-      this.displayPlayerStandingOn.innerText = `Player has been killed by ${this.collisionStatus}!`;
-      console.log('I am killed!');
+      this.handleDeath('collision');
+    }
+  }
+
+  // Carry out death procedures:
+  handleDeath(type) {
+    this.isDead = true;
+    // You don't have to lose EVERYTHING when you die:
+    if (this.experience > 0) this.experience--;
+    // But you do have to stop moving and attacking:
+    this.movingRight = false;
+    this.movingLeft = false;
+    this.jumping = false;
+    this.crouching = false;
+    this.xSpeed = 0;
+    this.ySpeed = 0;
+    // Stop your attack animation if it was in progress at the moment of death:
+    if (this.attackAnimation) {
+      this.haltAttack();
+    }
+    // Update text in the sidebar status indicator based on type of death:
+    switch (type) {
+      case 'collision':
+        const phrase = this.collisionStatus.split('-').join(' ');
+        this.displayPlayerStandingOn.innerText = `Player has been killed by ${phrase}!`;
+        break;
+      case 'terrain':
+        this.displayPlayerStandingOn.innerText = `Player has been killed by ${this.standingOn.name}!`;
+        break;
     }
   }
 
