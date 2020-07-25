@@ -20,7 +20,7 @@ class Columns {
     // Now, to broaden the diversity of the wider world:
     // block Printer function will take these arguments, skillfully inserted into the block printer's logic.
     // At first it might be a bit like, identical volcanoes to the left, identical forests to the right, but it's a starT:
-    this.currentBiomeLeft = provingGrounds;
+    this.currentBiomeLeft = wetLands;
     this.currentLeftwardBiomeIdx = 0;
     this.currentBiomeRight = startStage;
     this.currentRightwardBiomeIdx = 0;
@@ -68,12 +68,11 @@ class Columns {
   // Information on which biome to use is given by the currentBiome<direction> attribute, which changes at the end of every biome!
   // Regarding the sudden proliferation of horizontal offsets: I think I just invented prop drilling!
   biomeBuilder = (columns) => {
-    // Implant conditional statement to determine if we're going right (first case) or left (second case below).
-    // If your first column is zero or higher you're going to the right:
-    if (columns[0] >= 0) {
-      // For every column in the stated range, run the block printer for that column number, and fill with the
-      // appropriate column from the current biome:
-      columns.forEach((column) => {
+    // For every column in the stated range, run the block printer for that column number, and fill with the
+    // appropriate column from the current biome:
+    columns.forEach((column) => {
+      // If your column number is zero or higher you're going to the right:
+      if (column >= 0) {
         this.blockPrinter(
           column,
           this.currentBiomeRight[this.currentRightwardBiomeIdx]
@@ -85,13 +84,11 @@ class Columns {
           // Random biome generator:
           this.currentBiomeRight =
             biomes[
-              `biome0${Math.floor(Math.random() * Object.keys(biomes).length)}`
+              `biome${Math.floor(Math.random() * Object.keys(biomes).length)}`
             ];
         }
-      });
-      // Now for the left:
-    } else {
-      columns.forEach((column) => {
+        // If your column number is negative you're going to the left:
+      } else {
         // For every column in the stated range, run the block printer for that column number, and fill with the
         // appropriate column from the current biome:
         this.blockPrinter(
@@ -103,11 +100,14 @@ class Columns {
           this.currentLeftwardBiomeIdx = 0;
           this.currentBiomeLeft =
             biomes[
-              `biome0${Math.floor(Math.random() * Object.keys(biomes).length)}`
+              `biome${Math.floor(Math.random() * Object.keys(biomes).length)}`
             ];
         }
-      });
-    }
+      }
+    });
+    // } else {
+    //   columns.forEach((column) => {});
+    // }
   };
 
   // Method 3: Is Way Blocked? Returns the value of the target block's solidity, so you can fall into water again:
@@ -152,8 +152,8 @@ class Columns {
     const exBlock = this[`column_${column}`].blocks.find(
       (block) => block.y == yPos
     );
-    // this conditional should allow for the possibility of de-rendering a block that is onscreen as well as off:
-    if (exBlock.rendered) exBlock.toggleDisappear();
+    // de-render a block that is onscreen as well as off:
+    if (exBlock && exBlock.rendered) exBlock.toggleDisappear();
     // Filter out the 'ex-block' and return the newly truncated blocks list:
     this[`column_${column}`].blocks = this[`column_${column}`].blocks.filter(
       (block) => block.y != yPos

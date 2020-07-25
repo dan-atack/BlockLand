@@ -304,11 +304,26 @@ class Physics {
 
   // Determine what you're standing on. NOTE: Tweak to allow jumping when you're > 50% over a ledge:
   determineSurface() {
+    // unless your y-position is an integer you must be in the air:
     if (Number.isInteger(this.subject.y)) {
-      this.subject.standingOn = this.columns.blockTypeDetector(
-        this.subject.gridX,
+      // if either of your possible x values registers something other than air, you can jump?
+      const leftCol = this.columns.blockTypeDetector(
+        Math.floor(this.subject.x),
         this.subject.y - 1
       );
+      const rightCol = this.columns.blockTypeDetector(
+        Math.ceil(this.subject.x),
+        this.subject.y - 1
+      );
+      if (leftCol.id !== '000') {
+        this.subject.standingOn = leftCol;
+      } else if (rightCol.id !== '000') {
+        this.subject.standingOn = rightCol;
+      } else {
+        this.subject.standingOn = blocktionary.find(
+          (blockType) => blockType.id === '000'
+        );
+      }
     } else {
       // If you're in the air you're 'on' block type zero:
       this.subject.standingOn = blocktionary.find(

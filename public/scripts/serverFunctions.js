@@ -4,64 +4,64 @@
 // Section 1: Links to HTML elements in signin page:
 
 // To login as existing user:
-const existingUsername = document.getElementById("existing-username");
-const existingUserPW = document.getElementById("existing-user-password");
+const existingUsername = document.getElementById('existing-username');
+const existingUserPW = document.getElementById('existing-user-password');
 // Text fields will get text if password doesn't match, or if username isn't in the server:
-const existingUserRetry = document.getElementById("existing-user-retry");
+const existingUserRetry = document.getElementById('existing-user-retry');
 
 // To create a new account:
-const newUsername = document.getElementById("new-username");
-const newPassword = document.getElementById("new-password");
-const newPasswordConf = document.getElementById("new-password-conf");
+const newUsername = document.getElementById('new-username');
+const newPassword = document.getElementById('new-password');
+const newPasswordConf = document.getElementById('new-password-conf');
 // Text field will get text if passwords don't match:
-const newUserRetry = document.getElementById("new-user-retry");
+const newUserRetry = document.getElementById('new-user-retry');
 
 // Server test 1: Get the server to say 'hello':
 
 const dataTest1 = () => {
   if (serverSupport) {
     fetch('/game')
-    .then(res => {
-      return res.json();
-    })
-    .then(text => console.log(text))
-  };
-}
-    
-  // Server Test 2: Have the Server send the time:
-  
+      .then((res) => {
+        return res.json();
+      })
+      .then((text) => console.log(text));
+  }
+};
+
+// Server Test 2: Have the Server send the time:
+
 const dataTest2 = () => {
   if (serverSupport) {
     fetch('/time')
-  .then(res => {
-    return res.json();
-  })
-  .then(time => console.log(time))
+      .then((res) => {
+        return res.json();
+      })
+      .then((time) => console.log(time));
   }
 };
-  
-  // Server Test 3: Send the server the time and recieve an acknowledgement echo:
-  
+
+// Server Test 3: Send the server the time and recieve an acknowledgement echo:
+
 const sendWorldData = (progressReport) => {
   if (serverSupport) {
     let timeStamp = new Date();
-  timeStamp = `${timeStamp.getHours()}:${timeStamp.getMinutes()}:${timeStamp.getSeconds()}`;
-  let data = { 
-    time: timeStamp,
-      progressReport: progressReport
-   };
-  fetch('/post-world', {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => {
-    return res.json();
-  })
-  .then(reply => console.log(reply))
+    timeStamp = `${timeStamp.getHours()}:${timeStamp.getMinutes()}:${timeStamp.getSeconds()}`;
+    let data = {
+      time: timeStamp,
+      progressReport: progressReport,
+    };
+    fetch('/post-world', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((reply) => console.log(reply));
   }
 };
 
@@ -71,16 +71,16 @@ const sendWorldData = (progressReport) => {
 const checkUserStatus = () => {
   if (serverSupport) {
     fetch('/userid')
-    .then(res => {
-      return res.json();
-    })
-    .then(userId => {
-      if (userId == null) {
-        window.location.href = '/signin.html'
-      } else {
-        CURRENT_USER = userId;
-      }
-    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((userId) => {
+        if (userId == null) {
+          window.location.href = '/signin.html';
+        } else {
+          CURRENT_USER = userId;
+        }
+      });
   }
 };
 
@@ -92,39 +92,39 @@ const signinAsUser = (event) => {
   if (serverSupport) {
     const userData = {
       username: existingUsername.value,
-      password: existingUserPW.value
+      password: existingUserPW.value,
     };
     fetch('/user-login', {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(userData),
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      }
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     })
-    .then(res => {
-      return res.json();
-    })
-    .then(responseBody => {
-      const { status, error, username, info } = responseBody;
-      // if name and password are good (and thus status is success) set CURRENT USER to the name given, and go to the game page:
-      if (status == 'success') {
-        CURRENT_USER = username;
-        window.location.href='/';
-      // if there is a problem with either the name or pw, ask them to try again:
-      } else {
-        // clear entry fields from previous attempt BASED ON error type:
-        if (error == 403) { 
-          existingUserPW.value = "";
+      .then((res) => {
+        return res.json();
+      })
+      .then((responseBody) => {
+        const { status, error, username, info } = responseBody;
+        // if name and password are good (and thus status is success) set CURRENT USER to the name given, and go to the game page:
+        if (status == 'success') {
+          CURRENT_USER = username;
+          window.location.href = '/';
+          // if there is a problem with either the name or pw, ask them to try again:
         } else {
-          existingUsername.value = "";
-          existingUserPW.value = "";
+          // clear entry fields from previous attempt BASED ON error type:
+          if (error == 403) {
+            existingUserPW.value = '';
+          } else {
+            existingUsername.value = '';
+            existingUserPW.value = '';
+          }
+          existingUserRetry.innerText = `Error type ${error}: ${info}`;
         }
-        existingUserRetry.innerText = `Error type ${error}: ${info}`;
-      }
-    })
+      });
   }
-}
+};
 
 // Server Function 6: Sign up with new username (and make a password). Function validates password on frontend,
 // and server validates whether the name is original and lets you proceed to the game if so:
@@ -137,36 +137,36 @@ const createNewUser = (event) => {
     if (newPassword.value === newPasswordConf.value) {
       const userData = {
         username: newUsername.value,
-        password: newPassword.value
+        password: newPassword.value,
       };
       fetch('/create-user', {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(userData),
         headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        }
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       })
-      .then(res => {
-        return res.json();
-      })
-      .then(responseBody => {
-        const { status, error, username, info } = responseBody;
-        // if your name is original to the database, then you are the current user and you can play:
-        if (status == 'success') {
-          CURRENT_USER = username;
-          window.location.href = '/';
-          // otherwise we'll tell you that name is taken and clear all the fields so you can try again:
-        } else {
-          newUsername.value = "";
-          newPassword.value = "";
-          newPasswordConf.value = "";
-          newUserRetry.innerText = info;
-        }
-      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((responseBody) => {
+          const { status, error, username, info } = responseBody;
+          // if your name is original to the database, then you are the current user and you can play:
+          if (status == 'success') {
+            CURRENT_USER = username;
+            window.location.href = '/';
+            // otherwise we'll tell you that name is taken and clear all the fields so you can try again:
+          } else {
+            newUsername.value = '';
+            newPassword.value = '';
+            newPasswordConf.value = '';
+            newUserRetry.innerText = info;
+          }
+        });
       // if the password/confirmation password DO NOT match, ask the user to try again:
     } else {
-      newUserRetry.innerText = "Please make sure your password is consistent."
+      newUserRetry.innerText = 'Please make sure your password is consistent.';
     }
   }
 };
@@ -176,13 +176,13 @@ const createNewUser = (event) => {
 const logout = (event) => {
   event.preventDefault();
   fetch('/logout')
-  .then(res => {
-    return res.json();
-  })
-  .then(msg => {
-    if (msg == "logout successful.") {
-      CURRENT_USER = "";
-      window.location.href = '/signin.html';
-    }
-  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((msg) => {
+      if (msg == 'logout successful.') {
+        CURRENT_USER = '';
+        window.location.href = '/signin.html';
+      }
+    });
 };
