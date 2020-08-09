@@ -1,5 +1,5 @@
 // All Functions and elements related to server-side operations live here.
-// Update: All functions are now toggleable by the constants file's serverSupport variable:
+// Update: All functions are now toggleable by the constants file's DEV_MODE variable:
 
 // Section 1: Links to HTML elements in signin page:
 
@@ -19,7 +19,7 @@ const newUserRetry = document.getElementById('new-user-retry');
 // Server test 1: Get the server to say 'hello':
 
 const dataTest1 = () => {
-  if (serverSupport) {
+  if (DEV_MODE) {
     fetch('/game')
       .then((res) => {
         return res.json();
@@ -31,7 +31,7 @@ const dataTest1 = () => {
 // Server Test 2: Have the Server send the time:
 
 const dataTest2 = () => {
-  if (serverSupport) {
+  if (DEV_MODE) {
     fetch('/time')
       .then((res) => {
         return res.json();
@@ -43,7 +43,7 @@ const dataTest2 = () => {
 // Server Test 3: Send the server the time and recieve an acknowledgement echo:
 
 const sendWorldData = (progressReport) => {
-  if (serverSupport) {
+  if (DEV_MODE) {
     let timeStamp = new Date();
     timeStamp = `${timeStamp.getHours()}:${timeStamp.getMinutes()}:${timeStamp.getSeconds()}`;
     let data = {
@@ -69,7 +69,7 @@ const sendWorldData = (progressReport) => {
 
 // If user is not logged in, redirect to the login page.
 const checkUserStatus = () => {
-  if (serverSupport) {
+  if (DEV_MODE) {
     fetch('/userid')
       .then((res) => {
         return res.json();
@@ -89,7 +89,7 @@ const checkUserStatus = () => {
 // else it responds with an error message saying what was wrong (either the name not in DB, or wrong password):
 const signinAsUser = (event) => {
   event.preventDefault();
-  if (serverSupport) {
+  if (DEV_MODE) {
     const userData = {
       username: existingUsername.value,
       password: existingUserPW.value,
@@ -132,7 +132,7 @@ const signinAsUser = (event) => {
 const createNewUser = (event) => {
   // don't let the submit button take you somewhere else:
   event.preventDefault();
-  if (serverSupport) {
+  if (DEV_MODE) {
     // if the password/confirmation password match, then send the new user's data to the server:
     if (newPassword.value === newPasswordConf.value) {
       const userData = {

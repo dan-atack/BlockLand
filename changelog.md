@@ -2,13 +2,13 @@
 
 ---
 
-<img src="public/assets/Screenshots/00-Nothing.png" style="width: 60%;"/>
+<img src="public/Screenshots/00-Nothing.png" style="width: 60%;"/>
 
 ## Then there was the world!
 
 ---
 
-## <img src="public/assets/Screenshots/01-the_world.png" style="width: 60%;"/>
+<img src="public/Screenshots/01-the_world.png" style="width: 60%;"/>
 
 # PHASE ONE: Creating the World
 
@@ -35,7 +35,7 @@ In the initial setup phase, I want to be able to run a function that will popula
 
 ---
 
-## <img src="public/assets/Screenshots/02-block_loop.png" style="width: 60%;" />
+<img src="public/Screenshots/02-block_loop.png" style="width: 60%;" />
 
 8. Now I think we've just about perfected the basic block maker function. Time to upgrade it to the Block Printer, which will take parameters which define a shape, and call the block maker function to make this shape. We'll start with... a rectangle!
 
@@ -53,7 +53,7 @@ In the initial setup phase, I want to be able to run a function that will popula
 
 ---
 
-## <img src="public/assets/Screenshots/03-Phase-1.png" style="width: 60%;" />
+<img src="public/Screenshots/03-Phase-1.png" style="width: 60%;" />
 
 # PHASE TWO: The Laws of Motion
 
@@ -76,7 +76,7 @@ In phase two time will be introduced, in order to regulate motion. The CSS grid 
 
 ---
 
-## <img src="public/assets/Screenshots/04-Phase-2.png" style="width: 60%;" />
+<img src="public/Screenshots/04-Phase-2.png" style="width: 60%;" />
 
 # PHASE THREE: The End of the Beginning
 
@@ -96,7 +96,7 @@ In this phase I also reorganized the game's file locations, made the game engine
 
 ---
 
-## <img src="public/assets/Screenshots/05-Phase-3-intro.png" style="width: 60%;" />
+<img src="public/Screenshots/05-Phase-3-intro.png" style="width: 60%;" />
 
 5. If the player moves to within a certain distance of the edge in either direction, several things must happen simultaneously:
    A: All blocks in the farthest distant column are de-rendered;
@@ -121,7 +121,7 @@ In this phase I also reorganized the game's file locations, made the game engine
 
 ---
 
-## <img src="public/assets/Screenshots/06-Phase-3-levelup.png" style="width: 60%;" />
+<img src="public/Screenshots/06-Phase-3-levelup.png" style="width: 60%;" />
 
 11. Save this stage and get to work on some actual homework!
 
@@ -147,7 +147,7 @@ Lastly, since tidiness is the highest virtue, I will clean up the hastily added 
 
 ---
 
-## <img src="public/assets/Screenshots/07-biometric.png" style="width: 60%;" />
+<img src="public/Screenshots/07-biometric.png" style="width: 60%;" />
 
 7. Make it so that, as the screen scrolls, the block column object's block printer method builds a biome instead of a lone column when it is called.
 
@@ -161,7 +161,7 @@ Lastly, since tidiness is the highest virtue, I will clean up the hastily added 
 
 ---
 
-## <img src="public/assets/Screenshots/08-wide-world.png" style="width: 60%;">
+<img src="public/Screenshots/08-wide-world.png" style="width: 60%;">
 
 # PHASE FIVE (AKA Version 0.2): Dynamic Blocks and Better Physics!
 
@@ -215,7 +215,7 @@ Phase Five will see the incorporation of three key features: 1. Blocks that have
 
 ---
 
-## <img src="public/assets/Screenshots/09-mission-1.png" style="width: 60%;">
+<img src="public/Screenshots/09-mission-1.png" style="width: 60%;">
 
 24. Make 2 more levels that push the horizon of the Columns object's ability to add and remove columns:
 
@@ -270,9 +270,9 @@ Phase Five, while it saw the introduction of several key features, was far too a
 
 19. Code Cleanup Extraordinaire: Introduced Blocktionary file to simplify addition of new blocks and their features. Modified Block object class template to take block data from here instead of being directly hard-coded.
 
-20. Re-add lava lethality (and remove its permeability) in accordance with the new Blocktionary principles (tinker with Engine slightly, methinks?)
+20. Re-add lava lethality in accordance with the new Blocktionary principles (tinker with Engine slightly, methinks?)
 
-# PHASE SIX (AKA Version 0.4): Say Hello to the Bad Guys!
+# PHASE SEVEN (AKA Version 0.4): Say Hello to the Bad Guys!
 
 I have just one word for you, just one word: Baddies...
 
@@ -280,9 +280,9 @@ And now for several more words on that happy subject! Bad guys will of course be
 
 Start by drawing one Draw.io chart of the villain's interaction with the existing systems in this world, to refresh your memory of your own creation and seriously contemplate the entirety of this relation from initial rendering to death/murder.
 
-## <img src="public/assets/Screenshots/Baddies!.png" style="width: 60%;">
+<img src="public/Screenshots/10-baddies.png" style="width: 60%;">
 
-## Phase 6.I: Render unto Caesar
+## Phase 7.I: Render unto Caesar
 
 1. Alter the Engine's instance of the physics system to name it 'playerPhysics', as there will be other entities who need to use physics.
 
@@ -296,7 +296,7 @@ Start by drawing one Draw.io chart of the villain's interaction with the existin
 
 6. Test if the 'scan for baddies' method pings. If so, use it to render the enemy in the appropriate spot, and to horizontally translate its DOM element appropriately. Once this works Phase I is complete.
 
-## Phase 6.II: Move damn you, MOVE!
+## Phase 7.II: Move damn you, MOVE!
 
 7. Add CSS rules to baddies - consider the difference between them 'snapping' to a translated position and their regular 'motion' - maybe this is the reason for initial jerkiness? Addendum: Yes, it is! So we'll definitely have 2 classes of baddie motion here so they snap when they need to snap, and transition when they 'move.' Remember: All CSS is now in the SCSS file.
 
@@ -306,7 +306,7 @@ Start by drawing one Draw.io chart of the villain's interaction with the existin
 
 10. Create flat test-site 'provingGround' biome to test rudimentary baddie motion.
 
-## Phase 6.III: Fall damn you, FALL!
+## Phase 7.III: Fall damn you, FALL!
 
 11. Read through the physics module and abstract out anything that ties it specifically to the player so it is a neutral set of rules for motion for any sprite.
 
@@ -314,7 +314,7 @@ Start by drawing one Draw.io chart of the villain's interaction with the existin
 
 13. Added a rule where bad guys only have physics applied to them if they're rendered, to stop them falling into the bottomless hole that exists before the blocks are rendered.
 
-## Phase 6.IV: Jump damn you, JUMP!
+## Phase 7.IV: Jump damn you, JUMP!
 
 14. Add 'jump' method to baddie class.
 
@@ -322,7 +322,7 @@ Start by drawing one Draw.io chart of the villain's interaction with the existin
 
 16. If a baddie is obstructed by terrain, have them jump.
 
-## Phase 6.V: Kill damn you... KILL!!!
+## Phase 7.V: Kill damn you... KILL!!!
 
 17. Create Collisions Object. It will keep track of the distance between moving objects and their angles to each other.
 
@@ -334,9 +334,11 @@ Start by drawing one Draw.io chart of the villain's interaction with the existin
 
 21. Change range calculation to use pythagorean distance instead of basic x or y range to make for closer encounters!!
 
-# PHASE SEVEN: BASIC COMBAT!
+# PHASE EIGHT: BASIC COMBAT! (AKA Version 0.5)
 
-Since baddies have been added there is mounting excitement about the prospect of sharing/hosting this game! Before we are ready for that however, there are still a few loose ends to tie up: Adding the ability for you, the player, to fight back against your new adversaries is the top priority, and then organizing the creation/deletion of bad guys into the mission-setup structure rather than cramming them into the Engine's constructor function. Finally we'll make a couple more levels to showcase all the fun new things that can happen now that we have baddies roaming the land!
+Since baddies have been added there is mounting excitement about the prospect of sharing/hosting this game! Before we are ready for that however, there is just one few loose end to tie up: Adding the ability for you, the player, to fight back against your new adversaries and kill them in a satisfying way.
+
+<img src="public/Screenshots/11-fighting-back.png" style="width: 60%;">
 
 1. Create combat-checks dictionary with outcomes for different angles of approach and distances tailored to each baddie.
 
@@ -352,19 +354,103 @@ Since baddies have been added there is mounting excitement about the prospect of
 
 7. Using the strike distance animation as a guideline, fine-tune the kill/be-killed distance values for our two baddies so they are nice and specific.
 
-8. Once these have been tested out, create an animation sequence for baddie deaths. Use GIFs to add some much needed animation to the ensemble.
+8. Once these have been tested out, create an animation sequence for baddie deaths. Use GIFs to add some spice to the proceedings.
 
 9. Add baddie 'isDying' property to allow baddie sprites to persist while we watch them die without posing a hazard to the player.
 
 10. Take the range bracket out of the Baddictionary and move it to the player's (specific) attack method for the range checks; call the value that positions the attack's DOM element 'attack range' and store the numeric value of your attack's strike radius as 'attack radius.'
 
+# PHASE NINE: DEPLOYMENT!!! (Version 1.0)
+
+WE ARE LIVE! Currently the program is once again a Front-End only application (no server-side functionality) which is pretty A-okay as it lets people experience the game and only loses login process (which was really more of an experimental proof-of-concept exercise than a 'must-have' feature anyway). Next step is to thicken out the game a little bit in terms of content before announcing to the world that the product is ready for play-testing! Specifically this means adding more baddies/bringing them into the mission structure of the game, making bigger biomes, and tightening up the CSS rules to ensure a playable experience, at least for people on laptops of any screen size. Essential at the end of this stage of development will also be some kind of procedure for managing version/source control so the code history (and documentation) are kept safe and regularly pushed to.
+
+NOTE: Suspended server-related code is commented out in index.html, main.js, and constants.js which also contains the server function toggle switch.
+
+1. Update pathing in server.js file to point to the public folder so we can once again run the game!
+
+2. Create a Firebase Repo to host the Front-End (in essence, the entire game as it currently stands).
+
+3. Incorporate baddies into mission-data structure:
+
+4. Add switch case to Engine's mission-setup reducer function.
+
+5. Test adding baddies via mission data file instead of at engine constructor line.
+
+6. Refactor player death sequence and eliminate attack animation if it is playing when player dies.
+
+7. Adjust CSS rules for maximum page height; test with smaller window sizes.
+
+8. Make 2 larger biomes for the initial world (can be partial amalgams of other biomes to save time).
+
+9. Redeploy that #\$%&! Then test on other devices and take notes for continuous improvement.
+
+# PHASE TEN: DEPLOYING VERSION 1.1!
+
+Following the explosive debut of the game's first public release, there was a lot of concern voiced about the game's somewhat sluggish movement-responder system, and also a demand for more and bigger content and levels. To address these demands, we must release the first in-production patch to satisfy the game's fans. To be addressed in this version: Rebuilding and refactoring the player's key-responder and movement handling functions, tweaking the baddies' patrol logic (no more getting stuck under trees!) and designing and creating two new biomes with a couple of newly crafted blocks to add diversity, and longer and more interesting missions to drive further exploration.
+
+1. Reprogram baddies' patrol method to turn back when trapped under foliage/when an impassable obstacle is reached.
+
+2. Refactor player movement responders to alter an isMoving boolean variable and thus handle movement more indirectly, so that a keydown and keyup responder function system can be used to allow multiple keys to be held down simultaneously without cancelling each others' effects.
+
+3. Refactor player movement methods to abstract out the movement action from the keyboard responder switch blocks.
+
+4. Add player crouch method for the often-neglected DownArrow/S-Key press (purely aesthetic function for now is fine).
+
+5. Add WASD controls alongside the arrow keys (now you can use both! nothing at all dangerous about that!)
+
+6. Create new blocks for pipes (vertical, horizontal and corner cases) and passable fences.
+
+7. Design and then digitize Fortress biome.
+
+8. Design and then digitize Tree-fort biome.
+
+9. Add baddies-killed counter to Engine.
+
+10. Add baddies-killed-this-inning counter to engine and player so we can subtract its value from total kills if you die (at which point baddies will respawn). This value is reset whenever a new mission starts, or whenever the player dies.
+
+11. Add Respawn-baddies method to Engine to bring back dead baddies for the current level when the player dies: this will actually clear all baddies from the field and then re-run the current mission's 'add baddies' level setup call.
+
+12. Create Nazi Scientist sprite.
+
+13. Create mission for Tree-fort level that involves killing all baddies which then then removes a wall, allowing entry to the Fortress level.
+
+14. Create mission for Fortress level that involves fighting the Nazi scientist and winning the game.
+
+15. Create GIF for scientist death.
+
+16. Ensure scientist death animation has the same size-formatting rules as his regular image.
+
+17. Change player width and block width variables in SCSS and game constants file and alter the screen size to 'zoom out' and show more terrain on the screen!
+
+<img src="public/Screenshots/12-do-it-live.png" alt="Aw yah!" style="width: 60%;">
+
+# PHASE ELEVEN: DEVOPS Code Reorganization (Version 1.2):
+
+1. Use DevOps philosophy to reconnect to Git: Clone the existing remote repo, then copy over the contents of the Public folder from the currently hosted (latest) version into the cloned directory. Rename the directory that contains the Firebase repo to 'BlockLand-Production' and name the newly cloned directory to 'BlockLand-Development.'
+
+2. Next, ensure the CSS rules in the Dev folder are updated by importing the CSS from the production environment into the Development folder's SCSS file - it will overwrite the CSS file in public every time we run the dev server so it's crucial to always use the SCSS again now that all changes will be conducted in the Dev environment.
+
+3. Re-activate the server, then test that the game works smoothly in dev mode.
+
+4. Do a massive git push to get all of the latest progress saved on the remote repository.
+
+5. Create a short procedural how-to for updating BlockLand now that we're CICD!
+
+6. Write all changes in game functionality that are based on Dev vs Prod environment (i.e. anything to do with 'server functionality') to automatically toggle themselves based on a single 'DEV_MODE' boolean in the game's Constants.js file, for easier migration of code from development to production environment.
+
+### 7. Once the new documentation is satisfactory, git push it immediately, merge the pull request, and open a new branch: Version 1.2.
+
+### 8. On this new branch begin coding the next features: Vertical Scrolling!
+
 # BUG-HUNTERS' BOUNTY LIST:
 
-### 1. You still can't jump when you're > 50% over a ledge, and now to top that off it also says you're standing on 'undefined' in the Game's Sidebar, which pretty much screams 'bug!'
+1. You still can't jump when you're > 50% over a ledge, and now to top that off it also says you're standing on 'undefined' in the Game's Sidebar, which pretty much screams 'bug!'
 
 ### 2. Physics engine's movement loop still has the player's coordinates hardwired to the display output. Abstract that out and give it to the player class instead.
 
-### 3. Enemy translation/derendering is sometimes still abrupt/jerky. Fix that by adjusting baddie CSS rules/render distance rules.
+3. Enemy translation/derendering is sometimes still abrupt/jerky. Fix that by adjusting baddie CSS rules/render distance rules.
+
+4. Caught a phrasing-induced bug in the baddie dictionary for baddie type 1002 - collision type named bothFaceAway instead of backToBack, which is the standard.
 
 # PHASE X - Art Department:
 
@@ -374,9 +460,11 @@ Since baddies have been added there is mounting excitement about the prospect of
 
 # Food for Future Thought/ General Notes:
 
-### 9. New ideas: Attack object class? gets created when the player hits the attack button/s and is used to pass information relating to an attack to bad guys... and/or the environment?!
+### I. Attack object class: gets created when the player hits the attack button/s and is used to pass information relating to an attack to bad guys... and/or the environment?!
 
-### On Scalability for smaller screens: Screen Scroll distance variable might be worth its weight in gold.
+### II. On Scalability for smaller screens: CSS rule for body of main page layout: below a certain screen size, reposition sidebar below main game display.
+
+### III. On touch-screen responsiveness: investigate using the document object to pinpoint the coordinates of a mouseup event; use those to trigger Player movement responder functions instead of/as complement to keyboard presses.
 
 ### Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit.
 

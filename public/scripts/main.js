@@ -17,9 +17,11 @@ const anyKey = (event) => {
     instructions.removeDOM();
     any.removeDOM();
     document.removeEventListener('keydown', anyKey);
-    // Suspended server-related functionality:
-    userDisplay.innerText = `Logged in as ${CURRENT_USER}`;
-    logoutButton.style.display = 'initial';
+    // Toggleable server-related functionality:
+    if (DEV_MODE) {
+      userDisplay.innerText = `Logged in as ${CURRENT_USER}`;
+      logoutButton.style.display = 'initial';
+    }
   }
 };
 
@@ -29,7 +31,7 @@ const anyKey = (event) => {
 
 checkUserStatus();
 // hide the logout button while this happens:
-// logoutButton.style.display = 'none';
+logoutButton.style.display = 'none';
 
 // Next, call an instance of the game engine so we can refer to and control anything in the world through it:
 // Thomas the Game Engine! Get it? I'm sure I'll never come to regret this unconventional naming choice!
