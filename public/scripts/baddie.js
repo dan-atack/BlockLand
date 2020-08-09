@@ -3,7 +3,7 @@
 class Baddie {
   // Just like the player class! Oh boy, it's like they're RELATED or something >:-(
   // New to the bad guys since they're not unique: type (for which sprite to render) and serial number (for the engine)
-  // New constructor variable xRange is an array of the start/stop values of the baddie's territory:
+  // xRange is an array of the start/stop values of the baddie's territory, and special is optional value for CSS class assignment.
   constructor(
     root,
     xStart,
@@ -209,9 +209,17 @@ class Baddie {
           : 'rotate&(180deg)';
       }
       this.isDying = true;
-      this.domElement.style.width = `${PLAYER_WIDTH}px`;
-      this.domElement.style.height = `${PLAYER_WIDTH}px`;
-      this.domElement.style.zIndex = 100;
+      // Override normal styling to make bosses bigger:
+      if (this.special) {
+        this.domElement.style.width = `${BOSS_WIDTH}px`;
+        this.domElement.style.width - `${BOSS_WIDTH}px`;
+        this.domElement.style.zIndex = 100;
+      } else {
+        this.domElement.style.width = `${PLAYER_WIDTH}px`;
+        this.domElement.style.height = `${PLAYER_WIDTH}px`;
+        this.domElement.style.zIndex = 100;
+      }
+      // Countdown to sprite removal:
       this.deathLoops -= 1;
     } else {
       this.isDying = false;

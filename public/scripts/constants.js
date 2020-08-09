@@ -13,9 +13,15 @@ const playerXP = document.getElementById('player-xp');
 const playerStandingOnBlockType = document.getElementById('standing-on');
 const playerStandingInMedium = document.getElementById('standing-in');
 const resetButton = document.getElementById('reset');
-// Suspended server-related functionality:
 const userDisplay = document.getElementById('username');
 const logoutButton = document.getElementById('logout');
+// Toggle switch for server functionality AKA DEV MODE:
+const DEV_MODE = true;
+if (!DEV_MODE) {
+  // If we are not in the development environment, toggle display of server-related HTML elements:
+  userDisplay.style.display = 'none';
+  logoutButton.style.display = 'none';
+}
 
 // World Constraints: Establishing the maximum size of the entire world, in terms of width in columns,
 // spreading in either direction of the initial game screen:
@@ -39,11 +45,8 @@ const SCREEN_HEIGHT = 480;
 // Player and block sprites will be exactly 1/9th of the display area's size, to give us that 'pseudo-grid' positioning system:
 const BLOCK_WIDTH = 32;
 const PLAYER_WIDTH = 32;
+const BOSS_WIDTH = 48;
 
 // Server-side stuff: Have a Current User to keep track of the player's progress:
 
 CURRENT_USER = '';
-
-// Toggle switch for server functionality:
-// When toggling here, also change status of user display and logout (top of this file) and in main.js's anyKey function, and index.html
-let serverSupport = true;
