@@ -424,7 +424,9 @@ Following the explosive debut of the game's first public release, there was a lo
 
 <img src="public/Screenshots/12-do-it-live.png" alt="Aw yah!" style="width: 60%;">
 
-# PHASE ELEVEN: DEVOPS Code Reorganization (Version 1.2):
+# PHASE ELEVEN: DEVOPS Code Reorganization (Version 1.2)
+
+This is a purely organizational change which will involve only tiny alterations to the game's code base, with new additional gameplay or feature changes. The idea is to separate the Development and Production environments so that Dev can continue to push changes to the game's official code to GitHub while the production environment has its own separate connection to Firebase. During this phase the game will add several DevOps techniques to the game's philosophy, including separate Dev/Prod environments, more use of variables from the game's Constants file to be incorporated in lieu of hard-coded values elsewhere, and more procedural documentation! Also, the game's server functionality will be resurrected for the Dev mode, mostly so it can convert SCSS files into CSS. And because we can.
 
 1. Use DevOps philosophy to reconnect to Git: Clone the existing remote repo, then copy over the contents of the Public folder from the currently hosted (latest) version into the cloned directory. Rename the directory that contains the Firebase repo to 'BlockLand-Production' and name the newly cloned directory to 'BlockLand-Development.'
 
@@ -438,9 +440,33 @@ Following the explosive debut of the game's first public release, there was a lo
 
 6. Write all changes in game functionality that are based on Dev vs Prod environment (i.e. anything to do with 'server functionality') to automatically toggle themselves based on a single 'DEV_MODE' boolean in the game's Constants.js file, for easier migration of code from development to production environment.
 
-### 7. Once the new documentation is satisfactory, git push it immediately, merge the pull request, and open a new branch: Version 1.2.
+7. Once the new documentation is satisfactory, git push it immediately, merge the pull request, and open a new branch: Version 1.2.
 
-### 8. On this new branch begin coding the next features: Vertical Scrolling!
+8. On this new branch begin coding the next features: Vertical Scrolling!
+
+# PHASE TWELVE: VERTICAL SCROLLING (Version 1.2.1)
+
+There is just one very simple objective to this version bump: add vertical scrolling to the game's list of features, and make one or two levels which show it off! Vertical scrolling should allow the screen to follow the player above the game's original cieling and below the original floor, and be fully compatible with the existing horizontal scroll feature.
+
+### 1. Give the engine a 'vertical screen scroll distance' variable.
+
+### 2. Create a new engine method: 'checkVerticalScroll'.
+
+### 3. If we don't have this already, make a game constants variable, 'SCREEN_HEIGHT_IN_BLOCKS' for the height of the screen, in block height terms (screen height divided by block width).
+
+### 4. Make the new vertical scroll method run every game cycle and report when the player's Y value is within the screen scroll distance of the top or bottom of the screen (use the new constants' variable).
+
+### 5. Add engine property: vertical offset.
+
+### 6. When the vertical screen scroll function pings, increase vertical offset.
+
+### 7. Next, for the Block class definition, add a 'vertical displace' method, that causes its DOM element to appear higher or lower than its Y position would indicate. This will let us show blocks that are above or below the screen's initial position.
+
+### 8. For the Columns class definition, add a 'vertically displace column' method, which calls the vertical displace method of all the blocks in a given column.
+
+### 9. Have the engine's CheckVerticalScroll method use the Columns object's visibility range to determine which columns to offset when the player approaches the roof of the world; print the following variables to the console: Player Y, Visibility range, vertical offset.
+
+### 10. Try to hook up all the pieces and RUN THAT FUNCTION!
 
 # BUG-HUNTERS' BOUNTY LIST:
 
