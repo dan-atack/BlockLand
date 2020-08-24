@@ -8,7 +8,6 @@ class Text {
     this.size = size;
     this.text = text;
     this.messageClass = messageClass;
-    console.log(this.messageClass);
     this.domElement = document.createElement('p');
     // Giving a separate set of positioning rules to intro text, for easier grouping:
     if (!(this.messageClass === 'intro')) this.domElement.classList.add('text');

@@ -152,9 +152,8 @@ class Player {
   }
 
   jump() {
-    // If you're not at the top of the board, and you're not standing on air (disable second and third conditions to allow flight):
+    // If you're not standing on air (disable this condition to allow flight):
     if (
-      this.y <= SCREEN_HEIGHT / PLAYER_WIDTH - 1 &&
       this.standingOn != 0 &&
       Number.isInteger(this.y) &&
       this.standingOn.id != '000'
@@ -260,7 +259,7 @@ class Player {
     this.attackAnimation.src = '';
   }
 
-  // And down at the bottom we have the method for horizontal dom element translation, distinct from regular motion:
+  // And down at the bottom we have the methods for DOM element translation, distinct from regular motion:
 
   horizontalTranslate(horizontalOffset) {
     // as the player moves through the world, the player's x value will keep an absolute frame of reference,
@@ -277,10 +276,21 @@ class Player {
       }px`;
   }
 
+  verticalTranslate = (verticalOffset) => {
+    this.verticalOffset = verticalOffset;
+    this.domElement.style.bottom = `${
+      (this.y - verticalOffset) * PLAYER_WIDTH
+    }px`;
+    if (this.isAttacking)
+      this.attackAnimation.style.bottom = `${
+        (this.y - this.verticalOffset) * PLAYER_WIDTH
+      }px`;
+  };
+
   // Player Vital Display Functions:
 
   updateStandingOnDisplay() {
-    this.displayPlayerStandingOn.innerText = `Standing on block type: ${this.standingOn.name}`;
+    this.displayPlayerStandingOn.innerText = `Standing on: ${this.standingOn.name}`;
   }
 
   // And a function to tell what medium you're in (basically air or water are your options at the moment):

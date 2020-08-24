@@ -160,7 +160,7 @@ const missions = [
         [
           baconLandRight, // idx 0: select biome for the right
           baconLandLeft, // idx 1: select biome for the left
-          [0, 15], // idx 2: columns to render NOTE this works with 0, 15 now but that is only for a screen width of exactly 512 px
+          [0, SCREEN_WIDTH_IN_BLOCKS], // idx 2: column start/stop values for newly rendered terrain
         ],
       ],
       [
@@ -224,7 +224,7 @@ const missions = [
           [-31, -101],
         ],
       ],
-      ['reset-stage', [fortress, treeForts, [0, 15]]],
+      ['reset-stage', [fortress, treeForts, [0, SCREEN_WIDTH_IN_BLOCKS]]],
       ['update-player-respawn', [-4, 7]],
       ['set-world-width', 86],
       [

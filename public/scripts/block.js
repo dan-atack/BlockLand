@@ -81,10 +81,17 @@ class Block {
   }
 
   horizontalTranslate(horizontalOffset) {
-    // blocks' dom elements are shifted when the screen moves. The value for horizontal offset increases as the player goes to the right;
+    // Blocks' DOM elements are shifted when the screen moves. The value for horizontal offset increases as the player goes to the right;
     // So, to make the blocks appear to go to the left, we subtract the horizontal offset from their apparent position:
     this.domElement.style.left = `${
       (this.x - horizontalOffset) * BLOCK_WIDTH
+    }px`;
+  }
+
+  verticalTranslate(verticalOffset) {
+    // Similarly to the horizontal case, blocks' DOM elements are shifted downwards as the player moves upwards, and vice versa:
+    this.domElement.style.bottom = `${
+      (this.y - verticalOffset) * BLOCK_WIDTH
     }px`;
   }
 

@@ -1,3 +1,7 @@
+$block-width: 32px;
+$world-height-in-blocks: 21;
+$world-width-in-blocks: 21;
+
 @keyframes spin {
   from {
     transform: rotateZ(0deg);
@@ -125,7 +129,7 @@ body {
 .player {
   transition-duration: 0.125s;
   position: absolute;
-  width: 32px;
+  width: $block-width * 1.1;
   z-index: 1;
 }
 
@@ -136,28 +140,28 @@ body {
 .baddie-moving {
   transition-duration: 0.25s;
   position: absolute;
-  width: 36px;
-  height: 36px;
+  width: $block-width * 1.1;
+  height: $block-width * 1.1;
 }
 
 .baddie-trans {
   position: absolute;
   transition-duration: 0s;
-  width: 36px;
-  height: 36px;
+  width: $block-width * 1.1;
+  height: $block-width * 1.1;
 }
 
 .boss {
-  width: 48px;
-  height: 48px;
+  width: $block-width * 1.6;
+  height: $block-width * 1.6;
 }
 
 .world {
   margin-top: 1%;
   margin-left: 10%;
   border: 2px solid #ffaee5;
-  width: 512px;
-  height: 480px;
+  width: $world-width-in-blocks * $block-width;
+  height: $world-height-in-blocks * $block-width;
   position: relative;
   font-size: 36px;
   border-radius: 8px;
@@ -172,8 +176,8 @@ body {
 }
 
 .background {
-  width: 512px;
-  height: 480px;
+  width: $world-width-in-blocks * $block-width;
+  height: $world-height-in-blocks * $block-width;
   position: absolute;
   background-image: url('../assets/backgrounds/background001.png');
   opacity: 33%;
@@ -182,20 +186,22 @@ body {
 .sidebar-container {
   margin-top: 1%;
   margin-left: 1%;
-  padding: 1%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 290px;
+  align-items: center;
+  justify-content: center;
+  width: $block-width * 9;
+  height: $world-height-in-blocks * $block-width;
   border: 2px solid cyan;
   border-radius: 8px;
 }
 
 .sidebar {
   color: white;
-  width: 20%;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  width: 240px;
-  padding: 16px;
+  width: $world-width-in-blocks * $block-width / 3;
+  padding: 12px;
   border: 1px solid cyan;
 }
 
@@ -225,7 +231,7 @@ body {
   border-radius: 8px;
   border: 2px solid whitesmoke;
   height: 64px;
-  width: 240px;
+  width: $block-width * 7;
   background-color: aqua;
   color: darkred;
   font-size: 28px;
@@ -234,7 +240,7 @@ body {
 
 .block {
   position: absolute;
-  width: 32px;
+  width: $block-width;
   z-index: 1;
 }
 
@@ -245,10 +251,10 @@ body {
 }
 
 .portal {
-  margin-left: -22px;
-  margin-bottom: -22px;
-  height: 90px;
-  width: 90px;
+  margin-left: -$block-width * 0.75;
+  margin-bottom: -$block-width * 0.75;
+  height: $block-width * 3;
+  width: $block-width * 3;
   filter: blur(1px);
   border-radius: 50%;
   z-index: 100;

@@ -1,8 +1,7 @@
 // The Game Engine Object will be the central controller for all the things that happen in our little world:
 
 class Engine {
-  // Engine's Root will be the HTML body since it will control the whole world as well as the sidebar which is a sort of metaphysical
-  // space...
+  // Engine's Root is the HTML <body> since it controls the whole world as well as the sidebar which is a sort of metaphysical space...
   constructor(root) {
     // first and foremost:
     this.root = root;
@@ -11,13 +10,18 @@ class Engine {
       0,
       SCREEN_WIDTH / BLOCK_WIDTH - 1,
     ]);
-    // Screen width is easy to figure out but this will unclutter some later calculations:
+    // Screen width is easy to figure out but this will unclutter some later calculations (ditto with the height):
     this.screenWidth = SCREEN_WIDTH / BLOCK_WIDTH;
-    // The World will be wider than just one screen; to keep track of distant blocks, we'll introduce the horizontal offset value:
+    this.screenHeight = SCREEN_HEIGHT / BLOCK_WIDTH;
+    // The world will be wider than just one screen; we'll introduce the horizontal offset, which increases as you move to the right:
     this.horizontalOffset = 0;
-    // the screenScrollDistance attribute tells the engine how far from the side of the screen to get before it starts scrolling
-    // the landscape. A value of 1 means wait till you're right at the edge.
+    // The world will be taller than just one screen; we'll introduce the vertical offset, which increases as you move upwards:
+    this.verticalOffset = 0;
+    // The screenScrollDistance attribute tells the engine how far from the side of the screen to get before it starts scrolling.
+    // A value of 1 means wait till you're right at the edge.
     this.screenScrollDistance = 4;
+    // Same principle applies to the vertical:
+    this.verticalScreenScrollDistance = 4;
     // The player is created through the game engine so it can handle everything that happens to you:
     this.player = new Player(world, 5, 8);
     // The Baddies will be in an array, since their numbers will be many:
@@ -55,8 +59,10 @@ class Engine {
     // Finally, run the setup instructions for the first level (all other levels will be setup by the game loop process):
     this.setupNextMission(missions[this.currentMission][5][0]);
   }
-  // Engine Methods:
 
+  // ENGINE METHODS:
+
+  // The HORIZONTAL Screen Scroll Check (runs every cycle and shifts things to the left/right when necessary):
   checkScreenScroll() {
     // FIRST CONDITIONAL LEADS TO RIGHT-HAND MOVEMENT; SECOND CONDITIONAL TO LEFT-HAND MOVEMENT.
     // if the player's x position is within the 'scroll distance' of the right edge, after calculating the screen's horizontal offset:
@@ -139,9 +145,32 @@ class Engine {
     }
   }
 
-  // Game Loop is called Clock Running:
+  // The Vertical Screen Scroll check will also be performed every game cycle, to control vertical offset values:
+  checkVerticalScreenScroll = () => {
+    // Calculate player's distance from the top/bottom of the screen: apparent height = player height - vertical offset:
+    const apparentPlayerHeight = this.player.y - this.verticalOffset;
+    // Check if player's apparent height is within range of the top of the screen first:
+    if (
+      apparentPlayerHeight >
+      this.screenHeight - this.verticalScreenScrollDistance
+    ) {
+      // If moving upwards increase vertical offset value,
+      this.verticalOffset += 1;
+    } else if (apparentPlayerHeight < this.verticalScreenScrollDistance) {
+      // If moving downwards decrease it,
+      this.verticalOffset -= 1;
+    }
+    // Then displace the blocks and the player and the baddies using ambidextrous translation methods:
+    this.blocks.shiftColumnsVertically(this.verticalOffset);
+    this.player.verticalTranslate(this.verticalOffset);
+    this.baddies.forEach((baddie) =>
+      baddie.verticalTranslate(this.verticalOffset)
+    );
+  };
 
-  clockRunning() {
+  // THE GAME CYCLE is called Clock Running:
+
+  clockRunning = () => {
     setInterval(() => {
       // Everything in here is part of the constant cycle, which will run only if the game is "on:"
       if (this.gameOn) {
@@ -169,8 +198,11 @@ class Engine {
           if (physicsPack.subject.hasBeenRendered)
             physicsPack.collisionManager();
         });
+        // Control de/rendering of blocks that are at the edges of the screen:
+        this.blocks.toggleOffscreenBlocks(this.verticalOffset);
         // Distance: If the player gets close to the edge then we translate the world around them:
         this.checkScreenScroll();
+        this.checkVerticalScreenScroll();
         // Say hello to the bad guys:
         this.handleBaddieMotion();
         // Initiate collision detection between objects in motion:
@@ -184,11 +216,12 @@ class Engine {
         // Lastly, check for DEATH: First the player checks, then the engine follows up in case of death:
         this.player.checkForDeath();
         this.checkForPlayerDeath();
-        // Refresh the universe every 40 ms
+        // Refresh the universe every 50 ms
       }
     }, 50);
-  }
+  };
 
+  // updateMission method briely pauses the game cycle to load new Mission data, while optional special FX plays:
   updateMission() {
     // Pause the game when mission update begins:
     this.gameOn = false;
@@ -216,6 +249,7 @@ class Engine {
     );
   }
 
+  // When a new mission is loaded, a huge Reducer-like function converts instructions into changes to the game's environment:
   setupNextMission(instructions) {
     // Instructions for next level setup will be tuples, the first element of which will be the code for what type of setup to perform:
     switch (instructions[0]) {
@@ -309,10 +343,11 @@ class Engine {
       case 'contact-server':
         sendWorldData(instructions[1]);
       default:
-        console.log('no special instructions recieved for this level.');
+        console.log(this.currentMission);
     }
   }
 
+  // Method for playing special FX:
   handleSpecialFX() {
     // Since there might be many special effects, they arrive in the form of a list, for easy looping:
     this.mission.specialFX.forEach((effect) => {
@@ -324,6 +359,7 @@ class Engine {
     });
   }
 
+  // Player Death check occurs every game cycle:
   checkForPlayerDeath() {
     // the player can handle their own death now, but some things the engine's gotta do itself:
     if (this.player.isDead) {
@@ -342,6 +378,7 @@ class Engine {
     }
   }
 
+  // In case, in answer to the question 'would you like to play again?'... the user has selected... YES:
   handleReset() {
     // First, resurrect the player:
     this.player.resurrect();
@@ -397,8 +434,9 @@ class Engine {
   handleBaddieMotion = () => {
     this.baddies.forEach((baddie) => {
       baddie.handleRender(
-        [this.blocks.visibilityRange[0], this.blocks.visibilityRange[1]],
-        this.horizontalOffset
+        this.blocks.visibilityRange,
+        this.horizontalOffset,
+        this.verticalOffset
       );
       baddie.patrol();
     });

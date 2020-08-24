@@ -448,25 +448,53 @@ This is a purely organizational change which will involve only tiny alterations 
 
 There is just one very simple objective to this version bump: add vertical scrolling to the game's list of features, and make one or two levels which show it off! Vertical scrolling should allow the screen to follow the player above the game's original cieling and below the original floor, and be fully compatible with the existing horizontal scroll feature.
 
-### 1. Give the engine a 'vertical screen scroll distance' variable.
+1. Give the engine a 'vertical screen scroll distance' variable.
 
-### 2. Create a new engine method: 'checkVerticalScroll'.
+2. Create a new engine method: 'checkVerticalScroll'.
 
-### 3. If we don't have this already, make a game constants variable, 'SCREEN_HEIGHT_IN_BLOCKS' for the height of the screen, in block height terms (screen height divided by block width).
+3. Make another engine variable, 'SCREEN_HEIGHT_IN_BLOCKS' for the height of the screen, in block height terms (screen height divided by block width).
 
-### 4. Make the new vertical scroll method run every game cycle and report when the player's Y value is within the screen scroll distance of the top or bottom of the screen (use the new constants' variable).
+4. Make the new vertical scroll method run every game cycle and report when the player's Y value is within the screen scroll distance of the top or bottom of the screen (use the new constants' variable).
 
-### 5. Add engine property: vertical offset.
+5. Add engine property: vertical offset.
 
-### 6. When the vertical screen scroll function pings, increase vertical offset.
+6. When the vertical screen scroll function pings, increase/decrease vertical offset.
 
-### 7. Next, for the Block class definition, add a 'vertical displace' method, that causes its DOM element to appear higher or lower than its Y position would indicate. This will let us show blocks that are above or below the screen's initial position.
+7. Next, for the Block class definition, add a 'vertical displace' method, that causes its DOM element to appear higher or lower than its Y position would indicate. This will let us show blocks that are above or below the screen's initial position.
 
-### 8. For the Columns class definition, add a 'vertically displace column' method, which calls the vertical displace method of all the blocks in a given column.
+8. For the Columns class definition, add a 'vertically displace column' method, which calls the vertical displace method of all the blocks in a given column.
 
-### 9. Have the engine's CheckVerticalScroll method use the Columns object's visibility range to determine which columns to offset when the player approaches the roof of the world; print the following variables to the console: Player Y, Visibility range, vertical offset.
+9. Have the engine's CheckVerticalScroll method use the Columns object's visibility range to determine which columns to offset when the player approaches the roof of the world; print the following variables to the console: Player Y, Visibility range, vertical offset.
 
-### 10. Try to hook up all the pieces and RUN THAT FUNCTION!
+10. Try to hook up all the pieces and RUN THAT FUNCTION!
+
+11. Not bad, not bad, just forgot to shift the PLAYER and we should be good...
+
+12. Also the baddies. Mustn't forget to move them as well. Then we should be OK.
+
+13. Make a new biome to test this functionality for moving upwards.
+
+14. In a fit of design, expanded the SCREEN's dimensions to take up much more of the actual screen space. This was done with SCSS variables but the games JS still ultimately requires that the screen's dimensions be hard-coded into the game's constants in order for everything to work... In a later patch it will be necessary to research Webpack, which allegedly lets Javascript read SCSS and thus use its variables (this would be a big breakthrough in the game's screen responsivity - a major consideration in production).
+
+15. The expansion to the world has revealed some ancient bugs in the code, in particular hard-coded values in the game's mission setup scripts for rendering new terrain that require a very precise screen size. Replaced these with references to the Constants file, and also made Constants the first script imported in the index.html.
+
+16. Play through the game with your QA hat to see what still looks/feels out of place before proceeding (we might be okay, but check anyway).
+
+17. Allow player jumping method to go above the original screen height.
+
+18. Alter Physics module to allow movement beyond original screen height.
+
+19. Make sure blocks render/de-render properly when vertical offset changes (hint, this requires solving the problem and then ensuring that the horizontal rendering method doesn't override the solution!)
+
+20. In the Columns class, add a method specifically for toggling the visibility of blocks based on their height (defining top and bottom of screen as render area).
+
+21. Make baddies' rendering conditional on vertical as well as horizontal offset.
+
+22. Fix it so baddies are hidden if they're to appear on the initial screen.
+
+### 23. As for downward movement, for the moment it must not be allowed; reduce the vertical screen scroll distance to 3 and make each map a minimum of 3 blocks tall, to prevent scrolling into negative Y territory impossible.
+
+### 24. Make a cool new level (biome and mission) with some new block types -- AND BADDIES -- to really explore the vertical space!
 
 # BUG-HUNTERS' BOUNTY LIST:
 
@@ -478,11 +506,17 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 4. Caught a phrasing-induced bug in the baddie dictionary for baddie type 1002 - collision type named bothFaceAway instead of backToBack, which is the standard.
 
+### 5. Interdimensional portal sometimes appears too hastily and off to the left of the screen in BaconLand.
+
 # PHASE X - Art Department:
 
 ### 1. Touch up water and swamp-water block images to make them more transparent... OR alter the player sprite's
 
 ### 2. Vortex effect (spin and blur) for level 3 (interdimensional) and teleportation in general.
+
+### 3. New block type: Singed - like they've been burned by time bubbles/explosions/god knows what!
+
+### 4. Sign post blocks (alt. size rules for some block types???? Built as readable property in the Blocktionary???)
 
 # Food for Future Thought/ General Notes:
 
