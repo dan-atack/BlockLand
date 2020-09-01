@@ -21,7 +21,7 @@ class Engine {
     // A value of 1 means wait till you're right at the edge.
     this.screenScrollDistance = 4;
     // Same principle applies to the vertical:
-    this.verticalScreenScrollDistance = 4;
+    this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
     this.player = new Player(world, 5, 8);
     // The Baddies will be in an array, since their numbers will be many:

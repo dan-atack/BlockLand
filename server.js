@@ -16,7 +16,7 @@ let dataBase = [];
 // We'll store all the username/password combos here so people can log in:
 let users = {
   username: 'password',
-  Dan: 'pw123',
+  Dan: '',
 };
 // The user will need to log in to play, and this field will keep track of their name:
 let currentUser = '';

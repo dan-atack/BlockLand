@@ -494,7 +494,13 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 ### 23. As for downward movement, for the moment it must not be allowed; reduce the vertical screen scroll distance to 3 and make each map a minimum of 3 blocks tall, to prevent scrolling into negative Y territory impossible.
 
-### 24. Make a cool new level (biome and mission) with some new block types -- AND BADDIES -- to really explore the vertical space!
+24. Make Test Stage biome for quickly testing new blocks' graphic elements in a variety of patterns.
+
+### 25. Make a cool new level (biome and mission) with some new block types to really explore the vertical space!
+
+### 26. Play this level extensively. For quality control, of course.
+
+### 27. Reorganize biomes file by level and clear out all older biomes to basic biomes folder.
 
 # BUG-HUNTERS' BOUNTY LIST:
 
@@ -506,7 +512,9 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 4. Caught a phrasing-induced bug in the baddie dictionary for baddie type 1002 - collision type named bothFaceAway instead of backToBack, which is the standard.
 
-### 5. Interdimensional portal sometimes appears too hastily and off to the left of the screen in BaconLand.
+### 5. Interdimensional portal sometimes doesn't render until a screen scroll occurs when in BaconLand. Investigate.
+
+6. New issue detected: for levels with tallness greater than the screen's height, there is a stacking image error for blocks that start rendered ABOVE the top of the initial screen (and are thus given bad cues for when to toggle their appearance afterwards). Add some logic to the blocks' initial render instructions to account for this.
 
 # PHASE X - Art Department:
 
