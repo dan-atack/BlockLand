@@ -48,7 +48,7 @@ const blocktionary = [
   { id: '016', name: 'Big-Tree-Middle', properties: ['passable'] },
   { id: '017', name: 'Big-Tree-Right-Branch', properties: ['passable'] },
   { id: '018', name: 'Big-Tree-Left-Branch', properties: ['passable'] },
-  { id: '019', name: 'Big-Tree-Horizontal-Branch', properties: ['passable'] },
+  { id: '019', name: 'Big-Tree-Horizontal-Branch', properties: [] },
   { id: '020', name: 'Palm-Frond', properties: [] },
   { id: '021', name: 'Palm-Frond-Node', properties: [] },
   { id: '022', name: 'Mushroom-Cap-Middle', properties: [] },

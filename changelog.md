@@ -492,13 +492,13 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 22. Fix it so baddies are hidden if they're to appear on the initial screen.
 
-### 23. As for downward movement, for the moment it must not be allowed; reduce the vertical screen scroll distance to 3 and make each map a minimum of 3 blocks tall, to prevent scrolling into negative Y territory impossible.
+23. As for downward movement, for the moment it must not be allowed; reduce the vertical screen scroll distance to 3 and make each map a minimum of 3 blocks tall, to prevent scrolling into negative Y territory impossible.
 
 24. Make Test Stage biome for quickly testing new blocks' graphic elements in a variety of patterns.
 
-### 25. Make a cool new level (biome and mission) with some new block types to really explore the vertical space!
+25. Make a cool new level (biome and mission) with some new block types to really explore the vertical space!
 
-### 26. Play this level extensively. For quality control, of course.
+26. Play this level extensively. For quality control, of course.
 
 ### 27. Reorganize biomes file by level and clear out all older biomes to basic biomes folder.
 
@@ -534,6 +534,8 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 ### III. On touch-screen responsiveness: investigate using the document object to pinpoint the coordinates of a mouseup event; use those to trigger Player movement responder functions instead of/as complement to keyboard presses.
 
-### Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit.
+Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit - in fact, why not bring them straight into the game and walk around on them while you're at it?! Cue the Test Stage.
 
 ### More/different attacks for the player? Different cooldown times, greater or shorter ranges, Y-axis specific moves, should all be combinable with our current system.
+
+### Level Chirality: Be aware of it! Could a simple Find-and-replace function built into the columns object solve the issue?! ALL Biomes A) become objects B) have IDs as well as names C) have chirality sub-object: { left: 17, right: 18 } that feeds into block swapper method!
