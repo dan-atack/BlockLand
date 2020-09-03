@@ -220,13 +220,13 @@ const missions = [
       [
         'add-columns',
         [
-          [31, 102],  // This is dodgy - it has to know the PREVIOUS VALUE as well???
-          [-31, -102],
+          [31, 107],  // This is dodgy - it has to know the PREVIOUS VALUE as well???
+          [-31, -107],
         ],
       ],
       ['reset-stage', [fortress, treeForts, [0, SCREEN_WIDTH_IN_BLOCKS]]],
       ['update-player-respawn', [-4, 8]],
-      ['set-world-width', 100],
+      ['set-world-width', 105],
       [
         'add-baddies',
         [
@@ -272,13 +272,14 @@ const missions = [
       ],
     ],
     [
+      ['remove-block', [1, 10]],
       ['remove-block', [1, 9]],
       ['remove-block', [1, 8]],
       ['remove-block', [1, 7]],
       ['remove-block', [1, 6]],
       ['remove-block', [1, 5]],
-      ['remove-block', [2, 4]],
-      ['remove-block', [0, 3]],
+      ['remove-block', [2, 10]],
+      ['remove-block', [0, 10]],
       [
         'add-baddies',
         [
@@ -287,16 +288,22 @@ const missions = [
           [world, -46, 11, 1002, 1036, [-80, -46]],
           [world, -47, 11, 1002, 1022, [-80, -47]],
           [world, -48, 10, 1002, 1023, [-80, -48]],
-          [world, 6, 11, 1002, 1024, [4, 6]],
-          [world, 13, 12, 1002, 1025, [9, 13]],
-          [world, 22, 10, 1002, 1026, [18, 22]],
-          [world, 32, 15, 1002, 1027, [31, 32]],
-          [world, 38, 15, 1002, 1028, [36, 38]],
-          [world, 42, 12, 1002, 1029, [41, 42]],
-          [world, 47, 16, 1002, 1030, [45, 47]],
-          [world, 63, 4, 1002, 1031, [60, 63]],
-          [world, 75, 16, 1002, 1032, [74, 75]],
-          [world, 83, 9, 1003, 1033, [74, 80], 'boss'], // Boss optional 6th argument to baddie constructor makes them bigger!
+          [world, 6, 10, 1002, 1024, [4, 6]],
+          [world, 13, 9, 1002, 1025, [8, 13]],
+          [world, 17, 3, 1002, 1037, [14, 17]],
+          [world, 22, 9, 1002, 1026, [17, 22]],
+          [world, 32, 14, 1002, 1027, [31, 32]],
+          [world, 38, 14, 1002, 1028, [36, 38]],
+          [world, 42, 11, 1002, 1029, [41, 42]],
+          [world, 48, 15, 1002, 1030, [43, 48]],
+          [world, 63, 3, 1002, 1031, [59, 63]],
+          [world, 78, 22, 1002, 1032, [77, 78]],
+          [world, 85, 28, 1002, 1038, [84, 85]],
+          [world, 89, 31, 1002, 1039, [88, 89]],
+          [world, 98, 30, 1003, 1033, [92, 97], 'boss'], // Boss optional 6th argument to baddie constructor makes them bigger!
+          [world, 88, 11, 1002, 1040, [77, 88]],
+          [world, 89, 11, 1002, 1041, [77, 89]],
+          [world, 90, 11, 1002, 1042, [77, 90]],
         ],
       ],
     ],

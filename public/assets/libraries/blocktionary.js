@@ -70,6 +70,7 @@ const blocktionary = [
   { id: '713', name: 'Pipe-Bend-Top-Right', properties: [] },
   { id: '714', name: 'Pipe-Bend-Bottom-Right', properties: [] },
   { id: '715', name: 'Pipe-Bend-Bottom-Left', properties: [] },
+  { id: '720', name: 'Scaffolding', properties: ['permeable'] },
   { id: '970', name: 'Bacon_Horizontal_Middle', properties: [] },
   { id: '971', name: 'Bacon_Vertical_Middle', properties: [] },
   { id: '972', name: 'Bacon_Horizontal_Right', properties: [] },

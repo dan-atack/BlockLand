@@ -56,7 +56,6 @@ class Columns {
           renderBlockVertical = true;
         }
         const renderBlock = renderBlockHorizontal && renderBlockVertical;
-        if (columnNumber === 20) console.log(y, renderBlock)
         let block = new Block(
           this.root,
           columnNumber,
@@ -150,6 +149,8 @@ class Columns {
       renderBlock
     );
     this[`column_${columnNumber}`].blocks.push(block);
+    // Shift block immediately upon rendering. Later on we'll need to think about a vertical one...
+    if (renderBlock) block.horizontalTranslate(this.visibilityRange[0]);
   };
 
   // Method 5: Remove just one block by targeting the block at given coordinates (for level setup):

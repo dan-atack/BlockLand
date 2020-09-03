@@ -458,9 +458,16 @@ class Engine {
   // Respawns baddies that have been killed during the current mission if you get killed:
   respawnBaddies() {
     // find if the current mission contains instructions to spawn baddies. If so, remove all baddies and re-run the baddie-adder:
-    let respawnList = this.mission.setupInstructions.filter(
-      (instructions) => instructions[0] === 'add-baddies'
-    );
+    let respawnList = [];
+    try {
+      respawnList = this.mission.setupInstructions.filter(
+        (instructions) => instructions[0] === 'add-baddies'
+      );
+    } catch {
+      // If the current mission does not contain any baddies you will have an empty list, and no one will respawn.
+      respawnList = [];
+    }
+      
     if (respawnList.length > 0) {
       // if you are respawning guys, don't count them again towards the baddiesAdded counter:
       this.baddiesAdded -= respawnList[0][1].length;

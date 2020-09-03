@@ -500,7 +500,15 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 26. Play this level extensively. For quality control, of course.
 
-### 27. Reorganize biomes file by level and clear out all older biomes to basic biomes folder.
+27. Reorganize biomes file by level and clear out all older biomes to basic biomes folder.
+
+28. Spruce up the Fortress biome just a bit. And elevate it where necessary. Then reposition guys (they've all been elevated by 3 in advance).
+
+29. Squash that bug that pops up at the end of the game.
+
+### 30. Merge Master branch into BlockLand-1.2.1 branch then create a new one for version 1.2.2. Keep Version 1.2.1 branch head so it points permanently to that commit.
+
+### 31. Go through deployment checklist and put version 1.2.1 into PRODUCTION!
 
 # BUG-HUNTERS' BOUNTY LIST:
 
@@ -512,7 +520,7 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 4. Caught a phrasing-induced bug in the baddie dictionary for baddie type 1002 - collision type named bothFaceAway instead of backToBack, which is the standard.
 
-### 5. Interdimensional portal sometimes doesn't render until a screen scroll occurs when in BaconLand. Investigate.
+5. Interdimensional portal sometimes doesn't render until a screen scroll occurs when in BaconLand. Investigate. SOLVED: Added immediate call to horizontally translate any blocks rendered individually by Engine's level-setup "Add one block" procedure.
 
 6. New issue detected: for levels with tallness greater than the screen's height, there is a stacking image error for blocks that start rendered ABOVE the top of the initial screen (and are thus given bad cues for when to toggle their appearance afterwards). Add some logic to the blocks' initial render instructions to account for this.
 
