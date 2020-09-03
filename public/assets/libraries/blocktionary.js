@@ -14,6 +14,9 @@
 // 800 - 899: Psychedelica - Bubbles, giant flowers, tie-dyed stuff, balloons, clouds, other-worldly stuff, etc.
 // 900 - 999: Bonuses/Utility Blocks/ Miscellaneous: Golden Eggs, Portals, Reward chests, and... BACON???
 
+// LIST OF PROPERTIES THAT ARE (CURRENTLY) KNOWN TO THE BLOCK CLASS:
+// animated, lethal, low-friction, passable, permable
+
 const blocktionary = [
   { id: '000', name: 'Air', properties: ['permeable'] },
   {
@@ -37,19 +40,37 @@ const blocktionary = [
   { id: '008', name: 'Ice_A', properties: ['low_friction'] },
   { id: '009', name: 'Bricks', properties: [] },
   { id: '010', name: 'Wood_Planks_A', properties: [] },
+  { id: '011', name: 'Palm-Trunk', properties: ['passable'] },
   { id: '012', name: 'Water_Deep', properties: ['permeable'] },
+  { id: '013', name: 'Toadstool-Stem', properties: ['passable'] },
+  { id: '014', name: 'Big-Tree-Right', properties: [] },
+  { id: '015', name: 'Big-Tree-Left', properties: [] },
+  { id: '016', name: 'Big-Tree-Middle', properties: ['passable'] },
+  { id: '017', name: 'Big-Tree-Right-Branch', properties: ['passable'] },
+  { id: '018', name: 'Big-Tree-Left-Branch', properties: ['passable'] },
+  { id: '019', name: 'Big-Tree-Horizontal-Branch', properties: [] },
+  { id: '020', name: 'Palm-Frond', properties: [] },
+  { id: '021', name: 'Palm-Frond-Node', properties: [] },
+  { id: '022', name: 'Mushroom-Cap-Middle', properties: [] },
+  { id: '023', name: 'Mushroom-Cap-Left', properties: [] },
+  { id: '091', name: 'Vine-Rail', properties: ['passable'] },
+  { id: '092', name: 'Vine-Creeper', properties: ['passable'] },
+  { id: '093', name: 'Vine-Tip', properties: ['passable'] },
+  { id: '094', name: 'Mega-Fern-A', properties: ['passable'] },
   { id: '200', name: 'Swamp_Water_Deep', properties: ['permeable'] },
   { id: '201', name: 'Swamp_Water_Top', properties: ['permeable'] },
   { id: '700', name: 'Fence', properties: ['passable'] },
   { id: '701', name: 'Concrete', properties: [] },
   { id: '702', name: 'Girder-I-Bar', properties: [] },
   { id: '703', name: 'Girder-H-Bar', properties: [] },
+  { id: '704', name: 'Lattice', properties: [] },
   { id: '710', name: 'Pipes-Horizontal', properties: [] },
   { id: '711', name: 'Pipes-Vertical', properties: [] },
   { id: '712', name: 'Pipe-Bend-Top-Left', properties: [] },
   { id: '713', name: 'Pipe-Bend-Top-Right', properties: [] },
   { id: '714', name: 'Pipe-Bend-Bottom-Right', properties: [] },
   { id: '715', name: 'Pipe-Bend-Bottom-Left', properties: [] },
+  { id: '720', name: 'Scaffolding', properties: ['permeable'] },
   { id: '970', name: 'Bacon_Horizontal_Middle', properties: [] },
   { id: '971', name: 'Bacon_Vertical_Middle', properties: [] },
   { id: '972', name: 'Bacon_Horizontal_Right', properties: [] },

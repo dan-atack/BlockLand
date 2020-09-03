@@ -80,8 +80,8 @@ const missions = [
       [
         'add-baddies',
         [
-          [world, 17, 6, 1002, 1001, [16, 17]],
-          [world, -10, 3, 1001, 1002, [-10, 0]],
+          [world, 17, 9, 1002, 1001, [16, 17]],
+          [world, -10, 6, 1001, 1002, [-10, 0]],
         ],
       ],
     ], // 5 - Array with Setup instructions for level (optional)
@@ -98,7 +98,7 @@ const missions = [
         'Investigate the anomaly at the Center',
         'Whooaaaaa!!',
         'position',
-        [0, 4],
+        [0, 7],
         2,
       ],
     ],
@@ -110,7 +110,7 @@ const missions = [
         'create-block', // idx = 0 - code word for switch case
         [
           // idx = 1 - array containing coords and block type for 'create-block' switch case in engine
-          [0, 4], // create-block idx = 0 - coordinates to target
+          [0, 7], // create-block idx = 0 - coordinates to target
           989, // create-block idx = 1 - block type to render
         ],
       ], // end of first instructions set
@@ -119,9 +119,9 @@ const missions = [
         'add-baddies',
         [
           // baddie ranges must be processed by the engine, not given as a range function output here:
-          [world, -22, 3, 1002, 1003, [-22, -14]],
-          [world, -24, 5, 1002, 1004, [-30, -24]],
-          [world, 21, 6, 1001, 1005, [21, 30]],
+          [world, -22, 6, 1002, 1003, [-22, -14]],
+          [world, -24, 8, 1002, 1004, [-30, -24]],
+          [world, 21, 9, 1001, 1005, [21, 30]],
           // one or two more baddies here would potentially add to the excitement.
         ],
       ],
@@ -151,7 +151,7 @@ const missions = [
       ],
     ],
     [
-      ['remove-block', [0, 4]],
+      ['remove-block', [0, 7]],
       [
         'clear-stage', // clear stage setup instruction tells all the columns to wipe clear,
       ],
@@ -160,7 +160,7 @@ const missions = [
         [
           baconLandRight, // idx 0: select biome for the right
           baconLandLeft, // idx 1: select biome for the left
-          [0, 15], // idx 2: columns to render NOTE this works with 0, 15 now but that is only for a screen width of exactly 512 px
+          [0, SCREEN_WIDTH_IN_BLOCKS], // idx 2: column start/stop values for newly rendered terrain
         ],
       ],
       [
@@ -172,8 +172,8 @@ const missions = [
       [
         'add-baddies',
         [
-          [world, -10, 5, 1002, 1006, [-10, -1]],
-          [world, 10, 5, 1002, 1007, [1, 10]],
+          [world, -10, 8, 1002, 1006, [-10, -1]],
+          [world, 10, 8, 1002, 1007, [1, 10]],
         ],
       ],
       // [
@@ -193,11 +193,11 @@ const missions = [
         'Get to ze portal!!!',
         "Ooh, I shouldn't have eaten so much bacon!!",
         'position',
-        [-3, 3],
+        [-3, 6],
         2,
       ],
     ],
-    [['create-block', [[-3, 3], 989]], ['clear-baddies']],
+    [['create-block', [[-3, 6], 989]], ['clear-baddies']],
     // Special FX? Vortex?
   ],
   // Mission 4: Guerilla Warfare
@@ -211,7 +211,7 @@ const missions = [
         'Kill all the baddies in the sacred forest',
         'GET SOME!!!',
         'mission-kill-count',
-        [10],
+        [12],
         4,
       ],
     ],
@@ -220,27 +220,30 @@ const missions = [
       [
         'add-columns',
         [
-          [31, 101],
-          [-31, -101],
+          [31, 107],  // This is dodgy - it has to know the PREVIOUS VALUE as well???
+          [-31, -107],
         ],
       ],
-      ['reset-stage', [fortress, treeForts, [0, 15]]],
-      ['update-player-respawn', [-4, 7]],
-      ['set-world-width', 86],
+      ['reset-stage', [fortress, treeForts, [0, SCREEN_WIDTH_IN_BLOCKS]]],
+      ['update-player-respawn', [-4, 8]],
+      ['set-world-width', 105],
       [
         'add-baddies',
         [
-          [world, -20, 4, 1002, 1008, [-20, -5]],
-          [world, -28, 3, 1002, 1009, [-28, -13]],
-          [world, -35, 9, 1002, 1010, [-35, -20]],
-          [world, -51, 1, 1002, 1011, [-51, -46]],
-          [world, -56, 4, 1002, 1012, [-56, -46]],
-          [world, -64, 3, 1002, 1013, [-64, -49]],
-          [world, -70, 3, 1002, 1014, [-70, -55]],
-          [world, -78, 3, 1002, 1015, [-78, -63]],
-          [world, -75, 7, 1002, 1016, [-75, -73]],
-          [world, -79, 12, 1002, 1017, [-79, -76]],
-          [world, -72, 13, 1002, 1018, [-72, -68]],
+          [world, -20, 7, 1002, 1008, [-20, -5]],
+          [world, -28, 6, 1002, 1009, [-28, -13]],
+          [world, -35, 13, 1002, 1010, [-35, -20]],
+          [world, -51, 4, 1002, 1011, [-51, -46]],
+          [world, -56, 7, 1002, 1012, [-56, -46]],
+          [world, -64, 6, 1002, 1013, [-64, -49]],
+          [world, -72, 29, 1002, 1014, [-72, -68]],
+          [world, -73, 27, 1002, 1015, [-73, -70]],
+          [world, -76, 23, 1002, 1016, [-76, -74]],
+          [world, -77, 18, 1002, 1017, [-77, -73]],
+          [world, -80, 3, 1002, 1018, [-80, -65]],
+          [world, -80, 37, 1002, 1019, [-80, -79]],
+          [world, -84, 42, 1002, 1020, [-84, -79]],
+          [world, -92, 28, 1002, 1021, [-92, -84]],
         ],
       ],
       [
@@ -269,31 +272,38 @@ const missions = [
       ],
     ],
     [
+      ['remove-block', [1, 10]],
+      ['remove-block', [1, 9]],
+      ['remove-block', [1, 8]],
+      ['remove-block', [1, 7]],
       ['remove-block', [1, 6]],
       ['remove-block', [1, 5]],
-      ['remove-block', [1, 4]],
-      ['remove-block', [1, 3]],
-      ['remove-block', [1, 2]],
-      ['remove-block', [2, 6]],
-      ['remove-block', [0, 6]],
+      ['remove-block', [2, 10]],
+      ['remove-block', [0, 10]],
       [
         'add-baddies',
         [
-          [world, -44, 10, 1002, 1019, [-80, -44]],
-          [world, -45, 9, 1002, 1020, [-80, -45]],
-          [world, -46, 8, 1002, 1021, [-80, -46]],
-          [world, -47, 8, 1002, 1022, [-80, -47]],
-          [world, -48, 7, 1002, 1023, [-80, -48]],
-          [world, 6, 8, 1002, 1024, [4, 6]],
-          [world, 13, 9, 1002, 1025, [9, 13]],
-          [world, 22, 7, 1002, 1026, [18, 22]],
-          [world, 32, 12, 1002, 1027, [31, 32]],
-          [world, 38, 12, 1002, 1028, [36, 38]],
-          [world, 42, 9, 1002, 1029, [41, 42]],
-          [world, 47, 13, 1002, 1030, [45, 47]],
-          [world, 63, 1, 1002, 1031, [60, 63]],
-          [world, 75, 13, 1002, 1032, [74, 75]],
-          [world, 83, 6, 1003, 1033, [74, 80], 'boss'], // Boss optional 6th argument to baddie constructor makes them bigger!
+          [world, -44, 13, 1002, 1034, [-80, -44]],
+          [world, -45, 12, 1002, 1035, [-80, -45]],
+          [world, -46, 11, 1002, 1036, [-80, -46]],
+          [world, -47, 11, 1002, 1022, [-80, -47]],
+          [world, -48, 10, 1002, 1023, [-80, -48]],
+          [world, 6, 10, 1002, 1024, [4, 6]],
+          [world, 13, 9, 1002, 1025, [8, 13]],
+          [world, 17, 3, 1002, 1037, [14, 17]],
+          [world, 22, 9, 1002, 1026, [17, 22]],
+          [world, 32, 14, 1002, 1027, [31, 32]],
+          [world, 38, 14, 1002, 1028, [36, 38]],
+          [world, 42, 11, 1002, 1029, [41, 42]],
+          [world, 48, 15, 1002, 1030, [43, 48]],
+          [world, 63, 3, 1002, 1031, [59, 63]],
+          [world, 78, 22, 1002, 1032, [77, 78]],
+          [world, 85, 28, 1002, 1038, [84, 85]],
+          [world, 89, 31, 1002, 1039, [88, 89]],
+          [world, 98, 30, 1003, 1033, [92, 97], 'boss'], // Boss optional 6th argument to baddie constructor makes them bigger!
+          [world, 88, 11, 1002, 1040, [77, 88]],
+          [world, 89, 11, 1002, 1041, [77, 89]],
+          [world, 90, 11, 1002, 1042, [77, 90]],
         ],
       ],
     ],
@@ -310,6 +320,6 @@ const missions = [
     'Ruins',
     'Woo hoo, BlockLaaaanddddd!!!',
     '',
-    [['Enjoy', 'BlockLand', '1.2!', 'position', [2000]]],
+    [['Thank you for Enjoying', 'BlockLand', 'position', [2000], 10000]],
   ],
 ]; // end of missions list

@@ -54,6 +54,10 @@ let any = new Text(world, 0, 0, 32, 'To Start Press the Any Key!');
 // Oh shit, or better still -- GHOST MODE?! I'm a genius.
 thomas.player.domElement.style.opacity = '1%';
 pauseButton.style.display = 'none';
+// hide baddies at outset too:
+thomas.baddies.forEach((baddie) => {
+  baddie.domElement.style.display = 'none';
+});
 
 // Event Listeners activated:
 

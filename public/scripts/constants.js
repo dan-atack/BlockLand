@@ -39,13 +39,15 @@ const terminalVelocity = 1;
 const minimumVelocity = 0.03125;
 
 // Display area constants: establishing the width of the world that is visible on the screen:
-// The screen is made of pixels, and all the objects within are too, in order for things to act in that 'pseudo-grid' style we love:
-const SCREEN_WIDTH = 512;
-const SCREEN_HEIGHT = 480;
-// Player and block sprites will be exactly 1/9th of the display area's size, to give us that 'pseudo-grid' positioning system:
+// Player and block sprite size will be determined first, and the world (screen) will be sized based on their dimensions.
 const BLOCK_WIDTH = 32;
 const PLAYER_WIDTH = 32;
 const BOSS_WIDTH = 48;
+// TODO: Further incorporate the game's logic with SCSS so that these variables are determined by a user's screen size:
+const SCREEN_WIDTH_IN_BLOCKS = 21;
+const SCREEN_HEIGHT_IN_BLOCKS = 20;
+const SCREEN_WIDTH = SCREEN_WIDTH_IN_BLOCKS * BLOCK_WIDTH;
+const SCREEN_HEIGHT = SCREEN_HEIGHT_IN_BLOCKS * BLOCK_WIDTH;
 
 // Server-side stuff: Have a Current User to keep track of the player's progress:
 

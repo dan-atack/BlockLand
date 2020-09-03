@@ -31,6 +31,7 @@ class Baddie {
     this.domElement = document.createElement('img');
     // Dynamic baddie types are ON the menu!! Baddie ID codes start at 1001 so they can be entered as numbers OR strings:
     this.domElement.src = `./assets/sprites/baddie_${baddieType}.png`;
+    this.domElement.style.zIndex = 100;
     // Player width is still the standard unit of reference... for NOW!
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
     this.domElement.style.bottom = `${this.y * PLAYER_WIDTH}px`;
@@ -40,14 +41,15 @@ class Baddie {
     this.domElement.className = 'baddie-trans';
     if (this.special) this.domElement.classList.add(this.special);
     root.appendChild(this.domElement);
-    // Hard code to start invisible if you're outside the screen:
-    if (!this.x >= 0 && this.x <= 15) {
+    // Start invisible if you're outside the screen:
+    if (!this.x >= 0 && this.x <= SCREEN_WIDTH_IN_BLOCKS) {
       this.domElement.style.display = 'none';
     } else {
       this.domElement.display = 'initial';
       this.rendered = true;
     }
     this.horizontalOffset = 0;
+    this.verticalOffset = 0;
     this.standingOn = 0;
     this.topSpeed = 0.25;
     // Inverse speed value: patrol interval refers to how many game cycles pass between movement impulses:
@@ -76,7 +78,7 @@ class Baddie {
   // Baddie Methods: First, Render. Then, fall. Then jump... THEN ANNIHILIATE!!!
 
   // Control Rendering: The baddy is told what columns are visible and renders itself accordingly.
-  handleRender = (range, horizontalOffset) => {
+  handleRender = (range, horizontalOffset, verticalOffset) => {
     // if baddie is within render range, set render to true, then call horizontal translator for positioning:
     // OR condition extends their render range after initial rendering so they don't disappear when they reach the edge,
     // but move satisfyingly out of frame:
@@ -95,7 +97,24 @@ class Baddie {
       this.domElement.style.display = 'none';
       this.rendered = false;
     }
+    // VERTICAL RENDERING DETERMINATION:
+    if (
+      this.y < verticalOffset ||
+      this.y > verticalOffset + SCREEN_HEIGHT_IN_BLOCKS
+    ) {
+      this.domElement.style.display = 'none';
+      this.rendered = false;
+    } else if (
+      this.x >= range[0] - 1 &&
+      this.x <= range[1] + 1 &&
+      this.hasBeenRendered
+    ) {
+      this.domElement.style.display = 'initial';
+      this.rendered = true;
+    }
   };
+
+  // Horizontal and Vertical Translation methods are next:
 
   horizontalTranslate(horizontalOffset) {
     // as the player moves through the world, move bad-guy elements to keep their position relative to everything else:
@@ -103,8 +122,19 @@ class Baddie {
     this.domElement.style.left = `${
       (this.x - this.horizontalOffset) * PLAYER_WIDTH
     }px`;
-    //this.domElement.classList.remove('baddie-moving');
   }
+
+  verticalTranslate = (verticalOffset) => {
+    this.verticalOffset = verticalOffset;
+    this.domElement.style.bottom = `${
+      (this.y - verticalOffset) * PLAYER_WIDTH
+    }px`;
+    // COMING SOON?!:
+    // if (this.isAttacking)
+    //   this.attackAnimation.style.bottom = `${
+    //     (this.y - this.verticalOffset) * PLAYER_WIDTH
+    //   }px`;
+  };
 
   // Run the patrol method every engine cycle. Patrol will first tick off an internal counter (movement every 5 engine cycles),
   // then determine where a baddie is in terms of his patrol route, then move then reset the counter.
