@@ -60,6 +60,13 @@ class Block {
           case 'animated':
             this.isAnimated = true;
             break;
+          // blocks can be .gif files too! Just add 'gif' to their properties array :)
+          case 'gif':
+            this.domElement.src = `./assets/blocks/block${this.blockData.id}.gif`;
+            break;
+          case 'opaque':
+            this.domElement.style.opacity = 1;
+            break;
           // Default is you are not at all special. And you're a block. My boy's a block!!!
         }
       });

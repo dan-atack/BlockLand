@@ -3,16 +3,8 @@
 class Baddie {
   // Just like the player class! Oh boy, it's like they're RELATED or something >:-(
   // New to the bad guys since they're not unique: type (for which sprite to render) and serial number (for the engine)
-  // xRange is an array of the start/stop values of the baddie's territory, and special is optional value for CSS class assignment.
-  constructor(
-    root,
-    xStart,
-    yStart,
-    baddieType = 1001,
-    baddieSerial,
-    xRange,
-    special = null
-  ) {
+  // xRange is an array of the start/stop values of the baddie's territory.
+  constructor(root, xStart, yStart, baddieType = 1001, baddieSerial, xRange) {
     this.root = root;
     this.x = xStart;
     this.y = yStart;
@@ -20,11 +12,9 @@ class Baddie {
     this.serialNum = baddieSerial;
     // X range is the territory a baddie will patrol:
     this.xRange = xRange;
-    // Optional special property will allow us to pass additional class types to the baddie's DOM element, as well as add various
-    // secondary characteristics later on (greater HP, for instance, or altered patrol logic):
-    this.special = special;
     // Presumes that all enemies start off the initial screen; corrected further below after DOM element is appended to document:
     this.rendered = false;
+    this.hasBeenRendered = false;
     this.gridX = xStart;
     this.gridY = yStart;
     this.facing = 'right';
@@ -39,7 +29,6 @@ class Baddie {
     this.id = `baddie_${baddieSerial}`;
     // Initial CSS image class is baddie-trans, which is short for 'translation-mode,' used for lockstep motion with passing terrain:
     this.domElement.className = 'baddie-trans';
-    if (this.special) this.domElement.classList.add(this.special);
     root.appendChild(this.domElement);
     // Start invisible if you're outside the screen:
     if (!this.x >= 0 && this.x <= SCREEN_WIDTH_IN_BLOCKS) {
@@ -73,6 +62,15 @@ class Baddie {
     // Also record the starting height of the previous jump:
     this.lastJumpInitialHeight = null;
     this.xObstructions = 0;
+    // Attack control section:
+    this.isAttacking = false;
+    this.defaultAnimationWidth = 1.5; // This value determines what attackRange gets set to when it isn't zero.
+    this.attackRange = 0; // For animation location control
+    this.attackRadius = 0; // For combat calculations
+    // Image control for baddie attack animation:
+    this.attackAnimation = document.createElement('img');
+    this.attackAnimation.id = `${this.serialNum}-attack`;
+    this.attackCountdown = 0;
   }
 
   // Baddie Methods: First, Render. Then, fall. Then jump... THEN ANNIHILIATE!!!
@@ -122,6 +120,10 @@ class Baddie {
     this.domElement.style.left = `${
       (this.x - this.horizontalOffset) * PLAYER_WIDTH
     }px`;
+    if (this.isAttacking)
+      this.attackAnimation.style.left = `${
+        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
+      }px`;
   }
 
   verticalTranslate = (verticalOffset) => {
@@ -129,18 +131,17 @@ class Baddie {
     this.domElement.style.bottom = `${
       (this.y - verticalOffset) * PLAYER_WIDTH
     }px`;
-    // COMING SOON?!:
-    // if (this.isAttacking)
-    //   this.attackAnimation.style.bottom = `${
-    //     (this.y - this.verticalOffset) * PLAYER_WIDTH
-    //   }px`;
+    if (this.isAttacking)
+      this.attackAnimation.style.bottom = `${
+        (this.y - this.verticalOffset) * PLAYER_WIDTH
+      }px`;
   };
 
   // Run the patrol method every engine cycle. Patrol will first tick off an internal counter (movement every 5 engine cycles),
   // then determine where a baddie is in terms of his patrol route, then move then reset the counter.
   patrol() {
-    // You can't patrol if you're dying:
-    if (!this.isDying) {
+    // You can't patrol if you're dying, and you also have to have been rendered at least once:
+    if (!this.isDying && this.hasBeenRendered) {
       // Add a tick:
       this.patrolTick += 1;
       // If it's time to move then we enter our first block, and reset the ticker:
@@ -239,16 +240,9 @@ class Baddie {
           : 'rotate&(180deg)';
       }
       this.isDying = true;
-      // Override normal styling to make bosses bigger:
-      if (this.special) {
-        this.domElement.style.width = `${BOSS_WIDTH}px`;
-        this.domElement.style.width - `${BOSS_WIDTH}px`;
-        this.domElement.style.zIndex = 100;
-      } else {
-        this.domElement.style.width = `${PLAYER_WIDTH}px`;
-        this.domElement.style.height = `${PLAYER_WIDTH}px`;
-        this.domElement.style.zIndex = 100;
-      }
+      this.domElement.style.width = `${PLAYER_WIDTH}px`;
+      this.domElement.style.height = `${PLAYER_WIDTH}px`;
+      this.domElement.style.zIndex = 100;
       // Countdown to sprite removal:
       this.deathLoops -= 1;
     } else {
@@ -256,5 +250,89 @@ class Baddie {
       this.isDead = true;
       this.root.removeChild(this.domElement);
     }
+    if (this.attackAnimation) {
+      this.haltAttack();
+    }
+  }
+
+  // Baddie Class attack methods:
+
+  attack(attackType) {
+    // set attacking to true:
+    this.isAttacking = true;
+    // attack range will represent the ABSOLUTE x value of the attack's animation, such that anything between that and you is hit:
+    // Deprecation in progress:
+    this.attackRange =
+      this.facing === 'right'
+        ? this.x + this.defaultAnimationWidth
+        : this.x - this.defaultAnimationWidth;
+    // Add attack animation:
+    this.attackAnimation.src = `./assets/effects/animations/${attackType}.gif`;
+    // set width of attack animation:
+    this.attackAnimation.style.width = `${this.attackRadius * PLAYER_WIDTH}px`;
+    // set display to visible and ensure prominence with z-index value:
+    this.attackAnimation.style.zIndex = 10;
+    this.attackAnimation.style.bottom = `${
+      (this.y - this.verticalOffset) * PLAYER_WIDTH
+    }px`;
+    this.attackAnimation.className = 'attack';
+    // Position attack animation (rightward orientation first):
+    if (this.facing === 'right') {
+      // Horizontal offset is introduced into the animation here since the animation is the offset (non-absolute) position:
+      this.attackAnimation.style.left = `${
+        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
+      }px`;
+      this.attackAnimation.style.transform = 'rotateY(180deg)';
+      // Leftward orientation and positioning:
+    } else {
+      this.attackAnimation.style.transform = 'rotateY(0deg)';
+      // ensure attack animation is rendered as originating from the edge of the player's sprite:
+      this.attackAnimation.style.left = `${
+        (this.attackRange - this.horizontalOffset + (1 - this.attackRadius)) *
+        PLAYER_WIDTH
+      }px`;
+    }
+    this.root.appendChild(this.attackAnimation);
+  }
+
+  advanceAttackCountdown() {
+    // If attack is counting down that means baddie is in the state of attacking:
+    if (this.attackCountdown > 0) {
+      // begin cooling down:
+      this.attackCountdown -= 1;
+      // calculate attack Range (your position +/- 1)
+      this.attackRange =
+        this.facing === 'right'
+          ? this.x + this.defaultAnimationWidth
+          : this.x - this.defaultAnimationWidth;
+      // render attack animation in the appropriate position:
+      this.facing === 'right'
+        ? (this.attackAnimation.style.left = `${
+            (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
+          }px`)
+        : (this.attackAnimation.style.left = `${
+            (this.attackRange -
+              this.horizontalOffset +
+              (1 - this.attackRadius)) *
+            PLAYER_WIDTH
+          }px`);
+      this.attackAnimation.style.bottom = `${
+        (this.y - this.verticalOffset) * PLAYER_WIDTH
+      }px`;
+      // make sure there is an attack animation before attempting to reset it!
+    } else if (this.isAttacking) {
+      // if the countdown expires, halt the attack:
+      this.haltAttack();
+    }
+  }
+
+  // Deactivate attack: the scram function to cancel attacks fast - NOTE: this doesn't affect cooldowns, it just stops attacks.
+  haltAttack() {
+    if (this.isAttacking) {
+      this.root.removeChild(this.attackAnimation);
+    }
+    this.isAttacking = false;
+    this.attackRange = 0;
+    this.attackRadius = 0;
   }
 }

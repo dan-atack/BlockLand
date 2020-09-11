@@ -496,6 +496,8 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 24. Make Test Stage biome for quickly testing new blocks' graphic elements in a variety of patterns.
 
+<img src="public/Screenshots/13-test-biome.png" alt="Aw yah!" style="width: 60%;">
+
 25. Make a cool new level (biome and mission) with some new block types to really explore the vertical space!
 
 26. Play this level extensively. For quality control, of course.
@@ -504,25 +506,71 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 28. Spruce up the Fortress biome just a bit. And elevate it where necessary. Then reposition guys (they've all been elevated by 3 in advance).
 
+<img src="public/Screenshots/14-fortress-biome.png" alt="Aw yah!" style="width: 60%;">
+
 29. Squash that bug that pops up at the end of the game.
 
-### 30. Merge Master branch into BlockLand-1.2.1 branch then create a new one for version 1.2.2. Keep Version 1.2.1 branch head so it points permanently to that commit.
+30. Merge Master branch into BlockLand-1.2.1 branch then create a new one for version 1.2.2. Keep Version 1.2.1 branch head so it points permanently to that commit.
 
-### 31. Go through deployment checklist and put version 1.2.1 into PRODUCTION!
+# PHASE THIRTEEN: Baddie Class Attacks and Lava Bubbles (Version 1.2.2)
+
+Although the public is clamouring for the release of the latest patch, certain features of the game must be polished up and/or completed before the next Big Release. Specifically, the Boss baddie must become its own class, complete with separate logic for its electric attack (although perversely the attack logic itself will go to the more general Baddie Class - a warmup for a much more significant refactoring that is yet to come). The Collisions Class/badDictionary module will be updated in the wake of the advent of baddie attacks, to ensure satisfactory outcomes of more advanced combat encounters. Also, a special 'lava-surface' block will become
+
+1. Examine Player Class attack functionality: animation, countdown, and how it fits into the collision detector.
+
+2. Clone player attack animation functionality into baddie class, and give baddie class necessary attributes to be able to attack in general - attackRadius, attackAnimation, attackCooldown, etc.
+
+3. Create Boss Subclass of Baddie class.
+
+4. Create Engine Level setup switch case for handling the creation of Bosses.
+
+5. Remove boss cosmetics and special sixth argument from baddie constructor function and bring that into the Boss class.
+
+6. Use this to bring the Boss into an early level to test this new functionality.
+
+7. Give Boss subclass a method for counting down and performing attacks. Make the countdown part of the Boss's patrol method.
+
+8. Create electric attack GIF.
+
+<img src="public/Screenshots/15-bossed-around.png" alt="Aw yah!" style="width: 60%;">
+
+9. In the Collisions module's determineFacing method, add baddie's attack radius to the encounter calculations.
+
+10. In the Collisions module's baddie dictionary, change the boss's lethal radius to be smaller. Also rename that property (it's actually currently 'killRadius') to 'dangerZone' to reduce confusion with the baddie (and player... soon to be 'sprite'?!) class's attackRadius attribute, which is now being used in this module.
+
+11. Add 'gif' to Block Class's special properties array options, to enable block to look for .gif file instead of usual .png.
+
+### 12. Create bubbling lava surface GIF.
+
+### 13. Create rippling magma GIF.
+
+### 14. Replace existing lava blocks with GIF animations. Give 'gif' property to both, and give 'permeable' trait to lava surface block. Also make new 'opaque' trait, to be considered last, in Block attribute switch case. To be paired with permeable to override the transparency effect. Convoluted? Moi?
+
+### X. Go through deployment checklist and put version 1.2.2 into PRODUCTION!
+
+### Version 1.2.3: CODE CLEANUP :(
+
+1. Go through major classes (player, baddie, block, engine, columns, collisions) and see if some of their methods can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+
+2. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
+
+3. For the Player/Baddie/Boss classes, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter).
+
+4. Create Sprite Class, of which Player and Baddie will be sub-classes. Ensure all functionality is preserved.
+
+5. In fact, go one better and start with the most abstract possible concept: Things => Blocks, Sprites => Player, Baddies => Boss
 
 # BUG-HUNTERS' BOUNTY LIST:
 
 1. You still can't jump when you're > 50% over a ledge, and now to top that off it also says you're standing on 'undefined' in the Game's Sidebar, which pretty much screams 'bug!'
 
-### 2. Physics engine's movement loop still has the player's coordinates hardwired to the display output. Abstract that out and give it to the player class instead.
+2. Enemy translation/derendering is sometimes still abrupt/jerky. Fix that by adjusting baddie CSS rules/render distance rules.
 
-3. Enemy translation/derendering is sometimes still abrupt/jerky. Fix that by adjusting baddie CSS rules/render distance rules.
+3. Caught a phrasing-induced bug in the baddie dictionary for baddie type 1002 - collision type named bothFaceAway instead of backToBack, which is the standard.
 
-4. Caught a phrasing-induced bug in the baddie dictionary for baddie type 1002 - collision type named bothFaceAway instead of backToBack, which is the standard.
+4. Interdimensional portal sometimes doesn't render until a screen scroll occurs when in BaconLand. Investigate. SOLVED: Added immediate call to horizontally translate any blocks rendered individually by Engine's level-setup "Add one block" procedure.
 
-5. Interdimensional portal sometimes doesn't render until a screen scroll occurs when in BaconLand. Investigate. SOLVED: Added immediate call to horizontally translate any blocks rendered individually by Engine's level-setup "Add one block" procedure.
-
-6. New issue detected: for levels with tallness greater than the screen's height, there is a stacking image error for blocks that start rendered ABOVE the top of the initial screen (and are thus given bad cues for when to toggle their appearance afterwards). Add some logic to the blocks' initial render instructions to account for this.
+5. New issue detected: for levels with tallness greater than the screen's height, there is a stacking image error for blocks that start rendered ABOVE the top of the initial screen (and are thus given bad cues for when to toggle their appearance afterwards). Add some logic to the blocks' initial render instructions to account for this.
 
 # PHASE X - Art Department:
 
