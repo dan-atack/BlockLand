@@ -540,11 +540,19 @@ Although the public is clamouring for the release of the latest patch, certain f
 
 11. Add 'gif' to Block Class's special properties array options, to enable block to look for .gif file instead of usual .png.
 
-### 12. Create bubbling lava surface GIF.
+12. Create bubbling lava surface GIF.
 
-### 13. Create rippling magma GIF.
+13. Create flowing magma GIF.
 
-### 14. Replace existing lava blocks with GIF animations. Give 'gif' property to both, and give 'permeable' trait to lava surface block. Also make new 'opaque' trait, to be considered last, in Block attribute switch case. To be paired with permeable to override the transparency effect. Convoluted? Moi?
+14. Replace existing lava blocks with GIF animations. Give 'gif' property to both, and give 'permeable' trait to lava surface block. 
+
+15. Make new 'opaque' trait, to be considered last, in Block attribute switch case. To be paired with permeable to override the transparency effect.
+
+16. Fighting back against level-chirality rigidity: add flowing-right, -left, -up and -down properties as variations on the 'flowing lava' block template, and use CSS rules to render lava flow in the appropriate direction.
+
+17. Update README file before launching latest version.
+
+### 18. Also check on GitHub's media area and upload a new, better screenshot there if it's not a pain in the buttocks.
 
 ### X. Go through deployment checklist and put version 1.2.2 into PRODUCTION!
 

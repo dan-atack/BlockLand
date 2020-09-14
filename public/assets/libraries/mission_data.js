@@ -122,7 +122,6 @@ const missions = [
           [world, -22, 6, 1002, 1003, [-22, -14]],
           [world, -24, 8, 1002, 1004, [-30, -24]],
           [world, 21, 9, 1001, 1005, [21, 30]],
-          // one or two more baddies here would potentially add to the excitement.
         ],
       ],
     ], // end of mission setup instructions

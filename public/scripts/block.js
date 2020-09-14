@@ -64,10 +64,16 @@ class Block {
           case 'gif':
             this.domElement.src = `./assets/blocks/block${this.blockData.id}.gif`;
             break;
+          case 'flowing-left':
+          case 'flowing-right':
+          case 'flowing-up':
+          case 'flowing-down':
+            // Flowing blocks will take a direction instruction and use CSS to render flow in that direction:
+            this.domElement.classList.add(property);
+            break;
           case 'opaque':
             this.domElement.style.opacity = 1;
             break;
-          // Default is you are not at all special. And you're a block. My boy's a block!!!
         }
       });
     }
