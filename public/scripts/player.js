@@ -43,11 +43,13 @@ class Player {
     this.displayPlayerMedium = playerStandingInMedium;
     // COMBAT ZONE - Player attack status and cooldown:
     this.isAttacking = false;
+    // Attack range controls the attack animation:
     this.attackRange = 0;
-    // Experimental upgraded combat system test:
+    // Attack Radius controls combat calculations to see if you kill people:
     this.attackRadius = 0;
     // We'll keep the attack animation here to make it easier to render/de-render:
     this.attackAnimation = document.createElement('img');
+    this.attackAnimation.id = 'player-attack';
     this.root.appendChild(this.attackAnimation);
     this.attackCountdown = 0;
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):

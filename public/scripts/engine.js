@@ -57,7 +57,9 @@ class Engine {
     // Use this to update player respawn coordinates:
     this.playerRespawnCoords = [5, 8];
     // Finally, run the setup instructions for the first level (all other levels will be setup by the game loop process):
-    this.setupNextMission(missions[this.currentMission][5][0]);
+    this.mission.setupInstructions.forEach((instruction) => {
+      this.setupNextMission(instruction);
+    });
   }
 
   // ENGINE METHODS:
@@ -205,6 +207,7 @@ class Engine {
         this.checkVerticalScreenScroll();
         // Say hello to the bad guys:
         this.handleBaddieMotion();
+        this.baddies.forEach((baddie) => baddie.advanceAttackCountdown());
         // Initiate collision detection between objects in motion:
         this.collisions.compare(3, this.baddies);
         this.baddies.forEach((baddie) => baddie.handleCollisions());
@@ -227,6 +230,8 @@ class Engine {
     this.gameOn = false;
     // Reset baddies-killed-this-inning counter for scorekeeping purposes:
     this.baddiesKilledThisInning = 0;
+    // Cancel all current baddie attacks:
+    this.baddies.forEach((baddie) => baddie.haltAttack());
     // When the mission updates we update the engine's mission level counter:
     this.currentMission += 1;
     // Then activate the Mission object's loadNewMission function with the current mission number:
@@ -259,10 +264,20 @@ class Engine {
           this.baddies.push(new Baddie(...baddieArray));
           // and give them a physics pack too!
           this.scripts.push(
-            new Physics(this.blocks, this.baddies[this.baddies.length - 1])
+            new Physics(
+              this.blocks,
+              this.baddies.find((baddie) => baddie.serialNum === baddieArray[4])
+            )
           );
           this.baddiesAdded++;
         });
+        break;
+      case 'add-boss':
+        this.baddies.push(new Boss(...instructions[1]));
+        this.scripts.push(
+          new Physics(this.blocks, this.baddies[this.baddies.length - 1])
+        );
+        this.baddiesAdded++;
         break;
       case 'clear-baddies':
         this.baddies.forEach((baddie) => {
@@ -272,6 +287,7 @@ class Engine {
           // Note that this method of baddie removal does not count toward 'baddies destroyed' counter.
         });
         this.baddies = [];
+        this.scripts = [];
         break;
       case 'create-block':
         // practising array destructuring here on part 2 of setup tuple:
@@ -382,7 +398,7 @@ class Engine {
   handleReset() {
     // First, resurrect the player:
     this.player.resurrect();
-    // Then, remove you obituary notice:
+    // Then, remove your obituary notice:
     this.announcement.removeDOM();
     // we'll move you back to a specified position when you die:
     this.player.y = this.playerRespawnCoords[1];
@@ -414,9 +430,10 @@ class Engine {
       this.mission.objectivesRemaining.push(
         this.mission.objectivesAchieved.pop()
       );
-    // Then reset the current (and global) baddies-killed counters:
+    // Then reset the current (and global) baddies-killed counters, and halt any baddie attacks that are in progress:
     this.baddiesDestroyed -= this.baddiesKilledThisInning;
     this.baddiesKilledThisInning = 0;
+    this.baddies.forEach((baddie) => baddie.haltAttack());
     // Update player's kill data too:
     this.player.baddiesDestroyed = this.baddiesDestroyed;
     this.player.baddiesKilledThisInning = this.baddiesKilledThisInning;
@@ -461,20 +478,23 @@ class Engine {
     let respawnList = [];
     try {
       respawnList = this.mission.setupInstructions.filter(
-        (instructions) => instructions[0] === 'add-baddies'
+        (instructions) =>
+          instructions[0] === 'add-baddies' || instructions[0] === 'add-boss'
       );
     } catch {
       // If the current mission does not contain any baddies you will have an empty list, and no one will respawn.
       respawnList = [];
     }
-      
+
     if (respawnList.length > 0) {
       // if you are respawning guys, don't count them again towards the baddiesAdded counter:
-      this.baddiesAdded -= respawnList[0][1].length;
+      this.baddiesAdded -= respawnList.length;
       // Remove all current baddies to avoid duplicates:
       this.setupNextMission(['clear-baddies']);
       // Then respawn all baddies associated with the current mission:
-      this.setupNextMission(respawnList[0]);
+      respawnList.forEach((instruction) => {
+        this.setupNextMission(instruction);
+      });
     }
   }
 }

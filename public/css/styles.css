@@ -118,6 +118,18 @@ body {
   width: 51.2px;
   height: 51.2px; }
 
+.flowing-right {
+  transform: rotate(0deg); }
+
+.flowing-down {
+  transform: rotate(90deg); }
+
+.flowing-left {
+  transform: rotate(180deg); }
+
+.flowing-up {
+  transform: rotate(270deg); }
+
 .world {
   margin-top: 1%;
   margin-left: 10%;

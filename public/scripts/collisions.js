@@ -18,7 +18,13 @@ class Collisions {
           // If enemy is behind you then it doesn't matter if you're attacking:
           if (
             deltaEu <
-            badDictionary[`baddie_${baddie.type}`].baddieBehind.killRadius
+              badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone ||
+            // Since attacks are lateral, they'll be added to calculations involving delta X, not delta Euclid:
+            (Math.abs(deltaX) <
+              badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone +
+                baddie.attackRadius &&
+              // AND make sure the player is more or less in the right height range:
+              Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
             player.collisionStatus = `impact-with-${baddie.id}`;
           }
@@ -27,7 +33,8 @@ class Collisions {
           // if you and baddie stand back to back then it doesn't matter if you're attacking:
           if (
             deltaEu <
-            badDictionary[`baddie_${baddie.type}`].backToBack.killRadius
+            // Baddie's zone of killing you is UNAFFECTED by baddie attacks (until we invent energy fields anyway):
+            badDictionary[`baddie_${baddie.type}`].backToBack.dangerZone
           ) {
             player.collisionStatus = `impact-with-${baddie.id}`;
           }
@@ -49,7 +56,13 @@ class Collisions {
             // If your strike fails we must consider whether you can now be killed by them:
           } else if (
             deltaEu <
-            badDictionary[`baddie_${baddie.type}`].faceToFace.killRadius
+              badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone ||
+            // Since attacks are lateral, they'll be added to calculations involving delta X, not delta Euclid:
+            (Math.abs(deltaX) <
+              badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone +
+                baddie.attackRadius &&
+              // AND make sure the player is more or less in the right height range:
+              Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
             player.collisionStatus = `impact-with-${baddie.id}`;
           }
@@ -65,7 +78,7 @@ class Collisions {
             baddie.collisionStatus = 'hit-from-behind';
           } else if (
             deltaEu <
-            badDictionary[`baddie_${baddie.type}`].playerBehind.killRadius
+            badDictionary[`baddie_${baddie.type}`].playerBehind.dangerZone
           ) {
             player.collisionStatus = `impact-with-${baddie.id}`;
           }
@@ -86,7 +99,7 @@ class Collisions {
             baddie.collisionStatus = 'hit-from-behind';
           } else if (
             deltaEu <
-            badDictionary[`baddie_${baddie.type}`].playerBehind.killRadius
+            badDictionary[`baddie_${baddie.type}`].playerBehind.dangerZone
           ) {
             player.collisionStatus = `impact-with-${baddie.id}`;
           }
@@ -102,7 +115,13 @@ class Collisions {
             baddie.collisionStatus = 'hitFromFront';
           } else if (
             deltaEu <
-            badDictionary[`baddie_${baddie.type}`].faceToFace.killRadius
+              badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone ||
+            // Since attacks are lateral, they'll be added to calculations involving delta X, not delta Euclid:
+            (Math.abs(deltaX) <
+              badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone +
+                baddie.attackRadius &&
+              // AND make sure the player is more or less in the right height range:
+              Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
             player.collisionStatus = `impact-with-${baddie.id}`;
           }
@@ -114,7 +133,7 @@ class Collisions {
         if (baddie.facing === 'right') {
           if (
             deltaEu <
-            badDictionary[`baddie_${baddie.type}`].backToBack.killRadius
+            badDictionary[`baddie_${baddie.type}`].backToBack.dangerZone
           ) {
             player.collisionStatus = `impact-with-${baddie.id}`;
           }
@@ -123,7 +142,13 @@ class Collisions {
           // No player attack possible:
           if (
             deltaEu <
-            badDictionary[`baddie_${baddie.type}`].baddieBehind.killRadius
+              badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone ||
+            // Since attacks are lateral, they'll be added to calculations involving delta X, not delta Euclid:
+            (Math.abs(deltaX) <
+              badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone +
+                baddie.attackRadius &&
+              // AND make sure the player is more or less in the right height range:
+              Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
             player.collisionStatus = `impact-with-${baddie.id}`;
           }
@@ -154,7 +179,7 @@ class Collisions {
 }
 
 // The BAD reference matrix will tell you the outcomes to all angles of encounters with bad-guys.
-// The killRadius = the minimum Euclidean distance from a baddie that gets you killed.
+// The dangerZone = the minimum Euclidean distance from a baddie that gets you killed.
 
 const badDictionary = {
   // For this baddie type,
@@ -164,16 +189,16 @@ const badDictionary = {
     // For this type of encounter,
     faceToFace: {
       // use the kill radius to determine outcome:
-      killRadius: 0.9,
+      dangerZone: 0.9,
     },
     baddieBehind: {
-      killRadius: 0.85,
+      dangerZone: 0.85,
     },
     playerBehind: {
-      killRadius: 0.95, // Note that attacking the stegosaurus from behind is riskier than it is with the foot soldier!
+      dangerZone: 0.95, // Note that attacking the stegosaurus from behind is riskier than it is with the foot soldier!
     },
     backToBack: {
-      killRadius: 1,
+      dangerZone: 1,
     },
   },
   baddie_1002: {
@@ -181,17 +206,17 @@ const badDictionary = {
     // For this type of encounter (initially there are four possible encounter angles),
     faceToFace: {
       // Use the kill radius to determine how close is too close for comfort:
-      killRadius: 1,
+      dangerZone: 1,
     },
     baddieBehind: {
-      killRadius: 0.8,
+      dangerZone: 0.8,
     },
     playerBehind: {
       // Baddie kill radii change depend on what angle you're approaching from:
-      killRadius: 0.6,
+      dangerZone: 0.6,
     },
     backToBack: {
-      killRadius: 0.65,
+      dangerZone: 0.65,
     },
   },
   baddie_1003: {
@@ -199,17 +224,17 @@ const badDictionary = {
     // For this type of encounter (initially there are four possible encounter angles),
     faceToFace: {
       // Use the kill radius to determine how close is too close for comfort:
-      killRadius: 1.8,
+      dangerZone: 1,
     },
     baddieBehind: {
-      killRadius: 1.8,
+      dangerZone: 1,
     },
     playerBehind: {
       // Baddie kill radii change depend on what angle you're approaching from:
-      killRadius: 0.7,
+      dangerZone: 0.7,
     },
     backToBack: {
-      killRadius: 0.7,
+      dangerZone: 0.85,
     },
   },
 };

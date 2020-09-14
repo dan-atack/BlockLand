@@ -122,7 +122,6 @@ const missions = [
           [world, -22, 6, 1002, 1003, [-22, -14]],
           [world, -24, 8, 1002, 1004, [-30, -24]],
           [world, 21, 9, 1001, 1005, [21, 30]],
-          // one or two more baddies here would potentially add to the excitement.
         ],
       ],
     ], // end of mission setup instructions
@@ -211,7 +210,7 @@ const missions = [
         'Kill all the baddies in the sacred forest',
         'GET SOME!!!',
         'mission-kill-count',
-        [12],
+        [11],
         4,
       ],
     ],
@@ -220,7 +219,7 @@ const missions = [
       [
         'add-columns',
         [
-          [31, 107],  // This is dodgy - it has to know the PREVIOUS VALUE as well???
+          [31, 107], // This is dodgy - it has to know the PREVIOUS VALUE as well???
           [-31, -107],
         ],
       ],
@@ -233,14 +232,12 @@ const missions = [
           [world, -20, 7, 1002, 1008, [-20, -5]],
           [world, -28, 6, 1002, 1009, [-28, -13]],
           [world, -35, 13, 1002, 1010, [-35, -20]],
-          [world, -51, 4, 1002, 1011, [-51, -46]],
           [world, -56, 7, 1002, 1012, [-56, -46]],
           [world, -64, 6, 1002, 1013, [-64, -49]],
           [world, -72, 29, 1002, 1014, [-72, -68]],
           [world, -73, 27, 1002, 1015, [-73, -70]],
           [world, -76, 23, 1002, 1016, [-76, -74]],
           [world, -77, 18, 1002, 1017, [-77, -73]],
-          [world, -80, 3, 1002, 1018, [-80, -65]],
           [world, -80, 37, 1002, 1019, [-80, -79]],
           [world, -84, 42, 1002, 1020, [-84, -79]],
           [world, -92, 28, 1002, 1021, [-92, -84]],
@@ -300,12 +297,12 @@ const missions = [
           [world, 78, 22, 1002, 1032, [77, 78]],
           [world, 85, 28, 1002, 1038, [84, 85]],
           [world, 89, 31, 1002, 1039, [88, 89]],
-          [world, 98, 30, 1003, 1033, [92, 97], 'boss'], // Boss optional 6th argument to baddie constructor makes them bigger!
           [world, 88, 11, 1002, 1040, [77, 88]],
           [world, 89, 11, 1002, 1041, [77, 89]],
           [world, 90, 11, 1002, 1042, [77, 90]],
         ],
       ],
+      ['add-boss', [world, 98, 30, 1003, 1033, [92, 97]]],
     ],
     [
       {
