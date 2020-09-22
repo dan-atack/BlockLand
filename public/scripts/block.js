@@ -2,13 +2,19 @@
 // Constructor takes no arguments for now, but in future might have a 'type' that can be specified when
 // we make it so there are multiple block types.
 
-class Block {
+class Block extends Entity {
   // constructor takes 5 arguments: root HTML element, x and y position, and block type which represents an ID in the blocktionary,
   // plus we now have the rendered value which is contingent on whether it is appearing in a visible column.
-  constructor(root, x, y, type = '001', rendered, horizontalOffset = 0) {
-    this.root = root;
-    this.x = x;
-    this.y = y;
+  constructor(
+    root,
+    xStart,
+    yStart,
+    rendered,
+    horizontalOffset,
+    verticalOffset,
+    type = '001'
+  ) {
+    super(root, xStart, yStart, rendered, horizontalOffset, verticalOffset);
     this.blockData = {};
     // Ensure block's id number is a string with 3 numerical digits (so we can still use 1 or 2 digit numbers in map-making exercises):
     if (type.toString().length != 3) {
@@ -31,13 +37,14 @@ class Block {
     this.hasAbnormalFriction = false;
     this.isLethal = false;
     // Block DOM elements get created here:
-    this.domElement = document.createElement('img');
     this.domElement.src = `./assets/blocks/block${this.blockData.id}.png`;
     // Block dom Element positions are new given in terms of coordinates multiplied by width, to form a 'pseudo-grid':
-    this.domElement.style.left = `${(x - horizontalOffset) * BLOCK_WIDTH}px`;
-    this.domElement.style.bottom = `${y * BLOCK_WIDTH}px`;
+    this.domElement.style.left = `${
+      (xStart - horizontalOffset) * BLOCK_WIDTH
+    }px`;
+    this.domElement.style.bottom = `${yStart * BLOCK_WIDTH}px`;
     this.domElement.classList.add('block');
-    this.domElement.id = `${this.x},${this.y}`;
+    this.domElement.id = `${this.xStart},${this.yStart}`;
     // Now use Blocktionary's properties array to determine the block's attributes:
     if (this.blockData.properties.length > 0) {
       this.blockData.properties.forEach((property) => {

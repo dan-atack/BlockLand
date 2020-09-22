@@ -1,13 +1,17 @@
 // The Player Class! You'll start out as a little sprite and maybe eventually you'll be able to move. If you're good.
 // Addendum: Who would have thought moving would be so hard!
-class Player {
-  constructor(root, xStart, yStart) {
-    this.root = root;
-    this.x = xStart;
-    this.y = yStart;
+class Player extends Sprite {
+  constructor(
+    root,
+    xStart,
+    yStart,
+    rendered,
+    horizontalOffset,
+    verticalOffset
+  ) {
+    super(root, xStart, yStart, rendered, horizontalOffset, verticalOffset);
     this.gridX = Math.floor(xStart);
     this.gridY = Math.floor(yStart);
-    this.facing = 'right';
     this.domElement = document.createElement('img');
     this.domElement.src = './assets/sprites/player.png';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
@@ -32,8 +36,6 @@ class Player {
     this.movingLeft = false;
     this.jumping = false;
     this.crouching = false;
-    this.xSpeed = 0;
-    this.ySpeed = 0;
     // Let's RPG it up a bit!
     this.experience = 0;
     this.isDead = false; // That's a bit morbid, isn't it?

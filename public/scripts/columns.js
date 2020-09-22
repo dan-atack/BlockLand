@@ -52,7 +52,10 @@ class Columns {
       // Embedding the block printing action in a conditional statement to filter out zero values so you can have 'empty' block spaces
       if (protoBlock) {
         // Individual blocks' vertical render values determined by y-vs-vertical offset value:
-        if (y >= this.verticalOffset && y <= this.verticalOffset + SCREEN_HEIGHT_IN_BLOCKS) {
+        if (
+          y >= this.verticalOffset &&
+          y <= this.verticalOffset + SCREEN_HEIGHT_IN_BLOCKS
+        ) {
           renderBlockVertical = true;
         }
         const renderBlock = renderBlockHorizontal && renderBlockVertical;
@@ -60,8 +63,10 @@ class Columns {
           this.root,
           columnNumber,
           y,
-          protoBlock,
-          renderBlock
+          renderBlock,
+          this.visibilityRange[0],
+          this.verticalOffset,
+          protoBlock
         );
         this[`column_${columnNumber}`].blocks.push(block);
       }
@@ -145,8 +150,10 @@ class Columns {
       this.root,
       columnNumber,
       yPos,
-      blockType,
-      renderBlock
+      renderBlock,
+      this.visibilityRange[0],
+      this.verticalOffset,
+      blockType
     );
     this[`column_${columnNumber}`].blocks.push(block);
     // Shift block immediately upon rendering. Later on we'll need to think about a vertical one...
