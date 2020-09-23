@@ -3,18 +3,10 @@
 // we make it so there are multiple block types.
 
 class Block extends Entity {
-  // constructor takes 5 arguments: root HTML element, x and y position, and block type which represents an ID in the blocktionary,
-  // plus we now have the rendered value which is contingent on whether it is appearing in a visible column.
-  constructor(
-    root,
-    xStart,
-    yStart,
-    rendered,
-    horizontalOffset,
-    verticalOffset,
-    type = '001'
-  ) {
-    super(root, xStart, yStart, rendered, horizontalOffset, verticalOffset);
+  // Blocks are created by the Columns Class's blockPrinter and addOneBlock methods.
+  constructor(root, xStart, yStart, rendered, type = '001') {
+    super(root, xStart, yStart);
+    this.rendered = rendered;
     this.blockData = {};
     // Ensure block's id number is a string with 3 numerical digits (so we can still use 1 or 2 digit numbers in map-making exercises):
     if (type.toString().length != 3) {
@@ -40,7 +32,7 @@ class Block extends Entity {
     this.domElement.src = `./assets/blocks/block${this.blockData.id}.png`;
     // Block dom Element positions are new given in terms of coordinates multiplied by width, to form a 'pseudo-grid':
     this.domElement.style.left = `${
-      (xStart - horizontalOffset) * BLOCK_WIDTH
+      (xStart - this.horizontalOffset) * BLOCK_WIDTH
     }px`;
     this.domElement.style.bottom = `${yStart * BLOCK_WIDTH}px`;
     this.domElement.classList.add('block');
@@ -84,11 +76,7 @@ class Block extends Entity {
         }
       });
     }
-    // Blocks will only appear if the printer tells them to:
-    this.rendered = rendered;
     if (this.rendered) root.appendChild(this.domElement);
-    // We'll use this value to enable the disappear function:
-
     // Special FX for 'bonus' blocks:
     switch (this.blockData.id) {
       case '999':
@@ -97,31 +85,6 @@ class Block extends Entity {
       case '989':
         this.domElement.classList.add('portal');
         break;
-    }
-  }
-
-  horizontalTranslate(horizontalOffset) {
-    // Blocks' DOM elements are shifted when the screen moves. The value for horizontal offset increases as the player goes to the right;
-    // So, to make the blocks appear to go to the left, we subtract the horizontal offset from their apparent position:
-    this.domElement.style.left = `${
-      (this.x - horizontalOffset) * BLOCK_WIDTH
-    }px`;
-  }
-
-  verticalTranslate(verticalOffset) {
-    // Similarly to the horizontal case, blocks' DOM elements are shifted downwards as the player moves upwards, and vice versa:
-    this.domElement.style.bottom = `${
-      (this.y - verticalOffset) * BLOCK_WIDTH
-    }px`;
-  }
-
-  toggleDisappear() {
-    if (this.rendered) {
-      this.root.removeChild(this.domElement);
-      this.rendered = false;
-    } else {
-      this.root.appendChild(this.domElement);
-      this.rendered = true;
     }
   }
 }

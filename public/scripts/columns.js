@@ -64,8 +64,6 @@ class Columns {
           columnNumber,
           y,
           renderBlock,
-          this.visibilityRange[0],
-          this.verticalOffset,
           protoBlock
         );
         this[`column_${columnNumber}`].blocks.push(block);
@@ -151,8 +149,6 @@ class Columns {
       columnNumber,
       yPos,
       renderBlock,
-      this.visibilityRange[0],
-      this.verticalOffset,
       blockType
     );
     this[`column_${columnNumber}`].blocks.push(block);
@@ -166,8 +162,8 @@ class Columns {
     const exBlock = this[`column_${column}`].blocks.find(
       (block) => block.y == yPos
     );
-    // de-render a block that is onscreen as well as off:
-    if (exBlock && exBlock.rendered) exBlock.toggleDisappear();
+    // de-render block:
+    if (exBlock) exBlock.deRender();
     // Filter out the 'ex-block' and return the newly truncated blocks list:
     this[`column_${column}`].blocks = this[`column_${column}`].blocks.filter(
       (block) => block.y != yPos
@@ -210,18 +206,25 @@ class Columns {
 
   // Method 8: Moving through the world - Columns object must derender a column and shift the others as you move towards the edge:
 
-  // Column de/rendering function for horizontal movement:
+  // NEW WAY - DUAL FUNCTIONS WITH EXPLICIT PURPOSE:
 
-  toggleColumn = (columnNumber) => {
-    this[`column_${columnNumber}`].rendered = !this[`column_${columnNumber}`]
-      .rendered;
-    this[`column_${columnNumber}`].blocks.forEach((block) => {
-      // Add logic to only toggle blocks within VERTICAL render area:
+  renderColumn = (colNumber) => {
+    this[`column_${colNumber}`].rendered = true;
+    this[`column_${colNumber}`].blocks.forEach((block) => {
+      // Only render blocks within VERTICAL render area:
       if (
         block.y >= this.verticalOffset &&
         block.y <= this.verticalOffset + SCREEN_HEIGHT_IN_BLOCKS
       )
-        block.toggleDisappear();
+        block.render();
+    });
+  };
+
+  derenderColumn = (colNumber) => {
+    this[`column_${colNumber}`].rendered = false;
+    this[`column_${colNumber}`].blocks.forEach((block) => {
+      // No need to determine vertical range, just tell them all to turn off (new method is protected from inadvertent double-toggling)
+      block.deRender();
     });
   };
 
@@ -240,12 +243,10 @@ class Columns {
     }
   };
 
-  // Method 10: Multi-column block de/renderer:
-
-  // CURRENT STATUS: Works but the horizontal toggler needs to learn to play nicer...
+  // Method 10: Block vertical rendering control method:
 
   // The offset value will be combined with the direction of movement to determine which blocks to de/render:
-  toggleOffscreenBlocks = (offset) => {
+  manageColumnRendering = (offset) => {
     const lowest_row_to_show = offset;
     const top_row_to_show = offset + SCREEN_HEIGHT_IN_BLOCKS;
     for (let i = this.visibilityRange[0]; i <= this.visibilityRange[1]; i++) {
@@ -257,13 +258,13 @@ class Columns {
       const hiders = this[`column_${i}`].blocks.filter(
         (block) => block.y < lowest_row_to_show || block.y > top_row_to_show
       );
-      // Ensure all blocks within the visibility range are rendered by calling toggleDisappear if they are NOT rendered:
+      // Ensure all blocks within the visibility range are rendered:
       showers.forEach((block) => {
-        if (!block.rendered) block.toggleDisappear();
+        block.render();
       });
-      // And ensure all blocks outside the visibility range are DErendered by toggling them if they ARE rendered:
+      // And ensure all blocks outside the visibility range are deRendered:
       hiders.forEach((block) => {
-        if (block.rendered) block.toggleDisappear();
+        block.deRender();
       });
     }
   };
@@ -273,7 +274,7 @@ class Columns {
   clearAllColumns = () => {
     // derender all visible rows to remove their blocks' dom images:
     for (let i = this.visibilityRange[0]; i <= this.visibilityRange[1]; i++) {
-      this.toggleColumn(i);
+      this.derenderColumn(i);
     }
     // then clear all blocks from all columns:
     for (let i = -WORLD_WIDTH; i <= WORLD_WIDTH; i++) {

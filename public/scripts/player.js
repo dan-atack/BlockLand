@@ -1,17 +1,8 @@
 // The Player Class! You'll start out as a little sprite and maybe eventually you'll be able to move. If you're good.
 // Addendum: Who would have thought moving would be so hard!
 class Player extends Sprite {
-  constructor(
-    root,
-    xStart,
-    yStart,
-    rendered,
-    horizontalOffset,
-    verticalOffset
-  ) {
-    super(root, xStart, yStart, rendered, horizontalOffset, verticalOffset);
-    this.gridX = Math.floor(xStart);
-    this.gridY = Math.floor(yStart);
+  constructor(root, xStart, yStart) {
+    super(root, xStart, yStart);
     this.domElement = document.createElement('img');
     this.domElement.src = './assets/sprites/player.png';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
@@ -22,15 +13,8 @@ class Player extends Sprite {
     this.domElement.id = 'player';
     this.domElement.className = 'player';
     root.appendChild(this.domElement);
-    // We'll keep track of the horizontal offset here to regulate the player's movement animation so you don't move off screen:
-    this.horizontalOffset = 0;
-    // The type of block you are standing on will inform your movement over it
-    this.standingOn = 0;
     // The medium you're in will affect your movement (air is normal, water will be slower)
     this.medium = { id: '000', name: 'Air', properties: ['permeable'] };
-    // Collision status will record your interactions with other sprites (AKA baddies):
-    this.collisionStatus = 'clear';
-    this.topSpeed = 0.25;
     // MOVEMENT 2.0: Key responders set movement requests, which are converted by movement-handler functions to x/y speeds:
     this.movingRight = false;
     this.movingLeft = false;
@@ -38,22 +22,13 @@ class Player extends Sprite {
     this.crouching = false;
     // Let's RPG it up a bit!
     this.experience = 0;
-    this.isDead = false; // That's a bit morbid, isn't it?
     // Location Display Updaters:
     this.displayPlayerStandingOn = playerStandingOnBlockType;
     // Display medium (water and such):
     this.displayPlayerMedium = playerStandingInMedium;
-    // COMBAT ZONE - Player attack status and cooldown:
-    this.isAttacking = false;
-    // Attack range controls the attack animation:
-    this.attackRange = 0;
-    // Attack Radius controls combat calculations to see if you kill people:
-    this.attackRadius = 0;
-    // We'll keep the attack animation here to make it easier to render/de-render:
-    this.attackAnimation = document.createElement('img');
+    // COMBAT ZONE :
     this.attackAnimation.id = 'player-attack';
     this.root.appendChild(this.attackAnimation);
-    this.attackCountdown = 0;
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):
     this.baddiesDestroyed = 0;
     this.baddiesKilledThisInning = 0;

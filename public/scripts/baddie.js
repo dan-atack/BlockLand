@@ -1,24 +1,17 @@
 // The Highly Anticipated Bad Doods have arrived!
 
-class Baddie {
+class Baddie extends Sprite {
   // Just like the player class! Oh boy, it's like they're RELATED or something >:-(
   // New to the bad guys since they're not unique: type (for which sprite to render) and serial number (for the engine)
   // xRange is an array of the start/stop values of the baddie's territory.
   constructor(root, xStart, yStart, baddieType = 1001, baddieSerial, xRange) {
-    this.root = root;
-    this.x = xStart;
-    this.y = yStart;
+    // Presumes that all enemies start off the initial screen; corrected further below after DOM element is appended to document:
+    super(root, xStart, yStart);
     this.type = baddieType;
     this.serialNum = baddieSerial;
     // X range is the territory a baddie will patrol:
     this.xRange = xRange;
-    // Presumes that all enemies start off the initial screen; corrected further below after DOM element is appended to document:
-    this.rendered = false;
     this.hasBeenRendered = false;
-    this.gridX = xStart;
-    this.gridY = yStart;
-    this.facing = 'right';
-    this.domElement = document.createElement('img');
     // Dynamic baddie types are ON the menu!! Baddie ID codes start at 1001 so they can be entered as numbers OR strings:
     this.domElement.src = `./assets/sprites/baddie_${baddieType}.png`;
     this.domElement.style.zIndex = 100;
@@ -37,20 +30,10 @@ class Baddie {
       this.domElement.display = 'initial';
       this.rendered = true;
     }
-    this.horizontalOffset = 0;
-    this.verticalOffset = 0;
-    this.standingOn = 0;
-    this.topSpeed = 0.25;
     // Inverse speed value: patrol interval refers to how many game cycles pass between movement impulses:
     this.patrolInterval = 10;
     // patrol interval ticker:
     this.patrolTick = 0;
-    this.xSpeed = 0;
-    this.ySpeed = 0;
-    // This will eventually be used to kill the baddie (or the player!):
-    this.collisionStatus = 'clear';
-    // Only you can change this:
-    this.isDead = false;
     // Baddies stick around so you can watch them die, but we say they're dying so they can't harm you while they perish:
     this.isDying = false;
     // DeathLoops! A value for how many cycles the engine should keep your sprite around for to watch you die:
@@ -62,15 +45,9 @@ class Baddie {
     // Also record the starting height of the previous jump:
     this.lastJumpInitialHeight = null;
     this.xObstructions = 0;
-    // Attack control section:
-    this.isAttacking = false;
     this.defaultAnimationWidth = 1.5; // This value determines what attackRange gets set to when it isn't zero.
-    this.attackRange = 0; // For animation location control
-    this.attackRadius = 0; // For combat calculations
     // Image control for baddie attack animation:
-    this.attackAnimation = document.createElement('img');
     this.attackAnimation.id = `${this.serialNum}-attack`;
-    this.attackCountdown = 0;
   }
 
   // Baddie Methods: First, Render. Then, fall. Then jump... THEN ANNIHILIATE!!!

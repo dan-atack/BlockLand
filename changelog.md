@@ -562,9 +562,11 @@ Sometimes you have to do some housework before you can expand to bigger, awesome
 
 2. Make Block Class subclass Entity, and adjust its Constructor and the Columns biome-building method to fit this new disposition.
 
-3. Abstract out the attributes in the Entity class shared by the Player and Baddies classes, then determine what attributes a sprite should have that stationary objects like blocks can't (hint: movement).
+3. Abstract out the attributes in the Entity class shared by the Player and Baddies classes, then determine what attributes a sprite should have that stationary objects like blocks can't (hint: movement, attack-related statuses).
 
-4. Create Sprite subclass of Entity.
+4. Create Sprite subclass of Entity. Abstract out as many attributes that are common to the Player and Baddie class to it.
+
+5. Create abstract Entity-level rendering control method. Use the block class's toggleRender method as inspiration, but split it into two functions rather than a single toggle function. Test this new system's implementation with the Block class, and good luck integrating it with the Engine's Screen scroll method.
 
 ### 1. Go through major classes (player, baddie, block, engine, columns, collisions) and see if some of their methods can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
 

@@ -80,7 +80,7 @@ class Engine {
       this.blocks.visibilityRange[1] += 1;
       // As player's x value increases:
       // First, de-render columns that are behind your x-position by the difference between the screen width and the scroll distance:
-      this.blocks.toggleColumn(
+      this.blocks.derenderColumn(
         this.player.gridX - (this.screenWidth - this.screenScrollDistance)
       );
       // Then, if there are any, re-render any tiles that exist in front of you, or create some new ones if there aren't any!
@@ -88,7 +88,7 @@ class Engine {
         this.blocks[`column_${this.player.gridX + this.screenScrollDistance}`]
           .blocks.length !== 0
       ) {
-        this.blocks.toggleColumn(this.player.gridX + this.screenScrollDistance);
+        this.blocks.renderColumn(this.player.gridX + this.screenScrollDistance);
       } else {
         // Latest block Printer function now eats an array of numbers, representing different block types:
         this.blocks.biomeBuilder([
@@ -120,7 +120,7 @@ class Engine {
       this.blocks.visibilityRange[0] -= 1;
       this.blocks.visibilityRange[1] -= 1;
       this.blocks.visibilityRange.forEach((num) => (num -= 1));
-      this.blocks.toggleColumn(
+      this.blocks.derenderColumn(
         this.player.gridX + (this.screenWidth - this.screenScrollDistance)
       );
       // Rendering calculations: if a column already exists render it; else create it:
@@ -128,7 +128,7 @@ class Engine {
         this.blocks[`column_${this.player.gridX - this.screenScrollDistance}`]
           .blocks.length !== 0
       ) {
-        this.blocks.toggleColumn(this.player.gridX - this.screenScrollDistance);
+        this.blocks.renderColumn(this.player.gridX - this.screenScrollDistance);
       } else {
         this.blocks.biomeBuilder([
           this.player.gridX - this.screenScrollDistance,
@@ -201,7 +201,7 @@ class Engine {
             physicsPack.collisionManager();
         });
         // Control de/rendering of blocks that are at the edges of the screen:
-        this.blocks.toggleOffscreenBlocks(this.verticalOffset);
+        this.blocks.manageColumnRendering(this.verticalOffset);
         // Distance: If the player gets close to the edge then we translate the world around them:
         this.checkScreenScroll();
         this.checkVerticalScreenScroll();
