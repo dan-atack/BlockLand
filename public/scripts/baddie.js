@@ -11,6 +11,7 @@ class Baddie extends Sprite {
     this.serialNum = baddieSerial;
     // X range is the territory a baddie will patrol:
     this.xRange = xRange;
+    // A Baddie's physics must not start until he has been rendered, so we keep track of when that happens:
     this.hasBeenRendered = false;
     // Dynamic baddie types are ON the menu!! Baddie ID codes start at 1001 so they can be entered as numbers OR strings:
     this.domElement.src = `./assets/sprites/baddie_${baddieType}.png`;
@@ -22,17 +23,9 @@ class Baddie extends Sprite {
     this.id = `baddie_${baddieSerial}`;
     // Initial CSS image class is baddie-trans, which is short for 'translation-mode,' used for lockstep motion with passing terrain:
     this.domElement.className = 'baddie-trans';
-    root.appendChild(this.domElement);
-    // Start invisible if you're outside the screen:
-    if (!this.x >= 0 && this.x <= SCREEN_WIDTH_IN_BLOCKS) {
-      this.domElement.style.display = 'none';
-    } else {
-      this.domElement.display = 'initial';
-      this.rendered = true;
-    }
-    // Inverse speed value: patrol interval refers to how many game cycles pass between movement impulses:
+    // Patrol interval refers to how many game cycles pass between movement impulses:
     this.patrolInterval = 10;
-    // patrol interval ticker:
+    // Patrol interval ticker:
     this.patrolTick = 0;
     // Baddies stick around so you can watch them die, but we say they're dying so they can't harm you while they perish:
     this.isDying = false;
@@ -50,68 +43,27 @@ class Baddie extends Sprite {
     this.attackAnimation.id = `${this.serialNum}-attack`;
   }
 
-  // Baddie Methods: First, Render. Then, fall. Then jump... THEN ANNIHILIATE!!!
-
   // Control Rendering: The baddy is told what columns are visible and renders itself accordingly.
-  handleRender = (range, horizontalOffset, verticalOffset) => {
-    // if baddie is within render range, set render to true, then call horizontal translator for positioning:
-    // OR condition extends their render range after initial rendering so they don't disappear when they reach the edge,
-    // but move satisfyingly out of frame:
-    if (
-      (this.x >= range[0] - 1 &&
-        this.x <= range[1] + 1 &&
-        this.hasBeenRendered) ||
-      (this.x >= range[0] && this.x <= range[1])
-    ) {
-      this.domElement.style.display = 'initial';
-      this.rendered = true;
-      // Have you ever been experienced? This will make physics work once you see a baddie for the first time:
-      this.hasBeenRendered = true;
-      this.horizontalTranslate(horizontalOffset);
+  // Translation will be handled separately.
+  handleRender = (horizontalRange, verticalRange) => {
+    let withinHorizontalRange = false;
+    let withinVerticalRange = false;
+    // For first-time renders, use the proper range so baddies don't appear before the floor beneath them is brought into being:
+    if (!this.hasBeenRendered) {
+      withinHorizontalRange =  this.x >= horizontalRange[0] && this.x <= horizontalRange[1]
+      withinVerticalRange = this.y >= verticalRange[0] && this.y <= verticalRange[1]
     } else {
-      this.domElement.style.display = 'none';
-      this.rendered = false;
+      // However, once a baddie is rendered, extend render range by 1 so baddies don't disappear abruptly when they move off screen:
+      withinHorizontalRange = (this.x >= horizontalRange[0] - 1 && this.x <= horizontalRange[1] + 1)
+      withinVerticalRange = (this.y >= verticalRange[0] - 1 && this.y <= verticalRange[1] + 1)
     }
-    // VERTICAL RENDERING DETERMINATION:
-    if (
-      this.y < verticalOffset ||
-      this.y > verticalOffset + SCREEN_HEIGHT_IN_BLOCKS
-    ) {
-      this.domElement.style.display = 'none';
-      this.rendered = false;
-    } else if (
-      this.x >= range[0] - 1 &&
-      this.x <= range[1] + 1 &&
-      this.hasBeenRendered
-    ) {
-      this.domElement.style.display = 'initial';
-      this.rendered = true;
+    // If a Baddie is within both the horizontal AND vertical range, render them (and set has-been-rendered flag).
+    if (withinHorizontalRange && withinVerticalRange) {
+      this.render()
+      this.hasBeenRendered = true;
+    } else {
+      this.deRender()
     }
-  };
-
-  // Horizontal and Vertical Translation methods are next:
-
-  horizontalTranslate(horizontalOffset) {
-    // as the player moves through the world, move bad-guy elements to keep their position relative to everything else:
-    this.horizontalOffset = horizontalOffset;
-    this.domElement.style.left = `${
-      (this.x - this.horizontalOffset) * PLAYER_WIDTH
-    }px`;
-    if (this.isAttacking)
-      this.attackAnimation.style.left = `${
-        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
-      }px`;
-  }
-
-  verticalTranslate = (verticalOffset) => {
-    this.verticalOffset = verticalOffset;
-    this.domElement.style.bottom = `${
-      (this.y - verticalOffset) * PLAYER_WIDTH
-    }px`;
-    if (this.isAttacking)
-      this.attackAnimation.style.bottom = `${
-        (this.y - this.verticalOffset) * PLAYER_WIDTH
-      }px`;
   };
 
   // Run the patrol method every engine cycle. Patrol will first tick off an internal counter (movement every 5 engine cycles),
@@ -225,7 +177,7 @@ class Baddie extends Sprite {
     } else {
       this.isDying = false;
       this.isDead = true;
-      this.root.removeChild(this.domElement);
+      this.deRender();
     }
     if (this.attackAnimation) {
       this.haltAttack();

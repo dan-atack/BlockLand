@@ -3,7 +3,6 @@
 class Player extends Sprite {
   constructor(root, xStart, yStart) {
     super(root, xStart, yStart);
-    this.domElement = document.createElement('img');
     this.domElement.src = './assets/sprites/player.png';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
     this.domElement.style.bottom = `${this.y * PLAYER_WIDTH}px`;
@@ -12,9 +11,6 @@ class Player extends Sprite {
     this.id = 'player';
     this.domElement.id = 'player';
     this.domElement.className = 'player';
-    root.appendChild(this.domElement);
-    // The medium you're in will affect your movement (air is normal, water will be slower)
-    this.medium = { id: '000', name: 'Air', properties: ['permeable'] };
     // MOVEMENT 2.0: Key responders set movement requests, which are converted by movement-handler functions to x/y speeds:
     this.movingRight = false;
     this.movingLeft = false;
@@ -37,7 +33,7 @@ class Player extends Sprite {
   }
 
   // Player methods!
-  // Movement responders come first, in two parts: A keydown responder series and a keyup responder series, for smoother movement:
+  // Movement responder comes in two parts: Part I - Keydown responder series:
 
   handlePlayerKeydowns = (event) => {
     // Adding one reference to the game's engine here:
@@ -68,7 +64,7 @@ class Player extends Sprite {
     }
   };
 
-  // Movement responses part II: Keyup responder (cancels keydown effects):
+  // Movement Responses Part II: Keyup responder (cancels keydown effects):
 
   handlePlayerKeyups = (event) => {
     switch (event.code) {
@@ -238,36 +234,7 @@ class Player extends Sprite {
     this.attackAnimation.src = '';
   }
 
-  // And down at the bottom we have the methods for DOM element translation, distinct from regular motion:
-
-  horizontalTranslate(horizontalOffset) {
-    // as the player moves through the world, the player's x value will keep an absolute frame of reference,
-    // but the dom element must stay centered, so it will be translated. Subracting the h offset makes it
-    // so that your character appears further to the left than their absolute position suggests...
-    this.horizontalOffset = horizontalOffset;
-    this.domElement.style.left = `${
-      (this.x - horizontalOffset) * PLAYER_WIDTH
-    }px`;
-    // if attacking, ensure the attack animation is also shifted:
-    if (this.isAttacking)
-      this.attackAnimation.style.left = `${
-        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
-      }px`;
-  }
-
-  verticalTranslate = (verticalOffset) => {
-    this.verticalOffset = verticalOffset;
-    this.domElement.style.bottom = `${
-      (this.y - verticalOffset) * PLAYER_WIDTH
-    }px`;
-    if (this.isAttacking)
-      this.attackAnimation.style.bottom = `${
-        (this.y - this.verticalOffset) * PLAYER_WIDTH
-      }px`;
-  };
-
   // Player Vital Display Functions:
-
   updateStandingOnDisplay() {
     this.displayPlayerStandingOn.innerText = `Standing on: ${this.standingOn.name}`;
   }
@@ -285,7 +252,6 @@ class Player extends Sprite {
     }
   }
 
-  // Check for death:
   checkForDeath() {
     // Check for terrain death: if what you're ON or what you're IN is lethal, it's a terrain death:
     if (

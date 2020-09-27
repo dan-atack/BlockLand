@@ -36,7 +36,7 @@ class Block extends Entity {
     }px`;
     this.domElement.style.bottom = `${yStart * BLOCK_WIDTH}px`;
     this.domElement.classList.add('block');
-    this.domElement.id = `${this.xStart},${this.yStart}`;
+    this.domElement.id = `${xStart},${yStart}`;
     // Now use Blocktionary's properties array to determine the block's attributes:
     if (this.blockData.properties.length > 0) {
       this.blockData.properties.forEach((property) => {

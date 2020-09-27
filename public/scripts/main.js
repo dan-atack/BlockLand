@@ -8,7 +8,8 @@ const anyKey = (event) => {
     thomas.blocks.biomeBuilder(range(0, SCREEN_WIDTH / PLAYER_WIDTH - 1));
     // The game is on when the clock is running, so this is where the show starts:
     thomas.gameOn = true;
-    thomas.player.domElement.style.opacity = '100%';
+    // Only time the player's render functions are invoked:
+    thomas.player.render()
     pauseButton.style.display = 'initial';
     thomas.clockRunning();
     // As soon as the game starts, clean up intro message and any key listener:
@@ -49,15 +50,6 @@ let instructions = new Text(
   'Move: Arrow keys \n Attack: Spacebar'
 );
 let any = new Text(world, 0, 0, 32, 'To Start Press the Any Key!');
-
-// You start out rendered but invisible, and the pause button isn't visible at all until the game starts:
-// Oh shit, or better still -- GHOST MODE?! I'm a genius.
-thomas.player.domElement.style.opacity = '1%';
-pauseButton.style.display = 'none';
-// hide baddies at outset too:
-thomas.baddies.forEach((baddie) => {
-  baddie.domElement.style.display = 'none';
-});
 
 // Event Listeners activated:
 

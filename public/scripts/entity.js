@@ -12,6 +12,7 @@ class Entity {
     this.verticalOffset = 0;
     this.domElement = document.createElement('img');
     this.domElement.id = '';
+    // root.appendChild(this.domElement);
   }
 
   // Entity Methods control the most general things, such as rendering on and off, and horizontal/vertical translation:

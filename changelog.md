@@ -566,17 +566,19 @@ Sometimes you have to do some housework before you can expand to bigger, awesome
 
 4. Create Sprite subclass of Entity. Abstract out as many attributes that are common to the Player and Baddie class to it.
 
-5. Create abstract Entity-level rendering control method. Use the block class's toggleRender method as inspiration, but split it into two functions rather than a single toggle function. Test this new system's implementation with the Block class, and good luck integrating it with the Engine's Screen scroll method.
+5. Create abstract Entity-level rendering control method. Use the block class's toggleRender method as inspiration, but split it into two functions rather than a single toggle function. Test this new system's implementation with the Block class, and good luck integrating it with the Engine's Screen scroll method... Success! The Block Class now has NO methods of its own.
 
-### 1. Go through major classes (player, baddie, block, engine, columns, collisions) and see if some of their methods can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+6. Abstract out horizontal and vertical translation methods from the Player and Baddie Classes into Sprite class.
+
+### 7. Investigate Baddie's de/rendering method to see if it has been made redundant by the Entity Class's version. If so, replace it with the appropriate new version in the Engine. If partially, have it call the Entity Class's render/deRender functions to condense the method's code blocks.
+
+### 8. Abstract out Attack sequence control methods from Player and Baddie into Sprite Class.
+
+### 1. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
 
 ### 2. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
 
 ### 3. For the Player/Baddie/Boss classes, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
-
-### 4. Create Sprite Class, of which Player and Baddie will be sub-classes. Ensure all functionality is preserved.
-
-### 5. In fact, go one better and start with the most abstract possible concept: Things => Blocks, Sprites => Player, Baddies => Boss
 
 # BUG-HUNTERS' BOUNTY LIST:
 

@@ -72,7 +72,7 @@ class Boss extends Baddie {
     } else {
       this.isDying = false;
       this.isDead = true;
-      this.root.removeChild(this.domElement);
+      this.deRender();
     }
   }
 

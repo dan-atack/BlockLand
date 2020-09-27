@@ -322,7 +322,7 @@ class Physics {
       } else {
         this.subject.standingOn = blocktionary.find(
           (blockType) => blockType.id === '000'
-        );
+        )
       }
     } else {
       // If you're in the air you're 'on' block type zero:

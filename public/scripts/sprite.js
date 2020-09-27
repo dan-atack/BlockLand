@@ -12,7 +12,9 @@ class Sprite extends Entity {
     this.topSpeed = 0.25;
     this.xSpeed = 0;
     this.ySpeed = 0;
-    this.standingOn = 0;
+    this.standingOn = { id: '000', name: 'Air', properties: ['permeable'] };
+    // The medium you're in can affect your movement (air is normal, water will be slower)
+    this.medium = { id: '000', name: 'Air', properties: ['permeable'] };
     // COMBAT-RELATED:
     this.collisionStatus = 'clear';
     this.isAttacking = false;
@@ -23,4 +25,34 @@ class Sprite extends Entity {
     this.attackCountdown = 0;
     this.attackAnimation = document.createElement('img');
   }
+
+  // Sprite Methods control the most general things about moving entities, such as translating their attack animations:
+
+  horizontalTranslate(horizontalOffset) {
+    // As a Sprite moves around the world, their X value will keep an absolute frame of reference,
+    // but the dom element must be translated. Subracting the horizontal offset makes an image
+    // appear further to the left than its absolute position suggests...
+    this.horizontalOffset = horizontalOffset;
+    this.domElement.style.left = `${
+      (this.x - horizontalOffset) * PLAYER_WIDTH
+    }px`;
+    // if attacking, ensure the attack animation is also shifted:
+    if (this.isAttacking)
+      this.attackAnimation.style.left = `${
+        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
+      }px`;
+  }
+
+  verticalTranslate = (verticalOffset) => {
+    // Analogous to the h-offset, Subtracting the vertical offset from an image makes it appear lower than its absolute position:
+    this.verticalOffset = verticalOffset;
+    this.domElement.style.bottom = `${
+      (this.y - verticalOffset) * PLAYER_WIDTH
+    }px`;
+    if (this.isAttacking)
+      this.attackAnimation.style.bottom = `${
+        (this.y - this.verticalOffset) * PLAYER_WIDTH
+      }px`;
+  };
+
 }

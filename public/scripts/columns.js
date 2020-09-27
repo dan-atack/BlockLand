@@ -17,7 +17,7 @@ class Columns {
     this.numOfCols = numOfCols;
     // Visibility Range is a tuple representing the start/stop numbers for which columns and 'rows' should be visible:
     this.visibilityRange = visibilityRange; // incidentally, VR[0] is equal to the engine's horizontal offset value...
-    this.verticalOffset = 0;
+    this.verticalRange = [0, SCREEN_HEIGHT_IN_BLOCKS];
     // Now, to broaden the diversity of the wider world:
     // block Printer function will take these arguments, skillfully inserted into the block printer's logic.
     // At first it might be a bit like, identical volcanoes to the left, identical forests to the right, but it's a starT:
@@ -53,8 +53,8 @@ class Columns {
       if (protoBlock) {
         // Individual blocks' vertical render values determined by y-vs-vertical offset value:
         if (
-          y >= this.verticalOffset &&
-          y <= this.verticalOffset + SCREEN_HEIGHT_IN_BLOCKS
+          y >= this.verticalRange[0] &&
+          y <= this.verticalRange[1]
         ) {
           renderBlockVertical = true;
         }
@@ -193,9 +193,9 @@ class Columns {
   // Method 7: AKA the original Way Blocked function: kept in place to allow you to detect what is underneath you:
 
   blockTypeDetector = (column, yPos) => {
-    // the logic here is that the zero will be falsy, as in 'there is nothing in your way' and any other number will be truthy
-    // as in "yes, your way is blocked, here is the number of the thing that's obstructing you."
-    let blocked = blocktionary[0];
+    // By default you have air in your way, and if your target space contains a block, we return that block's info.
+    // as in "yes, your way is blocked, here is the thing that's obstructing you."
+    let blocked = blocktionary.find((block) => block.id === '000');
     // Given a column, check all its blocks:
     this[`column_${column}`].blocks.forEach((block) => {
       // if one if them is at the target y position, return its type:
@@ -213,8 +213,8 @@ class Columns {
     this[`column_${colNumber}`].blocks.forEach((block) => {
       // Only render blocks within VERTICAL render area:
       if (
-        block.y >= this.verticalOffset &&
-        block.y <= this.verticalOffset + SCREEN_HEIGHT_IN_BLOCKS
+        block.y >= this.verticalRange[0] &&
+        block.y <= this.verticalRange[1]
       )
         block.render();
     });
@@ -230,15 +230,15 @@ class Columns {
 
   // Method 9: Multi-column vertical shifter:
 
-  shiftColumnsVertically = (offset) => {
-    // Then update this.verticalOffset for future calculations:
-    this.verticalOffset = offset;
+  shiftColumnsVertically = (verticalOffset) => {
+    // Then update this.verticalOffset and this.verticalRange for future calculations:
+    this.verticalRange = [verticalOffset, verticalOffset + SCREEN_HEIGHT_IN_BLOCKS];
     // For each visible column,
     for (let i = this.visibilityRange[0]; i <= this.visibilityRange[1]; i++) {
       // For each block,
       this[`column_${i}`].blocks.forEach((block) => {
         // Apply its vertical translate method:
-        block.verticalTranslate(offset);
+        block.verticalTranslate(verticalOffset);
       });
     }
   };
