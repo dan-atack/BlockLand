@@ -17,7 +17,7 @@ class Columns {
     this.numOfCols = numOfCols;
     // Visibility Range is a tuple representing the start/stop numbers for which columns and 'rows' should be visible:
     this.visibilityRange = visibilityRange; // incidentally, VR[0] is equal to the engine's horizontal offset value...
-    this.verticalOffset = 0;
+    this.verticalRange = [0, SCREEN_HEIGHT_IN_BLOCKS];
     // Now, to broaden the diversity of the wider world:
     // block Printer function will take these arguments, skillfully inserted into the block printer's logic.
     // At first it might be a bit like, identical volcanoes to the left, identical forests to the right, but it's a starT:
@@ -52,7 +52,10 @@ class Columns {
       // Embedding the block printing action in a conditional statement to filter out zero values so you can have 'empty' block spaces
       if (protoBlock) {
         // Individual blocks' vertical render values determined by y-vs-vertical offset value:
-        if (y >= this.verticalOffset && y <= this.verticalOffset + SCREEN_HEIGHT_IN_BLOCKS) {
+        if (
+          y >= this.verticalRange[0] &&
+          y <= this.verticalRange[1]
+        ) {
           renderBlockVertical = true;
         }
         const renderBlock = renderBlockHorizontal && renderBlockVertical;
@@ -60,8 +63,8 @@ class Columns {
           this.root,
           columnNumber,
           y,
-          protoBlock,
-          renderBlock
+          renderBlock,
+          protoBlock
         );
         this[`column_${columnNumber}`].blocks.push(block);
       }
@@ -145,8 +148,8 @@ class Columns {
       this.root,
       columnNumber,
       yPos,
-      blockType,
-      renderBlock
+      renderBlock,
+      blockType
     );
     this[`column_${columnNumber}`].blocks.push(block);
     // Shift block immediately upon rendering. Later on we'll need to think about a vertical one...
@@ -159,8 +162,8 @@ class Columns {
     const exBlock = this[`column_${column}`].blocks.find(
       (block) => block.y == yPos
     );
-    // de-render a block that is onscreen as well as off:
-    if (exBlock && exBlock.rendered) exBlock.toggleDisappear();
+    // de-render block:
+    if (exBlock) exBlock.deRender();
     // Filter out the 'ex-block' and return the newly truncated blocks list:
     this[`column_${column}`].blocks = this[`column_${column}`].blocks.filter(
       (block) => block.y != yPos
@@ -190,9 +193,9 @@ class Columns {
   // Method 7: AKA the original Way Blocked function: kept in place to allow you to detect what is underneath you:
 
   blockTypeDetector = (column, yPos) => {
-    // the logic here is that the zero will be falsy, as in 'there is nothing in your way' and any other number will be truthy
-    // as in "yes, your way is blocked, here is the number of the thing that's obstructing you."
-    let blocked = blocktionary[0];
+    // By default you have air in your way, and if your target space contains a block, we return that block's info.
+    // as in "yes, your way is blocked, here is the thing that's obstructing you."
+    let blocked = blocktionary.find((block) => block.id === '000');
     // Given a column, check all its blocks:
     this[`column_${column}`].blocks.forEach((block) => {
       // if one if them is at the target y position, return its type:
@@ -203,42 +206,47 @@ class Columns {
 
   // Method 8: Moving through the world - Columns object must derender a column and shift the others as you move towards the edge:
 
-  // Column de/rendering function for horizontal movement:
+  // NEW WAY - DUAL FUNCTIONS WITH EXPLICIT PURPOSE:
 
-  toggleColumn = (columnNumber) => {
-    this[`column_${columnNumber}`].rendered = !this[`column_${columnNumber}`]
-      .rendered;
-    this[`column_${columnNumber}`].blocks.forEach((block) => {
-      // Add logic to only toggle blocks within VERTICAL render area:
+  renderColumn = (colNumber) => {
+    this[`column_${colNumber}`].rendered = true;
+    this[`column_${colNumber}`].blocks.forEach((block) => {
+      // Only render blocks within VERTICAL render area:
       if (
-        block.y >= this.verticalOffset &&
-        block.y <= this.verticalOffset + SCREEN_HEIGHT_IN_BLOCKS
+        block.y >= this.verticalRange[0] &&
+        block.y <= this.verticalRange[1]
       )
-        block.toggleDisappear();
+        block.render();
+    });
+  };
+
+  derenderColumn = (colNumber) => {
+    this[`column_${colNumber}`].rendered = false;
+    this[`column_${colNumber}`].blocks.forEach((block) => {
+      // No need to determine vertical range, just tell them all to turn off (new method is protected from inadvertent double-toggling)
+      block.deRender();
     });
   };
 
   // Method 9: Multi-column vertical shifter:
 
-  shiftColumnsVertically = (offset) => {
-    // Then update this.verticalOffset for future calculations:
-    this.verticalOffset = offset;
+  shiftColumnsVertically = (verticalOffset) => {
+    // Then update this.verticalOffset and this.verticalRange for future calculations:
+    this.verticalRange = [verticalOffset, verticalOffset + SCREEN_HEIGHT_IN_BLOCKS];
     // For each visible column,
     for (let i = this.visibilityRange[0]; i <= this.visibilityRange[1]; i++) {
       // For each block,
       this[`column_${i}`].blocks.forEach((block) => {
         // Apply its vertical translate method:
-        block.verticalTranslate(offset);
+        block.verticalTranslate(verticalOffset);
       });
     }
   };
 
-  // Method 10: Multi-column block de/renderer:
-
-  // CURRENT STATUS: Works but the horizontal toggler needs to learn to play nicer...
+  // Method 10: Block vertical rendering control method:
 
   // The offset value will be combined with the direction of movement to determine which blocks to de/render:
-  toggleOffscreenBlocks = (offset) => {
+  manageColumnRendering = (offset) => {
     const lowest_row_to_show = offset;
     const top_row_to_show = offset + SCREEN_HEIGHT_IN_BLOCKS;
     for (let i = this.visibilityRange[0]; i <= this.visibilityRange[1]; i++) {
@@ -250,13 +258,13 @@ class Columns {
       const hiders = this[`column_${i}`].blocks.filter(
         (block) => block.y < lowest_row_to_show || block.y > top_row_to_show
       );
-      // Ensure all blocks within the visibility range are rendered by calling toggleDisappear if they are NOT rendered:
+      // Ensure all blocks within the visibility range are rendered:
       showers.forEach((block) => {
-        if (!block.rendered) block.toggleDisappear();
+        block.render();
       });
-      // And ensure all blocks outside the visibility range are DErendered by toggling them if they ARE rendered:
+      // And ensure all blocks outside the visibility range are deRendered:
       hiders.forEach((block) => {
-        if (block.rendered) block.toggleDisappear();
+        block.deRender();
       });
     }
   };
@@ -266,7 +274,7 @@ class Columns {
   clearAllColumns = () => {
     // derender all visible rows to remove their blocks' dom images:
     for (let i = this.visibilityRange[0]; i <= this.visibilityRange[1]; i++) {
-      this.toggleColumn(i);
+      this.derenderColumn(i);
     }
     // then clear all blocks from all columns:
     for (let i = -WORLD_WIDTH; i <= WORLD_WIDTH; i++) {

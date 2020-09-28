@@ -23,7 +23,7 @@ class Engine {
     // Same principle applies to the vertical:
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
-    this.player = new Player(world, 5, 8);
+    this.player = new Player(world, 3, 8);
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:
@@ -80,7 +80,7 @@ class Engine {
       this.blocks.visibilityRange[1] += 1;
       // As player's x value increases:
       // First, de-render columns that are behind your x-position by the difference between the screen width and the scroll distance:
-      this.blocks.toggleColumn(
+      this.blocks.derenderColumn(
         this.player.gridX - (this.screenWidth - this.screenScrollDistance)
       );
       // Then, if there are any, re-render any tiles that exist in front of you, or create some new ones if there aren't any!
@@ -88,7 +88,7 @@ class Engine {
         this.blocks[`column_${this.player.gridX + this.screenScrollDistance}`]
           .blocks.length !== 0
       ) {
-        this.blocks.toggleColumn(this.player.gridX + this.screenScrollDistance);
+        this.blocks.renderColumn(this.player.gridX + this.screenScrollDistance);
       } else {
         // Latest block Printer function now eats an array of numbers, representing different block types:
         this.blocks.biomeBuilder([
@@ -120,7 +120,7 @@ class Engine {
       this.blocks.visibilityRange[0] -= 1;
       this.blocks.visibilityRange[1] -= 1;
       this.blocks.visibilityRange.forEach((num) => (num -= 1));
-      this.blocks.toggleColumn(
+      this.blocks.derenderColumn(
         this.player.gridX + (this.screenWidth - this.screenScrollDistance)
       );
       // Rendering calculations: if a column already exists render it; else create it:
@@ -128,7 +128,7 @@ class Engine {
         this.blocks[`column_${this.player.gridX - this.screenScrollDistance}`]
           .blocks.length !== 0
       ) {
-        this.blocks.toggleColumn(this.player.gridX - this.screenScrollDistance);
+        this.blocks.renderColumn(this.player.gridX - this.screenScrollDistance);
       } else {
         this.blocks.biomeBuilder([
           this.player.gridX - this.screenScrollDistance,
@@ -162,12 +162,9 @@ class Engine {
       // If moving downwards decrease it,
       this.verticalOffset -= 1;
     }
-    // Then displace the blocks and the player and the baddies using ambidextrous translation methods:
+    // Then displace the blocks and the player (baddies' translations are handled in baddie movement method):
     this.blocks.shiftColumnsVertically(this.verticalOffset);
     this.player.verticalTranslate(this.verticalOffset);
-    this.baddies.forEach((baddie) =>
-      baddie.verticalTranslate(this.verticalOffset)
-    );
   };
 
   // THE GAME CYCLE is called Clock Running:
@@ -195,19 +192,19 @@ class Engine {
         this.player.advanceAttackCountdown();
         // The New Physics: Now completely in the hands of the Physics object... Now ~ 83% bug free!
         this.playerPhysics.collisionManager();
+        // Control de/rendering of blocks that are at the edges of the screen:
+        this.blocks.manageColumnRendering(this.verticalOffset);
+        // Distance: If the player gets close to the edge then we translate the world around them:
+        this.checkScreenScroll();
+        this.checkVerticalScreenScroll();
+        // Say hello to the bad guys:
         // Run physics for the bad guys:
         this.scripts.forEach((physicsPack) => {
           if (physicsPack.subject.hasBeenRendered)
             physicsPack.collisionManager();
         });
-        // Control de/rendering of blocks that are at the edges of the screen:
-        this.blocks.toggleOffscreenBlocks(this.verticalOffset);
-        // Distance: If the player gets close to the edge then we translate the world around them:
-        this.checkScreenScroll();
-        this.checkVerticalScreenScroll();
-        // Say hello to the bad guys:
-        this.handleBaddieMotion();
-        this.baddies.forEach((baddie) => baddie.advanceAttackCountdown());
+        // Then, update baddies' various tickers:
+        this.handleBaddieUpdates();
         // Initiate collision detection between objects in motion:
         this.collisions.compare(3, this.baddies);
         this.baddies.forEach((baddie) => baddie.handleCollisions());
@@ -358,8 +355,9 @@ class Engine {
         break;
       case 'contact-server':
         sendWorldData(instructions[1]);
+        break;
       default:
-        console.log(this.currentMission);
+        break;
     }
   }
 
@@ -448,13 +446,15 @@ class Engine {
   // Bad-guy management section:
   // This function will test every baddie's location every cycle to determine if they should be visible or not.
   // Arguments passed to baddie-render method: array with start/end columns to determine rendering, and H-offset(#):
-  handleBaddieMotion = () => {
+  handleBaddieUpdates = () => {
     this.baddies.forEach((baddie) => {
       baddie.handleRender(
         this.blocks.visibilityRange,
-        this.horizontalOffset,
-        this.verticalOffset
+        this.blocks.verticalRange
       );
+      baddie.horizontalTranslate(this.horizontalOffset);
+      baddie.verticalTranslate(this.verticalOffset);
+      baddie.advanceAttackCountdown()
       baddie.patrol();
     });
   };

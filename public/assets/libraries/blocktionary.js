@@ -75,6 +75,7 @@ const blocktionary = [
   { id: '094', name: 'Mega-Fern-A', properties: ['passable'] },
   { id: '200', name: 'Swamp_Water_Deep', properties: ['permeable'] },
   { id: '201', name: 'Swamp_Water_Top', properties: ['permeable'] },
+  { id: '099', name: 'Stalactite', properties: [] },
   { id: '700', name: 'Fence', properties: ['passable'] },
   { id: '701', name: 'Concrete', properties: [] },
   { id: '702', name: 'Girder-I-Bar', properties: [] },

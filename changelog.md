@@ -544,7 +544,7 @@ Although the public is clamouring for the release of the latest patch, certain f
 
 13. Create flowing magma GIF.
 
-14. Replace existing lava blocks with GIF animations. Give 'gif' property to both, and give 'permeable' trait to lava surface block. 
+14. Replace existing lava blocks with GIF animations. Give 'gif' property to both, and give 'permeable' trait to lava surface block.
 
 15. Make new 'opaque' trait, to be considered last, in Block attribute switch case. To be paired with permeable to override the transparency effect.
 
@@ -552,21 +552,37 @@ Although the public is clamouring for the release of the latest patch, certain f
 
 17. Update README file before launching latest version.
 
-### 18. Also check on GitHub's media area and upload a new, better screenshot there if it's not a pain in the buttocks.
+18. Go through deployment checklist and put version 1.2.2 into PRODUCTION!
 
-### X. Go through deployment checklist and put version 1.2.2 into PRODUCTION!
+### Version 1.2.3: CODE CLEANUP PHASE 1 :O
 
-### Version 1.2.3: CODE CLEANUP :(
+Sometimes you have to do some housework before you can expand to bigger, awesomer things. This project is in dire need of some code cleanup and best-practice retrofitting. Better get a decorator in here because... DAMN. For Cleanup phase 1 the focus will be on refactoring all of the worldly game classes to subclass the new Entity and Sprite classes. Entity will be the most general, and Blocks and Sprites are descended from it. The Player and Baddie classes will subclass Sprite, and Boss (and also Flying Baddie - the reward for sticking it through this whole rigamarole) will subclass Baddie.
 
-1. Go through major classes (player, baddie, block, engine, columns, collisions) and see if some of their methods can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+1. Create Entity Class.
 
-2. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
+2. Make Block Class subclass Entity, and adjust its Constructor and the Columns biome-building method to fit this new disposition.
 
-3. For the Player/Baddie/Boss classes, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter).
+3. Abstract out the attributes in the Entity class shared by the Player and Baddies classes, then determine what attributes a sprite should have that stationary objects like blocks can't (hint: movement, attack-related statuses).
 
-4. Create Sprite Class, of which Player and Baddie will be sub-classes. Ensure all functionality is preserved.
+4. Create Sprite subclass of Entity. Abstract out as many attributes that are common to the Player and Baddie class to it.
 
-5. In fact, go one better and start with the most abstract possible concept: Things => Blocks, Sprites => Player, Baddies => Boss
+5. Create abstract Entity-level rendering control method. Use the block class's toggleRender method as inspiration, but split it into two functions rather than a single toggle function. Test this new system's implementation with the Block class, and good luck integrating it with the Engine's Screen scroll method... Success! The Block Class now has NO methods of its own.
+
+6. Abstract out horizontal and vertical translation methods from the Player and Baddie Classes into Sprite class.
+
+7. Investigate Baddie's de/rendering method to see if it has been made redundant by the Entity Class's version. If so, replace it with the appropriate new version in the Engine. If partially, have it call the Entity Class's render/deRender functions to condense the method's code blocks.
+
+8. Abstract out Attack sequence control methods from Player and Baddie into Sprite Class.
+
+9. Complete the transition by straightening out the following values: Attack position = (Rightwards: Your position + your width), (Leftwards: Your position - attack animation width).
+
+10. Initial Refactoring is now complete. Try to keep it tidy, and after the next feature is added we'll take a look at the Engine and see if we can extract some stuff to some helper functions!
+
+### 1. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+
+### 2. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
+
+### 3. In general, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example of how this does not currently happen: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
 
 # BUG-HUNTERS' BOUNTY LIST:
 
@@ -579,6 +595,8 @@ Although the public is clamouring for the release of the latest patch, certain f
 4. Interdimensional portal sometimes doesn't render until a screen scroll occurs when in BaconLand. Investigate. SOLVED: Added immediate call to horizontally translate any blocks rendered individually by Engine's level-setup "Add one block" procedure.
 
 5. New issue detected: for levels with tallness greater than the screen's height, there is a stacking image error for blocks that start rendered ABOVE the top of the initial screen (and are thus given bad cues for when to toggle their appearance afterwards). Add some logic to the blocks' initial render instructions to account for this.
+
+### 6. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
 # PHASE X - Art Department:
 
