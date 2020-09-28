@@ -3,6 +3,9 @@ class Boss extends Baddie {
     super(root, xStart, yStart, (baddieType = 1003), baddieSerial, xRange);
     this.domElement.classList.add('boss');
     this.patrolInterval = 9;
+    // Bosses have bigger everything:
+    this.attackAnimationWidth = 1.5;
+    this.spriteWidth = 1.5;
   }
 
   // Boss's Patrol method will also include instructions to call the attack method:

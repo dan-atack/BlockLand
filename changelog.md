@@ -570,15 +570,19 @@ Sometimes you have to do some housework before you can expand to bigger, awesome
 
 6. Abstract out horizontal and vertical translation methods from the Player and Baddie Classes into Sprite class.
 
-### 7. Investigate Baddie's de/rendering method to see if it has been made redundant by the Entity Class's version. If so, replace it with the appropriate new version in the Engine. If partially, have it call the Entity Class's render/deRender functions to condense the method's code blocks.
+7. Investigate Baddie's de/rendering method to see if it has been made redundant by the Entity Class's version. If so, replace it with the appropriate new version in the Engine. If partially, have it call the Entity Class's render/deRender functions to condense the method's code blocks.
 
-### 8. Abstract out Attack sequence control methods from Player and Baddie into Sprite Class.
+8. Abstract out Attack sequence control methods from Player and Baddie into Sprite Class.
+
+9. Complete the transition by straightening out the following values: Attack position = (Rightwards: Your position + your width), (Leftwards: Your position - attack animation width).
+
+10. Initial Refactoring is now complete. Try to keep it tidy, and after the next feature is added we'll take a look at the Engine and see if we can extract some stuff to some helper functions!
 
 ### 1. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
 
 ### 2. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
 
-### 3. For the Player/Baddie/Boss classes, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
+### 3. In general, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example of how this does not currently happen: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
 
 # BUG-HUNTERS' BOUNTY LIST:
 
@@ -591,6 +595,8 @@ Sometimes you have to do some housework before you can expand to bigger, awesome
 4. Interdimensional portal sometimes doesn't render until a screen scroll occurs when in BaconLand. Investigate. SOLVED: Added immediate call to horizontally translate any blocks rendered individually by Engine's level-setup "Add one block" procedure.
 
 5. New issue detected: for levels with tallness greater than the screen's height, there is a stacking image error for blocks that start rendered ABOVE the top of the initial screen (and are thus given bad cues for when to toggle their appearance afterwards). Add some logic to the blocks' initial render instructions to account for this.
+
+### 6. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
 # PHASE X - Art Department:
 

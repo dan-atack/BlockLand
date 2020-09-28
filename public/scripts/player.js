@@ -24,7 +24,6 @@ class Player extends Sprite {
     this.displayPlayerMedium = playerStandingInMedium;
     // COMBAT ZONE :
     this.attackAnimation.id = 'player-attack';
-    this.root.appendChild(this.attackAnimation);
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):
     this.baddiesDestroyed = 0;
     this.baddiesKilledThisInning = 0;
@@ -32,7 +31,6 @@ class Player extends Sprite {
     this.baddieDogTags = [];
   }
 
-  // Player methods!
   // Movement responder comes in two parts: Part I - Keydown responder series:
 
   handlePlayerKeydowns = (event) => {
@@ -102,40 +100,7 @@ class Player extends Sprite {
     }
   };
 
-  // Next are the movement functions, abstracted from the responders for reusability:
-
-  moveRight() {
-    // Cancel attacks when you turn around:
-    if (this.facing === 'left' && this.isAttacking) {
-      this.haltAttack();
-    }
-    // execute movement:
-    this.facing = 'right';
-    this.domElement.style.transform = 'rotateY(0deg)';
-    this.xSpeed = this.topSpeed;
-  }
-
-  moveLeft() {
-    // Cancel attacks when you turn around:
-    if (this.facing === 'right' && this.isAttacking) {
-      this.haltAttack();
-    }
-    // execute movement:
-    this.facing = 'left';
-    this.domElement.style.transform = 'rotateY(180deg)';
-    this.xSpeed = -this.topSpeed;
-  }
-
-  jump() {
-    // If you're not standing on air (disable this condition to allow flight):
-    if (
-      this.standingOn != 0 &&
-      Number.isInteger(this.y) &&
-      this.standingOn.id != '000'
-    ) {
-      this.ySpeed = 0.6875;
-    }
-  }
+  // Only the player has the ability (not to mention the motivation) to want to crouch/stand up:
 
   crouch() {
     // It seems a logical thing that a raptor should be able to crouch...
@@ -148,90 +113,16 @@ class Player extends Sprite {
     this.domElement.style.height = `${PLAYER_WIDTH}px`;
   }
 
-  // Attack method: the general attack method takes care of the attack's paperwork, being requested by a specific attack type:
-
-  attack(attackType) {
-    // set attacking to true:
-    this.isAttacking = true;
-    // attack range will represent the ABSOLUTE x value of the attack's kill zone, such that anything between that and you is hit:
-    // Deprecation in progress:
-    this.attackRange = this.facing === 'right' ? this.x + 1 : this.x - 1;
-    // set width of attack animation:
-    this.attackAnimation.style.width = `${this.attackRadius * PLAYER_WIDTH}px`;
-    // set display to visible and ensure prominence with z-index value:
-    this.attackAnimation.style.zIndex = 10;
-    this.attackAnimation.style.display = 'initial';
-    this.attackAnimation.style.bottom = `${this.y * PLAYER_WIDTH}px`;
-    this.attackAnimation.className = 'attack';
-    this.attackAnimation.id = 'attack';
-    // Position attack animation (rightward orientation first):
-    if (this.facing === 'right') {
-      // Horizontal offset is introduced into the animation here since the animation is the offset (non-absolute) position:
-      this.attackAnimation.style.left = `${
-        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
-      }px`;
-      this.attackAnimation.style.transform = 'rotateY(180deg)';
-      // Leftward orientation and positioning:
-    } else {
-      this.attackAnimation.style.transform = 'rotateY(0deg)';
-      // ensure attack animation is rendered as originating from the edge of the player's sprite:
-      this.attackAnimation.style.left = `${
-        (this.attackRange - this.horizontalOffset + (1 - this.attackRadius)) *
-        PLAYER_WIDTH
-      }px`;
-    }
-    // Add attack animation:
-    this.attackAnimation.src = `./assets/effects/animations/${attackType}.gif`;
-  }
-
-  // Specific attacks are linked to keys and contain only the specific info needed for a particular attack:
+  // Specific attacks are linked to keys and contain the info needed for a particular attack to be rendered:
 
   clawAttack() {
     if (this.attackCountdown === 0) {
-      // NOTE ON ATTACK RANGE: When you're facing to the right, add one to your position when factoring in attack radii
-      // Since your position is counted starting from the leftmost edge!
+      // Set attacking to true and set all other initial attack values:
       this.attackRadius = 0.5;
       this.attackCountdown = 10;
-      // then call the general purpose attack function, and tell it which animation to use:
+      // then call the attack rendering function, and tell it which animation to use:
       this.attack('slash');
     }
-  }
-
-  // Advance countdown: Reduce the counter and update attack range based on player's current position;
-  // when countdown reaches zero remove attack animation and radius:
-  // NOTE: Turning around cancels a regular attack (see movement responder rules):
-  advanceAttackCountdown() {
-    // IF attack is cooling down that means you are in the state of attacking:
-    if (this.attackCountdown > 0) {
-      // begin cooling down:
-      this.attackCountdown -= 1;
-      // calculate attack Range (your position +/- 1)
-      this.attackRange = this.facing === 'right' ? this.x + 1 : this.x - 1;
-      // render attack animation in the appropriate position:
-      this.facing === 'right'
-        ? (this.attackAnimation.style.left = `${
-            (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
-          }px`)
-        : (this.attackAnimation.style.left = `${
-            (this.attackRange -
-              this.horizontalOffset +
-              (1 - this.attackRadius)) *
-            PLAYER_WIDTH
-          }px`);
-      this.attackAnimation.style.bottom = `${this.y * PLAYER_WIDTH}px`;
-      // make sure there is an attack animation before attempting to reset it!
-    } else if (this.attackAnimation) {
-      // if the countdown expires, halt the attack:
-      this.haltAttack();
-    }
-  }
-
-  // Deactivate attack: the scram function to cancel attacks fast - NOTE: this doesn't affect cooldowns, it just stops attacks.
-  haltAttack() {
-    this.isAttacking = false;
-    this.attackRange = 0;
-    this.attackRadius = 0;
-    this.attackAnimation.src = '';
   }
 
   // Player Vital Display Functions:

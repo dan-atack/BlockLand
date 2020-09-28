@@ -33,12 +33,9 @@ class Baddie extends Sprite {
     this.deathLoops = 20;
     // For future games:
     this.movementScript = null;
-    // Movement obstructions checker - record the last x-value that movement was attempted from:
-    this.lastMoveAttemptStart = null;
     // Also record the starting height of the previous jump:
     this.lastJumpInitialHeight = null;
     this.xObstructions = 0;
-    this.defaultAnimationWidth = 1.5; // This value determines what attackRange gets set to when it isn't zero.
     // Image control for baddie attack animation:
     this.attackAnimation.id = `${this.serialNum}-attack`;
   }
@@ -111,33 +108,7 @@ class Baddie extends Sprite {
     }
   }
 
-  moveRight() {
-    this.facing = 'right';
-    this.domElement.style.transform = 'rotateY(0deg)';
-    this.xSpeed = this.topSpeed;
-    this.lastMoveAttemptStart = this.x;
-  }
-
-  moveLeft() {
-    this.facing = 'left';
-    this.domElement.style.transform = 'rotateY(180deg)';
-    this.xSpeed = -this.topSpeed;
-    this.lastMoveAttemptStart = this.x;
-  }
-
-  // Jump! To be used in case a baddie gets stuck:
-  jump() {
-    if (
-      this.y <= SCREEN_HEIGHT / PLAYER_WIDTH - 1 &&
-      this.standingOn != 0 &&
-      Number.isInteger(this.y)
-    ) {
-      this.ySpeed = 0.6875;
-      this.lastJumpInitialHeight = this.y;
-    }
-  }
-
-  // Verify obstruction: If you're trying to leave from the same place as your last attempt was made from, you are stuck:
+  // Verify obstruction: If one is trying to leave from the same place as one's last attempt was made from, one is stuck:
   verifyXObstruction() {
     if (this.hasBeenRendered) return this.x === this.lastMoveAttemptStart;
   }
@@ -182,86 +153,5 @@ class Baddie extends Sprite {
     if (this.attackAnimation) {
       this.haltAttack();
     }
-  }
-
-  // Baddie Class attack methods:
-
-  attack(attackType) {
-    // set attacking to true:
-    this.isAttacking = true;
-    // attack range will represent the ABSOLUTE x value of the attack's animation, such that anything between that and you is hit:
-    // Deprecation in progress:
-    this.attackRange =
-      this.facing === 'right'
-        ? this.x + this.defaultAnimationWidth
-        : this.x - this.defaultAnimationWidth;
-    // Add attack animation:
-    this.attackAnimation.src = `./assets/effects/animations/${attackType}.gif`;
-    // set width of attack animation:
-    this.attackAnimation.style.width = `${this.attackRadius * PLAYER_WIDTH}px`;
-    // set display to visible and ensure prominence with z-index value:
-    this.attackAnimation.style.zIndex = 10;
-    this.attackAnimation.style.bottom = `${
-      (this.y - this.verticalOffset) * PLAYER_WIDTH
-    }px`;
-    this.attackAnimation.className = 'attack';
-    // Position attack animation (rightward orientation first):
-    if (this.facing === 'right') {
-      // Horizontal offset is introduced into the animation here since the animation is the offset (non-absolute) position:
-      this.attackAnimation.style.left = `${
-        (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
-      }px`;
-      this.attackAnimation.style.transform = 'rotateY(180deg)';
-      // Leftward orientation and positioning:
-    } else {
-      this.attackAnimation.style.transform = 'rotateY(0deg)';
-      // ensure attack animation is rendered as originating from the edge of the player's sprite:
-      this.attackAnimation.style.left = `${
-        (this.attackRange - this.horizontalOffset + (1 - this.attackRadius)) *
-        PLAYER_WIDTH
-      }px`;
-    }
-    this.root.appendChild(this.attackAnimation);
-  }
-
-  advanceAttackCountdown() {
-    // If attack is counting down that means baddie is in the state of attacking:
-    if (this.attackCountdown > 0) {
-      // begin cooling down:
-      this.attackCountdown -= 1;
-      // calculate attack Range (your position +/- 1)
-      this.attackRange =
-        this.facing === 'right'
-          ? this.x + this.defaultAnimationWidth
-          : this.x - this.defaultAnimationWidth;
-      // render attack animation in the appropriate position:
-      this.facing === 'right'
-        ? (this.attackAnimation.style.left = `${
-            (this.attackRange - this.horizontalOffset) * PLAYER_WIDTH
-          }px`)
-        : (this.attackAnimation.style.left = `${
-            (this.attackRange -
-              this.horizontalOffset +
-              (1 - this.attackRadius)) *
-            PLAYER_WIDTH
-          }px`);
-      this.attackAnimation.style.bottom = `${
-        (this.y - this.verticalOffset) * PLAYER_WIDTH
-      }px`;
-      // make sure there is an attack animation before attempting to reset it!
-    } else if (this.isAttacking) {
-      // if the countdown expires, halt the attack:
-      this.haltAttack();
-    }
-  }
-
-  // Deactivate attack: the scram function to cancel attacks fast - NOTE: this doesn't affect cooldowns, it just stops attacks.
-  haltAttack() {
-    if (this.isAttacking) {
-      this.root.removeChild(this.attackAnimation);
-    }
-    this.isAttacking = false;
-    this.attackRange = 0;
-    this.attackRadius = 0;
   }
 }
