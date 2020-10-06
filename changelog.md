@@ -578,11 +578,36 @@ Sometimes you have to do some housework before you can expand to bigger, awesome
 
 10. Initial Refactoring is now complete. Try to keep it tidy, and after the next feature is added we'll take a look at the Engine and see if we can extract some stuff to some helper functions!
 
-### 1. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+### Version 1.2.4: The In-Game Menu
 
-### 2. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
+As fun as it is to develop more content, sometimes you need to take care of logistical stuff first. The game's interface is barely evolved from the Nyan Cats game, and this is something that should be addressed before any further work on the game's Engine cycle. We need to develop the capability to do stuff outside the game cycle, both before and after the game has started. The game's menu will be rendered by the Main script before the Engine cycle starts, and contain options to visit the instructions page, a few dummy buttons, and Start New Game, which starts the Engine. Once in-game, the sidebar will have a button for the menu, and we will remove the mission briefing from the sidebar. The in-game menu will enable navigation to pages showing your current mission info (briefing, list of objectives) as well as some dummy options for later use.
 
-### 3. In general, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example of how this does not currently happen: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
+1. Create Draw.io diagram of what the Main Menu will look like, and answer some basic questions on its design and workflow.
+
+2. Create the App Class. It will be created by the main script, and have methods for rendering the game's various UIs - chiefly the World as we know it AKA the realm of the game's Engine - but also the various menu screens. Add it to the index.html's scripts list, right at the top of the Class-containing files.
+
+### 3. Give App Class attributes for root (document), and currentUI (the screen that is being displayed).
+
+### 4. Give App Class a method for rendering the game: startGame. To do this, the game's HTML page will be reduced to a single <div>, classname Universe, which will act as the root for everything to be rendered into. All the existing HTML elements should be rendered by the App's startGame method. Since we still need to keep the identities of these elements, and since they now don't exist before the Main script runs, their ID's will need to be removed from the Constants file and become properties of the App class.
+
+### 5. Give the App Class a method for rendering the pre-game menu: Create and add all the elements that comprise the Menu (take inspiration from the work in step 4 regarding the index.html file). One of the elements created will be a button which, when pressed, calls the startGame method, which will have included in it the command to re-render the pre-game menu (see next item).
+
+### 6. Give the App Class a method for de-rendering the pre-game menu: Removes all the elements that comprise it.
+
+### 7. Rewrite Main.js script to simply create the App, and then to then call its pre-game menu render function. The App should be able to take care of everything after that.
+
+### 8. Remove the Any key screen/functionality. The Menu's start game button should take care of that now.
+
+
+# Remaining Tasks for Refactoring:
+
+### 1. Convert Mission Data file to JSON format, and update Missions and Objectives Classes correspondingly.
+
+### 2. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+
+### 3. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
+
+### 4. In general, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example of how this does not currently happen: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
 
 # BUG-HUNTERS' BOUNTY LIST:
 
