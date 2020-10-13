@@ -80,4 +80,14 @@ class App {
         this.renderNonGlobalElement('sidebar-bottom', 'div', 'sidebar', globalElements['sidebar'], 'bottom');
         this.renderButton(resetButton, 'resetButton', 'sidebar-button', 'RESTART', document.getElementById('sidebar-bottom'));
     }
+
+    updateUserName = () => {
+        // Hide the logout button if we're in production mode. If we're in Dev mode, show the user's name:
+        if (DEV_MODE) {
+            globalElements['userName'].innerText = `Logged in as ${CURRENT_USER}`;
+            globalElements['logout'].style.display = 'initial';
+        } else {
+            globalElements['logout'].style.display = 'none';
+        }
+    }
 }

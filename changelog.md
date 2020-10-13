@@ -601,16 +601,21 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 
 7. Go through the other major class files and update their references to Thomas.
 
-### 8. Ensure any existing references to global elements now go through the global elements dictionary, not referring to the solo elements (which are deprecated and getting eliminated).
+8. Rearrange existing global variables with HTML element references to be part of a single dictionary-like object. Modifying them through this object works with the App Class's current render methods so let's go for it!
 
-### 5. Give the App Class a method for rendering the pre-game menu: Create and add all the elements that comprise the Menu (take inspiration from the work in step 4 regarding the index.html file). One of the elements created will be a button which, when pressed, calls the startGame method, which will have included in it the command to re-render the pre-game menu (see next item).
+9. Ensure any existing references to deprecated global elements now go through the global elements dictionary.
 
-### 6. Give the App Class a method for de-rendering the pre-game menu: Removes all the elements that comprise it.
+10. Remove all references to the deprecated world element from mission_data (which is to say, for all baddie instruction lists). Since this shortens the arrays for those entities, see following instruction on how to replace them:
 
-### 7. Rewrite Main.js script to simply create the App, and then to then call its pre-game menu render function. The App should be able to take care of everything after that.
+11. Use unshift instead of element replacement in the Engine's render-baddies methods. Use similar logic for special FX cues.
 
-### 8. Remove the Any key screen/functionality. The Menu's start game button should take care of that now.
+### 12. Remove all deprecated global element variables from constants, and html elements from the index and play through the game again to hunt down existing references to them.
 
+### 13. Give the App Class a method for rendering the pre-game menu: Create and add all the elements that comprise the Menu (take inspiration from the work in step 4 regarding the index.html file). One of the elements created will be a button which, when pressed, calls the startGame method, which will have included in it the command to re-render the pre-game menu (see next item).
+
+### 14. Give the App Class a method for de-rendering the pre-game menu: Removes all the elements that comprise it.
+
+### 15. Rewrite Main.js script to have the App render the pre-game menu before going to the game.
 
 # Remaining Tasks for Refactoring:
 

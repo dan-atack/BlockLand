@@ -1,48 +1,16 @@
-// Here we go!
-
-// Game starter trigger: To Start Press Any Key
-
-// const anyKey = (event) => {
-//   if (event.code != 0) {
-//     // Render start stage AFTER user triggers game start:
-//     thomas.blocks.biomeBuilder(range(0, SCREEN_WIDTH / PLAYER_WIDTH - 1));
-//     // The game is on when the clock is running, so this is where the show starts:
-//     thomas.gameOn = true;
-//     // Only time the player's render functions are invoked:
-//     thomas.player.render()
-//     pauseButton.style.display = 'initial';
-//     thomas.clockRunning();
-//     // As soon as the game starts, clean up intro message and any key listener:
-//     intro.removeDOM();
-//     controls.removeDOM();
-//     instructions.removeDOM();
-//     any.removeDOM();
-//     document.removeEventListener('keydown', anyKey);
-//     // Toggleable server-related functionality:
-    
-//   }
-// };
-
 // Run area. CAUTION: LIVE CODE FOLLOWS!
 
-// Very first thing the game will do now is to see if you're logged in as a user, and redirect you to the login page if not.
-
-checkUserStatus();
-
-// Then create the app, and have it render the game elements:
+// First there was The App:
 
 const app = new App();
 
+// Then we check the user status:
+
+checkUserStatus(app);
+
+// The App now renders all of the game's HTML elements:
+
 app.startGame();
-
-// hide the logout button if we're in production mode:
-
-if (DEV_MODE) {
-  globalElements['userName'].innerText = `Logged in as ${CURRENT_USER}`;
-  globalElements['logout'].style.display = 'initial';
-} else {
-  globalElements['logout'].style.display = 'none';
-}
 
 // Start the Engine!
 
@@ -51,6 +19,9 @@ app.engine.gameOn = true;
 app.engine.player.render()
 globalElements['pauseButton'].style.display = 'initial';
 app.engine.clockRunning();
+
+// Show user name if dev mode, or hide that field altogether if we're in production:
+app.updateUserName();
 
 // Next, call an instance of the game engine so we can refer to and control anything in the world through it:
 // Thomas the Game Engine! Get it? I'm sure I'll never come to regret this unconventional naming choice!

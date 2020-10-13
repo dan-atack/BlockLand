@@ -34,8 +34,8 @@ let logout = null;
 const DEV_MODE = true;
 if (!DEV_MODE) {
   // If we are not in the development environment, toggle display of server-related HTML elements:
-  userName.style.display = 'none';
-  logout.style.display = 'none';
+  globalElements['userName'].style.display = 'none';
+  globalElements['logout'].style.display = 'none';
 }
 
 // World Constraints: Establishing the maximum size of the entire world, in terms of width in columns,
@@ -66,4 +66,4 @@ const SCREEN_HEIGHT = SCREEN_HEIGHT_IN_BLOCKS * BLOCK_WIDTH;
 
 // Server-side stuff: Have a Current User to keep track of the player's progress:
 
-CURRENT_USER = '';
+let CURRENT_USER = '';

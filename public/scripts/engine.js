@@ -171,6 +171,8 @@ class Engine {
 
   clockRunning = () => {
     setInterval(() => {
+      // Display current user if in dev mode:
+      if (DEV_MODE && CURRENT_USER != '') app.updateUserName();
       // Everything in here is part of the constant cycle, which will run only if the game is "on:"
       if (this.gameOn) {
         // Time: Clock updates (if necessary) with every game cycle:
@@ -258,7 +260,7 @@ class Engine {
       case 'add-baddies':
         instructions[1].forEach((baddieArray) => {
           // Correct world variable insertion:
-          baddieArray[0] = globalElements['world'];
+          baddieArray.unshift(globalElements['world']);
           // for each baddie in the instructions array, make a baddie and add to the engine's list:
           this.baddies.push(new Baddie(...baddieArray));
           // and give them a physics pack too!
@@ -273,7 +275,7 @@ class Engine {
         break;
       case 'add-boss':
         // Ensure proper rendering point set:
-        instructions[1][0] = globalElements['world'];
+        instructions[1].unshift(globalElements['world']);
         this.baddies.push(new Boss(...instructions[1]));
         this.scripts.push(
           new Physics(this.blocks, this.baddies[this.baddies.length - 1])
