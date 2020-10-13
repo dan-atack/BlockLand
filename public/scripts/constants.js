@@ -3,24 +3,24 @@
 // Start out by defining links to the index file:
 
 const universe = document.querySelector('body');
-const world = document.getElementById('world');
-const sidebar = document.getElementById('sidebar');
-const clock = document.getElementById('clock');
-const pauseButton = document.getElementById('pause');
-const missionBar = document.getElementById('mission-statement');
-const playerCoords = document.getElementById('player-coords');
-const playerXP = document.getElementById('player-xp');
-const playerStandingOnBlockType = document.getElementById('standing-on');
-const playerStandingInMedium = document.getElementById('standing-in');
-const resetButton = document.getElementById('reset');
-const userDisplay = document.getElementById('username');
-const logoutButton = document.getElementById('logout');
+let world = null;
+let sidebar = null;
+let clock = null;
+let pauseButton = null;
+let missionBar = null;
+let playerCoords = null;
+let playerXP = null;
+let playerStandingOnBlockType = null;
+let playerStandingInMedium = null;
+let resetButton = null;
+let userName = null;
+let logout = null;
 // Toggle switch for server functionality AKA DEV MODE:
 const DEV_MODE = true;
 if (!DEV_MODE) {
   // If we are not in the development environment, toggle display of server-related HTML elements:
-  userDisplay.style.display = 'none';
-  logoutButton.style.display = 'none';
+  userName.style.display = 'none';
+  logout.style.display = 'none';
 }
 
 // World Constraints: Establishing the maximum size of the entire world, in terms of width in columns,
