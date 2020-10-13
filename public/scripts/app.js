@@ -13,6 +13,7 @@ class App {
         this.renderWorld();
         this.renderSidebar();
         this.engine = new Engine(universe);
+        this.currentUI = 'Game World';
     }
 
     // Basic Render Methods for Individual Elements:
@@ -20,14 +21,16 @@ class App {
     // For elements already hard-coded into the game's scripts:
     // Constant = name of global variable, type = string, parent = name of parent global variable
     // className and specialClassName are strings in which additional classnames can be added (empty by default):
-    renderElement = (constant, type, className, parent, specialClassName = '') => {
+    renderElement = (constant, id, type, className, parent, specialClassName = '') => {
         // The constant is reassigned to newly created element:
-        constant = document.createElement(type);
-        constant.id = `${constant}`;
-        constant.classList.add(className);
-        if (specialClassName) constant.classList.add(specialClassName);
-        parent.appendChild(constant);
-        this.currentUIElements.push(constant);
+        const temp = document.createElement(type);
+        temp.id = id;
+        temp.classList.add(className);
+        if (specialClassName) temp.classList.add(specialClassName);
+        parent.appendChild(temp);
+        // Reassign global variable?
+        globalElements[id] = temp;
+        this.currentUIElements.push(globalElements[id]); 
     }
 
     // For non-hardwired elements (ideally this will be the way of the future):
@@ -38,42 +41,43 @@ class App {
         let element = document.createElement(type);
         element.id = id;
         element.classList.add(className);
-        if (specialClassName) constant.classList.add(specialClassName);
+        if (specialClassName) element.classList.add(specialClassName);
         parent.appendChild(element);
         this.currentUIElements.push(element);   // this will let us use document.getElementById to refer to the element later on.
     }
 
     // We need different parameters to render buttons, so this is its own method:
-    renderButton = (constant, className, text, parent) => {
-        constant = document.createElement('button');
-        constant.id = `${constant}`;
-        constant.classList.add(className);
-        constant.innerText = text;
-        constant.onMouseUp = 'logout(event)';
-        parent.appendChild(constant);
+    renderButton = (constant, id, className, text, parent) => {
+        const temp = document.createElement('button');
+        temp.id = `${id}`;
+        temp.classList.add(className);
+        temp.innerText = text;
+        // Buttons will need event listeners assigned to them in the Main file...
+        globalElements[id] = temp;
+        parent.appendChild(globalElements[id]);
         this.currentUIElements.push(constant);
     }
 
     // Composite rendering methods (to reproduce whole sections of the UI out of individual elements):
-    
+
     renderWorld = () => {
-        this.renderElement(world, 'div', 'world', universe);
-        this.renderNonGlobalElement('background', 'div', 'background', world);
+        this.renderElement(world, 'world', 'div', 'world', universe);
+        this.renderNonGlobalElement('background', 'div', 'background', globalElements['world']);
     }
 
     renderSidebar = () => {
-        this.renderElement(sidebar, 'div', 'sidebar-container', universe);
-        this.renderNonGlobalElement('sidebar-top', 'div', 'sidebar', sidebar, 'top');
-        this.renderElement(userName, 'span', 'username', document.getElementById('sidebar-top'));
-        this.renderButton(logout, 'logout', 'Logout', document.getElementById('sidebar-top'));
-        this.renderElement(clock, 'span', 'sidebar', sidebar, 'clock');
-        this.renderButton(pauseButton, 'sidebar-button', 'Pause', sidebar);
-        this.renderElement(missionBar, 'span', 'sidebar', sidebar);
-        this.renderElement(playerCoords, 'span', 'sidebar', sidebar);
-        this.renderElement(playerXP, 'span', 'sidebar', sidebar);
-        this.renderElement(playerStandingOnBlockType, 'span', 'sidebar', sidebar);
-        this.renderElement(playerStandingInMedium, 'span', 'sidebar', sidebar);
-        this.renderNonGlobalElement('sidebar-bottom', 'div', 'sidebar', sidebar, 'bottom');
-        this.renderButton(resetButton, 'sidebar-button', 'RESTART', document.getElementById('sidebar-bottom'));
+        this.renderElement(sidebar, 'sidebar', 'div', 'sidebar-container', universe);
+        this.renderNonGlobalElement('sidebar-top', 'div', 'sidebar', globalElements['sidebar'], 'top');
+        this.renderElement(userName, 'userName', 'span', 'username', document.getElementById('sidebar-top'));
+        this.renderButton(logout, 'logout', 'logout', 'Logout', document.getElementById('sidebar-top'));
+        this.renderElement(clock, 'clock', 'span', 'sidebar', globalElements['sidebar'], 'clock');
+        this.renderButton(pauseButton, 'pauseButton', 'sidebar-button', 'Pause', globalElements['sidebar']);
+        this.renderElement(missionBar, 'missionBar', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement(playerCoords, 'playerCoords', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement(playerXP, 'playerXP', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement(playerStandingOnBlockType, 'playerStandingOnBlockType', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement(playerStandingInMedium, 'playerStandingInMedium', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderNonGlobalElement('sidebar-bottom', 'div', 'sidebar', globalElements['sidebar'], 'bottom');
+        this.renderButton(resetButton, 'resetButton', 'sidebar-button', 'RESTART', document.getElementById('sidebar-bottom'));
     }
 }

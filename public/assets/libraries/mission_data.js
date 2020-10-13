@@ -243,14 +243,6 @@ const missions = [
           [world, -92, 28, 1002, 1021, [-92, -84]],
         ],
       ],
-      [
-        // Experimental object use to contain special FX instructions (works wonderfully):
-        {
-          target: world, // Targets must be variables that are already bound to DOM element ID's
-          effect: 'rumbling', // Effects must be string names of CSS keyframe animations
-          duration: 1.25, // Duration is time (in seconds) to play the animation
-        },
-      ],
     ],
   ],
   // Mission Five - Fortress:
@@ -306,7 +298,7 @@ const missions = [
     ],
     [
       {
-        target: world,
+        target: 'world',
         effect: 'rumbling',
         duration: 1.25,
       },

@@ -3,6 +3,21 @@
 // Start out by defining links to the index file:
 
 const universe = document.querySelector('body');
+// Different approach to hard-coded global variables:
+const globalElements = {
+  world: null,
+  sidebar: null,
+  clock: null,
+  pauseButton: null,
+  missionBar: null,
+  playerCoords: null,
+  playerXP: null,
+  playerStandingOnBlockType: null,
+  playerStandingInMedium: null,
+  resetButton: null,
+  userName: null,
+  logout: null
+}
 let world = null;
 let sidebar = null;
 let clock = null;

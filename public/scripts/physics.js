@@ -17,7 +17,7 @@ class Physics {
     // Possibles here are 'UpRight', 'UpLeft', 'DownRight' or 'DownLeft' and will be interpreted by the movement manager:
     this.diagonalDirection = '';
     // Just for now, we'll keep displaying the player coords from the physics engine:
-    this.displayPlayerCoords = playerCoords;
+    this.displayPlayerCoords = globalElements['playerCoords'];
   }
 
   // Laws of motion methods:
@@ -229,7 +229,7 @@ class Physics {
       this.subject.x += this.subject.xSpeed;
       this.subject.gridX = Math.round(this.subject.x);
       this.subject.domElement.style.left = `${
-        (this.subject.x - thomas.horizontalOffset) * PLAYER_WIDTH
+        (this.subject.x - app.engine.horizontalOffset) * PLAYER_WIDTH
       }px`;
       // C.2 - Coefficients of Friction to reduce X momentum:
       // Since this DOES depend on the direction of your movement, we'll do separate RHS and LHS versions of the switch block:

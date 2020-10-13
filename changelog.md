@@ -588,18 +588,20 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 
 2. Create the App Class. It will be created by the main script, and have methods for rendering the game's various UIs - chiefly the World as we know it AKA the realm of the game's Engine - but also the various menu screens. Add it to the index.html's scripts list, right at the top of the Class-containing files.
 
-### 3. For every element in the existing HTML file, do the following:
-   ### * Comment it out from the index file
-   ### * In Constants.js change the const to a let, and refer to a null
-   ### * Add the creation of that element (create, assign class/id, addchild, assign to constants variable) to the App's renderGame method
+3. For every element in the existing HTML file, do the following:
+   * Comment it out from the index file
+   * In Constants.js change the const to a let, and refer to a null
+   * Add the creation of that element (create, assign class/id, addchild, assign to constants variable) to the App's renderGame method
 
-### 4. Add a line to the Engine's renderBaddies method (it's not actually a method on its own just yet but it should and someday will be) to assign the proper 'world' to each baddie as they get made.
+4. Add a line to the Engine's renderBaddies method (it's not actually a method on its own just yet but it should and someday will be) to assign the proper 'world' to each baddie as they get made.
 
-### 5. Give the App Class a startGame method, which calls the renderGame method, and creates the Engine.
+5. Give the App Class a startGame method, which calls the renderWorld and renderSidebar methods, and creates the Engine.
 
-### 6. In Main.js, create the App and remove the creation of the Engine.
+6. In Main.js, create the App and remove the creation of the Engine.
 
-### 7. Go through the other major class files and update their references to Thomas.
+7. Go through the other major class files and update their references to Thomas.
+
+### 8. Ensure any existing references to global elements now go through the global elements dictionary, not referring to the solo elements (which are deprecated and getting eliminated).
 
 ### 5. Give the App Class a method for rendering the pre-game menu: Create and add all the elements that comprise the Menu (take inspiration from the work in step 4 regarding the index.html file). One of the elements created will be a button which, when pressed, calls the startGame method, which will have included in it the command to re-render the pre-game menu (see next item).
 
