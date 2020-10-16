@@ -18,18 +18,6 @@ const globalElements = {
   userName: null,
   logout: null
 }
-let world = null;
-let sidebar = null;
-let clock = null;
-let pauseButton = null;
-let missionBar = null;
-let playerCoords = null;
-let playerXP = null;
-let playerStandingOnBlockType = null;
-let playerStandingInMedium = null;
-let resetButton = null;
-let userName = null;
-let logout = null;
 // Toggle switch for server functionality AKA DEV MODE:
 const DEV_MODE = true;
 if (!DEV_MODE) {

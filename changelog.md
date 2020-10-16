@@ -609,13 +609,15 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 
 11. Use unshift instead of element replacement in the Engine's render-baddies methods. Use similar logic for special FX cues.
 
-### 12. Remove all deprecated global element variables from constants, and html elements from the index and play through the game again to hunt down existing references to them.
+12. Remove all deprecated global element variables from constants, and html elements from the index and play through the game again to hunt down existing references to them.
 
 ### 13. Give the App Class a method for rendering the pre-game menu: Create and add all the elements that comprise the Menu (take inspiration from the work in step 4 regarding the index.html file). One of the elements created will be a button which, when pressed, calls the startGame method, which will have included in it the command to re-render the pre-game menu (see next item).
 
 ### 14. Give the App Class a method for de-rendering the pre-game menu: Removes all the elements that comprise it.
 
-### 15. Rewrite Main.js script to have the App render the pre-game menu before going to the game.
+### 15. Consolidate the Engine start sequence commands into another App method, then call that in from the Main script.
+
+### 16. Rewrite Main.js script to have the App render the pre-game menu before going to the game.
 
 # Remaining Tasks for Refactoring:
 

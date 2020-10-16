@@ -21,7 +21,7 @@ class App {
     // For elements already hard-coded into the game's scripts:
     // Constant = name of global variable, type = string, parent = name of parent global variable
     // className and specialClassName are strings in which additional classnames can be added (empty by default):
-    renderElement = (constant, id, type, className, parent, specialClassName = '') => {
+    renderElement = (id, type, className, parent, specialClassName = '') => {
         // The constant is reassigned to newly created element:
         const temp = document.createElement(type);
         temp.id = id;
@@ -61,24 +61,24 @@ class App {
     // Composite rendering methods (to reproduce whole sections of the UI out of individual elements):
 
     renderWorld = () => {
-        this.renderElement(world, 'world', 'div', 'world', universe);
+        this.renderElement('world', 'div', 'world', universe);
         this.renderNonGlobalElement('background', 'div', 'background', globalElements['world']);
     }
 
     renderSidebar = () => {
-        this.renderElement(sidebar, 'sidebar', 'div', 'sidebar-container', universe);
+        this.renderElement('sidebar', 'div', 'sidebar-container', universe);
         this.renderNonGlobalElement('sidebar-top', 'div', 'sidebar', globalElements['sidebar'], 'top');
-        this.renderElement(userName, 'userName', 'span', 'username', document.getElementById('sidebar-top'));
-        this.renderButton(logout, 'logout', 'logout', 'Logout', document.getElementById('sidebar-top'));
-        this.renderElement(clock, 'clock', 'span', 'sidebar', globalElements['sidebar'], 'clock');
-        this.renderButton(pauseButton, 'pauseButton', 'sidebar-button', 'Pause', globalElements['sidebar']);
-        this.renderElement(missionBar, 'missionBar', 'span', 'sidebar', globalElements['sidebar']);
-        this.renderElement(playerCoords, 'playerCoords', 'span', 'sidebar', globalElements['sidebar']);
-        this.renderElement(playerXP, 'playerXP', 'span', 'sidebar', globalElements['sidebar']);
-        this.renderElement(playerStandingOnBlockType, 'playerStandingOnBlockType', 'span', 'sidebar', globalElements['sidebar']);
-        this.renderElement(playerStandingInMedium, 'playerStandingInMedium', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement('userName', 'span', 'username', document.getElementById('sidebar-top'));
+        this.renderButton(globalElements['logout'], 'logout', 'logout', 'Logout', document.getElementById('sidebar-top'));
+        this.renderElement('clock', 'span', 'sidebar', globalElements['sidebar'], 'clock');
+        this.renderButton(globalElements['pauseButton'], 'pauseButton', 'sidebar-button', 'Pause', globalElements['sidebar']);
+        this.renderElement('missionBar', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement('playerCoords', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement('playerXP', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', globalElements['sidebar']);
+        this.renderElement('playerStandingInMedium', 'span', 'sidebar', globalElements['sidebar']);
         this.renderNonGlobalElement('sidebar-bottom', 'div', 'sidebar', globalElements['sidebar'], 'bottom');
-        this.renderButton(resetButton, 'resetButton', 'sidebar-button', 'RESTART', document.getElementById('sidebar-bottom'));
+        this.renderButton(globalElements['resetButton'], 'resetButton', 'sidebar-button', 'RESTART', document.getElementById('sidebar-bottom'));
     }
 
     updateUserName = () => {

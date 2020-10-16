@@ -171,7 +171,7 @@ class Engine {
 
   clockRunning = () => {
     setInterval(() => {
-      // Display current user if in dev mode:
+      // Display current user if in dev mode (this is hacky AF and for the record je suis pas d'accord!) ... but it works:
       if (DEV_MODE && CURRENT_USER != '') app.updateUserName();
       // Everything in here is part of the constant cycle, which will run only if the game is "on:"
       if (this.gameOn) {
@@ -259,8 +259,8 @@ class Engine {
     switch (instructions[0]) {
       case 'add-baddies':
         instructions[1].forEach((baddieArray) => {
-          // Correct world variable insertion:
-          baddieArray.unshift(globalElements['world']);
+          // Correct world variable insertion (now also hacky in the extreme... yaaay...)
+          if (baddieArray.length < 6) baddieArray.unshift(globalElements['world']);
           // for each baddie in the instructions array, make a baddie and add to the engine's list:
           this.baddies.push(new Baddie(...baddieArray));
           // and give them a physics pack too!
@@ -275,7 +275,7 @@ class Engine {
         break;
       case 'add-boss':
         // Ensure proper rendering point set:
-        instructions[1].unshift(globalElements['world']);
+        if (instructions[1].length < 6) instructions[1].unshift(globalElements['world']);
         this.baddies.push(new Boss(...instructions[1]));
         this.scripts.push(
           new Physics(this.blocks, this.baddies[this.baddies.length - 1])
