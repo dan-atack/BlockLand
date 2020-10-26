@@ -589,9 +589,10 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 2. Create the App Class. It will be created by the main script, and have methods for rendering the game's various UIs - chiefly the World as we know it AKA the realm of the game's Engine - but also the various menu screens. Add it to the index.html's scripts list, right at the top of the Class-containing files.
 
 3. For every element in the existing HTML file, do the following:
-   * Comment it out from the index file
-   * In Constants.js change the const to a let, and refer to a null
-   * Add the creation of that element (create, assign class/id, addchild, assign to constants variable) to the App's renderGame method
+
+   - Comment it out from the index file
+   - In Constants.js change the const to a let, and refer to a null
+   - Add the creation of that element (create, assign class/id, addchild, assign to constants variable) to the App's renderGame method
 
 4. Add a line to the Engine's renderBaddies method (it's not actually a method on its own just yet but it should and someday will be) to assign the proper 'world' to each baddie as they get made.
 
@@ -603,31 +604,53 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 
 8. Rearrange existing global variables with HTML element references to be part of a single dictionary-like object. Modifying them through this object works with the App Class's current render methods so let's go for it!
 
-9. Ensure any existing references to deprecated global elements now go through the global elements dictionary.
+9. Ensure any existing references to deprecated global elements now go through the global elements dictionary. This is a bandaid solution.
 
 10. Remove all references to the deprecated world element from mission_data (which is to say, for all baddie instruction lists). Since this shortens the arrays for those entities, see following instruction on how to replace them:
 
 11. Use unshift instead of element replacement in the Engine's render-baddies methods. Use similar logic for special FX cues.
 
-12. Remove all deprecated global element variables from constants, and html elements from the index and play through the game again to hunt down existing references to them.
+12. Removed all deprecated global element variables from constants, and html elements from the index and played through the game again to hunt down existing references to them. Also removed all constant references from renderElement/renderButton's argument lists.
 
-### 13. Give the App Class a method for rendering the pre-game menu: Create and add all the elements that comprise the Menu (take inspiration from the work in step 4 regarding the index.html file). One of the elements created will be a button which, when pressed, calls the startGame method, which will have included in it the command to re-render the pre-game menu (see next item).
+13. Make Class components for Elements!
 
-### 14. Give the App Class a method for de-rendering the pre-game menu: Removes all the elements that comprise it.
+14. Make Class components for Buttons!
 
-### 15. Consolidate the Engine start sequence commands into another App method, then call that in from the Main script.
+15. Make Text Class like the Element objects i.e. add a render/derender method to them... In fact, are they a Subclass of the Element Class?? Think about it. You have selected... No.
 
-### 16. Rewrite Main.js script to have the App render the pre-game menu before going to the game.
+16. Give the App Class a method for rendering the pre-game menu: Create and add all the elements that comprise the Menu. One of the elements created will be a button which, when pressed, calls the startGame method, which will have included in it the command to de-render the pre-game menu (see next item), then
+
+17. Give the App Class a method for de-rendering the pre-game menu: Removes all the elements that comprise it. Ensure that the elements are removed in the opposite order than they were rendered, so children are always taken out before parents. Suck on that, Theoden.
+
+18. Consolidate the Engine start sequence commands into another App method, then call that in from the Main script.
+
+19. Rewrite Main.js script to have the App render the pre-game menu before going to the game.
+
+20. Give the creation/cleanup of event listeners linked to button elements to the App class. Currently just dumping them in the start sequence is acceptable, but we should consider their removal for when they're not wanted.
+
+21. Remove the initial globalElements entirely - they are not needed anymore and will only complicate things going forward. Eliminate them then do a thorough playthrough test to ensure they aren't missed.
+
+22. Create buttons for showing the game's background story and instructions screen.
+
+23. Add SCSS styling rules for Main Menu buttons.
+
+24. Create App render functions for the backstory and instructions screens.
+
+25. Make a Return to Main Menu button handler function that unrenders the current UI and renders the Main Menu.
+
+26. For each of the Backstory and Instructions screens, incorporate the Back to Main Menu button.
 
 # Remaining Tasks for Refactoring:
 
 ### 1. Convert Mission Data file to JSON format, and update Missions and Objectives Classes correspondingly.
 
-### 2. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+### 2. Before there are too many of them, refactor the Class Components to evolve from a basic Element parent class.
 
-### 3. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
+### 3. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
 
-### 4. In general, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example of how this does not currently happen: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
+### 4. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
+
+### X. In general, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example of how this does not currently happen: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
 
 # BUG-HUNTERS' BOUNTY LIST:
 

@@ -6,7 +6,7 @@ class Engine {
     // first and foremost:
     this.root = root;
     // Next, make a new Columns object to store the blocks by column for easy manipulation:
-    this.blocks = new Columns(globalElements['world'], WORLD_WIDTH, [
+    this.blocks = new Columns(document.getElementById('world'), WORLD_WIDTH, [
       0,
       SCREEN_WIDTH / BLOCK_WIDTH - 1,
     ]);
@@ -23,7 +23,7 @@ class Engine {
     // Same principle applies to the vertical:
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
-    this.player = new Player(globalElements['world'], 3, 8);
+    this.player = new Player(document.getElementById('world'), 3, 8);
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:
@@ -41,7 +41,7 @@ class Engine {
     );
     // We also have a clock, for a great man once said: "take something that already exists, and stick a clock on it" so we did:
     this.theTime = new Date();
-    this.clock = globalElements['clock'];
+    this.clock = document.getElementById('clock');
     // Physics Object handles motion and collision detection. One Physics per sprite (hello relativity!)
     this.playerPhysics = new Physics(this.blocks, this.player);
     // Scripts is the list of all the baddies' physics packs:
@@ -53,7 +53,7 @@ class Engine {
     this.collisions = new Collisions(this.player, this.baddies);
     // Game loop will only run when game is "on"; main file's any key sets this to true when you start; dying should make it false.
     this.gameOn = false;
-    this.resetButton = globalElements['resetButton'];
+    this.resetButton = document.getElementById('resetButton');
     // Use this to update player respawn coordinates:
     this.playerRespawnCoords = [5, 8];
     // Finally, run the setup instructions for the first level (all other levels will be setup by the game loop process):
@@ -260,7 +260,7 @@ class Engine {
       case 'add-baddies':
         instructions[1].forEach((baddieArray) => {
           // Correct world variable insertion (now also hacky in the extreme... yaaay...)
-          if (baddieArray.length < 6) baddieArray.unshift(globalElements['world']);
+          if (baddieArray.length < 6) baddieArray.unshift(document.getElementById('world'));
           // for each baddie in the instructions array, make a baddie and add to the engine's list:
           this.baddies.push(new Baddie(...baddieArray));
           // and give them a physics pack too!
@@ -275,7 +275,7 @@ class Engine {
         break;
       case 'add-boss':
         // Ensure proper rendering point set:
-        if (instructions[1].length < 6) instructions[1].unshift(globalElements['world']);
+        if (instructions[1].length < 6) instructions[1].unshift(document.getElementById('world'));
         this.baddies.push(new Boss(...instructions[1]));
         this.scripts.push(
           new Physics(this.blocks, this.baddies[this.baddies.length - 1])
@@ -386,9 +386,9 @@ class Engine {
       this.gameOn = false;
       this.resetButton.style.display = 'initial';
       this.resetButton.style.width = '192px';
-      globalElements['pauseButton'].style.display = 'none';
+      document.getElementById('pauseButton').style.display = 'none';
       this.announcement = new Text(
-        globalElements['world'],
+        document.getElementById('world'),
         0,
         0,
         32,
@@ -445,7 +445,7 @@ class Engine {
     this.respawnBaddies();
     // Finally, resume gameplay!
     this.gameOn = true;
-    globalElements['pauseButton'].style.display = 'initial';
+    document.getElementById('pauseButton').style.display = 'initial';
     this.resetButton.style.display = 'none';
   }
 

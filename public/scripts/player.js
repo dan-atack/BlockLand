@@ -19,9 +19,9 @@ class Player extends Sprite {
     // Let's RPG it up a bit!
     this.experience = 0;
     // Location Display Updaters:
-    this.displayPlayerStandingOn = globalElements['playerStandingOnBlockType'];
+    this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
     // Display medium (water and such):
-    this.displayPlayerMedium = globalElements['playerStandingInMedium'];
+    this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
     // COMBAT ZONE :
     this.attackAnimation.id = 'player-attack';
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):

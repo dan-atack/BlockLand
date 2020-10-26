@@ -24,4 +24,8 @@ class Text {
   removeDOM() {
     this.root.removeChild(this.domElement);
   }
+
+  deRender() {
+    this.root.removeChild(this.domElement);
+  }
 }

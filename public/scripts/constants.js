@@ -3,28 +3,9 @@
 // Start out by defining links to the index file:
 
 const universe = document.querySelector('body');
-// Different approach to hard-coded global variables:
-const globalElements = {
-  world: null,
-  sidebar: null,
-  clock: null,
-  pauseButton: null,
-  missionBar: null,
-  playerCoords: null,
-  playerXP: null,
-  playerStandingOnBlockType: null,
-  playerStandingInMedium: null,
-  resetButton: null,
-  userName: null,
-  logout: null
-}
+
 // Toggle switch for server functionality AKA DEV MODE:
 const DEV_MODE = true;
-if (!DEV_MODE) {
-  // If we are not in the development environment, toggle display of server-related HTML elements:
-  globalElements['userName'].style.display = 'none';
-  globalElements['logout'].style.display = 'none';
-}
 
 // World Constraints: Establishing the maximum size of the entire world, in terms of width in columns,
 // spreading in either direction of the initial game screen:

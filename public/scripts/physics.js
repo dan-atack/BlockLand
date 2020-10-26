@@ -17,7 +17,7 @@ class Physics {
     // Possibles here are 'UpRight', 'UpLeft', 'DownRight' or 'DownLeft' and will be interpreted by the movement manager:
     this.diagonalDirection = '';
     // Just for now, we'll keep displaying the player coords from the physics engine:
-    this.displayPlayerCoords = globalElements['playerCoords'];
+    this.displayPlayerCoords = document.getElementById('playerCoords');
   }
 
   // Laws of motion methods:

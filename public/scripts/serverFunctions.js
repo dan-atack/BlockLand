@@ -173,8 +173,7 @@ const createNewUser = (event) => {
 
 // Server Function 7: Logout:
 
-const handleLogout = (event) => {
-  event.preventDefault();
+const handleLogout = () => {
   fetch('/logout')
     .then((res) => {
       return res.json();

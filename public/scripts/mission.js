@@ -28,8 +28,8 @@ class Mission {
   // Engine will call this if an objective goes ping:
   manageAchievements() {
     // Display mission objectives/user xp on the sidebar:
-    globalElements['missionBar'].innerText = `CURRENT MISSION: ${this.brief}`;
-    globalElements['playerXP'].innerText = `PLAYER XP: ${this.subject.experience}`;
+    document.getElementById('missionBar').innerText = `CURRENT MISSION: ${this.brief}`;
+    document.getElementById('playerXP').innerText = `PLAYER XP: ${this.subject.experience}`;
     // Filter out accomplished objectives:
     this.objectivesRemaining = this.objectivesRemaining.filter(
       (objective) => objective.achieved !== true
@@ -38,10 +38,10 @@ class Mission {
       objective.test();
       if (objective.achieved) {
         this.subject.experience += objective.xpValue;
-        globalElements['playerXP'].classList.add('XP');
+        document.getElementById('playerXP').classList.add('XP');
         this.objectivesAchieved.push(objective);
         const announcement = new Text(
-          globalElements['world'],
+          document.getElementById('world'),
           0,
           0,
           22,
@@ -50,17 +50,17 @@ class Mission {
         );
         setTimeout(() => {
           announcement.removeDOM();
-          globalElements['playerXP'].classList.remove('XP');
+          document.getElementById('playerXP').classList.remove('XP');
         }, 3000);
       }
     });
     if (this.objectivesRemaining.length === 0 && !this.victoryMessageAwarded) {
       this.accomplished = true;
       // Hello Shiny text!
-      globalElements['playerXP'].classList.add('levelup');
-      globalElements['missionBar'].classList.add('levelup');
+      document.getElementById('playerXP').classList.add('levelup');
+      document.getElementById('missionBar').classList.add('levelup');
       let announcement = new Text(
-        globalElements['world'],
+        document.getElementById('world'),
         0,
         0,
         24,
@@ -69,8 +69,8 @@ class Mission {
       );
       setTimeout(() => {
         announcement.removeDOM();
-        globalElements['playerXP'].classList.remove('levelup');
-        globalElements['missionBar'].classList.remove('levelup');
+        document.getElementById('playerXP').classList.remove('levelup');
+        document.getElementById('missionBar').classList.remove('levelup');
         this.victoryMessageAwarded = false;
       }, 4500);
       this.victoryMessageAwarded = true;
@@ -102,7 +102,7 @@ class Mission {
     if (this.specialFX) {
       console.log(this.specialFX);
       this.specialFX.forEach((effect, idx) => {
-        effect.target = globalElements[`${newMissionData[6][idx]['target']}`]
+        effect.target = document.getElementById(`${newMissionData[6][idx]['target']}`)
       })
     }
   }
