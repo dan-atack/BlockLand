@@ -50,7 +50,12 @@ class Mission {
         );
         setTimeout(() => {
           announcement.removeDOM();
-          document.getElementById('playerXP').classList.remove('XP');
+          try {
+            document.getElementById('playerXP').classList.remove('XP');
+          } catch {
+            console.log('Animation not cancelled due to menu open.')
+          }
+          
         }, 3000);
       }
     });
@@ -69,8 +74,11 @@ class Mission {
       );
       setTimeout(() => {
         announcement.removeDOM();
-        document.getElementById('playerXP').classList.remove('levelup');
-        // document.getElementById('missionBar').classList.remove('levelup');
+        try {
+          document.getElementById('playerXP').classList.remove('levelup');
+        } catch {
+          console.log('Animation not cancelled due to menu open.')
+        }
         this.victoryMessageAwarded = false;
       }, 4500);
       this.victoryMessageAwarded = true;

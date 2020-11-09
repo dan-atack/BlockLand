@@ -15,9 +15,7 @@ class Physics {
     // If you have motion in both x and y directions the collision detector will attempt to prevent you moving into a corner:
     this.diagonal = 0;
     // Possibles here are 'UpRight', 'UpLeft', 'DownRight' or 'DownLeft' and will be interpreted by the movement manager:
-    this.diagonalDirection = '';
-    // Just for now, we'll keep displaying the player coords from the physics engine:
-    this.displayPlayerCoords = document.getElementById('playerCoords');
+    this.diagonalDirection = '';    
   }
 
   // Laws of motion methods:
@@ -289,16 +287,10 @@ class Physics {
     this.yObstruction = 0;
     this.yDist = 0;
 
-    // F - Update Player Coordinates Display:
-    if (Object.keys(this.subject).includes('experience'))
-      this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.subject.x.toFixed(
-        2
-      )}, ${this.subject.y.toFixed(2)}`;
-
-    // G - Apply gravity for the next cycle:
+    // F - Apply gravity for the next cycle:
     if (this.subject.ySpeed === 0) this.subject.ySpeed -= gravity;
 
-    // H - Update Surface
+    // G - Update Surface
     this.determineSurface();
   }
 

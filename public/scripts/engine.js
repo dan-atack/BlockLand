@@ -39,9 +39,13 @@ class Engine {
       this.player,
       missions[this.currentMission]
     );
-    // We also have a clock, for a great man once said: "take something that already exists, and stick a clock on it" so we did:
     this.theTime = new Date();
+    // All Engine-controlled sidebar elements are defined here:
     this.clock = document.getElementById('clock');
+    this.displayPlayerCoords = document.getElementById('playerCoords');
+    this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
+    this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
+    this.resetButton = document.getElementById('resetButton');
     // Physics Object handles motion and collision detection. One Physics per sprite (hello relativity!)
     this.playerPhysics = new Physics(this.blocks, this.player);
     // Scripts is the list of all the baddies' physics packs:
@@ -52,8 +56,7 @@ class Engine {
     // Collisions monitor checks the player's coords vs each of the baddies (passed as an array)
     this.collisions = new Collisions(this.player, this.baddies);
     // Game loop will only run when game is "on"; main file's any key sets this to true when you start; dying should make it false.
-    this.gameOn = false;
-    this.resetButton = document.getElementById('resetButton');
+    this.gameOn = false;   
     // Use this to update player respawn coordinates:
     this.playerRespawnCoords = [5, 8];
     // Finally, run the setup instructions for the first level (all other levels will be setup by the game loop process):
@@ -218,6 +221,7 @@ class Engine {
         // Lastly, check for DEATH: First the player checks, then the engine follows up in case of death:
         this.player.checkForDeath();
         this.checkForPlayerDeath();
+        this.updateSidebarDisplays();
         // Refresh the universe every 50 ms
       }
     }, 50);
@@ -407,6 +411,18 @@ class Engine {
     }
   }
 
+  updateSidebarDisplays = () => {
+    this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
+    this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}.`;
+    if (this.player.medium.name.split(': ').length > 1) {
+      this.displayPlayerMedium.innerText = `Player is in ${
+        this.player.medium.name.split(': ')[0]
+      }.`;
+    } else {
+      this.displayPlayerMedium.innerText = 'Player is not submerged.';
+    }
+  }
+
   // In case, in answer to the question 'would you like to play again?'... the user has selected... YES:
   handleReset() {
     // First, resurrect the player:
@@ -540,8 +556,11 @@ class Engine {
   }
 
   // Whenever the game interface comes back, ensure all Sidebar display elements are updated correctly:
-  // TO-DO: Abstract out other sidebar element updates (for player xp and such) and have them updated by the engine.
-  updateSidebarElements = () => {
+  updateSidebarRoots = () => {
+    this.clock = document.getElementById('clock');
+    this.displayPlayerCoords = document.getElementById('playerCoords');
+    this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
+    this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
     this.resetButton = document.getElementById('resetButton');
   }
   

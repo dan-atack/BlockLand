@@ -18,10 +18,6 @@ class Player extends Sprite {
     this.crouching = false;
     // Let's RPG it up a bit!
     this.experience = 0;
-    // Location Display Updaters:
-    this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
-    // Display medium (water and such):
-    this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
     // COMBAT ZONE :
     this.attackAnimation.id = 'player-attack';
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):
@@ -127,20 +123,12 @@ class Player extends Sprite {
 
   // Player Vital Display Functions:
   updateStandingOnDisplay() {
-    this.displayPlayerStandingOn.innerText = `Standing on: ${this.standingOn.name}`;
+    // this.displayPlayerStandingOn.innerText = `Standing on: ${this.standingOn.name}`;
   }
 
   // And a function to tell what medium you're in (basically air or water are your options at the moment):
   determineMedium(columns) {
     this.medium = columns.blockTypeDetector(this.gridX, this.y);
-    // Show the first word of the name of the medium you're in (excluding air):
-    if (this.medium.name.split('_').length > 1) {
-      this.displayPlayerMedium.innerText = `Player is in ${
-        this.medium.name.split('_')[0]
-      }`;
-    } else {
-      this.displayPlayerMedium.innerText = '';
-    }
   }
 
   checkForDeath() {
@@ -178,10 +166,10 @@ class Player extends Sprite {
     switch (type) {
       case 'collision':
         const phrase = this.collisionStatus.split('-').join(' ');
-        this.displayPlayerStandingOn.innerText = `Player has been killed by ${phrase}!`;
+        document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by ${phrase}!`;
         break;
       case 'terrain':
-        this.displayPlayerStandingOn.innerText = `Player has been killed by ${this.standingOn.name}!`;
+        document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by ${this.standingOn.name}!`;
         break;
     }
   }

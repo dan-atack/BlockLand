@@ -218,8 +218,8 @@ class App {
         // Render world and sidebar, then create Engine:
         this.renderWorld();
         this.renderSidebar();
-        // Update Engine Sidebar elements:
-        this.engine.updateSidebarElements();
+        // Update Engine Sidebar element roots:
+        this.engine.updateSidebarRoots();
         // Engine start sequence:
         this.engine.reRenderGameEntities(document.getElementById('world'));
         this.engine.gameOn = true;
