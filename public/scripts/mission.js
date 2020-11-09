@@ -28,7 +28,7 @@ class Mission {
   // Engine will call this if an objective goes ping:
   manageAchievements() {
     // Display mission objectives/user xp on the sidebar:
-    document.getElementById('missionBar').innerText = `CURRENT MISSION: ${this.brief}`;
+    // document.getElementById('missionBar').innerText = `CURRENT MISSION: ${this.brief}`;
     document.getElementById('playerXP').innerText = `PLAYER XP: ${this.subject.experience}`;
     // Filter out accomplished objectives:
     this.objectivesRemaining = this.objectivesRemaining.filter(
@@ -58,7 +58,7 @@ class Mission {
       this.accomplished = true;
       // Hello Shiny text!
       document.getElementById('playerXP').classList.add('levelup');
-      document.getElementById('missionBar').classList.add('levelup');
+      // document.getElementById('missionBar').classList.add('levelup');
       let announcement = new Text(
         document.getElementById('world'),
         0,
@@ -70,7 +70,7 @@ class Mission {
       setTimeout(() => {
         announcement.removeDOM();
         document.getElementById('playerXP').classList.remove('levelup');
-        document.getElementById('missionBar').classList.remove('levelup');
+        // document.getElementById('missionBar').classList.remove('levelup');
         this.victoryMessageAwarded = false;
       }, 4500);
       this.victoryMessageAwarded = true;

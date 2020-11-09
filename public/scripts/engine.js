@@ -60,6 +60,8 @@ class Engine {
     this.mission.setupInstructions.forEach((instruction) => {
       this.setupNextMission(instruction);
     });
+    // When the in-game menu is opened, every entity that is rendered at that time must be de-rendered and kept in this list:
+    this.onScreenEntities = [];
   }
 
   // ENGINE METHODS:
@@ -171,8 +173,6 @@ class Engine {
 
   clockRunning = () => {
     setInterval(() => {
-      // Display current user if in dev mode (this is hacky AF and for the record je suis pas d'accord!) ... but it works:
-      if (DEV_MODE && CURRENT_USER != '') app.updateUserName();
       // Everything in here is part of the constant cycle, which will run only if the game is "on:"
       if (this.gameOn) {
         // Time: Clock updates (if necessary) with every game cycle:
@@ -260,7 +260,11 @@ class Engine {
       case 'add-baddies':
         instructions[1].forEach((baddieArray) => {
           // Correct world variable insertion (now also hacky in the extreme... yaaay...)
-          if (baddieArray.length < 6) baddieArray.unshift(document.getElementById('world'));
+          if (baddieArray.length < 6) {
+            baddieArray.unshift(document.getElementById('world'));
+          } else {
+            baddieArray[0] = document.getElementById('world')
+          }
           // for each baddie in the instructions array, make a baddie and add to the engine's list:
           this.baddies.push(new Baddie(...baddieArray));
           // and give them a physics pack too!
@@ -275,7 +279,11 @@ class Engine {
         break;
       case 'add-boss':
         // Ensure proper rendering point set:
-        if (instructions[1].length < 6) instructions[1].unshift(document.getElementById('world'));
+        if (instructions[1].length < 6) {
+          baddieArray.unshift(document.getElementById('world'));
+        } else {
+          baddieArray[0] = document.getElementById('world')
+        }
         this.baddies.push(new Boss(...instructions[1]));
         this.scripts.push(
           new Physics(this.blocks, this.baddies[this.baddies.length - 1])
@@ -321,7 +329,8 @@ class Engine {
         WORLD_WIDTH = instructions[1];
         break;
       case 'clear-stage':
-        this.blocks.clearAllColumns();
+        this.blocks.deRenderAllColumns();
+        this.blocks.deleteAllColumns();
         this.blocks.currentLeftwardBiomeIdx = 0;
         this.blocks.currentRightwardBiomeIdx = 0;
         break;
@@ -503,4 +512,37 @@ class Engine {
       });
     }
   }
+
+  // When the game menu is opened, de-render everything that's on-screen and remember it:
+  deRenderGameEntities = () => {
+    // De-render player:
+    this.player.deRender();
+    this.onScreenEntities.push(this.player);
+    // De-render baddies:
+    this.baddies.forEach((baddie) => {
+      baddie.deRender();
+      this.onScreenEntities.push(baddie);
+    })
+    // De-render blocks:
+    this.blocks.deRenderAllColumns();
+  }
+
+  // When the game menu is closed, re-render everything that was removed:
+  reRenderGameEntities = (root) => {
+    this.root = root;
+    this.onScreenEntities.forEach((entity) => {
+      entity.updateRoot(this.root);
+    });
+    this.player.render();
+    this.blocks.updateWorldDiv(this.root);
+    this.blocks.restoreScreen();
+    this.onScreenEntities = [];
+  }
+
+  // Whenever the game interface comes back, ensure all Sidebar display elements are updated correctly:
+  // TO-DO: Abstract out other sidebar element updates (for player xp and such) and have them updated by the engine.
+  updateSidebarElements = () => {
+    this.resetButton = document.getElementById('resetButton');
+  }
+  
 }

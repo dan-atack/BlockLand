@@ -256,7 +256,7 @@ body {
   position: relative;
   z-index: 100; }
 
-.intro {
+.intro-shine {
   animation: shine 2.5s ease-in-out infinite alternate;
   position: relative; }
 
@@ -265,7 +265,11 @@ body {
   padding: 4px;
   border: 1px solid whitesmoke;
   border-radius: 8px;
-  animation: glow 1.5s ease-in-out infinite alternate; }
+  animation: glow 1.5s ease-in-out infinite alternate;
+  position: relative; }
+
+.menu-achievement {
+  text-decoration: line-through; }
 
 .obituary {
   color: #e75b5b;
@@ -274,4 +278,5 @@ body {
   border: 1px solid whitesmoke;
   border-radius: 8px;
   animation: redglow 1.5s ease-in-out infinite alternate;
-  z-index: 100; }
+  z-index: 100;
+  position: relative; }

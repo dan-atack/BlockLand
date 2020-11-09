@@ -319,7 +319,7 @@ body {
   z-index: 100;
 }
 
-.intro {
+.intro-shine {
   animation: shine 2.5s ease-in-out infinite alternate;
   position: relative;
 }
@@ -330,6 +330,11 @@ body {
   border: 1px solid whitesmoke;
   border-radius: 8px;
   animation: glow 1.5s ease-in-out infinite alternate;
+  position: relative;
+}
+
+.menu-achievement {
+  text-decoration: line-through;
 }
 
 .obituary {
@@ -340,4 +345,5 @@ body {
   border-radius: $standardRadius;
   animation: redglow 1.5s ease-in-out infinite alternate;
   z-index: 100;
+  position: relative;
 }

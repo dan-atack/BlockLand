@@ -31,6 +31,12 @@ class Entity {
     }
   }
 
+  // For updating the root element of an entity after UI changes:
+  updateRoot(root) {
+    // Re-assign new root element:
+    this.root = root;
+  }
+
   horizontalTranslate(horizontalOffset) {
     // Entities' DOM elements are shifted when the screen moves. Value for horizontal offset increases as player goes to the right.
     // To make the blocks appear to go to the left, we subtract the horizontal offset from their apparent position:

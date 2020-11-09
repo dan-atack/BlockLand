@@ -221,12 +221,24 @@ class Columns {
   };
 
   derenderColumn = (colNumber) => {
-    this[`column_${colNumber}`].rendered = false;
-    this[`column_${colNumber}`].blocks.forEach((block) => {
-      // No need to determine vertical range, just tell them all to turn off (new method is protected from inadvertent double-toggling)
-      block.deRender();
-    });
+    if (this[`column_${colNumber}`].rendered) {
+      this[`column_${colNumber}`].rendered = false;
+      this[`column_${colNumber}`].blocks.forEach((block) => {
+        // No need to determine vertical range, just tell them all to turn off (new method is protected from inadvertent double-toggling)
+        block.deRender();
+      });
+    }
   };
+
+  // Re-assign all blocks for all columns to new 'world' div, regardless of render status:
+  updateWorldDiv = (root) => {
+    this.root = root
+    for (let i = -WORLD_WIDTH; i <= WORLD_WIDTH; i++) {
+      this[`column_${i}`].blocks.forEach((block) => {
+        block.updateRoot(this.root);
+      })
+    }
+  }
 
   // Method 9: Multi-column vertical shifter:
 
@@ -271,14 +283,24 @@ class Columns {
 
   // Method X: Clear all blocks AND remove them from the game (for rendering new worlds/subworlds?!):
 
-  clearAllColumns = () => {
+  deRenderAllColumns = () => {
     // derender all visible rows to remove their blocks' dom images:
     for (let i = this.visibilityRange[0]; i <= this.visibilityRange[1]; i++) {
       this.derenderColumn(i);
     }
+  };
+  
+  deleteAllColumns = () => {
     // then clear all blocks from all columns:
     for (let i = -WORLD_WIDTH; i <= WORLD_WIDTH; i++) {
       this[`column_${i}`].blocks = [];
     }
   };
+
+  // AKA Render all visible columns:
+  restoreScreen = () => {
+    for (let i = this.visibilityRange[0]; i <= this.visibilityRange[1]; i++) {
+      this.renderColumn(i);
+    }
+  }
 }

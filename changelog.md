@@ -640,6 +640,34 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 
 26. For each of the Backstory and Instructions screens, incorporate the Back to Main Menu button.
 
+27. Create some basic text for the instructions page and background story.
+
+28. Remove the 'intro' CSS class as the default for Text elements; decide which ones in the game to assign that class to specifically. Otherwise the main menu's just a little TOO shiny.
+
+29. Make the in-game text fully opaque again. Try to remember how you did it that other time, and document the solution this time!
+
+### 30. Add some artwork as a backdrop for the background story page (new SCSS rules for back-story class and App creates the element).
+
+31. Add a Button, In-Game Menu, to the game's Sidebar.
+
+32. Create new App method for rendering the IN-GAME menu, which can use the same format as the pre-game menu (shared SCSS classes) but contains a different set of buttons: Save (dummy), Load (dummy) and Settings (also initially dummy). Be sure to include a 'back to game' button!
+
+33. Make a function that pauses the game, de-renders everything in the world, and then renders the in-game menu.
+
+34. Ensure that all buttons/sidebar display widgets have their roots updated too (bring back the restart button!)
+
+35. Remove Mission Text from the Sidebar; eliminate references to it in the game code.
+
+36. In the In-game menu, add code to check the engine's current objectives and objectives achieved parameters and display them as text elements.
+
+### 37. Abstract out the hard-coded links to the HTML elements themselves from the various Classes which update something on the Sidebar (Player Position, Standing-in, etc.) and have all updates of these elements controlled by an Engine update function.
+
+38. Add SCSS rule for objective-achieved text elements that crosses out objectives you've achieved in the menu screen.
+
+### 39. Add dummy buttons for Save, Load, and Settings in the in-game menu.
+
+### 40. Commit and push these changes into production.
+
 # Remaining Tasks for Refactoring:
 
 ### 1. Convert Mission Data file to JSON format, and update Missions and Objectives Classes correspondingly.
