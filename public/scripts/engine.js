@@ -284,9 +284,9 @@ class Engine {
       case 'add-boss':
         // Ensure proper rendering point set:
         if (instructions[1].length < 6) {
-          baddieArray.unshift(document.getElementById('world'));
+          instructions[1].unshift(document.getElementById('world'));
         } else {
-          baddieArray[0] = document.getElementById('world')
+          instructions[1][0] = document.getElementById('world')
         }
         this.baddies.push(new Boss(...instructions[1]));
         this.scripts.push(

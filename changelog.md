@@ -666,9 +666,13 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 
 ### 39. Add dummy buttons for Save, Load, and Settings in the in-game menu.
 
-### 40. Have entering the menu have the same effect as hitting the pause button vis-a-vis acting as keyup events for movement responders. AND have it cancel attack animations.
+### 40. Expand Mission module's try/catch capabilities to prevent errors with entering the menu while mission statement display/special FX criteria are in flux.
 
-### 41. Commit and push these changes into production.
+### 41. Have entering the menu have the same effect as hitting the pause button vis-a-vis acting as keyup events for movement responders.
+
+### 42. Have entering the menu cancel attack animations for the player and baddies.
+
+### 43. Commit and push these changes into production.
 
 # Remaining Tasks for Refactoring:
 

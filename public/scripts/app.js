@@ -149,16 +149,27 @@ class App {
         this.currentUI = 'In-Game Menu';
         this.renderElement('inGameMenu', 'div', 'main-menu', universe);
         this.renderText('inGameMenu', 0, 0, 36, 'BlockLand: The In-Game Menu', 'intro-shine');
+        this.renderButton('saveGameButton', 'menu-button', 'Save Game', 'inGameMenu', this.saveGameHandler);
+        this.renderButton('loadGameButton', 'menu-button', 'Load Game', 'inGameMenu', this.loadGameHandler);
+        this.renderButton('preferencesButton', 'menu-button', 'Preferences', 'inGameMenu', this.preferencesHandler);
         // Display mission briefing and objectives:
-        this.renderText('inGameMenu', 0, 1.5, 36, 'Current Mission:');
-        this.renderText('inGameMenu', 0, 2, 24, this.engine.mission.brief);
+        this.renderButton('missionBriefButton', 'menu-button', 'Current Mission', 'inGameMenu', this.showMissionBriefingHandler);
+        this.renderButton('returnToGame', 'menu-button', 'Resume Game', 'inGameMenu', this.returnToGameHandler);
+    }
+
+    renderBriefingPage = () => {
+        this.currentUI = 'Briefing Page';
+        this.renderElement('inGameMenu', 'div', 'main-menu', universe);
+        this.renderText('inGameMenu', 0, 0, 24, 'Current Mission:');
+        this.renderText('inGameMenu', 0, 0, 18, this.engine.mission.brief);
+        this.renderText('inGameMenu', 0, 0, 24, 'Current Objectives:');
         this.engine.mission.objectivesAchieved.forEach((objective) => {
             this.renderText('inGameMenu', 0, 0, 18, objective.statement, 'menu-achievement')
         });
         this.engine.mission.objectivesRemaining.forEach((objective) => {
             this.renderText('inGameMenu', 0, 0, 18, objective.statement)
         });
-        this.renderButton('returnToGame', 'menu-button', 'Resume Game', 'inGameMenu', this.returnToGameHandler);
+        this.renderButton('backToMainMenu', 'menu-button', 'Return to Main Menu', 'inGameMenu', this.returnToMainMenuHandler);
     }
 
     // Bug-fix method for displaying the user name:
@@ -174,9 +185,33 @@ class App {
 
     // Definitions for button-handling functions:
 
+    // Pre-game menu button handlers:
+
     startButtonHandler = () => {
         this.deRenderCurrentUI();
         this.startGame();
+    }
+
+    instructionsButtonHandler = () => {
+        this.deRenderCurrentUI();
+        this.renderInstructionsPage();
+    }
+
+    backstoryButtonHandler = () => {
+        this.deRenderCurrentUI();
+        this.renderBackstoryPage();
+    }
+
+    // In-game button handlers:
+
+    inGameMenuHandler = () => {
+        this.engine.gameOn = false;
+        // de-render every element from the engine, and remove keyboard movement responders:
+        document.removeEventListener('keydown', this.engine.player.handlePlayerKeydowns);
+        document.removeEventListener('keyup', this.engine.player.handlePlayerKeyups);
+        this.engine.deRenderGameEntities();
+        this.deRenderCurrentUI();
+        this.renderInGameMenu();
     }
 
     pauseButtonHandler = () => {
@@ -193,26 +228,8 @@ class App {
         if (this.engine.player.isDead) this.engine.handleReset();
     }
 
-    instructionsButtonHandler = () => {
-        this.deRenderCurrentUI();
-        this.renderInstructionsPage();
-    }
-
-    backstoryButtonHandler = () => {
-        this.deRenderCurrentUI();
-        this.renderBackstoryPage();
-    }
-
-    inGameMenuHandler = () => {
-        this.engine.gameOn = false;
-        // de-render every element from the engine, and remove keyboard movement responders:
-        document.removeEventListener('keydown', this.engine.player.handlePlayerKeydowns);
-        document.removeEventListener('keyup', this.engine.player.handlePlayerKeyups);
-        this.engine.deRenderGameEntities();
-        this.deRenderCurrentUI();
-        this.renderInGameMenu();
-    }
-
+    // In-game menu button handlers:
+    
     returnToGameHandler = () => {
         this.deRenderCurrentUI();
         // Render world and sidebar, then create Engine:
@@ -228,6 +245,32 @@ class App {
         document.addEventListener('keyup', this.engine.player.handlePlayerKeyups);
         // RESET BUTTON: ONLY VISIBLE ON PLAYER DEATH:
         document.getElementById('resetButton').style.display = 'none';
+    }
+
+    showMissionBriefingHandler = () => {
+        this.deRenderCurrentUI();
+        this.renderBriefingPage();
+    }
+
+    saveGameHandler = () => {
+        console.log('Saving game. Please wait.');
+    }
+
+    loadGameHandler = () => {
+        console.log('Loading game. Please wait.');
+    }
+
+    preferencesHandler = () => {
+        console.log('The lever you have requested #Preferences# is not in service. Please make a note of it.');
+    }
+
+    exitGameHandler = () => {
+        console.log('Exit the game my lord!??');
+    }
+
+    returnToMainMenuHandler = () => {
+        this.deRenderCurrentUI();
+        this.renderInGameMenu();
     }
 
 }
