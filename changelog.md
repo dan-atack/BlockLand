@@ -664,13 +664,13 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 
 38. Add SCSS rule for objective-achieved text elements that crosses out objectives you've achieved in the menu screen.
 
-### 39. Add dummy buttons for Save, Load, and Settings in the in-game menu.
+39. Add dummy buttons for Save, Load, and Settings in the in-game menu.
 
-### 40. Expand Mission module's try/catch capabilities to prevent errors with entering the menu while mission statement display/special FX criteria are in flux.
+40. Expand Mission module's try/catch capabilities to prevent errors with entering the menu while mission statement display/special FX criteria are in flux.
 
-### 41. Have entering the menu have the same effect as hitting the pause button vis-a-vis acting as keyup events for movement responders.
+41. Have entering the menu have the same effect as hitting the pause button vis-a-vis acting as keyup events for movement responders.
 
-### 42. Have entering the menu cancel attack animations for the player and baddies.
+42. Have entering the menu cancel attack animations for the player and baddies, by adding the attack animation to the updateRoot Entity Method.
 
 ### 43. Commit and push these changes into production.
 

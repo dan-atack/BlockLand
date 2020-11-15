@@ -188,8 +188,6 @@ class Engine {
         sec = ('0' + sec).slice(-2);
         let timeString = `${hour} : ${min} : ${sec}`;
         this.clock.innerText = timeString;
-        // Before movement is calculated, check what surface the player is standing on, and what medium (if any) they are immersed in:
-        this.player.updateStandingOnDisplay(this.blocks);
         this.player.determineMedium(this.blocks);
         // Next, the new player movement system: Check which movement requests the player is going to perform:
         this.player.handleMovementRequests();
@@ -216,7 +214,7 @@ class Engine {
         this.checkforBaddieDeaths();
         // Victory: Filter out accomplished objectives, then check for mission objective achievements, then update sidebar:
         this.mission.manageAchievements();
-        // The game will freeze if you finish a mission, then unfreeze after 4.5 seconds and load a new mission:
+        // The game will freeze if you finish a mission, then unfreeze after a few seconds and load a new mission:
         if (this.mission.objectivesRemaining.length == 0) this.updateMission();
         // Lastly, check for DEATH: First the player checks, then the engine follows up in case of death:
         this.player.checkForDeath();
@@ -247,13 +245,16 @@ class Engine {
     }
     // Additionally, run special effects if there are any:
     if (this.mission.specialFX) this.handleSpecialFX();
-    // Finally, set timer before resuming gameplay. Timer duration is derived from special FX cues (if any) or 500 ms by default:
-    setTimeout(
-      () => {
+    // Finally, set interval to check if the game is in the World interface before resuming gameplay.
+    // Timer duration is derived from special FX cues (if any) or 500 ms by default:
+    const resumer = setInterval(() => {
+      if (app.currentUI === 'Game World') {
         this.gameOn = true;
-        // freeze the game for as long as the missions special FX cue requires, or 500ms as a default:
-      },
-      this.mission.specialFX ? this.mission.specialFX[2] * 1000 : 500
+        clearInterval(resumer);
+      }
+      // freeze the game for as long as the missions special FX cue requires, or 500ms as a default:
+    },
+    this.mission.specialFX ? this.mission.specialFX[2] * 1000 : 500
     );
   }
 
@@ -387,7 +388,11 @@ class Engine {
       // Special Effects instructions will use an object, as a prototype for a new way of doing business:
       effect.target.classList.add(effect.effect);
       setTimeout(() => {
-        effect.target.classList.remove(effect.effect);
+        try {
+          effect.target.classList.remove(effect.effect);
+        } catch {
+          // Umm... try again later?
+        }
       }, effect.duration * 1000);
     });
   }
@@ -469,6 +474,7 @@ class Engine {
     // Then respawn any baddies that belong to the current mission:
     this.respawnBaddies();
     // Finally, resume gameplay!
+    console.log('game on.')
     this.gameOn = true;
     document.getElementById('pauseButton').style.display = 'initial';
     this.resetButton.style.display = 'none';

@@ -28,7 +28,6 @@ class Mission {
   // Engine will call this if an objective goes ping:
   manageAchievements() {
     // Display mission objectives/user xp on the sidebar:
-    // document.getElementById('missionBar').innerText = `CURRENT MISSION: ${this.brief}`;
     document.getElementById('playerXP').innerText = `PLAYER XP: ${this.subject.experience}`;
     // Filter out accomplished objectives:
     this.objectivesRemaining = this.objectivesRemaining.filter(
@@ -53,7 +52,7 @@ class Mission {
           try {
             document.getElementById('playerXP').classList.remove('XP');
           } catch {
-            console.log('Animation not cancelled due to menu open.')
+            // If the element has been removed due to the menu being opened, do nothing
           }
           
         }, 3000);
@@ -63,7 +62,6 @@ class Mission {
       this.accomplished = true;
       // Hello Shiny text!
       document.getElementById('playerXP').classList.add('levelup');
-      // document.getElementById('missionBar').classList.add('levelup');
       let announcement = new Text(
         document.getElementById('world'),
         0,
@@ -77,7 +75,7 @@ class Mission {
         try {
           document.getElementById('playerXP').classList.remove('levelup');
         } catch {
-          console.log('Animation not cancelled due to menu open.')
+          // If the element has been removed due to the menu being opened, do nothing
         }
         this.victoryMessageAwarded = false;
       }, 4500);
@@ -108,7 +106,6 @@ class Mission {
     this.specialFX = newMissionData[6] || null;
     // Ensure special FX cues are pointed towards existing DOM elements:
     if (this.specialFX) {
-      console.log(this.specialFX);
       this.specialFX.forEach((effect, idx) => {
         effect.target = document.getElementById(`${newMissionData[6][idx]['target']}`)
       })

@@ -121,12 +121,7 @@ class Player extends Sprite {
     }
   }
 
-  // Player Vital Display Functions:
-  updateStandingOnDisplay() {
-    // this.displayPlayerStandingOn.innerText = `Standing on: ${this.standingOn.name}`;
-  }
-
-  // And a function to tell what medium you're in (basically air or water are your options at the moment):
+  // Figure out what medium you're in (basically air or water are your options at the moment):
   determineMedium(columns) {
     this.medium = columns.blockTypeDetector(this.gridX, this.y);
   }

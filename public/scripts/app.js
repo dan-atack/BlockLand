@@ -206,7 +206,12 @@ class App {
 
     inGameMenuHandler = () => {
         this.engine.gameOn = false;
-        // de-render every element from the engine, and remove keyboard movement responders:
+        // Cancel player movement requests from keydowns:
+        this.engine.player.movingLeft = false;
+        this.engine.player.movingRight = false;
+        this.engine.player.jumping = false;
+        this.engine.player.crouching = false;
+        // De-render every element from the engine, and remove keyboard movement responders:
         document.removeEventListener('keydown', this.engine.player.handlePlayerKeydowns);
         document.removeEventListener('keyup', this.engine.player.handlePlayerKeyups);
         this.engine.deRenderGameEntities();
