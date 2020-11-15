@@ -6,30 +6,6 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <div class="world" id="world">
-      <div class="background"></div>
-    </div>
-    <div class="sidebar-container" id="sidebar">
-      <!-- Suspended server-related functionality: -->
-      <div class="sidebar top">
-        <span class="username" id="username"></span>
-        <button class="logout" id="logout" onmouseup="logout(event)">
-          Logout
-        </button>
-      </div>
-      <span class="sidebar clock top" id="clock"
-        >Current Time: Block O'Clock</span
-      >
-      <button class="sidebar-button" id="pause">Pause</button>
-      <span class="sidebar" id="mission-statement"></span>
-      <span class="sidebar" id="player-coords"></span>
-      <span class="sidebar" id="player-xp"></span>
-      <span class="sidebar" id="standing-on"></span>
-      <span class="sidebar" id="standing-in"></span>
-      <div class="sidebar bottom">
-        <button class="sidebar-button" id="reset">RESTART</button>
-      </div>
-    </div>
     <script src="scripts/constants.js"></script>
     <script src="scripts/helpers/range.js"></script>
     <script src="assets/libraries/basic_biomes.js"></script>
@@ -37,6 +13,10 @@
     <script src="assets/libraries/mission_data.js"></script>
     <script src="assets/libraries/blocktionary.js"></script>
     <script src="scripts/serverFunctions.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/components/element.js"></script>
+    <script src="scripts/components/button.js"></script>
+    <script src="scripts/components/text.js"></script>
     <script src="scripts/entity.js"></script>
     <script src="scripts/sprite.js"></script>
     <script src="scripts/baddie.js"></script>
@@ -46,7 +26,6 @@
     <script src="scripts/objective.js"></script>
     <script src="scripts/mission.js"></script>
     <script src="scripts/columns.js"></script>
-    <script src="scripts/text.js"></script>
     <script src="scripts/engine.js"></script>
     <script src="scripts/block.js"></script>
     <script src="scripts/player.js"></script>

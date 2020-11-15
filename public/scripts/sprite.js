@@ -161,4 +161,13 @@ class Sprite extends Entity {
     }
   }
 
+  // D - Update root node for sprite and attack animation:
+  updateRoot(root) {
+    // Re-assign new root element:
+    this.root = root;
+    if (this.isAttacking) {
+      this.root.appendChild(this.attackAnimation);
+    }
+  }
+
 }

@@ -3,25 +3,9 @@
 // Start out by defining links to the index file:
 
 const universe = document.querySelector('body');
-const world = document.getElementById('world');
-const sidebar = document.getElementById('sidebar');
-const clock = document.getElementById('clock');
-const pauseButton = document.getElementById('pause');
-const missionBar = document.getElementById('mission-statement');
-const playerCoords = document.getElementById('player-coords');
-const playerXP = document.getElementById('player-xp');
-const playerStandingOnBlockType = document.getElementById('standing-on');
-const playerStandingInMedium = document.getElementById('standing-in');
-const resetButton = document.getElementById('reset');
-const userDisplay = document.getElementById('username');
-const logoutButton = document.getElementById('logout');
+
 // Toggle switch for server functionality AKA DEV MODE:
 const DEV_MODE = true;
-if (!DEV_MODE) {
-  // If we are not in the development environment, toggle display of server-related HTML elements:
-  userDisplay.style.display = 'none';
-  logoutButton.style.display = 'none';
-}
 
 // World Constraints: Establishing the maximum size of the entire world, in terms of width in columns,
 // spreading in either direction of the initial game screen:
@@ -51,4 +35,4 @@ const SCREEN_HEIGHT = SCREEN_HEIGHT_IN_BLOCKS * BLOCK_WIDTH;
 
 // Server-side stuff: Have a Current User to keep track of the player's progress:
 
-CURRENT_USER = '';
+let CURRENT_USER = '';

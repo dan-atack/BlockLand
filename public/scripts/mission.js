@@ -28,8 +28,7 @@ class Mission {
   // Engine will call this if an objective goes ping:
   manageAchievements() {
     // Display mission objectives/user xp on the sidebar:
-    missionBar.innerText = `CURRENT MISSION: ${this.brief}`;
-    playerXP.innerText = `PLAYER XP: ${this.subject.experience}`;
+    document.getElementById('playerXP').innerText = `PLAYER XP: ${this.subject.experience}`;
     // Filter out accomplished objectives:
     this.objectivesRemaining = this.objectivesRemaining.filter(
       (objective) => objective.achieved !== true
@@ -38,10 +37,10 @@ class Mission {
       objective.test();
       if (objective.achieved) {
         this.subject.experience += objective.xpValue;
-        playerXP.classList.add('XP');
+        document.getElementById('playerXP').classList.add('XP');
         this.objectivesAchieved.push(objective);
         const announcement = new Text(
-          world,
+          document.getElementById('world'),
           0,
           0,
           22,
@@ -50,17 +49,21 @@ class Mission {
         );
         setTimeout(() => {
           announcement.removeDOM();
-          playerXP.classList.remove('XP');
+          try {
+            document.getElementById('playerXP').classList.remove('XP');
+          } catch {
+            // If the element has been removed due to the menu being opened, do nothing
+          }
+          
         }, 3000);
       }
     });
     if (this.objectivesRemaining.length === 0 && !this.victoryMessageAwarded) {
       this.accomplished = true;
       // Hello Shiny text!
-      playerXP.classList.add('levelup');
-      missionBar.classList.add('levelup');
+      document.getElementById('playerXP').classList.add('levelup');
       let announcement = new Text(
-        world,
+        document.getElementById('world'),
         0,
         0,
         24,
@@ -69,8 +72,11 @@ class Mission {
       );
       setTimeout(() => {
         announcement.removeDOM();
-        playerXP.classList.remove('levelup');
-        missionBar.classList.remove('levelup');
+        try {
+          document.getElementById('playerXP').classList.remove('levelup');
+        } catch {
+          // If the element has been removed due to the menu being opened, do nothing
+        }
         this.victoryMessageAwarded = false;
       }, 4500);
       this.victoryMessageAwarded = true;
@@ -98,5 +104,11 @@ class Mission {
     if (this.setupInstructions)
       this.numberOfSetupSteps = this.setupInstructions.length;
     this.specialFX = newMissionData[6] || null;
+    // Ensure special FX cues are pointed towards existing DOM elements:
+    if (this.specialFX) {
+      this.specialFX.forEach((effect, idx) => {
+        effect.target = document.getElementById(`${newMissionData[6][idx]['target']}`)
+      })
+    }
   }
 }
