@@ -20,6 +20,7 @@ class App {
         // Render world and sidebar, then create Engine:
         this.renderWorld();
         this.renderSidebar();
+        this.updateUserName();
         this.engine = new Engine(universe);
         // Engine start sequence:
         this.engine.blocks.biomeBuilder(range(0, SCREEN_WIDTH / PLAYER_WIDTH - 1));
@@ -172,11 +173,11 @@ class App {
         this.renderButton('backToMainMenu', 'menu-button', 'Return to Main Menu', 'inGameMenu', this.returnToMainMenuHandler);
     }
 
-    // Bug-fix method for displaying the user name:
+    // Method for displaying the user name:
     updateUserName = () => {
         // Hide the logout button if we're in production mode. If we're in Dev mode, show the user's name:
         if (DEV_MODE) {
-            document.getElementById('logout').innerText = `Logged in as ${CURRENT_USER}`;
+            document.getElementById('userName').innerText = `Logged in as ${CURRENT_USER}`;
             document.getElementById('logout').style.display = 'initial';
         } else {
             document.getElementById('logout').style.display = 'none';
@@ -240,6 +241,7 @@ class App {
         // Render world and sidebar, then create Engine:
         this.renderWorld();
         this.renderSidebar();
+        this.updateUserName();
         // Update Engine Sidebar element roots:
         this.engine.updateSidebarRoots();
         // Engine start sequence:
