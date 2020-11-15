@@ -578,7 +578,7 @@ Sometimes you have to do some housework before you can expand to bigger, awesome
 
 10. Initial Refactoring is now complete. Try to keep it tidy, and after the next feature is added we'll take a look at the Engine and see if we can extract some stuff to some helper functions!
 
-### Version 1.2.4: The In-Game Menu
+### Version 1.3.0: The In-Game Menu
 
 As fun as it is to develop more content, sometimes you need to take care of logistical stuff first. The game's interface is barely evolved from the Nyan Cats game, and this is something that should be addressed before any further work on the game's Engine cycle. We need to develop the capability to do stuff outside the game cycle, both before and after the game has started. The game's menu will be rendered by the Main script before the Engine cycle starts, and contain options to visit the instructions page, a few dummy buttons, and Start New Game, which starts the Engine. Once in-game, the sidebar will have a button for the menu, and we will remove the mission briefing from the sidebar. The in-game menu will enable navigation to pages showing your current mission info (briefing, list of objectives) as well as some dummy options for later use.
 
@@ -646,33 +646,65 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 
 29. Make the in-game text fully opaque again. Try to remember how you did it that other time, and document the solution this time!
 
-### 30. Add some artwork as a backdrop for the background story page (new SCSS rules for back-story class and App creates the element).
+30. Add a Button, In-Game Menu, to the game's Sidebar.
 
-31. Add a Button, In-Game Menu, to the game's Sidebar.
+31. Create new App method for rendering the IN-GAME menu, which can use the same format as the pre-game menu (shared SCSS classes) but contains a different set of buttons: Save (dummy), Load (dummy) and Settings (also initially dummy). Be sure to include a 'back to game' button!
 
-32. Create new App method for rendering the IN-GAME menu, which can use the same format as the pre-game menu (shared SCSS classes) but contains a different set of buttons: Save (dummy), Load (dummy) and Settings (also initially dummy). Be sure to include a 'back to game' button!
+32. Make a function that pauses the game, de-renders everything in the world, and then renders the in-game menu.
 
-33. Make a function that pauses the game, de-renders everything in the world, and then renders the in-game menu.
+33. Ensure that all buttons/sidebar display widgets have their roots updated too (bring back the restart button!)
 
-34. Ensure that all buttons/sidebar display widgets have their roots updated too (bring back the restart button!)
+34. Remove Mission Text from the Sidebar; eliminate references to it in the game code.
 
-35. Remove Mission Text from the Sidebar; eliminate references to it in the game code.
+35. In the In-game menu, add code to check the engine's current objectives and objectives achieved parameters and display them as text elements.
 
-36. In the In-game menu, add code to check the engine's current objectives and objectives achieved parameters and display them as text elements.
+36. Abstract out the hard-coded links to the HTML elements themselves from the various Classes which update something on the Sidebar (Player Position, Standing-in, etc.) and have all updates of these elements controlled by an Engine update function. Consider adding a try/catch block to the timeout function that removes the special effects (since there can be confusion if you enter the menu while special effects are playing).
 
-37. Abstract out the hard-coded links to the HTML elements themselves from the various Classes which update something on the Sidebar (Player Position, Standing-in, etc.) and have all updates of these elements controlled by an Engine update function. Consider adding a try/catch block to the timeout function that removes the special effects (since there can be confusion if you enter the menu while special effects are playing).
+37. Add SCSS rule for objective-achieved text elements that crosses out objectives you've achieved in the menu screen.
 
-38. Add SCSS rule for objective-achieved text elements that crosses out objectives you've achieved in the menu screen.
+38. Add dummy buttons for Save, Load, and Settings in the in-game menu.
 
-39. Add dummy buttons for Save, Load, and Settings in the in-game menu.
+39. Expand Mission module's try/catch capabilities to prevent errors with entering the menu while mission statement display/special FX criteria are in flux.
 
-40. Expand Mission module's try/catch capabilities to prevent errors with entering the menu while mission statement display/special FX criteria are in flux.
+40. Have entering the menu have the same effect as hitting the pause button vis-a-vis acting as keyup events for movement responders.
 
-41. Have entering the menu have the same effect as hitting the pause button vis-a-vis acting as keyup events for movement responders.
+41. Have entering the menu cancel attack animations for the player and baddies, by adding the attack animation to the updateRoot Entity Method.
 
-42. Have entering the menu cancel attack animations for the player and baddies, by adding the attack animation to the updateRoot Entity Method.
+42. Commit and push these changes into production.
 
-### 43. Commit and push these changes into production.
+## Version 1.3.1: Hit Points
+
+At long last the time has come to make the Player, as well as some of the tougher Enemies, a bit more durable. In this patch the aim will be to add HP for all Sprites, introduce damage into the combat collisions calculator, and display the Player's HP in the Sidebar. Death will no longer necessarily be an automatic outcome of being hit, but will result when a Sprite's HP fall to (or below) zero. Additionally, being hit should produce a knockback effect as well as temporary (1 - 2 frames) invulnerability for the Player so that they don't lose several HP for a single encounter.
+
+Recovering HP and augmenting the max HP for the Player will be the subject of future patches that introduce items and the RPG progression tree, respectively.
+
+1. Add currentHP and maxHP properties to Sprite class, with a default value of 1 for each. Also add hitpoints argument to constructor function.
+
+2. Give the Player 3 HP to start the game with.
+
+3. Give each specific attack (Claws, electricity) a damage value, in the form of of yet another Sprite property: currentAttackDamage.
+
+4. For the Sprite, Player and Baddie Classes, change all references to 'collisionStatus' property to 'damageRecieved' property, and change the value from a string to an integer.
+
+5. Update the Collisions module to take an attack's damage value and pass that onto the victim's damageRecieved property.
+
+6. For the Player and Baddie classes, make their collision-status check mechanism subtract damageRecieved from current hitpoints; if the result is equal to or less than zero, then make them die. As soon as the subtraction is complete reset damageRecieved to zero.
+
+### 7. Remove the playerMedium Sidebar element from the App and Engine.
+
+### 8. Create a new Sidebar element to display the Player's HP in the form of a bar with 0 on one end and <max HP> on the other.
+
+### 9. Have the Engine's updateSidebarDisplays method check the Player's HP and adjust the display accordingly.
+
+### 10. Add a Sprite knockback method that is called if they are hit but not killed (this method should also grant momentary invulnerability).
+
+### 11. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
+
+## Version 1.3.2: Items
+
+## Version 1.3.3: RPG Character Development
+
+## Version 1.4.0: Level Editor??
 
 # Remaining Tasks for Refactoring:
 
@@ -709,6 +741,8 @@ This process actually involves quite a bit of refactoring, since we're aiming to
 ### 3. New block type: Singed - like they've been burned by time bubbles/explosions/god knows what!
 
 ### 4. Sign post blocks (alt. size rules for some block types???? Built as readable property in the Blocktionary???)
+
+### 5. Add a new backdrop for the background story page (new SCSS rules for back-story class and App creates the element).
 
 # Food for Future Thought/ General Notes:
 

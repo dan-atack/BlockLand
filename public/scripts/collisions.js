@@ -26,7 +26,7 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
           }
         } else {
           // Player is to the right, player faces right, baddie faces left: you stand back-to-back.
@@ -36,7 +36,7 @@ class Collisions {
             // Baddie's zone of killing you is UNAFFECTED by baddie attacks (until we invent energy fields anyway):
             badDictionary[`baddie_${baddie.type}`].backToBack.dangerZone
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
           }
         }
         // Player faces left:
@@ -52,7 +52,7 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if attack is successful, the baddie is killed!
-            baddie.collisionStatus = 'hit-from-front';
+            baddie.damageRecieved = player.currentAttackDamage;
             // If your strike fails we must consider whether you can now be killed by them:
           } else if (
             deltaEu <
@@ -64,7 +64,7 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
           }
         } else {
           // Player is to the right, player faces left, baddie faces left: player is behind baddie!
@@ -74,13 +74,13 @@ class Collisions {
             player.attackRadius >
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
-            // if attack succeeds, the baddie is killed!
-            baddie.collisionStatus = 'hit-from-behind';
+            // if attack succeeds, the baddie is hit!
+            baddie.damageRecieved = player.currentAttackDamage;
           } else if (
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].playerBehind.dangerZone
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
           }
         }
       }
@@ -96,12 +96,12 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if they are, the baddie is killed!
-            baddie.collisionStatus = 'hit-from-behind';
+            baddie.damageRecieved = player.currentAttackDamage;
           } else if (
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].playerBehind.dangerZone
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
           }
         } else {
           // Player is left of the baddie, player faces right, baddie faces left (head-on collision):
@@ -112,7 +112,7 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if they are, the baddie is killed!
-            baddie.collisionStatus = 'hitFromFront';
+            baddie.damageRecieved = player.currentAttackDamage;
           } else if (
             deltaEu <
               badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone ||
@@ -123,7 +123,7 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
           }
         }
         // player faces left:
@@ -135,7 +135,7 @@ class Collisions {
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].backToBack.dangerZone
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
           }
         } else {
           // Player stands to the left, player faces left, baddie faces left: baddie is behind you!
@@ -150,7 +150,7 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
           }
         }
       }

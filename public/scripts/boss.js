@@ -85,6 +85,7 @@ class Boss extends Baddie {
     if (this.attackCountdown === 0) {
       this.attackRadius = 1.5;
       this.attackCountdown = 9;
+      this.currentAttackDamage = 2;
       // then call the general purpose attack function, and tell it which animation to use:
       this.attack('electricity');
       this.attackAnimation.classList.add('boss');

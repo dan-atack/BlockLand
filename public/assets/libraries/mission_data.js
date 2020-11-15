@@ -80,6 +80,15 @@ const missions = [
       [
         'add-baddies',
         [
+          // The New Way:
+          // {
+          //   xStart: 17,
+          //   yStart: 10,
+          //   baddieType: 1002,
+          //   baddieSerial: 1001,
+          //   xRange: [16, 17],
+          //   hitpoints: 10
+          // },
           [ 17, 10, 1002, 1001, [16, 17]],
           [ -10, 6, 1001, 1002, [-10, 0]],
         ],

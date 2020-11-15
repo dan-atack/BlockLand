@@ -4,9 +4,9 @@ class Baddie extends Sprite {
   // Just like the player class! Oh boy, it's like they're RELATED or something >:-(
   // New to the bad guys since they're not unique: type (for which sprite to render) and serial number (for the engine)
   // xRange is an array of the start/stop values of the baddie's territory.
-  constructor(root, xStart, yStart, baddieType = 1001, baddieSerial, xRange) {
+  constructor(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints=1) {
     // Presumes that all enemies start off the initial screen; corrected further below after DOM element is appended to document:
-    super(root, xStart, yStart);
+    super(root, xStart, yStart, hitpoints);
     this.type = baddieType;
     this.serialNum = baddieSerial;
     // X range is the territory a baddie will patrol:
@@ -118,16 +118,19 @@ class Baddie extends Sprite {
   }
 
   // Handle Collision: Like the player class, baddies will register collisions they're involved in:
-  handleCollisions() {
-    if (this.collisionStatus !== 'clear') {
-      // Forward thinking here: when HP are introduced there will be more options here, and the collision status
-      // is the key (status should be the name of a type of attack, or better still an attack object with a name and a damage amount!)
-      this.handleDeath();
-    }
-  }
+  // handleCollisions() {
+  //   if (this.damageRecieved > 0) {
+  //     this.currentHP -= this.damageRecieved;
+  //     this.damageRecieved = 0;
+
+  //     // Forward thinking here: when HP are introduced there will be more options here, and the collision status
+  //     // is the key (status should be the name of a type of attack, or better still an attack object with a name and a damage amount!)
+  //     this.handleDeath();
+  //   }
+  // }
 
   // Death - A baddie's final moments are his finest:
-  handleDeath() {
+  handleDeath(type) {
     // Engine can check a baddie for deathLoops and remove them when the counter reaches zero:
     if (this.deathLoops > 0) {
       // Death of a baddie: baddie sprite is replaced by a gif of them dying which plays for a certain amount of game loops:

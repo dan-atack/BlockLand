@@ -210,7 +210,12 @@ class Engine {
         this.handleBaddieUpdates();
         // Initiate collision detection between objects in motion:
         this.collisions.compare(3, this.baddies);
-        this.baddies.forEach((baddie) => baddie.handleCollisions());
+        this.baddies.forEach((baddie) => {
+          baddie.handleCollisions();
+          if (baddie.isDying) {
+            baddie.handleDeath('attack');
+          }
+        });
         this.checkforBaddieDeaths();
         // Victory: Filter out accomplished objectives, then check for mission objective achievements, then update sidebar:
         this.mission.manageAchievements();
