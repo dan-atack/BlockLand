@@ -690,7 +690,7 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 
 6. For the Player and Baddie classes, make their collision-status check mechanism subtract damageRecieved from current hitpoints; if the result is equal to or less than zero, then make them die. As soon as the subtraction is complete reset damageRecieved to zero.
 
-### 7. Remove the playerMedium Sidebar element from the App and Engine.
+7. Remove the playerMedium Sidebar element from the App and Engine.
 
 ### 8. Create a new Sidebar element to display the Player's HP in the form of a bar with 0 on one end and <max HP> on the other.
 

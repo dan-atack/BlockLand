@@ -90,11 +90,10 @@ class App {
         this.renderElement('clock', 'span', 'sidebar', document.getElementById('sidebar'), 'clock');
         this.renderButton('pauseButton', 'sidebar-button', 'Pause', 'sidebar', this.pauseButtonHandler);
         this.renderButton('inGameMenuButton', 'sidebar-button', 'MENU', 'sidebar', this.inGameMenuHandler);
-        // this.renderElement('missionBar', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('playerCoords', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('playerXP', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', document.getElementById('sidebar'));
-        this.renderElement('playerStandingInMedium', 'span', 'sidebar', document.getElementById('sidebar'));
+        // this.renderElement('playerStandingInMedium', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('sidebar-bottom', 'div', 'sidebar', document.getElementById('sidebar'), 'bottom');
         this.renderButton('resetButton', 'sidebar-button', 'RESTART', 'sidebar-bottom', this.resetButtonHandler);
     }

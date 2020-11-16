@@ -44,7 +44,7 @@ class Engine {
     this.clock = document.getElementById('clock');
     this.displayPlayerCoords = document.getElementById('playerCoords');
     this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
-    this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
+    // this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
     this.resetButton = document.getElementById('resetButton');
     // Physics Object handles motion and collision detection. One Physics per sprite (hello relativity!)
     this.playerPhysics = new Physics(this.blocks, this.player);
@@ -423,14 +423,14 @@ class Engine {
 
   updateSidebarDisplays = () => {
     this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
-    this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}.`;
-    if (this.player.medium.name.split(': ').length > 1) {
-      this.displayPlayerMedium.innerText = `Player is in ${
-        this.player.medium.name.split(': ')[0]
-      }.`;
-    } else {
-      this.displayPlayerMedium.innerText = 'Player is not submerged.';
-    }
+    this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
+    // if (this.player.medium.name.split(': ').length > 1) {
+    //   this.displayPlayerMedium.innerText = `Player is in ${
+    //     this.player.medium.name.split(': ')[0]
+    //   }.`;
+    // } else {
+    //   this.displayPlayerMedium.innerText = 'Player is not submerged.';
+    // }
   }
 
   // In case, in answer to the question 'would you like to play again?'... the user has selected... YES:
@@ -571,7 +571,7 @@ class Engine {
     this.clock = document.getElementById('clock');
     this.displayPlayerCoords = document.getElementById('playerCoords');
     this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
-    this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
+    // this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
     this.resetButton = document.getElementById('resetButton');
   }
   
