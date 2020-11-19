@@ -89,7 +89,7 @@ const missions = [
           //   xRange: [16, 17],
           //   hitpoints: 10
           // },
-          [ 17, 10, 1002, 1001, [16, 17]],
+          [ 18, 10, 1002, 1001, [16, 18]],
           [ -10, 6, 1001, 1002, [-10, 0]],
         ],
       ],
@@ -130,7 +130,7 @@ const missions = [
           // baddie ranges must be processed by the engine, not given as a range function output here:
           [ -22, 6, 1002, 1003, [-22, -14]],
           [ -24, 8, 1002, 1004, [-30, -24]],
-          [ 21, 9, 1001, 1005, [21, 30]],
+          [ 22, 9, 1001, 1005, [22, 30]],
         ],
       ],
     ], // end of mission setup instructions

@@ -42,6 +42,7 @@ class Engine {
     this.theTime = new Date();
     // All Engine-controlled sidebar elements are defined here:
     this.clock = document.getElementById('clock');
+    this.displayPlayerHP = document.getElementById('playerHP');
     this.displayPlayerCoords = document.getElementById('playerCoords');
     this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
     // this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
@@ -424,13 +425,10 @@ class Engine {
   updateSidebarDisplays = () => {
     this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
     this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
-    // if (this.player.medium.name.split(': ').length > 1) {
-    //   this.displayPlayerMedium.innerText = `Player is in ${
-    //     this.player.medium.name.split(': ')[0]
-    //   }.`;
-    // } else {
-    //   this.displayPlayerMedium.innerText = 'Player is not submerged.';
-    // }
+    this.displayPlayerHP.innerText = `PLayer HP: ${this.player.currentHP}`;
+    this.displayPlayerHP.style.width = `${this.player.currentHP}%`;
+    this.displayPlayerHP.style.backgroundColor = 'limegreen';
+    this.displayPlayerHP.style.alignSelf = 'left';
   }
 
   // In case, in answer to the question 'would you like to play again?'... the user has selected... YES:
@@ -571,7 +569,7 @@ class Engine {
     this.clock = document.getElementById('clock');
     this.displayPlayerCoords = document.getElementById('playerCoords');
     this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
-    // this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
+    this.displayPlayerHP = document.getElementById('playerHP');
     this.resetButton = document.getElementById('resetButton');
   }
   

@@ -692,13 +692,19 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 
 7. Remove the playerMedium Sidebar element from the App and Engine.
 
-### 8. Create a new Sidebar element to display the Player's HP in the form of a bar with 0 on one end and <max HP> on the other.
+8. Create a new Sidebar element to display the Player's HP.
 
-### 9. Have the Engine's updateSidebarDisplays method check the Player's HP and adjust the display accordingly.
+9. Have the Engine's updateSidebarDisplays method check the Player's HP and adjust the display accordingly.
 
-### 10. Add a Sprite knockback method that is called if they are hit but not killed (this method should also grant momentary invulnerability).
+10. Add a Sprite knockback method that is called if they are hit but not killed (this method should also grant momentary invulnerability).
 
-### 11. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
+11. Add a 'current attack knockback' value to all specific attacks which is passed to the knockback method to determine how much force a particular attack throws people with. Remember that the universe has a terminal velocity of 1 at the moment!
+
+### 12. Make baddies get hit by knockback from your attacks, too!
+
+### 13. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
+
+### 14. Update the loucanphile of the HP display element.
 
 ## Version 1.3.2: Items
 

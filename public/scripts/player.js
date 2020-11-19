@@ -1,7 +1,7 @@
 // The Player Class! You'll start out as a little sprite and maybe eventually you'll be able to move. If you're good.
 // Addendum: Who would have thought moving would be so hard!
 class Player extends Sprite {
-  constructor(root, xStart, yStart, hitpoints=3) {
+  constructor(root, xStart, yStart, hitpoints=10) {
     super(root, xStart, yStart, hitpoints);
     this.domElement.src = './assets/sprites/player.png';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
@@ -117,6 +117,7 @@ class Player extends Sprite {
       this.attackRadius = 0.5;
       this.attackCountdown = 10;
       this.currentAttackDamage = 1;
+      this.currentAttackKnockback = 0.25;     // Knockback is converted into kinetic motion (request)
       // then call the attack rendering function, and tell it which animation to use:
       this.attack('slash');
     }
@@ -136,15 +137,7 @@ class Player extends Sprite {
         this.medium.properties.includes('lethal'))
     ) {
       this.handleDeath('terrain');
-      // Otherwise, check if you've been damaged by a Baddie's attack:
-    } 
-    // else if (this.damageRecieved > 0) {
-    //   this.currentHP -= this.damageRecieved;
-    //   this.damageRecieved = 0;
-    //   if (this.currentHP <= 0) {
-    //     this.handleDeath('attack');
-    //   }
-    // }
+      }
     // Call Sprite-class collision-damage calculation method:
     this.handleCollisions();
   }
