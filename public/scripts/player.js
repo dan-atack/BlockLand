@@ -1,7 +1,7 @@
 // The Player Class! You'll start out as a little sprite and maybe eventually you'll be able to move. If you're good.
 // Addendum: Who would have thought moving would be so hard!
 class Player extends Sprite {
-  constructor(root, xStart, yStart, hitpoints=10) {
+  constructor(root, xStart, yStart, hitpoints=3) {
     super(root, xStart, yStart, hitpoints);
     this.domElement.src = './assets/sprites/player.png';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
@@ -136,6 +136,7 @@ class Player extends Sprite {
       (this.medium.properties.length > 0 &&
         this.medium.properties.includes('lethal'))
     ) {
+      this.currentHP = 0;
       this.handleDeath('terrain');
       }
     // Call Sprite-class collision-damage calculation method:

@@ -700,11 +700,11 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 
 11. Add a 'current attack knockback' value to all specific attacks which is passed to the knockback method to determine how much force a particular attack throws people with. Remember that the universe has a terminal velocity of 1 at the moment!
 
-### 12. Make baddies get hit by knockback from your attacks, too!
+12. Make baddies get hit by knockback from your attacks, too!
 
-### 13. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
+13. Update the loucanphile of the HP display element. Ahh, that's better!
 
-### 14. Update the loucanphile of the HP display element.
+### 14. Push to production!
 
 ## Version 1.3.2: Items
 
@@ -714,13 +714,15 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 
 # Remaining Tasks for Refactoring:
 
-### 1. Convert Mission Data file to JSON format, and update Missions and Objectives Classes correspondingly.
+### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
 
-### 2. Before there are too many of them, refactor the Class Components to evolve from a basic Element parent class.
+### 2. Convert the rest of the Mission Data file to JSON format, and update Missions and Objectives Classes correspondingly.
 
-### 3. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+### 3. Before there are too many of them, refactor the Class Components to evolve from a basic Element parent class.
 
-### 4. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
+### 4. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+
+### 5. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
 
 ### X. In general, try to organize things around the principle of each aspect of an object's existence being handled by ONE thing - don't have many different methods involved in rendering/translating; have one meta-method that handles it all (by calling individual sub-functions, to avoid clutter). Example of how this does not currently happen: Block creation is handled entirely by the Columns Class's block printer method... Except for the blocks made by the Engine's level setup reducer method!
 

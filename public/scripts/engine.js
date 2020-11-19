@@ -42,6 +42,7 @@ class Engine {
     this.theTime = new Date();
     // All Engine-controlled sidebar elements are defined here:
     this.clock = document.getElementById('clock');
+    this.displayPlayerHPLabel = document.getElementById('text-Player');
     this.displayPlayerHP = document.getElementById('playerHP');
     this.displayPlayerCoords = document.getElementById('playerCoords');
     this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
@@ -423,12 +424,22 @@ class Engine {
   }
 
   updateSidebarDisplays = () => {
+    // Show each player HP as a heart:
+    let healthHearts = '';
+    for (let i = 0; i < this.player.currentHP; i++) {
+      healthHearts += ' + ';
+    };
+    // Determine colour of HP display element based on player's health percentage:
+    let hpColor = this.player.currentHP / this.player.maxHP > 0.7 ?
+    'limegreen' : this.player.currentHP / this.player.maxHP > 0.4 ?
+    'yellow' :
+    'red';
     this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
     this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
-    this.displayPlayerHP.innerText = `PLayer HP: ${this.player.currentHP}`;
-    this.displayPlayerHP.style.width = `${this.player.currentHP}%`;
-    this.displayPlayerHP.style.backgroundColor = 'limegreen';
-    this.displayPlayerHP.style.alignSelf = 'left';
+    this.displayPlayerHPLabel.innerText = `Player HP (Max: ${this.player.maxHP})`;
+    this.displayPlayerHP.innerText = `${healthHearts}`;
+    this.displayPlayerHP.style.width = `${this.player.currentHP * 10}%`;
+    this.displayPlayerHP.style.backgroundColor = hpColor;
   }
 
   // In case, in answer to the question 'would you like to play again?'... the user has selected... YES:
@@ -569,6 +580,7 @@ class Engine {
     this.clock = document.getElementById('clock');
     this.displayPlayerCoords = document.getElementById('playerCoords');
     this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
+    this.displayPlayerHPLabel = document.getElementById('text-Player');
     this.displayPlayerHP = document.getElementById('playerHP');
     this.resetButton = document.getElementById('resetButton');
   }

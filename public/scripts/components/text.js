@@ -13,7 +13,7 @@ class Text {
     this.domElement.style.bottom = `${y * BLOCK_WIDTH}px`;
     this.domElement.style.fontSize = `${size}px`;
     this.domElement.innerText = text;
-    this.domElement.id = this.text.split(' ')[0];
+    this.domElement.id = `text-${this.text.split(' ')[0]}`;
     this.domElement.style.zIndex = 1000;
     this.domElement.classList.add(this.messageClass);
     this.root.appendChild(this.domElement);

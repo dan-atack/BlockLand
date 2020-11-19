@@ -1,5 +1,5 @@
 class Boss extends Baddie {
-  constructor(root, xStart, yStart, baddieType = 1003, baddieSerial, xRange, hitpoints=10) {
+  constructor(root, xStart, yStart, baddieType = 1003, baddieSerial, xRange, hitpoints=5) {
     super(root, xStart, yStart, (baddieType = 1003), baddieSerial, xRange, hitpoints);
     this.domElement.classList.add('boss');
     this.patrolInterval = 9;
