@@ -1,6 +1,6 @@
 class Boss extends Baddie {
-  constructor(root, xStart, yStart, baddieType = 1003, baddieSerial, xRange) {
-    super(root, xStart, yStart, (baddieType = 1003), baddieSerial, xRange);
+  constructor(root, xStart, yStart, baddieType = 1003, baddieSerial, xRange, hitpoints=5) {
+    super(root, xStart, yStart, (baddieType = 1003), baddieSerial, xRange, hitpoints);
     this.domElement.classList.add('boss');
     this.patrolInterval = 9;
     // Bosses have bigger everything:
@@ -85,6 +85,8 @@ class Boss extends Baddie {
     if (this.attackCountdown === 0) {
       this.attackRadius = 1.5;
       this.attackCountdown = 9;
+      this.currentAttackDamage = 2;
+      this.currentAttackKnockback = 0.5;
       // then call the general purpose attack function, and tell it which animation to use:
       this.attack('electricity');
       this.attackAnimation.classList.add('boss');

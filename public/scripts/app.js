@@ -87,14 +87,15 @@ class App {
         this.renderElement('sidebar-top', 'div', 'sidebar', document.getElementById('sidebar'), 'top');
         this.renderElement('userName', 'span', 'username', document.getElementById('sidebar-top'));
         this.renderButton('logout', 'logout', 'Logout', 'sidebar-top', handleLogout);
-        this.renderElement('clock', 'span', 'sidebar', document.getElementById('sidebar'), 'clock');
+        this.renderElement('clock', 'span', 'sidebar', document.getElementById('sidebar'), 'bottom');
         this.renderButton('pauseButton', 'sidebar-button', 'Pause', 'sidebar', this.pauseButtonHandler);
         this.renderButton('inGameMenuButton', 'sidebar-button', 'MENU', 'sidebar', this.inGameMenuHandler);
-        // this.renderElement('missionBar', 'span', 'sidebar', document.getElementById('sidebar'));
+        this.renderElement('playerHPBox', 'div', 'healthbar-box', document.getElementById('sidebar'), 'top');
+        this.renderText('playerHPBox', 0, 0, 18, 'Player HP:');
+        this.renderElement('playerHP', 'div', 'healthbar', document.getElementById('playerHPBox'));
         this.renderElement('playerCoords', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('playerXP', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', document.getElementById('sidebar'));
-        this.renderElement('playerStandingInMedium', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('sidebar-bottom', 'div', 'sidebar', document.getElementById('sidebar'), 'bottom');
         this.renderButton('resetButton', 'sidebar-button', 'RESTART', 'sidebar-bottom', this.resetButtonHandler);
     }

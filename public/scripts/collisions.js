@@ -9,7 +9,12 @@ class Collisions {
   }
 
   // DF method will determine who faces who in collisions that occur between player and baddie:
-  determineFacing(deltaX, deltaEu, player, baddie) {
+  determineFacing(deltaX, deltaY, deltaEu, player, baddie) {
+    // School of knocks: who gets hit by what force (the entity name is the entity being knocked):
+    const playerVerticalKnock = deltaY / 2;
+    const baddieVerticalKnock = -deltaY / 2;    // Since delta Y is always from the player's perspective
+    const playerHorizontalKnock = baddie.currentAttackKnockback || 0.4;   // Default value for when baddies just walk into you.
+    const baddieHorizontalKnock = player.currentAttackKnockback;    // horizontal knocks are unsigned here
     // Enter the logic tree: If delta x is greater than zero, player is to the right of the baddie:
     if (deltaX > 0) {
       if (player.facing === 'right') {
@@ -26,7 +31,9 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            // If there's a hit, player takes damage and is knocked according to what direction you're hit from:
+            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
           }
         } else {
           // Player is to the right, player faces right, baddie faces left: you stand back-to-back.
@@ -36,7 +43,8 @@ class Collisions {
             // Baddie's zone of killing you is UNAFFECTED by baddie attacks (until we invent energy fields anyway):
             badDictionary[`baddie_${baddie.type}`].backToBack.dangerZone
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
           }
         }
         // Player faces left:
@@ -51,8 +59,9 @@ class Collisions {
             player.attackRadius >
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
-            // if attack is successful, the baddie is killed!
-            baddie.collisionStatus = 'hit-from-front';
+            // if attack is successful, the baddie is hit!
+            baddie.damageRecieved = player.currentAttackDamage;
+            baddie.getKnockedBack(-baddieHorizontalKnock, baddieVerticalKnock);
             // If your strike fails we must consider whether you can now be killed by them:
           } else if (
             deltaEu <
@@ -64,7 +73,8 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
           }
         } else {
           // Player is to the right, player faces left, baddie faces left: player is behind baddie!
@@ -74,13 +84,15 @@ class Collisions {
             player.attackRadius >
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
-            // if attack succeeds, the baddie is killed!
-            baddie.collisionStatus = 'hit-from-behind';
+            // if attack succeeds, the baddie is hit!
+            baddie.damageRecieved = player.currentAttackDamage;
+            baddie.getKnockedBack(-baddieHorizontalKnock, baddieVerticalKnock);
           } else if (
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].playerBehind.dangerZone
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
           }
         }
       }
@@ -96,12 +108,14 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if they are, the baddie is killed!
-            baddie.collisionStatus = 'hit-from-behind';
+            baddie.damageRecieved = player.currentAttackDamage;
+            baddie.getKnockedBack(baddieHorizontalKnock, baddieVerticalKnock);
           } else if (
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].playerBehind.dangerZone
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
           }
         } else {
           // Player is left of the baddie, player faces right, baddie faces left (head-on collision):
@@ -112,7 +126,8 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if they are, the baddie is killed!
-            baddie.collisionStatus = 'hitFromFront';
+            baddie.damageRecieved = player.currentAttackDamage;
+            baddie.getKnockedBack(baddieHorizontalKnock, baddieVerticalKnock);
           } else if (
             deltaEu <
               badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone ||
@@ -123,7 +138,8 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
           }
         }
         // player faces left:
@@ -135,7 +151,8 @@ class Collisions {
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].backToBack.dangerZone
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
           }
         } else {
           // Player stands to the left, player faces left, baddie faces left: baddie is behind you!
@@ -150,7 +167,8 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.collisionStatus = `impact-with-${baddie.id}`;
+            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
           }
         }
       }
@@ -171,7 +189,7 @@ class Collisions {
         if (euclideanDist < range) {
           // calculate the (signed) x-distance, and find which direction both sprites are facing:
           let deltaX = this.player.x - baddie.x;
-          this.determineFacing(deltaX, euclideanDist, this.player, baddie);
+          this.determineFacing(deltaX, yDist, euclideanDist, this.player, baddie);
         }
       }
     });

@@ -1,7 +1,7 @@
 // The Sprite is the most general Class of Entities that are capable of Movement.
 
 class Sprite extends Entity {
-  constructor(root, xStart, yStart) {
+  constructor(root, xStart, yStart, hitpoints=1) {
     super(root, xStart, yStart);
     // Essential characteristics of Sprites which also do not require immediate inputs (or can be derived from them):
     this.gridX = xStart;
@@ -20,8 +20,16 @@ class Sprite extends Entity {
     this.lastMoveAttemptStart = null;
     this.lastJumpInitialHeight = null;
     // COMBAT-RELATED:
-    this.collisionStatus = 'clear';
+    this.maxHP = hitpoints;
+    this.currentHP = hitpoints;
+    // If you get hit, you recieve damage and you have been hit (granting momentary invulnerability):
+    this.damageRecieved = 0;
+    this.hasBeenHit = false;
+    // Set this value to true when an attack is initiated:
     this.isAttacking = false;
+    // When an attack is made it will do a certain amount of damage AND impart momentum in the form of a 'knockback':
+    this.currentAttackDamage = 0;
+    this.currentAttackKnockback = 0;
     // Attack position represents the attack animation's absolute position:
     this.attackPosition = 0;
     // Your width is also needed to complete the attack animation's position calculation:
@@ -156,12 +164,39 @@ class Sprite extends Entity {
       this.isAttacking = false;
       this.attackPosition = 0;
       this.attackRadius = 0;
+      this.currentAttackDamage = 0;
+      this.currentAttackKnockback = 0;
       this.attackAnimation.src = '';
       this.root.removeChild(this.attackAnimation);
     }
   }
 
-  // D - Update root node for sprite and attack animation:
+  // D - Taking Damage and getting thrown around:
+
+  // General formula for what to do when you are 'hit':
+  handleCollisions = (x, y) => {
+    if (!this.hasBeenHit) {             // If you HAVEN'T just been hit...
+      if (this.damageRecieved > 0) {    // ... Then if you take damage it hurts:
+        this.currentHP -= this.damageRecieved;
+        this.damageRecieved = 0;
+        this.hasBeenHit = true;
+        if (this.currentHP <= 0) {
+          this.handleDeath('attack');   // ... Or maybe even is fatal!
+        }
+      }
+    } else {                            // If you have just been hit you get a free pass however.
+      this.hasBeenHit = false;
+    }
+    
+  }
+
+  // Specific sub-routine for the physical consequences of violence:
+  getKnockedBack = (x, y) => {
+    this.xSpeed = x;
+    this.ySpeed = y;
+  }
+
+  // E - Update root node for sprite and attack animation:
   updateRoot(root) {
     // Re-assign new root element:
     this.root = root;

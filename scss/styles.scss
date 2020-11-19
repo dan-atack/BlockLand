@@ -251,6 +251,33 @@ body {
   border: 1px solid cyan;
 }
 
+.healthbar-box {
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: ($world-width-in-blocks * $block-width / 3) + ($block-width * 3 / 4);
+  padding: 12px 0px;
+  border: 1px solid cyan;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.healthbar {
+  padding: 0px 4px 0px 4px;
+  margin: 0px;
+  text-align: center;
+  height: 32px;
+  max-width: $world-width-in-blocks * $block-width / 3;
+  border: 2px solid rgb(155, 4, 4);
+  color: rgb(155, 4, 4);
+  font-weight: bolder;
+  font-size: 1.6em;
+  text-shadow: 1px 1px black;
+  border-radius: 16px;
+}
+
 .username {
   max-width: 50%;
   color: white;

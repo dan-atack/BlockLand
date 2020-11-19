@@ -1,8 +1,8 @@
 // The Player Class! You'll start out as a little sprite and maybe eventually you'll be able to move. If you're good.
 // Addendum: Who would have thought moving would be so hard!
 class Player extends Sprite {
-  constructor(root, xStart, yStart) {
-    super(root, xStart, yStart);
+  constructor(root, xStart, yStart, hitpoints=3) {
+    super(root, xStart, yStart, hitpoints);
     this.domElement.src = './assets/sprites/player.png';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
     this.domElement.style.bottom = `${this.y * PLAYER_WIDTH}px`;
@@ -116,6 +116,8 @@ class Player extends Sprite {
       // Set attacking to true and set all other initial attack values:
       this.attackRadius = 0.5;
       this.attackCountdown = 10;
+      this.currentAttackDamage = 1;
+      this.currentAttackKnockback = 0.25;     // Knockback is converted into kinetic motion (request)
       // then call the attack rendering function, and tell it which animation to use:
       this.attack('slash');
     }
@@ -134,11 +136,11 @@ class Player extends Sprite {
       (this.medium.properties.length > 0 &&
         this.medium.properties.includes('lethal'))
     ) {
+      this.currentHP = 0;
       this.handleDeath('terrain');
-      // Otherwise, if your collision status isn't clear... well...
-    } else if (this.collisionStatus != 'clear') {
-      this.handleDeath('collision');
-    }
+      }
+    // Call Sprite-class collision-damage calculation method:
+    this.handleCollisions();
   }
 
   // Carry out death procedures:
@@ -159,9 +161,8 @@ class Player extends Sprite {
     }
     // Update text in the sidebar status indicator based on type of death:
     switch (type) {
-      case 'collision':
-        const phrase = this.collisionStatus.split('-').join(' ');
-        document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by ${phrase}!`;
+      case 'attack':
+        document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by enemy attack!`;
         break;
       case 'terrain':
         document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by ${this.standingOn.name}!`;
@@ -176,6 +177,7 @@ class Player extends Sprite {
     // Next, eliminate player statuses related to death:
     this.standingOn = blocktionary[0];
     this.medium = blocktionary[0];
-    this.collisionStatus = 'clear';
+    this.damageRecieved = 0;
+    this.currentHP = this.maxHP;
   }
 }
