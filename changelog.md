@@ -496,7 +496,7 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 24. Make Test Stage biome for quickly testing new blocks' graphic elements in a variety of patterns.
 
-<img src="public/Screenshots/13-test-biome.png" alt="Aw yah!" style="width: 60%;">
+<img src="public/Screenshots/13-test-biome.png" alt="Test biome" style="width: 60%;">
 
 25. Make a cool new level (biome and mission) with some new block types to really explore the vertical space!
 
@@ -506,7 +506,7 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 28. Spruce up the Fortress biome just a bit. And elevate it where necessary. Then reposition guys (they've all been elevated by 3 in advance).
 
-<img src="public/Screenshots/14-fortress-biome.png" alt="Aw yah!" style="width: 60%;">
+<img src="public/Screenshots/14-fortress-biome.png" alt="Fortress biome" style="width: 60%;">
 
 29. Squash that bug that pops up at the end of the game.
 
@@ -532,7 +532,7 @@ Although the public is clamouring for the release of the latest patch, certain f
 
 8. Create electric attack GIF.
 
-<img src="public/Screenshots/15-bossed-around.png" alt="Aw yah!" style="width: 60%;">
+<img src="public/Screenshots/15-bossed-around.png" alt="Boss Fight" style="width: 60%;">
 
 9. In the Collisions module's determineFacing method, add baddie's attack radius to the encounter calculations.
 
@@ -543,6 +543,8 @@ Although the public is clamouring for the release of the latest patch, certain f
 12. Create bubbling lava surface GIF.
 
 13. Create flowing magma GIF.
+
+<img src="public/Screenshots/16-bubbly-lava.png" alt="Vat of Lava" style="width: 60%;">
 
 14. Replace existing lava blocks with GIF animations. Give 'gif' property to both, and give 'permeable' trait to lava surface block.
 
@@ -704,9 +706,21 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 
 13. Update the loucanphile of the HP display element. Ahh, that's better!
 
-### 14. Push to production!
+<img src="public/Screenshots/17-hitpoints.png" alt="Hitpoints display" style="width: 60%;">
+
+14. Push to production!
 
 ## Version 1.3.2: Items
+
+From Mario's mushroom to the Sword of Plus Five Agility, all great games have iconic items that the player can pick up. Blockland will start with some basic 'powerup' items which will be placed in the game by the Engine based on instructions from the mission data library. These initial items will grant an instantaneous effect for the Player when they are 'picked up' (when the player moves over them) such as adding health or XP. A slightly more sophisticated form of this 'powerup' item concept will then be attempted with an item which bestows a temporary increase to the player's speed. Jetpacks and Uzis will be introduced in a later patch for 'advanced' items.
+
+### 1. Create Item subclass of Entity with the following properties: affects (which stat it affects), power (how much of it affects you), and duration, which will be how many game frames you keep the effect (0 means the effect is instantaneous).
+
+### 2. Add the Item script to the game's Index.html.
+
+### 3. Create 3 Item GIFs and add them to the game's assets, in a new folder called Items.
+
+### 4.
 
 ## Version 1.3.3: RPG Character Development
 

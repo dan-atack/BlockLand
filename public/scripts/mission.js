@@ -2,9 +2,8 @@
 // the sidebar with relevant data, as well as calling individual missions from the missions library.
 
 class Mission {
-  // Expected root is sidebar, and subject is of course the player, followed by the contents of the array imported from the mission data file:
-  constructor(root, subject, missionData) {
-    this.root = root;
+  // Subject is of course the player, followed by the contents of the array imported from the mission data file:
+  constructor(subject, missionData) {
     this.subject = subject;
     // Unpack mission data array... somewhat ugly but effective:
     this.levelNumber = missionData[0];

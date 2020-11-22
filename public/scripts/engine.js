@@ -35,7 +35,6 @@ class Engine {
     // Mission objectives come next! We'll use currentMission to keep track of which mission you're on to update between levels:
     this.currentMission = 0;
     this.mission = new Mission(
-      sidebar,
       this.player,
       missions[this.currentMission]
     );
