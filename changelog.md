@@ -714,13 +714,31 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 
 From Mario's mushroom to the Sword of Plus Five Agility, all great games have iconic items that the player can pick up. Blockland will start with some basic 'powerup' items which will be placed in the game by the Engine based on instructions from the mission data library. These initial items will grant an instantaneous effect for the Player when they are 'picked up' (when the player moves over them) such as adding health or XP. A slightly more sophisticated form of this 'powerup' item concept will then be attempted with an item which bestows a temporary increase to the player's speed. Jetpacks and Uzis will be introduced in a later patch for 'advanced' items.
 
-### 1. Create Item subclass of Entity with the following properties: affects (which stat it affects), power (how much of it affects you), and duration, which will be how many game frames you keep the effect (0 means the effect is instantaneous).
+1. Create Item subclass of Entity with the following properties: affects (which stat it affects), power (how much of it affects you), and duration, which will be how many game frames you keep the effect (0 means the effect is instantaneous). Also add an item type for the DOM element's look.
 
-### 2. Add the Item script to the game's Index.html.
+2. Add the Item script to the game's Index.html.
 
-### 3. Create 3 Item GIFs and add them to the game's assets, in a new folder called Items.
+3. Create 3 Item images and add them to the game's assets, in a new folder called Items.
 
-### 4.
+4. REFACTORING TIME!!! Change the Mission data to object/dictionary form instead of all those arrays! We can keep the setup instructions as an array for now.
+
+5. Add a new type of level setup instruction to the mission data files: Item placements. Data needed: x, y, type.
+
+6. Add new Engine property: currentItems.
+
+7. Add another level setup case to the Engine's setup method, for adding Items to a level. Will resemble the 'add one Block' case.
+
+8. Add a CSS class for items to make their position absolute, and also to control their render size. Other options to follow, perhaps.
+
+9. Add an Engine method for checking each frame if any items have been 'picked up' by the Player. Test by having the Player walk up to an item and console logging that fact.
+
+### 10. Expand the pickupItem function to:
+
+#### 11. Derender the item in question.
+
+#### 12. Remove it from the Engine's currentItems list.
+
+#### 13. Pass on its benefit to the Player... new Player function needed here methinks?
 
 ## Version 1.3.3: RPG Character Development
 
@@ -777,5 +795,7 @@ From Mario's mushroom to the Sword of Plus Five Agility, all great games have ic
 Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit - in fact, why not bring them straight into the game and walk around on them while you're at it?! Cue the Test Stage.
 
 ### More/different attacks for the player? Different cooldown times, greater or shorter ranges, Y-axis specific moves, should all be combinable with our current system.
+
+### Getting knocked back by an attack should also in that moment of invulnerability, also disable your movement responders, at least for the direction you just got hit from!
 
 ### Level Chirality: Be aware of it! Could a simple Find-and-replace function built into the columns object solve the issue?! ALL Biomes A) become objects B) have IDs as well as names C) have chirality sub-object: { left: 17, right: 18 } that feeds into block swapper method!

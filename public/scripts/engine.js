@@ -32,6 +32,8 @@ class Engine {
     this.baddiesDestroyed = 0;
     // Used to track your kills for a particular level for objective-scoring purposes:
     this.baddiesKilledThisInning = 0;
+    // Track all items currently in the game:
+    this.currentItems = [];
     // Mission objectives come next! We'll use currentMission to keep track of which mission you're on to update between levels:
     this.currentMission = 0;
     this.mission = new Mission(
@@ -207,6 +209,8 @@ class Engine {
           if (physicsPack.subject.hasBeenRendered)
             physicsPack.collisionManager();
         });
+        // Manage items updates (rendering, being picked up):
+        this.handleItemUpdates();
         // Then, update baddies' various tickers:
         this.handleBaddieUpdates();
         // Initiate collision detection between objects in motion:
@@ -300,6 +304,10 @@ class Engine {
           new Physics(this.blocks, this.baddies[this.baddies.length - 1])
         );
         this.baddiesAdded++;
+        break;
+      case 'add-item':
+        const item = new Item(document.getElementById('world'), ...instructions[1]);
+        this.currentItems.push(item);
         break;
       case 'clear-baddies':
         this.baddies.forEach((baddie) => {
@@ -487,7 +495,6 @@ class Engine {
     // Then respawn any baddies that belong to the current mission:
     this.respawnBaddies();
     // Finally, resume gameplay!
-    console.log('game on.')
     this.gameOn = true;
     document.getElementById('pauseButton').style.display = 'initial';
     this.resetButton.style.display = 'none';
@@ -546,6 +553,23 @@ class Engine {
         this.setupNextMission(instruction);
       });
     }
+  }
+
+  // Item management section:
+  handleItemUpdates = () => {
+    this.currentItems.forEach((item) => {
+      item.handleRender(this.blocks.visibilityRange, this.blocks.verticalRange);
+      item.horizontalTranslate(this.horizontalOffset);
+      item.verticalTranslate(this.verticalOffset);
+      // Check for proximity to Player:
+      if (this.player.gridX === item.x && this.player.gridY === item.y) {
+        this.handleItemPickup();
+      }
+    })
+  };
+
+  handleItemPickup = () => {
+    console.log('Pick it up. I want you to pick it up.... Aaaaahhhh thatta boy!')
   }
 
   // When the game menu is opened, de-render everything that's on-screen and remember it:

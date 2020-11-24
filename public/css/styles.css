@@ -257,6 +257,11 @@ body {
   width: 32px;
   z-index: 1; }
 
+.item {
+  position: absolute;
+  width: 32px;
+  z-index: 2; }
+
 .golden-egg {
   box-sizing: border-box;
   border-radius: 50%;
