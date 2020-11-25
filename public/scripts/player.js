@@ -25,6 +25,9 @@ class Player extends Sprite {
     this.baddiesKilledThisInning = 0;
     // A list of the dudes you've killed:
     this.baddieDogTags = [];
+    // Item/special status management:
+    this.itemEffect = null;
+    this.itemEffectCountdown = 0;
   }
 
   // Movement responder comes in two parts: Part I - Keydown responder series:
@@ -126,6 +129,24 @@ class Player extends Sprite {
   // Figure out what medium you're in (basically air or water are your options at the moment):
   determineMedium(columns) {
     this.medium = columns.blockTypeDetector(this.gridX, this.y);
+  }
+
+  // Items and special statuses:
+  pickupItem = (item) => {
+    console.log("player has received ", item.type);
+    switch (item.type) {
+      case 'health':
+        if (this.currentHP < this.maxHP) {
+          this.currentHP = Math.min(this.currentHP += item.power, this.maxHP);
+        }
+    }
+  }
+
+  // Advance Item special status countdown (to regulate long-lasting effects)
+  advanceItemStatusCounter = () => {
+    if (this.itemEffectCountdown > 0) {
+      console.log('tick');
+    }
   }
 
   checkForDeath() {

@@ -8,8 +8,9 @@ class Item extends Entity {
         this.affects = itemData.affects;
         this.power = itemData.power;
         this.duration = itemData.duration;
+        this.id = `${this.type}-${this.x}-${this.y}`;
         this.domElement.src = `./assets/items/${this.type}.png`;
-        this.domElement.id = `${this.type}-${this.x}-${this.y}`;
+        this.domElement.id = this.id;
         this.domElement.classList.add('item');
         this.domElement.style.left = `${this.x * BLOCK_WIDTH}px`;
         this.domElement.style.bottom = `${this.y * BLOCK_WIDTH}px`;

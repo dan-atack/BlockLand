@@ -557,19 +557,23 @@ class Engine {
 
   // Item management section:
   handleItemUpdates = () => {
+    // Every cycle, update each item's render/offsets:
     this.currentItems.forEach((item) => {
       item.handleRender(this.blocks.visibilityRange, this.blocks.verticalRange);
       item.horizontalTranslate(this.horizontalOffset);
       item.verticalTranslate(this.verticalOffset);
-      // Check for proximity to Player:
+      // Then, check for proximity to Player:
       if (this.player.gridX === item.x && this.player.gridY === item.y) {
-        this.handleItemPickup();
+        this.handleItemPickup(item);
       }
     })
   };
 
-  handleItemPickup = () => {
-    console.log('Pick it up. I want you to pick it up.... Aaaaahhhh thatta boy!')
+  // If an item has been picked up, pass it to the Player and remove it from the game:
+  handleItemPickup = (item) => {
+    this.player.pickupItem(item);
+    item.deRender();
+    this.currentItems = this.currentItems.filter((thing) => item.id != thing.id);
   }
 
   // When the game menu is opened, de-render everything that's on-screen and remember it:

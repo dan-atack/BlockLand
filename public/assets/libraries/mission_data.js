@@ -88,9 +88,15 @@ const missions = [
       [
         'add-item',
         [ // x, y, [item type, affects, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          28, 9, {type: 'health', affects: 'currentHP', power: 2, duration: 0}
+          28, 9, {type: 'steroids', affects: 'currentHP', power: 2, duration: 0}
         ]
-      ]
+      ],
+      [
+        'add-item',
+        [ // x, y, [item type, affects, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
+          25, 6, {type: 'health', affects: 'currentHP', power: 2, duration: 0}
+        ]
+      ],
     ],
     specialFX: null
   },

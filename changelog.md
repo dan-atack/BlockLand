@@ -732,13 +732,15 @@ From Mario's mushroom to the Sword of Plus Five Agility, all great games have ic
 
 9. Add an Engine method for checking each frame if any items have been 'picked up' by the Player. Test by having the Player walk up to an item and console logging that fact.
 
-### 10. Expand the pickupItem function to:
+### 10. Expand the pickupItem function to Derender the item in question, and remove it from the Engine's currentItems list.
 
-#### 11. Derender the item in question.
+### 11. Create a Player method with a switch case to determine what to do with an Item that has been picked up. The Engine's itemUpdate cycle will call this method in lieu of logging to the console. Note: Since this method will pivot on the item's 'type' it will probably not be necessary to provide the 'affects' attribute since it's contained in the type (and even better, the type/switch case will make it easier for Advanced Items to affect multiple stats.)
 
-#### 12. Remove it from the Engine's currentItems list.
+### 12. Item effects for Health: Check if Player is below Max HP; restore up to (the lesser of): the value of the item or maxHP.
 
-#### 13. Pass on its benefit to the Player... new Player function needed here methinks?
+### 13. Item effects for EXP: Simply add the value to the Player's current XP.
+
+### 14. Item effects for Steroids:
 
 ## Version 1.3.3: RPG Character Development
 
