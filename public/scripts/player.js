@@ -26,8 +26,8 @@ class Player extends Sprite {
     // A list of the dudes you've killed:
     this.baddieDogTags = [];
     // Item/special status management:
-    this.itemEffect = null;
-    this.itemEffectCountdown = 0;
+    // Item Effect is a dictionary containing the property that is affected, how much it is affected, and for how long:
+    this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
   }
 
   // Movement responder comes in two parts: Part I - Keydown responder series:
@@ -133,19 +133,32 @@ class Player extends Sprite {
 
   // Items and special statuses:
   pickupItem = (item) => {
-    console.log("player has received ", item.type);
     switch (item.type) {
       case 'health':
         if (this.currentHP < this.maxHP) {
           this.currentHP = Math.min(this.currentHP += item.power, this.maxHP);
         }
+        break;
+      case 'experience':
+        this.experience += item.power;
+        break;
+      case 'steroids':
+        // Taking steroids makes you momentarily run faster and jump higher, by changing those properties for a set duration:
+        this.itemEffect.properties = ['topSpeed', 'jumpImpulse'];
+        this.itemEffect.value = item.power;
+        this.itemEffect.timeRemaining = item.duration;
+        this.itemEffect.properties.forEach((prop) => this[prop] += this.itemEffect.value);
+        break;
     }
   }
 
   // Advance Item special status countdown (to regulate long-lasting effects)
   advanceItemStatusCounter = () => {
-    if (this.itemEffectCountdown > 0) {
-      console.log('tick');
+    if (this.itemEffect.timeRemaining > 0) {
+      this.itemEffect.timeRemaining -= 1;
+    } else {
+      this.itemEffect.properties.forEach((prop) => this[prop] -= this.itemEffect.value);
+      this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
     }
   }
 

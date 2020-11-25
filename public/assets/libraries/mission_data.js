@@ -87,14 +87,14 @@ const missions = [
       ],  // End of instruction 1
       [
         'add-item',
-        [ // x, y, [item type, affects, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          28, 9, {type: 'steroids', affects: 'currentHP', power: 2, duration: 0}
+        [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
+          28, 9, {type: 'steroids', power: 0.2, duration: 100}
         ]
       ],
       [
         'add-item',
         [ // x, y, [item type, affects, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          25, 6, {type: 'health', affects: 'currentHP', power: 2, duration: 0}
+          25, 6, {type: 'health', power: 2, duration: 0}
         ]
       ],
     ],

@@ -198,6 +198,8 @@ class Engine {
         this.player.advanceAttackCountdown();
         // The New Physics: Now completely in the hands of the Physics object... Now ~ 83% bug free!
         this.playerPhysics.collisionManager();
+        // Update Item effects for player:
+        this.player.advanceItemStatusCounter();
         // Control de/rendering of blocks that are at the edges of the screen:
         this.blocks.manageColumnRendering(this.verticalOffset);
         // Distance: If the player gets close to the edge then we translate the world around them:

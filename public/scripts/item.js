@@ -5,7 +5,6 @@ class Item extends Entity {
     constructor(root, x, y, itemData) {       // Namely, 'affects', 'power' and 'duration' to start.
         super(root, x, y);
         this.type = itemData.type;
-        this.affects = itemData.affects;
         this.power = itemData.power;
         this.duration = itemData.duration;
         this.id = `${this.type}-${this.x}-${this.y}`;
