@@ -321,6 +321,12 @@ class Engine {
         this.baddies = [];
         this.scripts = [];
         break;
+      case 'clear-items':
+        if (this.currentItems.length > 0) {
+          this.currentItems.forEach((item) => item.deRender());
+          this.currentItems = [];
+        }
+        break;
       case 'create-block':
         // practising array destructuring here on part 2 of setup tuple:
         const [coords, blockType] = instructions[1];
@@ -496,6 +502,8 @@ class Engine {
     this.player.baddiesKilledThisInning = this.baddiesKilledThisInning;
     // Then respawn any baddies that belong to the current mission:
     this.respawnBaddies();
+    // Then respawn any items needed for the level:
+    this.regenerateItems();
     // Finally, resume gameplay!
     this.gameOn = true;
     document.getElementById('pauseButton').style.display = 'initial';
@@ -544,7 +552,6 @@ class Engine {
       // If the current mission does not contain any baddies you will have an empty list, and no one will respawn.
       respawnList = [];
     }
-
     if (respawnList.length > 0) {
       // if you are respawning guys, don't count them again towards the baddiesAdded counter:
       this.baddiesAdded -= respawnList.length;
@@ -554,6 +561,26 @@ class Engine {
       respawnList.forEach((instruction) => {
         this.setupNextMission(instruction);
       });
+    }
+  }
+
+  // Regenerates any items associated with the current mission when you die:
+  regenerateItems = () => {
+    // First, tidy up any leftover items:
+    this.setupNextMission(['clear-items']);
+    let itemList = [];
+    try {
+      itemList = this.mission.setupInstructions.filter(
+        (instructions) =>
+          instructions[0] === 'add-item'
+      )
+    } catch {
+      itemList = [];
+    }
+    if (itemList.length > 0) {
+      itemList.forEach((item) => {
+        this.setupNextMission(item);
+      })
     }
   }
 
@@ -587,6 +614,11 @@ class Engine {
     this.baddies.forEach((baddie) => {
       baddie.deRender();
       this.onScreenEntities.push(baddie);
+    })
+    // De-render items:
+    this.currentItems.forEach((item) => {
+      item.deRender();
+      this.onScreenEntities.push(item);
     })
     // De-render blocks:
     this.blocks.deRenderAllColumns();

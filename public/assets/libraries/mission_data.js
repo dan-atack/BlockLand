@@ -159,6 +159,7 @@ const missions = [
       ],
     ],
     setupInstructions: [
+      ['clear-items'], // tells the engine to tidy up any leftover items from the previous world
       ['remove-block', [0, 7]],
       [
         'clear-stage', // clear stage setup instruction tells all the columns to wipe clear,

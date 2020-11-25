@@ -157,9 +157,14 @@ class Player extends Sprite {
     if (this.itemEffect.timeRemaining > 0) {
       this.itemEffect.timeRemaining -= 1;
     } else {
-      this.itemEffect.properties.forEach((prop) => this[prop] -= this.itemEffect.value);
-      this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
+      this.removeItemEffects();
     }
+  }
+
+  // Remove special status from an Item:
+  removeItemEffects = () => {
+    this.itemEffect.properties.forEach((prop) => this[prop] -= this.itemEffect.value);
+    this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
   }
 
   checkForDeath() {
@@ -189,6 +194,8 @@ class Player extends Sprite {
     this.crouching = false;
     this.xSpeed = 0;
     this.ySpeed = 0;
+    // Also, whatever special status you might have had is removed:
+    this.removeItemEffects();
     // Stop your attack animation if it was in progress at the moment of death:
     if (this.attackAnimation) {
       this.haltAttack();
