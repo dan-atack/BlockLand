@@ -25,6 +25,9 @@ class Player extends Sprite {
     this.baddiesKilledThisInning = 0;
     // A list of the dudes you've killed:
     this.baddieDogTags = [];
+    // Item/special status management:
+    // Item Effect is a dictionary containing the property that is affected, how much it is affected, and for how long:
+    this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
   }
 
   // Movement responder comes in two parts: Part I - Keydown responder series:
@@ -128,6 +131,44 @@ class Player extends Sprite {
     this.medium = columns.blockTypeDetector(this.gridX, this.y);
   }
 
+  // Items and special statuses:
+  pickupItem = (item) => {
+    switch (item.type) {
+      case 'health':
+        if (this.currentHP < this.maxHP) {
+          this.currentHP = Math.min(this.currentHP += item.power, this.maxHP);
+        }
+        break;
+      case 'experience':
+        this.experience += item.power;
+        break;
+      case 'steroids':
+        // First, remove any previous special effect (including any steroids previously consumed):
+        this.removeItemEffects();
+        // Taking steroids makes you momentarily run faster and jump higher, by changing those properties for a set duration:
+        this.itemEffect.properties = ['topSpeed', 'jumpImpulse'];
+        this.itemEffect.value = item.power;
+        this.itemEffect.timeRemaining = item.duration;
+        this.itemEffect.properties.forEach((prop) => this[prop] += this.itemEffect.value);
+        break;
+    }
+  }
+
+  // Advance Item special status countdown (to regulate long-lasting effects)
+  advanceItemStatusCounter = () => {
+    if (this.itemEffect.timeRemaining > 0) {
+      this.itemEffect.timeRemaining -= 1;
+    } else {
+      this.removeItemEffects();
+    }
+  }
+
+  // Remove special status from an Item:
+  removeItemEffects = () => {
+    this.itemEffect.properties.forEach((prop) => this[prop] -= this.itemEffect.value);
+    this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
+  }
+
   checkForDeath() {
     // Check for terrain death: if what you're ON or what you're IN is lethal, it's a terrain death:
     if (
@@ -155,6 +196,8 @@ class Player extends Sprite {
     this.crouching = false;
     this.xSpeed = 0;
     this.ySpeed = 0;
+    // Also, whatever special status you might have had is removed:
+    this.removeItemEffects();
     // Stop your attack animation if it was in progress at the moment of death:
     if (this.attackAnimation) {
       this.haltAttack();

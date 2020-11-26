@@ -89,6 +89,7 @@ class App {
         this.renderButton('logout', 'logout', 'Logout', 'sidebar-top', handleLogout);
         this.renderElement('clock', 'span', 'sidebar', document.getElementById('sidebar'), 'bottom');
         this.renderButton('pauseButton', 'sidebar-button', 'Pause', 'sidebar', this.pauseButtonHandler);
+        this.renderButton('resetButton', 'sidebar-button', 'RESTART', 'sidebar', this.resetButtonHandler);
         this.renderButton('inGameMenuButton', 'sidebar-button', 'MENU', 'sidebar', this.inGameMenuHandler);
         this.renderElement('playerHPBox', 'div', 'healthbar-box', document.getElementById('sidebar'), 'top');
         this.renderText('playerHPBox', 0, 0, 18, 'Player HP:');
@@ -97,7 +98,6 @@ class App {
         this.renderElement('playerXP', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('sidebar-bottom', 'div', 'sidebar', document.getElementById('sidebar'), 'bottom');
-        this.renderButton('resetButton', 'sidebar-button', 'RESTART', 'sidebar-bottom', this.resetButtonHandler);
     }
 
     renderPreGameMenu = () => {

@@ -2,23 +2,22 @@
 // the sidebar with relevant data, as well as calling individual missions from the missions library.
 
 class Mission {
-  // Expected root is sidebar, and subject is of course the player, followed by the contents of the array imported from the mission data file:
-  constructor(root, subject, missionData) {
-    this.root = root;
+  // Subject is of course the player, followed by the contents of the array imported from the mission data file:
+  constructor(subject, missionData) {
     this.subject = subject;
     // Unpack mission data array... somewhat ugly but effective:
-    this.levelNumber = missionData[0];
-    this.difficulty = missionData[1];
-    this.brief = missionData[2];
-    this.achievementStatement = missionData[3];
+    this.levelNumber = missionData.levelNumber;
+    this.levelName = missionData.levelName;
+    this.brief = missionData.brief;
+    this.achievementStatement = missionData.achievementStatement;
     this.objectivesRemaining = [];
-    missionData[4].forEach((objectiveData) => {
+    missionData.objectives.forEach((objectiveData) => {
       let obj = new Objective(this.subject, objectiveData);
       this.objectivesRemaining.push(obj);
     });
-    this.setupInstructions = missionData[5] || null; // optional fifth parameter: thing/s to setup for the mission
+    this.setupInstructions = missionData.setupInstructions; // optional fifth parameter: thing/s to setup for the mission
     this.numberOfSetupSteps = 0; // will inform the engine how many instructions to follow for setup
-    this.specialFX = missionData[6] || null; // optional sixth parameter: special FX cues!
+    this.specialFX = missionData.specialFX; // optional sixth parameter: special FX cues!
     // We'll store achieved objectives to keep, crossed off so we know we did them.
     this.objectivesAchieved = [];
     this.accomplished = false;
@@ -89,25 +88,25 @@ class Mission {
     this.numberOfSetupSteps = 0;
     this.victoryMessageAwarded = false;
     this.objectivesAchieved = [];
-    this.levelNumber = newMissionData[0];
-    this.difficulty = newMissionData[1];
-    this.brief = newMissionData[2];
-    this.achievementStatement = newMissionData[3];
+    this.levelNumber = newMissionData.levelNumber;
+    this.levelName = newMissionData.levelName;
+    this.brief = newMissionData.brief;
+    this.achievementStatement = newMissionData.achievementStatement;
     this.objectivesRemaining = [];
-    newMissionData[4].forEach((objectiveData) => {
+    newMissionData.objectives.forEach((objectiveData) => {
       let obj = new Objective(this.subject, objectiveData);
       this.objectivesRemaining.push(obj);
     });
     // Setup instructions will be another array of arrays; one array per set of instructions so you can change many things if needed:
-    this.setupInstructions = newMissionData[5] || null;
+    this.setupInstructions = newMissionData.setupInstructions || null;
     // The Missions module will report to the engine how many sets of setup instructions to execute when it loads the level:
     if (this.setupInstructions)
       this.numberOfSetupSteps = this.setupInstructions.length;
-    this.specialFX = newMissionData[6] || null;
+    this.specialFX = newMissionData.specialFX || null;
     // Ensure special FX cues are pointed towards existing DOM elements:
     if (this.specialFX) {
       this.specialFX.forEach((effect, idx) => {
-        effect.target = document.getElementById(`${newMissionData[6][idx]['target']}`)
+        effect.target = document.getElementById(`${newMissionData.specialFX[idx]['target']}`)
       })
     }
   }

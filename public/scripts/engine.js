@@ -23,7 +23,7 @@ class Engine {
     // Same principle applies to the vertical:
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
-    this.player = new Player(document.getElementById('world'), 3, 8);
+    this.player = new Player(document.getElementById('world'), 4, 14);
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:
@@ -32,10 +32,11 @@ class Engine {
     this.baddiesDestroyed = 0;
     // Used to track your kills for a particular level for objective-scoring purposes:
     this.baddiesKilledThisInning = 0;
+    // Track all items currently in the game:
+    this.currentItems = [];
     // Mission objectives come next! We'll use currentMission to keep track of which mission you're on to update between levels:
     this.currentMission = 0;
     this.mission = new Mission(
-      sidebar,
       this.player,
       missions[this.currentMission]
     );
@@ -197,6 +198,8 @@ class Engine {
         this.player.advanceAttackCountdown();
         // The New Physics: Now completely in the hands of the Physics object... Now ~ 83% bug free!
         this.playerPhysics.collisionManager();
+        // Update Item effects for player:
+        this.player.advanceItemStatusCounter();
         // Control de/rendering of blocks that are at the edges of the screen:
         this.blocks.manageColumnRendering(this.verticalOffset);
         // Distance: If the player gets close to the edge then we translate the world around them:
@@ -208,6 +211,8 @@ class Engine {
           if (physicsPack.subject.hasBeenRendered)
             physicsPack.collisionManager();
         });
+        // Manage items updates (rendering, being picked up):
+        this.handleItemUpdates();
         // Then, update baddies' various tickers:
         this.handleBaddieUpdates();
         // Initiate collision detection between objects in motion:
@@ -302,6 +307,10 @@ class Engine {
         );
         this.baddiesAdded++;
         break;
+      case 'add-item':
+        const item = new Item(document.getElementById('world'), ...instructions[1]);
+        this.currentItems.push(item);
+        break;
       case 'clear-baddies':
         this.baddies.forEach((baddie) => {
           // baddies killed this way are instantly removed from the game:
@@ -311,6 +320,12 @@ class Engine {
         });
         this.baddies = [];
         this.scripts = [];
+        break;
+      case 'clear-items':
+        if (this.currentItems.length > 0) {
+          this.currentItems.forEach((item) => item.deRender());
+          this.currentItems = [];
+        }
         break;
       case 'create-block':
         // practising array destructuring here on part 2 of setup tuple:
@@ -487,8 +502,9 @@ class Engine {
     this.player.baddiesKilledThisInning = this.baddiesKilledThisInning;
     // Then respawn any baddies that belong to the current mission:
     this.respawnBaddies();
+    // Then respawn any items needed for the level:
+    this.regenerateItems();
     // Finally, resume gameplay!
-    console.log('game on.')
     this.gameOn = true;
     document.getElementById('pauseButton').style.display = 'initial';
     this.resetButton.style.display = 'none';
@@ -536,7 +552,6 @@ class Engine {
       // If the current mission does not contain any baddies you will have an empty list, and no one will respawn.
       respawnList = [];
     }
-
     if (respawnList.length > 0) {
       // if you are respawning guys, don't count them again towards the baddiesAdded counter:
       this.baddiesAdded -= respawnList.length;
@@ -549,6 +564,47 @@ class Engine {
     }
   }
 
+  // Regenerates any items associated with the current mission when you die:
+  regenerateItems = () => {
+    // First, tidy up any leftover items:
+    this.setupNextMission(['clear-items']);
+    let itemList = [];
+    try {
+      itemList = this.mission.setupInstructions.filter(
+        (instructions) =>
+          instructions[0] === 'add-item'
+      )
+    } catch {
+      itemList = [];
+    }
+    if (itemList.length > 0) {
+      itemList.forEach((item) => {
+        this.setupNextMission(item);
+      })
+    }
+  }
+
+  // Item management section:
+  handleItemUpdates = () => {
+    // Every cycle, update each item's render/offsets:
+    this.currentItems.forEach((item) => {
+      item.handleRender(this.blocks.visibilityRange, this.blocks.verticalRange);
+      item.horizontalTranslate(this.horizontalOffset);
+      item.verticalTranslate(this.verticalOffset);
+      // Then, check for proximity to Player:
+      if (this.player.gridX === item.x && this.player.gridY === item.y) {
+        this.handleItemPickup(item);
+      }
+    })
+  };
+
+  // If an item has been picked up, pass it to the Player and remove it from the game:
+  handleItemPickup = (item) => {
+    this.player.pickupItem(item);
+    item.deRender();
+    this.currentItems = this.currentItems.filter((thing) => item.id != thing.id);
+  }
+
   // When the game menu is opened, de-render everything that's on-screen and remember it:
   deRenderGameEntities = () => {
     // De-render player:
@@ -558,6 +614,11 @@ class Engine {
     this.baddies.forEach((baddie) => {
       baddie.deRender();
       this.onScreenEntities.push(baddie);
+    })
+    // De-render items:
+    this.currentItems.forEach((item) => {
+      item.deRender();
+      this.onScreenEntities.push(item);
     })
     // De-render blocks:
     this.blocks.deRenderAllColumns();

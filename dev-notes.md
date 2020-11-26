@@ -23,3 +23,13 @@
 5. This current Prod-vs-Dev configuration requires the development code to be run from a local Express server rather than the Production version's Firebase server. The game CONSTANTS file will have a 'DEV_MODE' boolean that will always be true in Dev and false in Production, so that no toggling is needed when importing new code into production. Just make sure that if the production version's CONSTANTS file ever needs to be updated that its variable is kept to production mode and not dev mode, otherwise it won't work... There must be some way to do that with a local environment variable...
 
 6. When changing CSS rules be sure to always do it from the SCSS folder.
+
+### Things to Check When Adding Entities to the Engine Cycle:
+
+1. Does the Entity get updated every cycle?
+
+2. Is it replaced by a reset event (when you die)?
+
+3. Is its root updated when we come out of the in-game menu?
+
+4. Does it need to be removed at the end of a mission?

@@ -496,7 +496,7 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 24. Make Test Stage biome for quickly testing new blocks' graphic elements in a variety of patterns.
 
-<img src="public/Screenshots/13-test-biome.png" alt="Aw yah!" style="width: 60%;">
+<img src="public/Screenshots/13-test-biome.png" alt="Test biome" style="width: 60%;">
 
 25. Make a cool new level (biome and mission) with some new block types to really explore the vertical space!
 
@@ -506,7 +506,7 @@ There is just one very simple objective to this version bump: add vertical scrol
 
 28. Spruce up the Fortress biome just a bit. And elevate it where necessary. Then reposition guys (they've all been elevated by 3 in advance).
 
-<img src="public/Screenshots/14-fortress-biome.png" alt="Aw yah!" style="width: 60%;">
+<img src="public/Screenshots/14-fortress-biome.png" alt="Fortress biome" style="width: 60%;">
 
 29. Squash that bug that pops up at the end of the game.
 
@@ -532,7 +532,7 @@ Although the public is clamouring for the release of the latest patch, certain f
 
 8. Create electric attack GIF.
 
-<img src="public/Screenshots/15-bossed-around.png" alt="Aw yah!" style="width: 60%;">
+<img src="public/Screenshots/15-bossed-around.png" alt="Boss Fight" style="width: 60%;">
 
 9. In the Collisions module's determineFacing method, add baddie's attack radius to the encounter calculations.
 
@@ -543,6 +543,8 @@ Although the public is clamouring for the release of the latest patch, certain f
 12. Create bubbling lava surface GIF.
 
 13. Create flowing magma GIF.
+
+<img src="public/Screenshots/16-bubbly-lava.png" alt="Vat of Lava" style="width: 60%;">
 
 14. Replace existing lava blocks with GIF animations. Give 'gif' property to both, and give 'permeable' trait to lava surface block.
 
@@ -704,9 +706,55 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 
 13. Update the loucanphile of the HP display element. Ahh, that's better!
 
-### 14. Push to production!
+<img src="public/Screenshots/17-hitpoints.png" alt="Hitpoints display" style="width: 60%;">
+
+14. Push to production!
 
 ## Version 1.3.2: Items
+
+From Mario's mushroom to the Sword of Plus Five Agility, all great games have iconic items that the player can pick up. Blockland will start with some basic 'powerup' items which will be placed in the game by the Engine based on instructions from the mission data library. These initial items will grant an instantaneous effect for the Player when they are 'picked up' (when the player moves over them) such as adding health or XP. A slightly more sophisticated form of this 'powerup' item concept will then be attempted with an item which bestows a temporary increase to the player's speed. Jetpacks and Uzis will be introduced in a later patch for 'advanced' items.
+
+1. Create Item subclass of Entity with the following properties: affects (which stat it affects), power (how much of it affects you), and duration, which will be how many game frames you keep the effect (0 means the effect is instantaneous). Also add an item type for the DOM element's look.
+
+2. Add the Item script to the game's Index.html.
+
+3. Create 3 Item images and add them to the game's assets, in a new folder called Items.
+
+4. REFACTORING TIME!!! Change the Mission data to object/dictionary form instead of all those arrays! We can keep the setup instructions as an array for now.
+
+5. Add a new type of level setup instruction to the mission data files: Item placements. Data needed: x, y, type.
+
+6. Add new Engine property: currentItems.
+
+7. Add another level setup case to the Engine's setup method, for adding Items to a level. Will resemble the 'add one Block' case.
+
+8. Add a CSS class for items to make their position absolute, and also to control their render size. Other options to follow, perhaps.
+
+9. Add an Engine method for checking each frame if any items have been 'picked up' by the Player. Test by having the Player walk up to an item and console logging that fact.
+
+10. Expand the pickupItem function to Derender the item in question, and remove it from the Engine's currentItems list.
+
+11. Create a Player method with a switch case to determine what to do with an Item that has been picked up. The Engine's itemUpdate cycle will call this method in lieu of logging to the console. Note: Since this method will pivot on the item's 'type' it will probably not be necessary to provide the 'affects' attribute since it's contained in the type (and even better, the type/switch case will make it easier for Advanced Items to affect multiple stats.)
+
+12. Item effects for Health: Check if Player is below Max HP; restore up to (the lesser of): the value of the item or maxHP.
+
+13. Item effects for EXP: Simply add the value to the Player's current XP.
+
+14. Item effects for Steroids: Add the item's power to the player's jump impulse and top speed properties; reduce them after (item duration) frames of gameplay (so a duration of 20 = 1 second).
+
+15. Ensure that Player's item-induced special attributes are removed upon death.
+
+16. Ensure that Items are regenerated by the Engine in the event of the game having to restart.
+
+17. Ensure that Items are removed from the game by a mission setup instructions/engine reducer effect.
+
+18. Ensure that Items are re-rendered after the game's Menu is closed.
+
+19. Analyze what should be done (if anything) to ensure that new game content can be added more easily without having to individually perform these last 2 steps (are we talking unit tests? a 'new features' checklist describing where to put things in the Engine?)
+
+20. Modify the wetlands biome to serve as an introduction to the Items, and have it include getting a very long-lasting dose of the steroids and they're introduced at a moment where you just need to make a big jump to keep going in that moment. Keep the heart on the opposite side of the first baddie (the one on the block over the lava). Cumulatively, this will serve as an introduction to the Items and Hitpoint features. Lastly, add some XP Items to both ends of the map when the 'touch both walls' objective is met. That way, at the end of the course you can have the Player get some experience, which he can spend in our next big feature, which is coming very soon now...
+
+### 21. Push to production and close the branch!
 
 ## Version 1.3.3: RPG Character Development
 
@@ -763,5 +811,7 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit - in fact, why not bring them straight into the game and walk around on them while you're at it?! Cue the Test Stage.
 
 ### More/different attacks for the player? Different cooldown times, greater or shorter ranges, Y-axis specific moves, should all be combinable with our current system.
+
+### Getting knocked back by an attack should also in that moment of invulnerability, also disable your movement responders, at least for the direction you just got hit from!
 
 ### Level Chirality: Be aware of it! Could a simple Find-and-replace function built into the columns object solve the issue?! ALL Biomes A) become objects B) have IDs as well as names C) have chirality sub-object: { left: 17, right: 18 } that feeds into block swapper method!
