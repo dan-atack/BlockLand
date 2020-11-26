@@ -143,6 +143,8 @@ class Player extends Sprite {
         this.experience += item.power;
         break;
       case 'steroids':
+        // First, remove any previous special effect (including any steroids previously consumed):
+        this.removeItemEffects();
         // Taking steroids makes you momentarily run faster and jump higher, by changing those properties for a set duration:
         this.itemEffect.properties = ['topSpeed', 'jumpImpulse'];
         this.itemEffect.value = item.power;

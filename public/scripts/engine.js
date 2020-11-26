@@ -23,7 +23,7 @@ class Engine {
     // Same principle applies to the vertical:
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
-    this.player = new Player(document.getElementById('world'), 3, 8);
+    this.player = new Player(document.getElementById('world'), 4, 14);
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:

@@ -56,7 +56,7 @@ const missions = [
         'Reach the Rightmost Edge of the world.', // 0 - Objective instructions statement
         "Good job, you've clearly got the *right* stuff!", // 1 - Objective achievement statement
         'position', // 2 - Objective test type
-        [30], // 3 - Objective coordinate/s
+        [40], // 3 - Objective coordinate/s
         1, // 4 - XP value for objective
       ],
       [
@@ -64,7 +64,7 @@ const missions = [
         'Reach the Leftmost Edge of the world.',
         'No dinosaur *left* behind!',
         'position',
-        [-30],
+        [-40],
         1,
       ],
     ],
@@ -82,22 +82,29 @@ const missions = [
           //   hitpoints: 10
           // },
           [ 18, 10, 1002, 1001, [16, 18]],
-          [ -10, 6, 1001, 1002, [-10, 0]],
+          [ -10, 7, 1001, 1002, [-10, 0]],
         ],
       ],  // End of instruction 1
       [
         'add-item',
         [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          28, 9, {type: 'steroids', power: 0.2, duration: 100}
+          -18, 11, {type: 'steroids', power: 0.2, duration: 100}
         ]
       ],
       [
         'add-item',
-        [ // x, y, [item type, affects, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          25, 6, {type: 'health', power: 2, duration: 0}
+        [
+          39, 13, {type: 'health', power: 2, duration: 0}
         ]
       ],
+      [
+        'add-item',
+        [
+          -31, 13, {type: 'steroids', power: 0.2, duration: 100}
+        ]
+      ]
     ],
+    
     specialFX: null
   },
   {
@@ -110,7 +117,7 @@ const missions = [
         'Investigate the anomaly at the Center',
         'Whooaaaaa!!',
         'position',
-        [0, 7],
+        [5, 14],
         2,
       ],
     ],
@@ -120,7 +127,7 @@ const missions = [
         'create-block', // idx = 0 - code word for switch case
         [
           // idx = 1 - array containing coords and block type for 'create-block' switch case in engine
-          [0, 7], // create-block idx = 0 - coordinates to target
+          [5, 14], // create-block idx = 0 - coordinates to target
           989, // create-block idx = 1 - block type to render
         ],
       ], // end of first instructions set
@@ -129,11 +136,18 @@ const missions = [
         'add-baddies',
         [
           // baddie ranges must be processed by the engine, not given as a range function output here:
-          [ -22, 6, 1002, 1003, [-22, -14]],
-          [ -24, 8, 1002, 1004, [-30, -24]],
-          [ 22, 9, 1001, 1005, [22, 30]],
+          [ -19, 12, 1002, 1003, [-19, -14]],
+          [ -29, 10, 1002, 1004, [-36, -29]],
+          [ 22, 9, 1001, 1005, [22, 34]],
         ],
       ],
+      [
+        'add-item',
+        [
+          -2, 11, {type: 'experience', power: 5, duration: 0}
+        ]
+      ],
+      ['update-player-respawn', [4, 7]],
     ],
     specialFX: null,
   },
@@ -185,6 +199,7 @@ const missions = [
           [ 10, 8, 1002, 1007, [1, 10]],
         ],
       ],
+      ['update-player-respawn', [0, 11]],
     ],
     specialFX: null,
   },
@@ -311,6 +326,7 @@ const missions = [
         ],
       ],
       ['add-boss', [ 97, 30, 1003, 1033, [91, 97]]],
+      ['update-player-respawn', [-81, 42]]
     ],
     specialFX:[
       {
