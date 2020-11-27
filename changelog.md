@@ -754,7 +754,9 @@ From Mario's mushroom to the Sword of Plus Five Agility, all great games have ic
 
 20. Modify the wetlands biome to serve as an introduction to the Items, and have it include getting a very long-lasting dose of the steroids and they're introduced at a moment where you just need to make a big jump to keep going in that moment. Keep the heart on the opposite side of the first baddie (the one on the block over the lava). Cumulatively, this will serve as an introduction to the Items and Hitpoint features. Lastly, add some XP Items to both ends of the map when the 'touch both walls' objective is met. That way, at the end of the course you can have the Player get some experience, which he can spend in our next big feature, which is coming very soon now...
 
-### 21. Push to production and close the branch!
+### 21. Update README file to reflect current progress and priorities.
+
+### 22. Push to production and close the branch!
 
 ## Version 1.3.3: RPG Character Development
 

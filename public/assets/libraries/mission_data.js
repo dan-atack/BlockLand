@@ -100,7 +100,7 @@ const missions = [
       [
         'add-item',
         [
-          -31, 13, {type: 'steroids', power: 0.2, duration: 100}
+          -40, 10, {type: 'steroids', power: 0.2, duration: 100}
         ]
       ]
     ],
