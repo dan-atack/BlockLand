@@ -45,8 +45,11 @@ class Engine {
     this.clock = document.getElementById('clock');
     this.displayPlayerHPLabel = document.getElementById('text-Player');
     this.displayPlayerHP = document.getElementById('playerHP');
-    this.displayPlayerCoords = document.getElementById('playerCoords');
-    this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
+    this.displayPlayerXPLabel = document.getElementById('text-Experience:');
+    this.displayPlayerXP = document.getElementById('playerXP');
+    // Uncomment these for DEV MODE (uncomment the updateSidebarDisplay and updateSidebarRoot methods too)
+    // this.displayPlayerCoords = document.getElementById('playerCoords');
+    // this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
     // this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
     this.resetButton = document.getElementById('resetButton');
     // Physics Object handles motion and collision detection. One Physics per sprite (hello relativity!)
@@ -449,8 +452,10 @@ class Engine {
     'limegreen' : this.player.currentHP / this.player.maxHP > 0.4 ?
     'yellow' :
     'red';
+    // Dev mode leftovers:
     // this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
     // this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
+    this.displayPlayerXPLabel.innerText = `Experience: ${this.player.experience} / ${this.player.requiredXP}`;
     this.displayPlayerHPLabel.innerText = `Player HP (Max: ${this.player.maxHP})`;
     this.displayPlayerHP.innerText = `${healthHearts}`;
     this.displayPlayerHP.style.width = `${this.player.currentHP * 10}%`;
@@ -639,8 +644,8 @@ class Engine {
   // Whenever the game interface comes back, ensure all Sidebar display elements are updated correctly:
   updateSidebarRoots = () => {
     this.clock = document.getElementById('clock');
-    this.displayPlayerCoords = document.getElementById('playerCoords');
-    this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
+    // this.displayPlayerCoords = document.getElementById('playerCoords');
+    // this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
     this.displayPlayerHPLabel = document.getElementById('text-Player');
     this.displayPlayerHP = document.getElementById('playerHP');
     this.resetButton = document.getElementById('resetButton');

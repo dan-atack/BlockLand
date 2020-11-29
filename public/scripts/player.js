@@ -17,7 +17,13 @@ class Player extends Sprite {
     this.jumping = false;
     this.crouching = false;
     // Let's RPG it up a bit!
-    this.experience = 0;
+    this.experience = 0;                    // the number of XP points you have collected
+    this.level = 1;                         // the number of your current level
+    this.requiredXP = 10;                   // the number of XP points needed for the next level
+    this.previousLevelXp = 1;               // the number of XP points needed for your last level
+    this.experienceGainedThisInning = 0;    // the number of XP points gained since your last death/mission accomplishment.
+    this.levelsGainedThisInning = 0;        // the number of Levelups gained since your last death/mission accomplishment.
+    this.perksList = [];                    // the list of perk objects the player benefits from.
     // COMBAT ZONE :
     this.attackAnimation.id = 'player-attack';
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):

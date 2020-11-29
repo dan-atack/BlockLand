@@ -92,11 +92,15 @@ class App {
         this.renderButton('resetButton', 'sidebar-button', 'RESTART', 'sidebar', this.resetButtonHandler);
         this.renderButton('inGameMenuButton', 'sidebar-button', 'MENU', 'sidebar', this.inGameMenuHandler);
         this.renderElement('playerHPBox', 'div', 'healthbar-box', document.getElementById('sidebar'), 'top');
-        this.renderText('playerHPBox', 0, 0, 18, 'Player HP:');
+        this.renderText('playerHPBox', 0, 0, 18, 'Player HP:', 'sidebar-label');
         this.renderElement('playerHP', 'div', 'healthbar', document.getElementById('playerHPBox'));
+        // Keep these around to uncomment for 'dev mode' if they're needed. Make sure to re-enable them in the Engine too.
         // this.renderElement('playerCoords', 'span', 'sidebar', document.getElementById('sidebar'));
         // this.renderElement('playerXP', 'span', 'sidebar', document.getElementById('sidebar'));
         // this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', document.getElementById('sidebar'));
+        this.renderElement('playerXPBox', 'div', 'healthbar-box', document.getElementById('sidebar'));
+        this.renderText('playerXPBox', 0, 0, 18, 'Experience:', 'sidebar-label');
+        this.renderElement('playerXP', 'div', 'experiencebar', document.getElementById('playerXPBox'));
         this.renderElement('sidebar-bottom', 'div', 'sidebar', document.getElementById('sidebar'), 'bottom');
     }
 

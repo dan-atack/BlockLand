@@ -762,23 +762,23 @@ From Mario's mushroom to the Sword of Plus Five Agility, all great games have ic
 
 At last the time has come to use the Player's XP! The in-game menu will be modified to host the character development screen, which will be like a tech web which the Player gradually fills out. At the center of the tech web will be the 'basic dinosaur' node, and the initial attributes that the Player can buy branch outwards from there. The Player will gain a new perk every time they level up, which will cost progressively more experience each time. Since the game advances based on mission progression instead of character experience accrual, the Player's experience/level development must be able to revert to lower values/levels if the player dies (much as the Baddies-killed-this-inning counter does). In terms of game UI, the Player's experience display in the sidebar should be replaced with a bar, much like the HP display, which fills up as you progress towards the next levelup. When you achieve a level up, this bar should display the text 'level up: select perk' and it and the menu should glow to indicate that the user should engage with them.
 
-### 1. Remove dummy buttons from in-game menu. Set visibility to 'None' on player coords, standing-on displays in the App, and comment out the Engine's update function for these components.
+1. Remove dummy buttons from in-game menu. Set visibility to 'None' on player coords, standing-on displays in the App, and comment out the Engine's update function for these components.
 
-### 2. Add Player Level attribute (number).
+2. Add Player Level attribute (number).
 
-### 3. Add Player Perks attribute (list).
+3. Add Player Perks attribute (list).
 
-### 4. Add Player requiredXP attribute (number, representing how much experience is needed for your next levelup).
+4. Add Player requiredXP attribute (number, representing how much experience is needed for your next levelup).
 
-### 5. Add Player previousLevelXP attribute (number representing the amount of XP needed for your current level).
+5. Add Player previousLevelXP attribute (number representing the amount of XP needed for your current level).
 
-### 6. Add Player ExperienceGainedThisInning attribute (number, which will be subtracted from your total XP if you die).
+6. Add Player ExperienceGainedThisInning attribute (number, which will be subtracted from your total XP if you die).
 
-### 7. Add Player LevelsGainedThisInning attribute (number, which will reduce your level if you die).
+7. Add Player LevelsGainedThisInning attribute (number, which will reduce your level if you die).
 
-### 8. Add Experience Bar component/s to the App's renderSidebar function.
+8. Add Experience Bar component/s to the App's renderSidebar function.
 
-### 9. Add Engine method to check the Player's XP each frame, and update the Sidebar's XP bar display.
+9. Add Engine method to check the Player's XP each frame, and update the Sidebar's XP bar display (text for starters).
 
 ### 10. Create dictionary file for different perks. Perks have attributes: name (unique string), attributeAffected (string name of Player/Sprite attribute), value (number by which that attribute is affected), and prerequisites (list of names [unique string id's] of other perks).
 

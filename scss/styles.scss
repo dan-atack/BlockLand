@@ -251,6 +251,11 @@ body {
   border: 1px solid cyan;
 }
 
+.sidebar-label {
+  position: relative;
+  margin: 0 0 8px 0;
+}
+
 .healthbar-box {
   color: white;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -276,6 +281,15 @@ body {
   font-size: 1.6em;
   text-shadow: 1px 1px black;
   border-radius: 16px;
+}
+
+.experiencebar {
+  color: rgb(30, 134, 126);
+  border: 2px solid rgba(0, 250, 154, 0.89);
+  background-color: rgb(16, 45, 65);
+  padding: 0px 4px 0px 4px;
+  height: 24px;
+  border-radius: 12px;
 }
 
 .username {
