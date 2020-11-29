@@ -449,8 +449,8 @@ class Engine {
     'limegreen' : this.player.currentHP / this.player.maxHP > 0.4 ?
     'yellow' :
     'red';
-    this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
-    this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
+    // this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
+    // this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
     this.displayPlayerHPLabel.innerText = `Player HP (Max: ${this.player.maxHP})`;
     this.displayPlayerHP.innerText = `${healthHearts}`;
     this.displayPlayerHP.style.width = `${this.player.currentHP * 10}%`;

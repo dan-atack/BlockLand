@@ -94,9 +94,9 @@ class App {
         this.renderElement('playerHPBox', 'div', 'healthbar-box', document.getElementById('sidebar'), 'top');
         this.renderText('playerHPBox', 0, 0, 18, 'Player HP:');
         this.renderElement('playerHP', 'div', 'healthbar', document.getElementById('playerHPBox'));
-        this.renderElement('playerCoords', 'span', 'sidebar', document.getElementById('sidebar'));
-        this.renderElement('playerXP', 'span', 'sidebar', document.getElementById('sidebar'));
-        this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', document.getElementById('sidebar'));
+        // this.renderElement('playerCoords', 'span', 'sidebar', document.getElementById('sidebar'));
+        // this.renderElement('playerXP', 'span', 'sidebar', document.getElementById('sidebar'));
+        // this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', document.getElementById('sidebar'));
         this.renderElement('sidebar-bottom', 'div', 'sidebar', document.getElementById('sidebar'), 'bottom');
     }
 

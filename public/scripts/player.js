@@ -202,15 +202,6 @@ class Player extends Sprite {
     if (this.attackAnimation) {
       this.haltAttack();
     }
-    // Update text in the sidebar status indicator based on type of death:
-    switch (type) {
-      case 'attack':
-        document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by enemy attack!`;
-        break;
-      case 'terrain':
-        document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by ${this.standingOn.name}!`;
-        break;
-    }
   }
 
   // And since this is video games and not real life, resurrect the player when the restart button is pressed:
