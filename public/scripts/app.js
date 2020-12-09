@@ -6,6 +6,7 @@ class App {
         this.currentUI = '';
         this.currentUIElements = [];
         this.engine = null;
+        this.skillTree = null;
     }
 
     showPreGameMenu = () => {
@@ -68,10 +69,23 @@ class App {
 
     // De-render button: Goes through the entire list of currently rendered elements and removes them:
     deRenderCurrentUI = () => {
+        // Special cleanup is needed if the Skill Tree has been visited (see next method):
+        if (this.skillTree) {
+            this.closeSkillTree();
+        }
         this.currentUIElements.forEach((element) => {
             element.deRender();
         })
         this.currentUIElements = [];
+    }
+
+    closeSkillTree = () => {
+        this.skillTree.cleanup();
+        // Hand off newly acquired skills (if any) to the Player:
+        console.log(this.engine.player.skillsList.length);
+        this.engine.player.gainSkills(this.skillTree.purchasedNow);
+        console.log(this.engine.player.skillsList.length);
+        this.skillTree = null;
     }
 
     // Composite rendering methods (to reproduce whole sections of the UI out of individual elements):
@@ -155,11 +169,9 @@ class App {
         this.currentUI = 'In-Game Menu';
         this.renderElement('inGameMenu', 'div', 'main-menu', universe);
         this.renderText('inGameMenu', 0, 0, 36, 'BlockLand: The In-Game Menu', 'intro-shine');
-        this.renderButton('saveGameButton', 'menu-button', 'Save Game', 'inGameMenu', this.saveGameHandler);
-        this.renderButton('loadGameButton', 'menu-button', 'Load Game', 'inGameMenu', this.loadGameHandler);
-        this.renderButton('preferencesButton', 'menu-button', 'Preferences', 'inGameMenu', this.preferencesHandler);
         // Display mission briefing and objectives:
         this.renderButton('missionBriefButton', 'menu-button', 'Current Mission', 'inGameMenu', this.showMissionBriefingHandler);
+        this.renderSkillTree();
         this.renderButton('returnToGame', 'menu-button', 'Resume Game', 'inGameMenu', this.returnToGameHandler);
     }
 
@@ -176,6 +188,16 @@ class App {
             this.renderText('inGameMenu', 0, 0, 18, objective.statement)
         });
         this.renderButton('backToMainMenu', 'menu-button', 'Return to Main Menu', 'inGameMenu', this.returnToMainMenuHandler);
+    }
+
+    renderSkillTree = () => {
+        this.renderElement('skillTree', 'div', 'skill-tree', document.getElementById('inGameMenu'));
+        this.skillTree = new SkillTree(
+            document.getElementById('skillTree'),
+            this.engine.player.skillsAvailable,
+            this.engine.player.skillsList
+        );
+        this.skillTree.renderSkillTree();
     }
 
     // Method for displaying the user name:

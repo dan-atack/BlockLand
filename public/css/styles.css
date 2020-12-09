@@ -119,6 +119,52 @@ body {
   margin-bottom: 32px;
   align-self: center; }
 
+.skill-tree {
+  position: relative;
+  height: 320px;
+  width: 512px;
+  background-color: #1d041d;
+  align-self: center;
+  margin-bottom: 32px;
+  border: 2px solid rgba(0, 250, 154, 0.89);
+  border-radius: 8px; }
+
+.skill-tree-container {
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
+  position: absolute;
+  margin: 0;
+  padding: 16px 4px 0px 4px;
+  line-height: 8px;
+  cursor: pointer; }
+
+.available {
+  border: 2px solid rgba(0, 250, 154, 0.89);
+  box-shadow: 0px 0px 4px yellowgreen; }
+  .available:hover {
+    box-shadow: 0px 0px 16px rgba(0, 250, 154, 0.89); }
+
+.purchased {
+  border: 2px solid limegreen;
+  box-shadow: 0px 0px 12px limegreen; }
+
+.unavailable {
+  border: 2px solid gray;
+  box-shadow: 0px 0px 4px gray; }
+  .unavailable:hover {
+    box-shadow: 0px 0px 8px red; }
+
+.skill-tree-text {
+  font-size: 12px; }
+
+.skill-tree-pts-remaining {
+  position: absolute;
+  color: rgba(0, 250, 154, 0.89);
+  padding: 16px;
+  border: 2px solid rgba(0, 250, 154, 0.89);
+  border-radius: 4px; }
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
@@ -229,7 +275,7 @@ body {
   border-radius: 16px; }
 
 .experiencebar {
-  color: #1e867e;
+  color: rgba(0, 250, 154, 0.89);
   border: 2px solid rgba(0, 250, 154, 0.89);
   background-color: #102d41;
   padding: 0px 4px 0px 4px;

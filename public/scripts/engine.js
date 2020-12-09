@@ -244,8 +244,9 @@ class Engine {
   updateMission() {
     // Pause the game when mission update begins:
     this.gameOn = false;
-    // Reset baddies-killed-this-inning counter for scorekeeping purposes:
+    // Reset baddies-killed-this-inning counter and give player experience checkpoint:
     this.baddiesKilledThisInning = 0;
+    this.player.experienceCheckpoint();
     // Cancel all current baddie attacks:
     this.baddies.forEach((baddie) => baddie.haltAttack());
     // When the mission updates we update the engine's mission level counter:
@@ -455,7 +456,7 @@ class Engine {
     // Dev mode leftovers:
     // this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
     // this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
-    this.displayPlayerXPLabel.innerText = `Experience: ${this.player.experience} / ${this.player.requiredXP}`;
+    this.displayPlayerXPLabel.innerText = `Experience: ${this.player.experience} / ${this.player.nextLevelXP}`;
     this.displayPlayerHPLabel.innerText = `Player HP (Max: ${this.player.maxHP})`;
     this.displayPlayerHP.innerText = `${healthHearts}`;
     this.displayPlayerHP.style.width = `${this.player.currentHP * 10}%`;
@@ -648,6 +649,8 @@ class Engine {
     // this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
     this.displayPlayerHPLabel = document.getElementById('text-Player');
     this.displayPlayerHP = document.getElementById('playerHP');
+    this.displayPlayerXPLabel = document.getElementById('text-Experience:');
+    this.displayPlayerXP = document.getElementById('playerXP');
     this.resetButton = document.getElementById('resetButton');
   }
   

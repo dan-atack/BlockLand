@@ -26,8 +26,6 @@ class Mission {
 
   // Engine will call this if an objective goes ping:
   manageAchievements() {
-    // Display mission objectives/user xp on the sidebar:
-    // document.getElementById('playerXP').innerText = `PLAYER XP: ${this.subject.experience}`;
     // Filter out accomplished objectives:
     this.objectivesRemaining = this.objectivesRemaining.filter(
       (objective) => objective.achieved !== true
@@ -35,7 +33,7 @@ class Mission {
     this.objectivesRemaining.forEach((objective) => {
       objective.test();
       if (objective.achieved) {
-        this.subject.experience += objective.xpValue;
+        this.subject.gainExperience(objective.xpValue);
         // document.getElementById('playerXP').classList.add('XP');
         this.objectivesAchieved.push(objective);
         const announcement = new Text(

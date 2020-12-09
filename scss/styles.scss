@@ -2,6 +2,7 @@ $block-width: 32px;
 $world-height-in-blocks: 21;
 $world-width-in-blocks: 21;
 $standardRadius: 8px;
+$experienceLight: rgba(0, 250, 154, 0.89);
 
 @keyframes spin {
   from {
@@ -155,6 +156,61 @@ body {
   align-self: center;
 }
 
+.skill-tree {
+  position: relative;
+  height: 10 * $block-width;
+  width: 16 * $block-width;
+  background-color: rgb(29, 4, 29);
+  align-self: center;
+  margin-bottom: 32px;
+  border: 2px solid $experienceLight;
+  border-radius: $standardRadius;
+}
+
+.skill-tree-container {
+  border-radius: 50%;
+  height: 2 * $block-width;
+  width: 2 * $block-width;
+  position: absolute;
+  margin: 0;
+  padding: 16px 4px 0px 4px;
+  line-height: 8px;
+  cursor: pointer;
+}
+
+.available {
+  border: 2px solid $experienceLight;
+  box-shadow: 0px 0px 4px yellowgreen;
+  &:hover {
+    box-shadow: 0px 0px 16px $experienceLight;
+  }
+}
+
+.purchased {
+  border: 2px solid limegreen;
+  box-shadow: 0px 0px 12px limegreen;
+}
+
+.unavailable {
+  border: 2px solid gray;
+  box-shadow: 0px 0px 4px gray;
+  &:hover {
+    box-shadow: 0px 0px 8px red;
+  }
+}
+
+.skill-tree-text {
+  font-size: 12px;
+}
+
+.skill-tree-pts-remaining {
+  position: absolute;
+  color: $experienceLight;
+  padding: 16px;
+  border: 2px solid $experienceLight;
+  border-radius: 4px;
+}
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
@@ -284,8 +340,8 @@ body {
 }
 
 .experiencebar {
-  color: rgb(30, 134, 126);
-  border: 2px solid rgba(0, 250, 154, 0.89);
+  color: $experienceLight;
+  border: 2px solid $experienceLight;
   background-color: rgb(16, 45, 65);
   padding: 0px 4px 0px 4px;
   height: 24px;
