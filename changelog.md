@@ -854,7 +854,17 @@ At last the time has come to use the Player's XP! The in-game menu will be modif
 
 46. In the Engine, amalgamate all Sidebar display elements into an object, so that the updateSidebarRoots method can iterate through this object's keys rather than needing a separate copy of each element's identification assignment.
 
-### 47. Brainstorm and add 1 - 3 more interesting ways to improve the character with upgrades (new Player attributes needed??)
+47. Brainstorm results for new character traits: Intelligence ( -10% XP costs ), Agility ( + 0.03125 top speed), and Grip ( friction acts 1px/cycle faster on land and ice).
+
+48. Intelligence part 1: The Player needs an intelligence attribute.
+
+49. Intelligence part 2: the Player's next level cost determination is influenced by this value (reduced).
+
+50. Grip part 1: The Sprite class gets a grip (!) attribute, with an initial value of zero. Increasing this value should make you slide less before stopping when you're on the ground (ice included).
+
+51. In the Physics module, add the subject's grip value to all land and ice friction calculations (grip doesn't affect you in the air).
+
+### 52. Once all of these great improvements are done, add an experimental tooltip text caption for each skill.
 
 ## Version 1.4.0: Level Editor??
 

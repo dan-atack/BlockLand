@@ -14,6 +14,7 @@ class Sprite extends Entity {
     this.xSpeed = 0;
     this.ySpeed = 0;
     this.standingOn = { id: '000', name: 'Air', properties: ['permeable'] };
+    this.grip = 0;    // A higher value here lowers your stopping distance on land
     // The medium you're in can affect your movement (air is normal, water will be slower)
     this.medium = { id: '000', name: 'Air', properties: ['permeable'] };
     // Movement obstructions checker - record last position that movement was attempted from to see if one is bumping into something:

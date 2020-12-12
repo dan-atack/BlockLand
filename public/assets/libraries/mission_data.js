@@ -95,7 +95,7 @@ const missions = [
       [
         'add-item',
         [
-          -7, 14, {type: 'experience', power: 5, duration: 0}
+          -7, 14, {type: 'experience', power: 14, duration: 0}
         ]
       ],
       [

@@ -20,28 +20,35 @@ const skills = [
     id: 'TOUGH-01',
     text: "Improved Toughness",
     attributeAffected: 'maxHP',
-    value: 1,
+    value: 1,                         // AKA one extra health point.
     prerequisites: []
  },
  {
    id: 'SPEED-01',
-   text: "Be more Agile",
+   text: "Enhanced Agility",
    attributeAffected: 'topSpeed',
-   value: 0.05,
+   value: 0.03125,                   // AKA one pixel's worth of extra distance travelled in the first frame.
    prerequisites: []
 },
 {
    id: 'ACRO-01',
    text: "Acrobatics 101",
    attributeAffected: 'jumpImpulse',
-   value: 0.05,
+   value: 0.03125,                  // AKA one pixel's worth of extra distance travelled in the first frame.
    prerequisites: []
 },
 {
    id: 'INTEL-01',
    text: "Philoso-raptor",
-   attributeAffected: 'maxHP',   // A boring duplicate value, for now.
-   value: 1,
+   attributeAffected: 'intelligence',
+   value: 10,                       // AKA a 10% reduction in the increase of the cost of future skills.
+   prerequisites: []
+},
+{
+   id: 'SPEED-02',
+   text: "Get a grip!",
+   attributeAffected: 'grip',
+   value: 0.03125,                  // AKA one less pixel's worth of stopping distance
    prerequisites: []
 },
 ]

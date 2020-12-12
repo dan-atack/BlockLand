@@ -25,6 +25,8 @@ class Player extends Sprite {
     this.levelsGainedThisInning = 0;          // the number of Levelups gained since your last death/mission accomplishment.
     this.skillsList = [skills.find((skill) => skill.id === 'BASIC')];    // the list of skill objects the player benefits from.
     this.skillsAvailable = 0;                 // calculated from the difference between your level and the length of your skills list.
+    // SKILL RELATED ATTRIBUTES:
+    this.intelligence = 100;                  // Raptors have an initial IQ of 100
     // COMBAT ZONE :
     this.attackAnimation.id = 'player-attack';
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):
@@ -136,6 +138,7 @@ class Player extends Sprite {
   // Figure out what medium you're in (basically air or water are your options at the moment):
   determineMedium(columns) {
     this.medium = columns.blockTypeDetector(this.gridX, this.y);
+    console.log(this.xSpeed);
   }
 
   // Items and special statuses:
@@ -192,13 +195,13 @@ class Player extends Sprite {
   // Detect levelups and manage values when they occur:
   checkForLevelUp = () => {
     if (this.experience >= this.nextLevelXP) {
-      console.log('You have leveled up! Select a skill in the menu!!');
       this.skillsAvailable += 1;
       this.level += 1;
       this.levelsGainedThisInning += 1;
       this.previousLevelsXP.push(this.nextLevelXP);
-      // Cost of next level increases by ten percent times your current level:
-      this.nextLevelXP += Math.floor(this.nextLevelXP * (1 + this.level / 10));
+      // Cost of next level increases by ten percent times your current level - (your IQ points over 100)%:
+      const xpModifier = (this.intelligence - 100) / 100;
+      this.nextLevelXP += Math.floor((this.nextLevelXP * (1 + this.level / 10)) * (1 - xpModifier));
     }
   }
 
@@ -206,10 +209,7 @@ class Player extends Sprite {
   gainSkills = (skills) => {
     if (skills.length > 0) {
       skills.forEach((skill) => {
-        console.log('gaining skill: ', skill.id)
-        // this.skillsList.push(skill);                    // wierdly the skill is ALREADY in your list!
         this[skill.attributeAffected] += skill.value;   // augment the appropriate attribute
-        console.log(`${skill.attributeAffected}: `, this[skill.attributeAffected])
         this.skillsAvailable -= 1;            // Last but certainly not least, reduce the amount of skills you can buy next time!
       })
     }
@@ -217,7 +217,6 @@ class Player extends Sprite {
 
   // Handle everything to do with LOSING a skill (processed one skill at a time):
   loseSkill = (skill) => {
-    console.log('losing skill: ', skill.id);
     this[skill.attributeAffected] -= skill.value;
   }
 

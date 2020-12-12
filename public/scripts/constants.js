@@ -20,7 +20,7 @@ const iceFriction = 0.015625;
 const waterFriction = 0.0625;
 const landFriction = 0.125;
 const terminalVelocity = 1;
-const minimumVelocity = 0.03125;
+const minimumVelocity = 0.03125;        // AKA one pixel's fraction of the screen, as a fraction of the standard block's height
 
 // Display area constants: establishing the width of the world that is visible on the screen:
 // Player and block sprite size will be determined first, and the world (screen) will be sized based on their dimensions.
