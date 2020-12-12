@@ -864,7 +864,19 @@ At last the time has come to use the Player's XP! The in-game menu will be modif
 
 51. In the Physics module, add the subject's grip value to all land and ice friction calculations (grip doesn't affect you in the air).
 
-### 52. Once all of these great improvements are done, add an experimental tooltip text caption for each skill.
+52. Once all of these great improvements are done, add an experimental tooltip text caption for each skill.
+
+### 53. Give the TreeNode element class a third DOM element: its tooltip text.
+
+### 54. Create a styling rule for the tooltip so that it only appears when you mouse over the parent div. See if you can get the tooltip text to appear this way.
+
+### 55. Prerequisites: When a node's availability is calculated, if it has prerequisites, it should only become available if all of those prerequisites have the 'purchased' status.
+
+### 56. Create inter-node GIF animation.
+
+### 57. Add a clause to the SkillTreeNode's constructor to render any number of nodes, and rotate the image to a specified angle around the Z-axis!
+
+### 58. Then I think we can commit and close the branch.
 
 ## Version 1.4.0: Level Editor??
 

@@ -8,13 +8,16 @@ class SkillTreeNode {
         this.skillData = skillData;
         this.id = skillData.id;
         this.text = skillData.text;
+        this.tooltipText = skillData.tooltipText;
         this.status = status;
         // This boolean will be flipped in the event that the node is clicked on and available:
         this.justPurchased = false;
         // Create elements:
         this.container = document.createElement('div');
         this.textField = document.createElement('span');
+        this.tooltip = document.createElement('span');
         this.textField.innerText = this.text;
+        this.tooltip.innerText = this.tooltipText;
         // Give elements unique IDs:
         this.containerId = `ST-Node-${this.text.split(' ')[0]}-${x}-${y}`;
         this.textFieldId = `ST-Text-${this.text.split(' ')[0]}-${x}-${y}`;
@@ -22,6 +25,7 @@ class SkillTreeNode {
         this.container.classList.add('skill-tree-container');
         this.container.classList.add(this.status);
         this.textField.classList.add('skill-tree-text');
+        this.tooltip.classList.add('tooltiptext');
         // Position the container:
         this.container.style.bottom = `${this.y * BLOCK_WIDTH}px`;
         this.container.style.left = `${this.x * BLOCK_WIDTH}px`;
@@ -30,11 +34,13 @@ class SkillTreeNode {
         // Now the tricky bit: append the container to the root, and the text field to the container. Anh.
         this.root.append(this.container);
         this.container.append(this.textField);
+        this.container.append(this.tooltip);
     }
 
     // DOM element cleanup:
     deRender = () => {
         this.container.removeChild(this.textField);
+        this.container.removeChild(this.tooltip);
         this.root.removeChild(this.container);
     }
 

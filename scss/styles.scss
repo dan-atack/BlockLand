@@ -178,6 +178,31 @@ body {
   cursor: pointer;
 }
 
+.skill-tree-container .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 16px;
+  border: 3px solid #000;
+  position: absolute;
+  z-index: 1;
+  bottom: 90%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.skill-tree-container:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
 .available {
   border: 2px solid $experienceLight;
   box-shadow: 0px 0px 4px yellowgreen;

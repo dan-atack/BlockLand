@@ -15,40 +15,46 @@ const skills = [
     attributeAffected: 'maxHP',
     value: 1,
     prerequisites: [],
+    tooltipText: '"The quintessential characteristics of the modern velociraptor."'
  },
  {
     id: 'TOUGH-01',
-    text: "Improved Toughness",
+    text: "Thick Skin",
     attributeAffected: 'maxHP',
     value: 1,                         // AKA one extra health point.
-    prerequisites: []
+    prerequisites: [],
+    tooltipText: '+ 1 Max HP \n "That\'s one tough raptor."',
  },
  {
    id: 'SPEED-01',
    text: "Enhanced Agility",
    attributeAffected: 'topSpeed',
    value: 0.03125,                   // AKA one pixel's worth of extra distance travelled in the first frame.
-   prerequisites: []
+   prerequisites: [],
+   tooltipText: '+ 12.5% Max Speed \n "Raptors pretty much invented agile."',
 },
 {
    id: 'ACRO-01',
    text: "Acrobatics 101",
    attributeAffected: 'jumpImpulse',
    value: 0.03125,                  // AKA one pixel's worth of extra distance travelled in the first frame.
-   prerequisites: []
+   prerequisites: [],
+   tooltipText: '+ 5% Jump Height \n "Even a tiny increase to air-time is pretty impressive, really."',
 },
 {
    id: 'INTEL-01',
    text: "Philoso-raptor",
    attributeAffected: 'intelligence',
    value: 10,                       // AKA a 10% reduction in the increase of the cost of future skills.
-   prerequisites: []
+   prerequisites: [],
+   tooltipText: '-10% Cost of All Future Skills \n "Clever Girl!"',
 },
 {
    id: 'SPEED-02',
-   text: "Get a grip!",
+   text: "Improved Traction",
    attributeAffected: 'grip',
    value: 0.03125,                  // AKA one less pixel's worth of stopping distance
-   prerequisites: []
+   prerequisites: [],
+   tooltipText: '-25% slip speed on all surfaces. \n Tested in the BlockLand skating rink for 100% quality assurance. \n "Get a grip, man!"',
 },
 ]
