@@ -112,9 +112,12 @@ class App {
         // this.renderElement('playerCoords', 'span', 'sidebar', document.getElementById('sidebar'));
         // this.renderElement('playerXP', 'span', 'sidebar', document.getElementById('sidebar'));
         // this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', document.getElementById('sidebar'));
-        this.renderElement('playerXPBox', 'div', 'healthbar-box', document.getElementById('sidebar'));
-        this.renderText('playerXPBox', 0, 0, 18, 'Experience:', 'sidebar-label');
-        this.renderElement('playerXP', 'div', 'experiencebar', document.getElementById('playerXPBox'));
+        this.renderElement('playerXPBox', 'div', 'experiencebar-box', document.getElementById('sidebar'));
+        this.renderText('playerXPBox', 0, 0, 18, 'Experience', 'sidebar-label');
+        this.renderElement('playerXP-outer', 'div', 'experiencebar-shell', document.getElementById('playerXPBox'));
+        this.renderElement('playerXP-inner', 'div', 'experiencebar-inner', document.getElementById('playerXP-outer'));
+        this.renderText('playerXPBox', -3, 0.25, 13, 'prev-lvl', 'prev-next-lvl');
+        this.renderText('playerXPBox', 3, 1.54, 13, 'next-lvl', 'prev-next-lvl');
         this.renderElement('sidebar-bottom', 'div', 'sidebar', document.getElementById('sidebar'), 'bottom');
     }
 

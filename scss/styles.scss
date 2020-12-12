@@ -339,13 +339,34 @@ body {
   border-radius: 16px;
 }
 
-.experiencebar {
+.experiencebar-box {
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: ($world-width-in-blocks * $block-width / 3) + ($block-width / 2);
+  height: $block-width * 2.5;
+  padding: 12px 4px;
+  border: 1px solid cyan;
+  text-align: center;
+  justify-content: left;
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  position: 'relative';
+}
+
+.experiencebar-shell {
   color: $experienceLight;
   border: 2px solid $experienceLight;
   background-color: rgb(16, 45, 65);
-  padding: 0px 4px 0px 4px;
+  padding: 2px;
   height: 24px;
   border-radius: 12px;
+}
+
+.experiencebar-inner {
+  background-color: $experienceLight;
+  height: 24px;
+  border-radius: 10px;
 }
 
 .username {
@@ -421,6 +442,10 @@ body {
 .text {
   position: relative;
   z-index: 100;
+}
+
+.prev-next-lvl {
+  position: relative;
 }
 
 .intro-shine {

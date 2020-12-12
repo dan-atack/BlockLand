@@ -274,13 +274,32 @@ body {
   text-shadow: 1px 1px black;
   border-radius: 16px; }
 
-.experiencebar {
+.experiencebar-box {
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 240px;
+  height: 80px;
+  padding: 12px 4px;
+  border: 1px solid cyan;
+  text-align: center;
+  justify-content: left;
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  position: 'relative'; }
+
+.experiencebar-shell {
   color: rgba(0, 250, 154, 0.89);
   border: 2px solid rgba(0, 250, 154, 0.89);
   background-color: #102d41;
-  padding: 0px 4px 0px 4px;
+  padding: 2px;
   height: 24px;
   border-radius: 12px; }
+
+.experiencebar-inner {
+  background-color: rgba(0, 250, 154, 0.89);
+  height: 24px;
+  border-radius: 10px; }
 
 .username {
   max-width: 50%;
@@ -344,6 +363,9 @@ body {
 .text {
   position: relative;
   z-index: 100; }
+
+.prev-next-lvl {
+  position: relative; }
 
 .intro-shine {
   animation: shine 2.5s ease-in-out infinite alternate;

@@ -252,7 +252,7 @@ class Player extends Sprite {
     // If you purchased a skill with a level that has been lost, remove the skill and whatever attribute boost is associated with it:
     if (this.skillsList.length > this.level) {
       const extraLevels = this.skillsList.length - this.level;
-      console.log("Losing ", extraLevels, " skills");
+      // console.log("Losing ", extraLevels, " skills");
       for (let i = 0; i < extraLevels; i++) {
         this.loseSkill(this.skillsList.pop());
       }

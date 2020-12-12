@@ -846,7 +846,15 @@ At last the time has come to use the Player's XP! The in-game menu will be modif
 
 42. For multi-level drops, ensure the XP requirement for nextLevel is reduced for every level that is lost. Also ensure that the skillsAvailable points are always kept in sync with the Player's level (and skillsList length) so that no combination of levelling-up/gaining skills/dying/reaching checkpoints causes a discrepancy between what you should have and what you get.
 
-### 42. Commit, push and deploy!
+43. Draw some mockups to improve the sidebar XP display.
+
+44. Make the XP bar inner component's length a percent of (the difference between the last level's XP threshold and the next level's threshold).
+
+45. Add Prev and Next Levels to the bottom corners of the XP display box. Have these be updated by the Engine's sidebar element update cycle as well.
+
+46. In the Engine, amalgamate all Sidebar display elements into an object, so that the updateSidebarRoots method can iterate through this object's keys rather than needing a separate copy of each element's identification assignment.
+
+### 47. Brainstorm and add 1 - 3 more interesting ways to improve the character with upgrades (new Player attributes needed??)
 
 ## Version 1.4.0: Level Editor??
 

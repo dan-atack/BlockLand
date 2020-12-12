@@ -41,17 +41,24 @@ class Engine {
       missions[this.currentMission]
     );
     this.theTime = new Date();
-    // All Engine-controlled sidebar elements are defined here:
-    this.clock = document.getElementById('clock');
-    this.displayPlayerHPLabel = document.getElementById('text-Player');
-    this.displayPlayerHP = document.getElementById('playerHP');
-    this.displayPlayerXPLabel = document.getElementById('text-Experience:');
-    this.displayPlayerXP = document.getElementById('playerXP');
+    // Dictionary is used to associate Engine-updated sidebar elements to their HTML elements' ID strings:
+    this.sidebarElements = {
+      clock: 'clock',
+      displayPlayerHPLabel: 'text-Player',
+      displayPlayerHP: 'playerHP',
+      displayPlayerXPLabel: 'text-Experience',
+      displayPlayerXP: 'playerXP-inner',
+      resetButton: 'resetButton',
+      prevLvl: 'text-prev-lvl',
+      nextLvl: 'text-next-lvl',
+    }
+    // This sidebar elements dictionary is then used to map each element to an Engine attribute with the same name:
+    Object.keys(this.sidebarElements).forEach((element) => this[element] = document.getElementById(this.sidebarElements[element]));
     // Uncomment these for DEV MODE (uncomment the updateSidebarDisplay and updateSidebarRoot methods too)
     // this.displayPlayerCoords = document.getElementById('playerCoords');
     // this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
     // this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
-    this.resetButton = document.getElementById('resetButton');
+    //
     // Physics Object handles motion and collision detection. One Physics per sprite (hello relativity!)
     this.playerPhysics = new Physics(this.blocks, this.player);
     // Scripts is the list of all the baddies' physics packs:
@@ -443,6 +450,14 @@ class Engine {
   }
 
   updateSidebarDisplays = () => {
+    // Dev mode leftovers:
+    // this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
+    // this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
+    this.updateXPBar();
+    this.updateHealthBar();
+  }
+
+  updateHealthBar = () => {
     // Show each player HP as a heart:
     let healthHearts = '';
     for (let i = 0; i < this.player.currentHP; i++) {
@@ -453,14 +468,22 @@ class Engine {
     'limegreen' : this.player.currentHP / this.player.maxHP > 0.4 ?
     'yellow' :
     'red';
-    // Dev mode leftovers:
-    // this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
-    // this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
-    this.displayPlayerXPLabel.innerText = `Experience: ${this.player.experience} / ${this.player.nextLevelXP}`;
     this.displayPlayerHPLabel.innerText = `Player HP (Max: ${this.player.maxHP})`;
     this.displayPlayerHP.innerText = `${healthHearts}`;
     this.displayPlayerHP.style.width = `${this.player.currentHP * 10}%`;
     this.displayPlayerHP.style.backgroundColor = hpColor;
+  }
+
+  updateXPBar = () => {
+    // Get Previous level XP threshold to use as the low end of the bar:
+    const previousLevel = this.player.previousLevelsXP[this.player.previousLevelsXP.length - 1]
+    const pointsNeeded = this.player.nextLevelXP - previousLevel;
+    // Calculate Player's progress towards the next level, from the previous one (prev = 40, next = 50, current = 42, % = 20)
+    const nextPercent = (this.player.experience - previousLevel) / pointsNeeded * 100;
+    this.displayPlayerXP.style.width = `${nextPercent}%`;
+    this.displayPlayerXPLabel.innerText = `Experience: ${this.player.experience} / ${this.player.nextLevelXP}`;
+    this.prevLvl.innerText = `Level ${this.player.level}`;
+    this.nextLvl.innerText = `Level ${this.player.level + 1}`;
   }
 
   // In case, in answer to the question 'would you like to play again?'... the user has selected... YES:
@@ -644,14 +667,11 @@ class Engine {
 
   // Whenever the game interface comes back, ensure all Sidebar display elements are updated correctly:
   updateSidebarRoots = () => {
-    this.clock = document.getElementById('clock');
+    // OLD ELEMENTS WITH POTENTIAL DEV-RELATED USEFULNESS:
     // this.displayPlayerCoords = document.getElementById('playerCoords');
     // this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
-    this.displayPlayerHPLabel = document.getElementById('text-Player');
-    this.displayPlayerHP = document.getElementById('playerHP');
-    this.displayPlayerXPLabel = document.getElementById('text-Experience:');
-    this.displayPlayerXP = document.getElementById('playerXP');
-    this.resetButton = document.getElementById('resetButton');
+    // Re-map all connections to newly generated elements:
+    Object.keys(this.sidebarElements).forEach((element) => this[element] = document.getElementById(this.sidebarElements[element]));
   }
   
 }
