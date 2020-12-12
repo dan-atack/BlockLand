@@ -6,7 +6,7 @@
 //     name: 'uniqueIdentifier',
 //     attributeAffected: 'nameOfPlayerAttribute', // String name of Player attribute to be modified
 //     value: 0,               // How much given attribute is affected (can be a negative number for a cooldown time, e.g.)
-//     prerequisites: []       // Optional array of other skills needed to get this one
+//     prerequisites: []       // Optional array of other skills (by code name) needed before this one can be available
 //  },
 const skills = [
  {
@@ -23,7 +23,7 @@ const skills = [
     attributeAffected: 'maxHP',
     value: 1,                         // AKA one extra health point.
     prerequisites: [],
-    tooltipText: '+ 1 Max HP \n "That\'s one tough raptor."',
+    tooltipText: '+ 1 Max HP \n \n "That\'s one tough raptor."',
  },
  {
    id: 'SPEED-01',
@@ -31,7 +31,7 @@ const skills = [
    attributeAffected: 'topSpeed',
    value: 0.03125,                   // AKA one pixel's worth of extra distance travelled in the first frame.
    prerequisites: [],
-   tooltipText: '+ 12.5% Max Speed \n "Raptors pretty much invented agile."',
+   tooltipText: '+ 12.5% Max Speed \n \n "Raptors pretty much invented agile."',
 },
 {
    id: 'ACRO-01',
@@ -39,7 +39,7 @@ const skills = [
    attributeAffected: 'jumpImpulse',
    value: 0.03125,                  // AKA one pixel's worth of extra distance travelled in the first frame.
    prerequisites: [],
-   tooltipText: '+ 5% Jump Height \n "Even a tiny increase to air-time is pretty impressive, really."',
+   tooltipText: '+ 5% Jump Height \n \n "Even a tiny increase to air-time is pretty impressive, really."',
 },
 {
    id: 'INTEL-01',
@@ -47,14 +47,14 @@ const skills = [
    attributeAffected: 'intelligence',
    value: 10,                       // AKA a 10% reduction in the increase of the cost of future skills.
    prerequisites: [],
-   tooltipText: '-10% Cost of All Future Skills \n "Clever Girl!"',
+   tooltipText: '-10% Cost of All Future Skills \n \n "Clever Girl!"',
 },
 {
    id: 'SPEED-02',
    text: "Improved Traction",
    attributeAffected: 'grip',
    value: 0.03125,                  // AKA one less pixel's worth of stopping distance
-   prerequisites: [],
-   tooltipText: '-25% slip speed on all surfaces. \n Tested in the BlockLand skating rink for 100% quality assurance. \n "Get a grip, man!"',
+   prerequisites: ['SPEED-01'],
+   tooltipText: '-25% slip speed on all surfaces. \n Tested in the BlockLand skating rink for 100% quality assurance. \n \n "Get a grip, man!"',
 },
 ]

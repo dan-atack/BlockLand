@@ -4,7 +4,7 @@ class SkillTree {
     constructor(root, skillsAvailable, skillsPurchased) {
         this.root = root;
         this.skillsAvailable = skillsAvailable;
-        this.displayRemaining = new Text(this.root, 0, 7.75, 16, `Skills Available: ${this.skillsAvailable}`, 'skill-tree-pts-remaining');
+        this.displayRemaining = new Text(this.root, 0, 7.75, 18, `Skills Available: ${this.skillsAvailable}`, 'skill-tree-pts-remaining');
         // Skills the Player already has will have the status 'purchased':
         this.skillsPurchased = skillsPurchased;
         // Keep track, separately, if which skills have been purchased during this session:
@@ -12,7 +12,7 @@ class SkillTree {
         // All nodes are in one list, and differentiated by their status (can be available, purchased, or unavailable)
         this.treeNodes = [];
         // Introduce a drop of flexibility here... Just make sure you always have at least as many position options as you have skills!
-        this.nodePositions = [[7, 4], [4, 4], [10, 4], [7, 7], [7, 1], [1, 1]];
+        this.nodePositions = [[7, 4], [4, 4], [10, 4], [7, 7], [7, 1], [12, 6], [1, 1]];
     }
 
     renderSkillTree = () => {
@@ -26,6 +26,16 @@ class SkillTree {
             if (this.skillsPurchased.some((perk) => perk.id === skill.id)) status = 'purchased';
             // If you have no points to spend, change status to unavailable (unless it is purchased already, of course):
             if (this.skillsAvailable <= 0 && status === 'available') status = 'unavailable'
+            // Finally, check if a node has any unpurchased prerequisites, and make it unavailable if there are any:
+            let idsPurchased = [];
+            this.skillsPurchased.forEach((skill) => idsPurchased.push(skill.id));
+            skill.prerequisites.forEach((prereq) => {
+                console.log(prereq);
+                // If any prerequisite is missing from the id's purchased list, make the skill unavailable:
+                if (!idsPurchased.includes(prereq)) {
+                    status = 'unavailable';
+                } 
+            })
             const node = new SkillTreeNode(this.root, x, y, skillData, status);
             this.treeNodes.push(node);
         });
