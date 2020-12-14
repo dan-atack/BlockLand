@@ -119,6 +119,83 @@ body {
   margin-bottom: 32px;
   align-self: center; }
 
+.skill-tree {
+  position: relative;
+  height: 352px;
+  width: 544px;
+  background-color: #1d041d;
+  align-self: center;
+  margin-bottom: 32px;
+  border: 2px solid rgba(0, 250, 154, 0.89);
+  border-radius: 8px; }
+
+.skill-tree-container {
+  border-radius: 50%;
+  background-color: #1d041d;
+  height: 64px;
+  width: 64px;
+  position: absolute;
+  margin: 0;
+  z-index: 3;
+  padding: 16px 4px 0px 4px;
+  line-height: 8px;
+  cursor: pointer; }
+
+.skill-tree-container .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 16px;
+  border: 3px solid #000;
+  position: absolute;
+  z-index: 10;
+  bottom: 80%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+  line-height: 16px; }
+
+.skill-tree-container:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  z-index: 10; }
+
+.available {
+  border: 2px solid rgba(0, 250, 154, 0.89);
+  box-shadow: 0px 0px 4px yellowgreen; }
+  .available:hover {
+    box-shadow: 0px 0px 16px rgba(0, 250, 154, 0.89); }
+
+.purchased {
+  border: 2px solid limegreen;
+  box-shadow: 0px 0px 12px limegreen; }
+
+.unavailable {
+  border: 2px solid gray;
+  box-shadow: 0px 0px 4px gray; }
+  .unavailable:hover {
+    box-shadow: 0px 0px 8px red; }
+
+.skill-tree-text {
+  font-size: 12px; }
+
+.skill-tree-branch {
+  position: absolute;
+  z-index: 2;
+  height: 24px;
+  width: 38px; }
+
+.skill-tree-pts-remaining {
+  position: absolute;
+  color: rgba(0, 250, 154, 0.89);
+  padding: 16px;
+  border-radius: 4px; }
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
@@ -199,6 +276,10 @@ body {
   padding: 12px;
   border: 1px solid cyan; }
 
+.sidebar-label {
+  position: relative;
+  margin: 0 0 8px 0; }
+
 .healthbar-box {
   color: white;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -223,6 +304,33 @@ body {
   font-size: 1.6em;
   text-shadow: 1px 1px black;
   border-radius: 16px; }
+
+.experiencebar-box {
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 240px;
+  height: 80px;
+  padding: 12px 4px;
+  border: 1px solid cyan;
+  text-align: center;
+  justify-content: left;
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  position: 'relative'; }
+
+.experiencebar-shell {
+  color: rgba(0, 250, 154, 0.89);
+  border: 2px solid rgba(0, 250, 154, 0.89);
+  background-color: #102d41;
+  padding: 2px;
+  height: 24px;
+  border-radius: 12px; }
+
+.experiencebar-inner {
+  background-color: rgba(0, 250, 154, 0.89);
+  height: 24px;
+  border-radius: 10px; }
 
 .username {
   max-width: 50%;
@@ -286,6 +394,9 @@ body {
 .text {
   position: relative;
   z-index: 100; }
+
+.prev-next-lvl {
+  position: relative; }
 
 .intro-shine {
   animation: shine 2.5s ease-in-out infinite alternate;

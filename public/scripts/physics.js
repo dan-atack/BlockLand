@@ -236,13 +236,13 @@ class Physics {
           case '000': // air first
             this.subject.xSpeed -= airFriction;
             break;
-          case '008': // ice
-            this.subject.xSpeed -= iceFriction;
+          case '008': // ice is also affected by grip strength:
+            this.subject.xSpeed -= (iceFriction + this.subject.grip / 2);
             break;
           default:
-            // All other terrain
-            this.subject.xSpeed -= landFriction;
-            if (this.subject.xSpeed < 0) this.subject.xSpeed = 0;
+            // All other terrain: reduce speed by standard land friction + subject's grip strength:
+            this.subject.xSpeed -= (landFriction + this.subject.grip);
+            if (this.subject.xSpeed < 0) this.subject.xSpeed = 0;   // Correct for over-stoppage
         }
       } else {
         switch (this.subject.standingOn.id) {
@@ -250,14 +250,13 @@ class Physics {
             this.subject.xSpeed += airFriction;
             break;
           case '008':
-            this.subject.xSpeed += iceFriction;
+            this.subject.xSpeed += (iceFriction + this.subject.grip / 2);
             break;
           default:
-            this.subject.xSpeed += landFriction;
+            this.subject.xSpeed += (landFriction + this.subject.grip);
             if (this.subject.xSpeed > 0) this.subject.xSpeed = 0;
         }
       }
-      // (this.subject.xSpeed > 0) ? this.subject.xSpeed -= landFriction : this.subject.xSpeed += landFriction;
     }
     // Eliminate marginal movement due to imperfect intervals:
     if (this.subject.xSpeed > 0 && this.subject.xSpeed <= minimumVelocity)

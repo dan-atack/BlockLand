@@ -754,11 +754,129 @@ From Mario's mushroom to the Sword of Plus Five Agility, all great games have ic
 
 20. Modify the wetlands biome to serve as an introduction to the Items, and have it include getting a very long-lasting dose of the steroids and they're introduced at a moment where you just need to make a big jump to keep going in that moment. Keep the heart on the opposite side of the first baddie (the one on the block over the lava). Cumulatively, this will serve as an introduction to the Items and Hitpoint features. Lastly, add some XP Items to both ends of the map when the 'touch both walls' objective is met. That way, at the end of the course you can have the Player get some experience, which he can spend in our next big feature, which is coming very soon now...
 
-### 21. Update README file to reflect current progress and priorities.
+21. Update README file to reflect current progress and priorities.
 
-### 22. Push to production and close the branch!
+22. Push to production and close the branch!
 
 ## Version 1.3.3: RPG Character Development
+
+At last the time has come to use the Player's XP! The in-game menu will be modified to host the character development screen, which will be like a tech web which the Player gradually fills out. At the center of the tech web will be the 'basic dinosaur' node, and the initial attributes that the Player can buy branch outwards from there. The Player will gain a new perk every time they level up, which will cost progressively more experience each time. Since the game advances based on mission progression instead of character experience accrual, the Player's experience/level development must be able to revert to lower values/levels if the player dies (much as the Baddies-killed-this-inning counter does). In terms of game UI, the Player's experience display in the sidebar should be replaced with a bar, much like the HP display, which fills up as you progress towards the next levelup. When you achieve a level up, this bar should display the text 'level up: select perk' and it and the menu should glow to indicate that the user should engage with them.
+
+1. Remove dummy buttons from in-game menu. Set visibility to 'None' on player coords, standing-on displays in the App, and comment out the Engine's update function for these components.
+
+2. Add Player Level attribute (number).
+
+3. Add Player Perks attribute (list).
+
+4. Add Player requiredXP attribute (number, representing how much experience is needed for your next levelup).
+
+5. Add Player previousLevelXP attribute (number representing the amount of XP needed for your current level).
+
+6. Add Player ExperienceGainedThisInning attribute (number, which will be subtracted from your total XP if you die).
+
+7. Add Player LevelsGainedThisInning attribute (number, which will reduce your level if you die).
+
+8. Add Experience Bar component/s to the App's renderSidebar function.
+
+9. Add Engine method to check the Player's XP each frame, and update the Sidebar's XP bar display (text for starters).
+
+10. Create dictionary file for different perks. Perks have attributes: name (unique string), attributeAffected (string name of Player/Sprite attribute), value (number by which that attribute is affected), and prerequisites (list of names [unique string id's] of other perks).
+
+11. Create new SkillTreeNode component, which creates a Span-within-a-Div as its DOM Elements. Each element should have a unique ID based on the ID of the instance of the class e.g. 'attack-1-container', 'attack-1-text.'
+
+12. Create CSS rules for SkillTreeNode class (which is what these new components will be by default).
+
+13. Create CSS rules for Skill-Tree div (parent div of all these prospective skill tree Node elements).
+
+14. Create a new Class, SkillTree, which has the Skill Tree div as its main DOM element. This will act as a management component for the skill tree, much like the Columns class manages the blocks/terrain.
+
+15. Give the SkillTree fields for storing the following information: A) Array of skills the Player has already taken, B) Array of which skills are currently available for purchase (costs don't factor in here as the Player is simply awarded one new skill per levelup), C) Array of skills which cannot yet be purchased.
+
+16. Give the SkillTree class a method for rendering all of the nodes in the tree (take from the experimental code sections in the App itself).
+
+17. Give the SkillTree class a method for de-rendering all of its nodes as a cleanup when the menu is closed.
+
+18. In the App, make a method that creates a SkillTree class instance.
+
+19. Add a new field to the SkillTreeNodes: status (whether the skill has been 'purchased' by the player, 'available' to be purchased, or 'unavailable' to be purchased). We'll add a CSS class to change the node's appearance based on this status. Default status is 'available.'
+
+20. Either make the Skill Tree Node Container elements into buttons, or if possible, add an onClick attribute to the current divs, so they can be a clickable interface.
+
+21. Add a console.log to the code for the Nodes, so they tell you when you've clicked them.
+
+22. In the game itself, fix the XP-awarding system to be the way we want it to be, starting by detailing all of the methods involved in the process.
+
+23. Remove the conditional -1 XP point from the Player death handler method, and instead reduce XP by XP-gained-this-inning.
+
+24. Make a Player gainExperience method to augment player XP and XP-gained-this-inning values. Have all experience gained conveyed through it - i.e. make the Player's own pickupItem method use it and hunt down any other events in the game which pass the player XP and make them do it by calling the gainExperience method instead of however they do it currently.
+
+25. Make a Player checkForLevelUp method, which is called by the gainExperience method (why check for a levelup except when you're gaining XP, right?). If the Player's XP is greater or equal to the next level's threshold, add one to the player's level (and levelups this inning), inform the Player that they can choose a new perk in the game menu (via a Text object??), replace the previousLevel value with what was the nextLevel value, and increase the cost of the next promotion.
+
+26. Make a Player experienceCheckpoint method, which the Engine will call every time a Mission is finished, and which will reset to zero both the experience and levels-gained-this-inning values so you don't lose everything when you die.
+
+27. Add a condition to the Player's handleDeath method to reduce level by levels-gained-this-inning value, and if a reduction occurs, pop the last item off the Player's perks list... IF a perk has been taken for that level (in fact, make the pop based on whether or not the amount of perks is in sync with the amount of levels left after one is knocked off ==> (perksList.length > this.level).
+
+28. Once this system is tested, add a prompt for the Player to choose a perk for leveling up in the game Menu (console.log is fine for now)
+
+29. When the menu is opened, have the App pass the value of the Player's perksList.length > this.level calculation (perksAvailable attribute) to the node TREE, and have the TREE console log the number of perks that can be chosen.
+
+30. Put all of the nodes into a single list in the SkillTree, instead of differentiating them by their current puchase status.
+
+31. Add a Skill Tree Node method for handling being clicked: if the status is 'available', set to 'purchased'. If the status is 'unavailable', console.log a message declaring this fact. If it is already purchased, console.log THAT fact.
+
+32. For the Skill Tree itself, make the click event handler check each of the nodes' statuses and console log them.
+
+33. Give the Skill Tree another attribute, which will be passed as an argument to its constructor: skillsPurchased (player's perksList).
+
+34. Give the Skill Tree Nodes a boolean flag, to be toggled when they're 'just purchased'
+
+35. Use this flag in the Skill Tree's node status check; if it's just been bought, then reduce the amount of available currency for purchasing.
+
+36. Make the Tree update its children to make all but the ones already purchased 'unavailable' when the skillsAvailable value reaches zero.
+
+37. Update the renderSkillTree method to use the data from the skillsAvailable and skillsPurchased fields, such that each skill from the perks list is mapped by a loop, and its status is set according to the following logic: If the skillsPurchased list includes that skill, set its status to 'purchased', and if there is at least one skill point, set all the other skills to 'available.' If the number of skillAvailable points is zero, set all non-purchased skills to 'unavailable.'
+
+38. Have the SkillTree keep track of which skills have been acquired since it was opened (the skill delta, if you will).
+
+39. Once this logic is tested, make a new method for the Player, gainSkill, which adds the bonus from any newly aqcuired skills to the Player's stats. This method would be called by the App, and would be called once for each newly acquired skill.
+
+40. Then, make a removeSkill method which pops skills from the skillsList until they match the Player's level. For each skill removed, subtract its bonus from the appropriate attribute.
+
+41. Develop COMPREHENSIVE test cases for this system, and perform them. Add any issues uncovered to this feature's checklist.
+
+42. For multi-level drops, ensure the XP requirement for nextLevel is reduced for every level that is lost. Also ensure that the skillsAvailable points are always kept in sync with the Player's level (and skillsList length) so that no combination of levelling-up/gaining skills/dying/reaching checkpoints causes a discrepancy between what you should have and what you get.
+
+43. Draw some mockups to improve the sidebar XP display.
+
+44. Make the XP bar inner component's length a percent of (the difference between the last level's XP threshold and the next level's threshold).
+
+45. Add Prev and Next Levels to the bottom corners of the XP display box. Have these be updated by the Engine's sidebar element update cycle as well.
+
+46. In the Engine, amalgamate all Sidebar display elements into an object, so that the updateSidebarRoots method can iterate through this object's keys rather than needing a separate copy of each element's identification assignment.
+
+47. Brainstorm results for new character traits: Intelligence ( -10% XP costs ), Agility ( + 0.03125 top speed), and Grip ( friction acts 1px/cycle faster on land and ice).
+
+48. Intelligence part 1: The Player needs an intelligence attribute.
+
+49. Intelligence part 2: the Player's next level cost determination is influenced by this value (reduced).
+
+50. Grip part 1: The Sprite class gets a grip (!) attribute, with an initial value of zero. Increasing this value should make you slide less before stopping when you're on the ground (ice included).
+
+51. In the Physics module, add the subject's grip value to all land and ice friction calculations (grip doesn't affect you in the air).
+
+52. Once all of these great improvements are done, add an experimental tooltip text caption for each skill.
+
+53. Give the TreeNode element class a third DOM element: its tooltip text.
+
+54. Create a styling rule for the tooltip so that it only appears when you mouse over the parent div. See if you can get the tooltip text to appear this way.
+
+55. Prerequisites: When a node's availability is calculated, if it has prerequisites, it should only become available if all of those prerequisites have the 'purchased' status.
+
+56. Create inter-node GIF animation.
+
+57. Add functionality to the SkillTreeNode's constructor to render up to 4 branch nodes, and rotate the image to a specified angle around the Z-axis! (Note: current implementation is extremely crude and brittle. Suggest upgrading to something that uses trigonometry instead!)
+
+58. Then I think we can commit and close the branch.
 
 ## Version 1.4.0: Level Editor??
 

@@ -17,7 +17,16 @@ class Player extends Sprite {
     this.jumping = false;
     this.crouching = false;
     // Let's RPG it up a bit!
-    this.experience = 0;
+    this.experience = 0;                      // the number of XP points you have collected
+    this.level = 1;                           // the number of your current level
+    this.nextLevelXP = 10;                    // the number of XP points needed for the next level
+    this.previousLevelsXP = [0];                 // records the XP costs of ALL previous levels attained in case of multi-level loss.
+    this.experienceGainedThisInning = 0;      // the number of XP points gained since your last death/mission accomplishment.
+    this.levelsGainedThisInning = 0;          // the number of Levelups gained since your last death/mission accomplishment.
+    this.skillsList = [skills.find((skill) => skill.id === 'BASIC')];    // the list of skill objects the player benefits from.
+    this.skillsAvailable = 0;                 // calculated from the difference between your level and the length of your skills list.
+    // SKILL RELATED ATTRIBUTES:
+    this.intelligence = 100;                  // Raptors have an initial IQ of 100
     // COMBAT ZONE :
     this.attackAnimation.id = 'player-attack';
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):
@@ -140,7 +149,7 @@ class Player extends Sprite {
         }
         break;
       case 'experience':
-        this.experience += item.power;
+        this.gainExperience(item.power);
         break;
       case 'steroids':
         // First, remove any previous special effect (including any steroids previously consumed):
@@ -169,6 +178,47 @@ class Player extends Sprite {
     this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
   }
 
+  // Gain Experience: No matter where it comes from, the Player Class can alter its own XP value, thank you very much:
+  gainExperience = (exp) => {
+    this.experience += exp;
+    this.experienceGainedThisInning += exp;
+    this.checkForLevelUp();
+  }
+
+  // Reset XP counters for the current 'inning' whenever a mission is completed:
+  experienceCheckpoint = () => {
+    this.experienceGainedThisInning = 0;
+    this.levelsGainedThisInning = 0;
+  }
+
+  // Detect levelups and manage values when they occur:
+  checkForLevelUp = () => {
+    if (this.experience >= this.nextLevelXP) {
+      this.skillsAvailable += 1;
+      this.level += 1;
+      this.levelsGainedThisInning += 1;
+      this.previousLevelsXP.push(this.nextLevelXP);
+      // Cost of next level increases by ten percent times your current level - (your IQ points over 100)%:
+      const xpModifier = (this.intelligence - 100) / 100;
+      this.nextLevelXP += Math.floor((this.nextLevelXP * (1 + this.level / 10)) * (1 - xpModifier));
+    }
+  }
+
+  // Handle everything to do with gaining skills (skills are passed as a list of skill objects):
+  gainSkills = (skills) => {
+    if (skills.length > 0) {
+      skills.forEach((skill) => {
+        this[skill.attributeAffected] += skill.value;   // augment the appropriate attribute
+        this.skillsAvailable -= 1;            // Last but certainly not least, reduce the amount of skills you can buy next time!
+      })
+    }
+  }
+
+  // Handle everything to do with LOSING a skill (processed one skill at a time):
+  loseSkill = (skill) => {
+    this[skill.attributeAffected] -= skill.value;
+  }
+
   checkForDeath() {
     // Check for terrain death: if what you're ON or what you're IN is lethal, it's a terrain death:
     if (
@@ -178,17 +228,38 @@ class Player extends Sprite {
         this.medium.properties.includes('lethal'))
     ) {
       this.currentHP = 0;
-      this.handleDeath('terrain');
+      this.handleDeath();
       }
     // Call Sprite-class collision-damage calculation method:
     this.handleCollisions();
   }
 
   // Carry out death procedures:
-  handleDeath(type) {
+  handleDeath() {
+    console.log(this.skillsAvailable);
     this.isDead = true;
-    // You don't have to lose EVERYTHING when you die:
-    if (this.experience > 0) this.experience--;
+    // Remove all experience and levels gained this inning (i.e. since the last checkpoint):
+    this.experience -= this.experienceGainedThisInning;
+    this.level -= this.levelsGainedThisInning;
+    //  Roll back the list of previous levels' XP thresholds once per level lost:
+    if (this.levelsGainedThisInning > 0)  {
+      for (let i = 0; i < this.levelsGainedThisInning; i++) {
+        this.nextLevelXP = this.previousLevelsXP.pop();
+      }
+    }
+    // If you purchased a skill with a level that has been lost, remove the skill and whatever attribute boost is associated with it:
+    if (this.skillsList.length > this.level) {
+      const extraLevels = this.skillsList.length - this.level;
+      // console.log("Losing ", extraLevels, " skills");
+      for (let i = 0; i < extraLevels; i++) {
+        this.loseSkill(this.skillsList.pop());
+      }
+    }
+    // Finally, ensure that the Player doesn't have more skillsAvailable points than their level allows:
+    this.skillsAvailable = this.level - this.skillsList.length;
+    // Reset subtractors:
+    this.experienceGainedThisInning = 0;
+    this.levelsGainedThisInning = 0;
     // But you do have to stop moving and attacking:
     this.movingRight = false;
     this.movingLeft = false;
@@ -201,15 +272,6 @@ class Player extends Sprite {
     // Stop your attack animation if it was in progress at the moment of death:
     if (this.attackAnimation) {
       this.haltAttack();
-    }
-    // Update text in the sidebar status indicator based on type of death:
-    switch (type) {
-      case 'attack':
-        document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by enemy attack!`;
-        break;
-      case 'terrain':
-        document.getElementById('playerStandingOnBlockType').innerText = `Player has been killed by ${this.standingOn.name}!`;
-        break;
     }
   }
 

@@ -2,6 +2,7 @@ $block-width: 32px;
 $world-height-in-blocks: 21;
 $world-width-in-blocks: 21;
 $standardRadius: 8px;
+$experienceLight: rgba(0, 250, 154, 0.89);
 
 @keyframes spin {
   from {
@@ -155,6 +156,95 @@ body {
   align-self: center;
 }
 
+.skill-tree {
+  position: relative;
+  height: 11 * $block-width;
+  width: 17 * $block-width;
+  background-color: rgb(29, 4, 29);
+  align-self: center;
+  margin-bottom: 32px;
+  border: 2px solid $experienceLight;
+  border-radius: $standardRadius;
+}
+
+.skill-tree-container {
+  border-radius: 50%;
+  background-color: rgb(29, 4, 29);
+  height: 2 * $block-width;
+  width: 2 * $block-width;
+  position: absolute;
+  margin: 0;
+  z-index: 3;
+  padding: 16px 4px 0px 4px;
+  line-height: 8px;
+  cursor: pointer;
+}
+
+.skill-tree-container .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 16px;
+  border: 3px solid #000;
+  position: absolute;
+  z-index: 10;
+  bottom: 80%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.skill-tree-container:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  z-index: 10;
+}
+
+.available {
+  border: 2px solid $experienceLight;
+  box-shadow: 0px 0px 4px yellowgreen;
+  &:hover {
+    box-shadow: 0px 0px 16px $experienceLight;
+  }
+}
+
+.purchased {
+  border: 2px solid limegreen;
+  box-shadow: 0px 0px 12px limegreen;
+}
+
+.unavailable {
+  border: 2px solid gray;
+  box-shadow: 0px 0px 4px gray;
+  &:hover {
+    box-shadow: 0px 0px 8px red;
+  }
+}
+
+.skill-tree-text {
+  font-size: 12px;
+}
+
+.skill-tree-branch {
+  position: absolute;
+  z-index: 2;
+  height: 24px;
+  width: 38px;
+}
+
+.skill-tree-pts-remaining {
+  position: absolute;
+  color: $experienceLight;
+  padding: 16px;
+  border-radius: 4px;
+}
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
@@ -251,6 +341,11 @@ body {
   border: 1px solid cyan;
 }
 
+.sidebar-label {
+  position: relative;
+  margin: 0 0 8px 0;
+}
+
 .healthbar-box {
   color: white;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -276,6 +371,36 @@ body {
   font-size: 1.6em;
   text-shadow: 1px 1px black;
   border-radius: 16px;
+}
+
+.experiencebar-box {
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: ($world-width-in-blocks * $block-width / 3) + ($block-width / 2);
+  height: $block-width * 2.5;
+  padding: 12px 4px;
+  border: 1px solid cyan;
+  text-align: center;
+  justify-content: left;
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  position: 'relative';
+}
+
+.experiencebar-shell {
+  color: $experienceLight;
+  border: 2px solid $experienceLight;
+  background-color: rgb(16, 45, 65);
+  padding: 2px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.experiencebar-inner {
+  background-color: $experienceLight;
+  height: 24px;
+  border-radius: 10px;
 }
 
 .username {
@@ -351,6 +476,10 @@ body {
 .text {
   position: relative;
   z-index: 100;
+}
+
+.prev-next-lvl {
+  position: relative;
 }
 
 .intro-shine {
