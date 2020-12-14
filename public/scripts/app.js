@@ -82,9 +82,7 @@ class App {
     closeSkillTree = () => {
         this.skillTree.cleanup();
         // Hand off newly acquired skills (if any) to the Player:
-        console.log(this.engine.player.skillsList.length);
         this.engine.player.gainSkills(this.skillTree.purchasedNow);
-        console.log(this.engine.player.skillsList.length);
         this.skillTree = null;
     }
 
