@@ -85,19 +85,6 @@ const missions = [
           [ -10, 7, 1001, 1002, [-10, 0]],
         ],
       ],  // End of instruction 1
-      // Extra XP added for tests:
-      [
-        'add-item',
-        [
-          -2, 11, {type: 'experience', power: 5, duration: 0}
-        ]
-      ],
-      [
-        'add-item',
-        [
-          -7, 14, {type: 'experience', power: 14, duration: 0}
-        ]
-      ],
       [
         'add-item',
         [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:

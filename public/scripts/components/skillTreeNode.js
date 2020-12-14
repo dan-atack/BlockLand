@@ -78,7 +78,7 @@ class SkillTreeNode {
 
     // DOM element cleanup:
     deRender = () => {
-        this.branches.forEach((branch) => this.root.removeChild(branch));
+        this.branches.forEach((branch) => this.container.removeChild(branch));
         this.container.removeChild(this.textField);
         this.container.removeChild(this.tooltip);
         this.root.removeChild(this.container);
