@@ -121,8 +121,8 @@ body {
 
 .skill-tree {
   position: relative;
-  height: 320px;
-  width: 512px;
+  height: 352px;
+  width: 544px;
   background-color: #1d041d;
   align-self: center;
   margin-bottom: 32px;
@@ -131,10 +131,12 @@ body {
 
 .skill-tree-container {
   border-radius: 50%;
+  background-color: #1d041d;
   height: 64px;
   width: 64px;
   position: absolute;
   margin: 0;
+  z-index: 3;
   padding: 16px 4px 0px 4px;
   line-height: 8px;
   cursor: pointer; }
@@ -149,8 +151,8 @@ body {
   border-radius: 16px;
   border: 3px solid #000;
   position: absolute;
-  z-index: 1;
-  bottom: 90%;
+  z-index: 10;
+  bottom: 80%;
   left: 50%;
   margin-left: -60px;
   opacity: 0;
@@ -160,7 +162,8 @@ body {
 
 .skill-tree-container:hover .tooltiptext {
   visibility: visible;
-  opacity: 1; }
+  opacity: 1;
+  z-index: 10; }
 
 .available {
   border: 2px solid rgba(0, 250, 154, 0.89);
@@ -180,6 +183,12 @@ body {
 
 .skill-tree-text {
   font-size: 12px; }
+
+.skill-tree-branch {
+  position: absolute;
+  z-index: 2;
+  height: 24px;
+  width: 38px; }
 
 .skill-tree-pts-remaining {
   position: absolute;

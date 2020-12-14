@@ -4,7 +4,7 @@ class SkillTree {
     constructor(root, skillsAvailable, skillsPurchased) {
         this.root = root;
         this.skillsAvailable = skillsAvailable;
-        this.displayRemaining = new Text(this.root, 0, 7.75, 18, `Skills Available: ${this.skillsAvailable}`, 'skill-tree-pts-remaining');
+        this.displayRemaining = new Text(this.root, 0, 8.75, 20, `Skills Available: ${this.skillsAvailable}`, 'skill-tree-pts-remaining');
         // Skills the Player already has will have the status 'purchased':
         this.skillsPurchased = skillsPurchased;
         // Keep track, separately, if which skills have been purchased during this session:
@@ -12,7 +12,7 @@ class SkillTree {
         // All nodes are in one list, and differentiated by their status (can be available, purchased, or unavailable)
         this.treeNodes = [];
         // Introduce a drop of flexibility here... Just make sure you always have at least as many position options as you have skills!
-        this.nodePositions = [[7, 4], [4, 4], [10, 4], [7, 7], [7, 1], [12, 6], [1, 1]];
+        this.nodePositions = [[7, 4], [3.5, 4], [10.5, 4], [7, 7.75], [7, 0.25], [13.5, 6], [1, 1]];
     }
 
     renderSkillTree = () => {
@@ -30,7 +30,6 @@ class SkillTree {
             let idsPurchased = [];
             this.skillsPurchased.forEach((skill) => idsPurchased.push(skill.id));
             skill.prerequisites.forEach((prereq) => {
-                console.log(prereq);
                 // If any prerequisite is missing from the id's purchased list, make the skill unavailable:
                 if (!idsPurchased.includes(prereq)) {
                     status = 'unavailable';
@@ -39,7 +38,14 @@ class SkillTree {
             const node = new SkillTreeNode(this.root, x, y, skillData, status);
             this.treeNodes.push(node);
         });
+        this.renderSkillTreeBranches();
         this.root.addEventListener('click', this.listenOnClick);
+    }
+
+    renderSkillTreeBranches = () => {
+        // Tell middle node that it will have four branches: 1 at each 90 degree angle:
+        this.treeNodes[0].renderBranches([0, 90, 180, 270]);
+        this.treeNodes[5].renderBranches([325]);
     }
 
     cleanup = () => {

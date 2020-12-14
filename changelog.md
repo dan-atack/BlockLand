@@ -872,11 +872,11 @@ At last the time has come to use the Player's XP! The in-game menu will be modif
 
 55. Prerequisites: When a node's availability is calculated, if it has prerequisites, it should only become available if all of those prerequisites have the 'purchased' status.
 
-### 56. Create inter-node GIF animation.
+56. Create inter-node GIF animation.
 
-### 57. Add functionality to the SkillTreeNode's constructor to render any number of nodes, and rotate the image to a specified angle around the Z-axis!
+57. Add functionality to the SkillTreeNode's constructor to render up to 4 branch nodes, and rotate the image to a specified angle around the Z-axis! (Note: current implementation is extremely crude and brittle. Suggest upgrading to something that uses trigonometry instead!)
 
-### 58. Then I think we can commit and close the branch.
+58. Then I think we can commit and close the branch.
 
 ## Version 1.4.0: Level Editor??
 
