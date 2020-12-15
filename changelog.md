@@ -900,7 +900,25 @@ One of the most ambitious features to be talked about for this project is the in
 
 9. Make a simple JavaScript file as a final preliminary proof-of-concept demo. And plug it in and walk around in it. Hoorah, phase one.
 
-### 10. Add rudimentary styling to the Map Editor page, and then get down to business making some levels!
+10. Add rudimentary styling to the Map Editor page, and then get down to business making some levels!
+
+11. Final proof-of-concept exercise vis-a-vis file creation workflow: Modify the Create Map button responder to APPEND new content to an existing file (use the basic_biomes file for now).
+
+12. Add a third component to the editor: the control panel. This will hold buttons to move the map around either vertically or horizontally, and also zoom buttons, all of which will be dummies for now.
+
+13. Create the Editor Class, the engine of this new universe.
+
+14. Create the Cell Class, the Blocks of the Editor.
+
+15. Add a method to the Cell to change its type to 1 when clicked. Also make it change color by adding a css class.
+
+16. Add an event listener to the Editor so it can listen on clicks within its area, and tell you how many tiles have been clicked as proof that it's up-to-date.
+
+17. Add another field to the Editor: output. From the Editor's updateCells method, as cells are filled, add integers to this more minimal list, which is formatted as the biomes file expects to receive them (as integers).
+
+18. Make a god-damn level and walk around on it right now!
+
+### Thought for the Palette - another click listener in the palette zone tells the Editor to quickly update (by calling an updatePalette method, of course) the 'currentPalette' property for all of the cells, so they can 'paint themselves' ??
 
 # Remaining Tasks for Refactoring:
 

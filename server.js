@@ -137,9 +137,10 @@ const handleReadFile = (req, res) => {
 };
 
 const handleWriteFile = (req, res) => {
-  const { filename, mapData } = req.body;
-  const filePath = `public/Map-editor/outputs/${filename}.js`;
-  fs.writeFile(filePath, mapData, (err) => {
+  const { mapData } = req.body;
+  // const filePath = `public/Map-editor/outputs/${filename}.js`;
+  // Rather than creating an entirely new file, append new biomes to an existing file for easier importing/testing:
+  fs.appendFile('public/assets/libraries/basic_biomes.js', mapData, (err) => {
     if (err) {
       console.log(err);
     } else {
@@ -161,7 +162,6 @@ express()
   .use(express.static('public'))
   .use(express.urlencoded({ extended: false }))
   .use(bodyParser.json())
-  // .set('view engine', 'ejs')   <-- do we need it? I'm guessing no
 
   // Endpoints:
 

@@ -4,20 +4,43 @@
             <meta charset="utf-8" />
             <title>BlockLand: World Editor V-0.1.0</title>
             <!-- Note: New Stylesheet for Map Editor? -->
-            <link rel="stylesheet" href="css/styles.css" />
+            <link rel="stylesheet" href="Map-editor/css/styles.css" />
         </head>
         <body>
-            <h1>Hello World Maker Suite!!!</h1>
-            <form class='file-namer'>
-                <input
-                    id='write-file'
-                    type='text'
-                    required
-                ></input>
-            </form>
-            <button role='button' id='read-file' onclick='fileReader(event)'>Read a file</button>
-            <button role='button' onclick='fileMaker(event)'>Create a file!</button>
-            <a href="index.html">TO THE GAME!</a>
+            <div class='banner'>
+                <h1>Hello World Maker Suite</h1>
+                <a href="index.html">
+                    <button>TO THE GAME!</button>
+                </a>
+            </div>
+            <div class='banner'>
+                <button role='button' id='read-file' onclick='fileReader(event)'>Load A Map</button>
+                <form class='file-namer'>
+                    <label>Enter map name (at least 4 characters):</label>
+                    <input
+                        id='write-file'
+                        type='text'
+                        required
+                    ></input>
+                </form>
+                <button role='button' onclick='fileMaker(event)'>Save Map</button>
+            </div>
+            <div class='editor'>
+                <div class='editor-component palette' id='palette'>
+                    PALETTE
+                </div>
+                <div class='editor-component stage' id='stage'></div>
+                <div class='editor-component control-panel' id='control-panel'>
+                    <button>PAN UP</button>
+                    <button>PAN DOWN</button>
+                    <button>PAN LEFT</button>
+                    <button>PAN RIGHT</button>
+                    <button>ZOOM IN</button>
+                    <button>ZOOM OUT</button>
+                </div>
+            </div>
+            <script src='Map-editor/scripts/cell.js'></script>
+            <script src='Map-editor/scripts/editor.js'></script>
             <script src='Map-editor/scripts/main.js'></script>
         </body>
     </html>

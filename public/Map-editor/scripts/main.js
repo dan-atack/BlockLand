@@ -1,4 +1,8 @@
-const filenameInput = document.getElementById('write-file');
+// Get main HTML elements from the page:
+const stage = document.getElementById('stage');
+const palette = document.getElementById('palette');
+const controlPanel = document.getElementById('control-panel');
+const mapNameInput = document.getElementById('write-file');
 
 // Read experimental text file and print its contents:
 const fileReader = (ev, filename='test.txt') => {
@@ -12,19 +16,20 @@ const fileReader = (ev, filename='test.txt') => {
     })
 };
 
-// Take input from HTML Filename element and create a new text file with that name!
+// Take input from the Editor and create a new JS const with that name!
 const fileMaker = (ev) => {
     ev.preventDefault();
-    if (filenameInput.value.length > 3) {
-        const listicle = [40, 3, 3, 1, 2];
-        let jsString = `const map_0 = [\n  [${listicle}],\n`;
-        for (let i = 0; i < 20; i++) {
-            jsString += `  [${listicle}],\n`;
+    if (mapNameInput.value.length > 3) {
+        // get the output from the Editor:
+        const editorOutput = ed.output;
+        let jsString = `const ${mapNameInput.value} = [\n  [${editorOutput[0]}],\n`;
+        for (let i = 0; i < editorOutput.length; i++) {
+            jsString += `  [${editorOutput[i]}],\n`;
         }
-        jsString += ']';
+        jsString += ']\n\n';
         fetch('/writefile', {
             method: 'POST',
-            body: JSON.stringify({filename: filenameInput.value, mapData: jsString}),
+            body: JSON.stringify({mapData: jsString}),
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -37,6 +42,11 @@ const fileMaker = (ev) => {
     } else {
         console.log('Please enter a filename of at least 4 characters length.')
     }
-    
     console.log('Bloop.');
 };
+
+// RUN ZONE:
+
+const ed = new Editor(stage, palette, controlPanel);
+
+ed.populateInitialStage();
