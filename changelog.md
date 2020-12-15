@@ -878,7 +878,29 @@ At last the time has come to use the Player's XP! The in-game menu will be modif
 
 58. Then I think we can commit and close the branch.
 
-## Version 1.4.0: Level Editor??
+## Version 1.4.0: Level Editor!!!
+
+One of the most ambitious features to be talked about for this project is the inclusion of a level-editing capacity that doesn't involve creating long lists of lists by hand for the level/terrain files. The final 'feature' developed before the holidays will attempt to undertake this process by a series of proof-of-concept exercises geared at exploiting the Node File System's ability to read, and then write files to the hard-drive. The ultimate aim of this project is to create an interface in the web browser which can be used to generate a level file by filling in a grid on-screen, therefore allowing the content creator to have a mostly visual interface, instead of a huge ugly pile of numbers. That being said, progress on this Epic must move very cautiously, starting with a very simple file output test (create a hello world file) and adding complexity from there.
+
+1. Create a new endpoint/page for the Map Editor, so the user can go to a page that is specifically for the Map Editor (and outside the whole App structure of the actual game).
+
+2. Create a separate directory for the Map Editor files - test inputs to be read, and output files which will eventually come to resemble the files found in the biomes files. Also contained in here will be any Scripts that are related specifically to the map editor, and a CSS file for styling the map editor page as it develops.
+
+3. In the Map Editor page, make two buttons: Read File and Write to File.
+
+4. Create a dummy text file that will serve as a test of the 'read file' button.
+
+5. In the Server file, write a script that imports 'fs' from Node, and uses it in a simple fileReader function. Demo this by reading the test file describe above and logging it to the console.
+
+6. In the Map Editor scripts file, make the readFile function perform a GET request to the server, and have the server reply with the contents of the requested file.
+
+7. The real proof of the pudding: In the Map Editor scripts file, make the makeFile function perform a POST request to the server, which will then WRITE THE CONTENTS OF THE POST TO DISK!
+
+8. Create a simple text input and use that to determine the filename of the file-to-be-written. Create some differently named Hello Worlds to celebrate.
+
+9. Make a simple JavaScript file as a final preliminary proof-of-concept demo. And plug it in and walk around in it. Hoorah, phase one.
+
+### 10. Add rudimentary styling to the Map Editor page, and then get down to business making some levels!
 
 # Remaining Tasks for Refactoring:
 

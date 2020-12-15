@@ -104,6 +104,7 @@ body {
   height: 360px;
   width: 240px;
   background-color: #0d1818;
+  align-items: center;
 }
 
 .signin-form {
@@ -126,6 +127,18 @@ body {
 .submit-unready {
   width: 128px;
   background-color: tomato;
+}
+
+.launch-map-editor-btn {
+  width: 192px;
+  height: 64px;
+  color: rgb(26, 5, 31);
+  font-size: 20px;
+  font-weight: bold;
+  background-color: yellowgreen;
+  border: 2px solid whitesmoke;
+  border-radius: $standardRadius;
+  padding: 8px;
 }
 
 .main-menu {

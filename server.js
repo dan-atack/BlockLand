@@ -6,6 +6,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
+const fs = require('fs');
 
 const PORT = process.env.PORT || 8080;
 
@@ -120,6 +121,33 @@ const handleLogout = (req, res) => {
   res.send(JSON.stringify('logout successful.'));
 };
 
+// Launching the Map Editor:
+
+const handleMapEditor = (req, res) => {
+  res.status(200);
+  res.send(JSON.stringify('Map Editor Launched.'));
+}
+
+const handleReadFile = (req, res) => {
+  const { filename } = req.params;
+  fs.readFile(`public/Map-editor/input-samples/${filename}`, 'utf-8', (err, data) => {
+    if (err) throw err;
+    res.send(JSON.stringify(data));
+  })
+};
+
+const handleWriteFile = (req, res) => {
+  const { filename, mapData } = req.body;
+  const filePath = `public/Map-editor/outputs/${filename}.js`;
+  fs.writeFile(filePath, mapData, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(JSON.stringify('File creation complete.'));
+    }
+  })
+};
+
 express()
   .use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -144,6 +172,9 @@ express()
   .post('/user-login', handleLogin)
   .post('/create-user', handleNewUser)
   .get('/logout', handleLogout)
+  .get('/map-editor', handleMapEditor)
+  .get('/readfile/:filename', handleReadFile)
+  .post('/writefile', handleWriteFile)
 
   // Four-oh-Four page:
   .get('*', (req, res) => {
