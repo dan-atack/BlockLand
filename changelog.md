@@ -916,7 +916,15 @@ One of the most ambitious features to be talked about for this project is the in
 
 17. Add another field to the Editor: output. From the Editor's updateCells method, as cells are filled, add integers to this more minimal list, which is formatted as the biomes file expects to receive them (as integers).
 
-18. Make a god-damn level and walk around on it right now!
+18. Make a god-damn level and walk around on it right now! Addendum: the level known as hidden_smile must be kept forever as the very first level (of any interest) to be produced entirely via a graphical interface!
+
+19. Import the Blocktionary into the Editor's html file.
+
+20. Add a method to the Editor to render a clickable image for each block in the blocktionary, labeled with the name of the block type.
+
+21. Add another click listener to the Editor, this time for the Palette area, to update its 'currentBlockBrush' property on whichever block type was clicked last.
+
+22. Have the Editor change the palette value for every cell, so that its click responder 'paints' the image of that block to the cell, and registers the output to be that cell's 3-digit ID number.
 
 ### Thought for the Palette - another click listener in the palette zone tells the Editor to quickly update (by calling an updatePalette method, of course) the 'currentPalette' property for all of the cells, so they can 'paint themselves' ??
 

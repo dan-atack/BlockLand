@@ -55,8 +55,8 @@ const blocktionary = [
   { id: '019', name: 'Big-Tree-Horizontal-Branch', properties: [] },
   { id: '020', name: 'Palm-Frond', properties: [] },
   { id: '021', name: 'Palm-Frond-Node', properties: [] },
-  { id: '022', name: 'Mushroom-Cap-Middle', properties: [] },
-  { id: '023', name: 'Mushroom-Cap-Left', properties: [] },
+  // { id: '022', name: 'Mushroom-Cap-Middle', properties: [] },
+  // { id: '023', name: 'Mushroom-Cap-Left', properties: [] },
   { id: '040', name: 'Lava: Upward Flow', properties: ['lethal', 'gif', 'flowing-up'] },
   {
     id: '041',

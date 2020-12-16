@@ -23,7 +23,7 @@ class Columns {
     // At first it might be a bit like, identical volcanoes to the left, identical forests to the right, but it's a starT:
     this.currentBiomeLeft = hidden_smile;
     this.currentLeftwardBiomeIdx = 0;
-    this.currentBiomeRight = startStage;
+    this.currentBiomeRight = test;
     this.currentRightwardBiomeIdx = 0;
   }
 

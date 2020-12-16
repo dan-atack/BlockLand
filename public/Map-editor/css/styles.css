@@ -31,6 +31,19 @@ h1 {
 .palette {
   height: 540px;
   width: 240px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.swatch {
+  height: 24px;
+  width: 24px;
+  margin: 2px;
+}
+
+.air {
+  border: 1px solid black;
+  background-color: white;
 }
 
 .stage {

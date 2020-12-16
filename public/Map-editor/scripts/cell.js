@@ -9,9 +9,9 @@ class Cell {
         this.horizontalOffset = horizontalOffset;
         this.verticalOffset = verticalOffset;
         this.type = 0;
-        this.paletteType = 1;       // This value will be updated by the Editor whenever you choose a new block type.
+        this.paletteType = blocktionary[1];       // This value will be updated by the Editor whenever you choose a new block type.
         this.id = `${x},${y}`;
-        this.domElement = document.createElement('div');
+        this.domElement = document.createElement('img');
         this.domElement.classList.add('cell');
         this.domElement.style.left = `${(this.x - this.horizontalOffset) * this.width}px`;
         this.domElement.style.bottom = `${(this.y - this.verticalOffset) * this.width}px`;
@@ -20,9 +20,18 @@ class Cell {
         this.root.appendChild(this.domElement);
     }
 
+    // When clicked, a cell is 'painted' with the Editor's palette type
     handleClick = () => {
-        this.type = 1;  // Let the editor do this?
-        this.domElement.classList.add('filled');
+        const isGif = this.paletteType.properties.includes('gif');
+        isGif ?
+        this.domElement.src = `assets/blocks/block${this.paletteType.id}.gif`:
+        this.domElement.src = `assets/blocks/block${this.paletteType.id}.png`;
+        this.type = this.paletteType.id;
+    }
+
+    // The Editor calls this method to update the blockType (integer) for the clicker function:
+    setPalette = (type) => {
+        this.paletteType = type;
     }
 
     deRender = () => {

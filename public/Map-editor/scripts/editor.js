@@ -7,13 +7,13 @@ class Editor {
         this.controlPanel = controlPanel;
         this.height = height;
         this.width = width;             // Defined in terms of blocks, of course.
-        this.currentBlock = 1;          // This will eventually be alterable by clicking different block types in the palette.
+        this.paletteOptions = [];       // List of all the clickable elements in the palette, for switching your block type.
+        this.currentBlock = '001';          // This will eventually be alterable by clicking different block types in the palette.
         this.columns = [];              // This is the list containing all the Cell objects
         this.output = [];               // This is the list containing just the block-type (number) of each cell.
         this.blockWidth = 16;           // Yes, eventually even the zoom level should be something adjustable.
         this.horizontalOffset = 0;
         this.verticalOffset = 0;        // Our old friends, lest we should forget about them for even an instant.
-        this.stage.addEventListener('click', this.updateCells)    // Every time the stage is clicked, check the cells for updates.
     }
 
     // Create the initial stage, and also add columns to keep track of all the cells' block-type values:
@@ -26,6 +26,7 @@ class Editor {
                 this.createCell(i, k);
             }
         }
+        this.stage.addEventListener('click', this.updateCells);    // Every time the stage is clicked, check the cells for updates.
     }
 
     // Take two coordinates and create a grid reference there:
@@ -35,15 +36,38 @@ class Editor {
         this.output[x].push(0);     // Add an 'empty space' value to the output list.
     }
 
+    // Populate the Palette zone:
+    populatePalette = () => {
+        blocktionary.forEach((blockObj) => {
+            const img = new Swatch(this.palette, blockObj);
+            this.paletteOptions.push(img);
+        })
+        this.palette.addEventListener('click', this.updateSwatch);  // Every time the palette is clicked, check the swatches for updates.
+    }
+
     // Every time the grid is clicked, update the output report that will be saved as a map file:
     updateCells = () => {
         // Update each entry in the outputter, by going through all the columns:
          this.columns.forEach((col) => {
             col.forEach((cell) => {
-                if (cell.type === 1) this.output[cell.x][cell.y] = cell.type;
+                if (cell.type != 0) this.output[cell.x][cell.y] = parseInt(cell.type, 10);
             })
         })
-        // Show how many cells have 'flipped' just as a measure of this thing's effectiveness:
+    }
+
+    updateSwatch = () => {
+        this.paletteOptions.forEach((swatch) => {
+            if (swatch.justClicked) this.currentBlock = swatch.blockData;
+            swatch.justClicked = false;
+            // check if it's just been clicked. If so change the current type. Then... unclick it.
+        })
+        // Finally, set EVERY SINGLE cell to make that the block of the day... there has got to be a better way to do this...
+        this.columns.forEach((col) => {
+            col.forEach((cell) => {
+                cell.setPalette(this.currentBlock);
+            })
+        })
+        console.log(this.currentBlock.name);
     }
 
     // Cleaning up is a good habit:

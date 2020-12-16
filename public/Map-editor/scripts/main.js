@@ -50,3 +50,4 @@ const fileMaker = (ev) => {
 const ed = new Editor(stage, palette, controlPanel);
 
 ed.populateInitialStage();
+ed.populatePalette();
