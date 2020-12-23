@@ -15,6 +15,7 @@ class Swatch {
         this.root.appendChild(this.domElement);
         this.domElement.onmouseup = this.handleClick;
         this.justClicked = false;       // Set to true when clicked; Engine will set back to false whenever it checks.
+        this.active = false;            // This keeps track of whether this element is currently selected.
     }
 
     // Basic cleanup sequence:
@@ -30,5 +31,20 @@ class Swatch {
     // Be prepared to have that flag reset.
     setUnclicked = () => {
         this.justClicked = false;
+    }
+
+    // If this is the currently selected 'swatch', make it glow a little bit:
+    setActive = () => {
+        if (!this.active) {
+            this.active = true;
+            this.domElement.classList.add('selected');
+        }
+    }
+
+    setInactive = () => {
+        if (this.active) {
+            this.active = false;
+            this.domElement.classList.remove('selected');
+        }
     }
 }

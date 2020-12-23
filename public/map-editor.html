@@ -14,19 +14,24 @@
                 </a>
             </div>
             <div class='banner'>
-                <button role='button' id='read-file' onclick='fileReader(event)'>Load A Map</button>
+                <button class='styled-button' role='button' id='read-file' onclick='fileReader(event)'>Load A Map</button>
                 <form class='file-namer'>
-                    <label>Enter map name (at least 4 characters):</label>
+                    <label>Enter map name (at least 4 characters, use underlines instead of spaces):</label>
                     <input
                         id='write-file'
                         type='text'
                         required
                     ></input>
                 </form>
-                <button role='button' onclick='fileMaker(event)'>Save Map</button>
+                <button class='styled-button' role='button' onclick='fileMaker(event)'>Save Map</button>
             </div>
             <div class='editor'>
-                <div class='editor-component palette' id='palette'></div>
+                <div class='editor-component palette' id='palette'>
+                    <button class='pagination-left' id='palette-prev'>PREV</button>
+                    <span class='palette-label' id='palette-current-block'>Dirt (001)</span>
+                    <img class='palette-preview' src='assets/blocks/block001.png'>
+                    <button class='pagination-right' id='palette-next'>NEXT</button>
+                </div>
                 <div class='editor-component stage' id='stage'>
                     <span class='stage-axis axis-right' id='x-axis-right'>X</span>
                     <span class='stage-axis axis-left' id='x-axis-left'>X</span>
@@ -34,12 +39,27 @@
                     <span class='stage-axis axis-bottom' id='y-axis-bottom'>Y</span>
                 </div>
                 <div class='editor-component control-panel' id='control-panel'>
-                    <button id='pan-up'>PAN UP</button>
-                    <button id='pan-down'>PAN DOWN</button>
-                    <button id='pan-left'>PAN LEFT</button>
-                    <button id='pan-right'>PAN RIGHT</button>
-                    <button id='zoom-in'>ZOOM IN</button>
-                    <button id='zoom-out'>ZOOM OUT</button>
+                    <button class='editor-control-button disabled' id='pan-down'>PAN DOWN</button>
+                    <button class='editor-control-button enabled' id='pan-up'>PAN UP</button>
+                    <button class='editor-control-button disabled' id='pan-left'>PAN LEFT</button>
+                    <button class='editor-control-button enabled' id='pan-right'>PAN RIGHT</button>
+                    <button class='editor-control-button disabled' id='zoom-in'>ZOOM IN</button>
+                    <button class='editor-control-button disabled' id='zoom-out'>ZOOM OUT</button>
+                    <div class='brush-options'>
+                        <button class='editor-control-button brush enabled' id='brush-small'>Single Block</button>
+                        <button class='editor-control-button brush enabled' id='brush-medium'>Thin Cross</button>
+                        <button class='editor-control-button brush enabled' id='brush-large'>Fat Cross</button>
+                    </div>
+                    <h4 class='bedrock-area-header'>BEDROCK LAYER OPTIONS:</h4>
+                    <form class='bedrock-options'>
+                        <label>Top (block type)</label>
+                        <input class='bedrock-input' type="number" id='bedrock-top-input'>
+                        <label>Bottom (bl. type)</label>
+                        <input class='bedrock-input' type="number" id='bedrock-bottom-input'>
+                        <label>Height (# rows)</label>
+                        <input class='bedrock-input' type="number" id='bedrock-height-input'>
+                        <button class='styled-button' role='button' id='add-bedrock'>ADD BEDROCK</button>
+                    </form>
                 </div>
             </div>
             <script src='assets/libraries/blocktionary.js'></script>

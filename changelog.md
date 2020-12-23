@@ -950,13 +950,19 @@ One of the most ambitious features to be talked about for this project is the in
 
 34. Add indicators to the corners of the stage to show the height/width values on screen at a given moment.
 
-### 35. Expand the control panel area in the Editor Interface. In this field we'll have options for different 'bush' sizes, as well as a button and an input field for adding a 'bedrock' layer of variable depth to the bottom of the map, using the current palette selection as the block type.
+35. Expand the control panel area in the Editor Interface. In this field we'll have options for different 'brush' sizes, as well as a button and an input field for adding a 'bedrock' layer of variable depth to the bottom of the map, using the current palette selection as the block type.
 
-### 36. Add pagination to the Palette.
+36. Add pagination buttons to the Palette.
 
-### 37. Add a current block display to the palette (no more console logs for us!).
+37. Add a current block display element (span) to the palette.
 
-### Thought for the Palette - another click listener in the palette zone tells the Editor to quickly update (by calling an updatePalette method, of course) the 'currentPalette' property for all of the cells, so they can 'paint themselves' ??
+38. Bedrock functionality: Link up all of the inputs in the bedrock area to the Editor Class, and have it console.log their value on change.
+
+39. Add fields for bedrock top, bedrock bottom, bedrock height, currentBrushSize, and palettePageNumber to the Editor's initial properties list.
+
+40. Make the Palette's updateSwatch function update the label for the current block with its name and number.
+
+### Before pushing to PRODUCTION, ensure all map-editor functionality is restricted by the DEV_MODE flag.
 
 # Remaining Tasks for Refactoring:
 

@@ -3,7 +3,8 @@
 class Editor {
     // Stage, palette, control panel are all straight refs to HTML elements.
     // buttons is an object with the ID's of the four 'pan' buttons, and might someday include the zoom buttons too.
-    constructor(stage, palette, controlPanel, buttons, axisLabels, height=34, width=45) {
+    constructor(stage, palette, controlPanel, buttons, inputs, labels, height=34, width=45) {
+        // Editor UI Areas:
         this.stage = stage;
         this.palette = palette;
         this.controlPanel = controlPanel;
@@ -12,29 +13,55 @@ class Editor {
         this.panDown = buttons.panDown;
         this.panRight = buttons.panRight;
         this.panLeft = buttons.panLeft;
+        this.palettePrev = buttons.palettePrev;
+        this.paletteNext = buttons.paletteNext;
+        this.brushSmall = buttons.brushSmall;
+        this.brushMedium = buttons.brushMedium;
+        this.brushLarge = buttons.brushLarge;
+        this.addBedrock = buttons.addBedrock;
+        // Input components:
+        this.bedrockTopInput = inputs.topLayer;
+        this.bedrockBottomInput = inputs.bottomLayer;
+        this.bedrockHeightInput = inputs.bedrockHeight;
         // Button handler function assignments:
         this.panUp.onclick = this.handlePanUp;
         this.panDown.onclick = this.handlePanDown;
         this.panRight.onclick = this.handlePanRight;
         this.panLeft.onclick = this.handlePanLeft;
+        this.palettePrev.onclick = () => console.log('click');
+        this.paletteNext.onclick = () => console.log('click');
+        this.brushSmall.onclick = () => console.log('click');
+        this.brushMedium.onclick = () => console.log('click');
+        this.brushLarge.onclick = () => console.log('click');
+        this.addBedrock.onclick = () => console.log('click');
+        // Input handler functions assignments:
+        this.bedrockTopInput.onchange = () => console.log(this.bedrockTopInput.value);
+        this.bedrockBottomInput.onchange = () => console.log(this.bedrockBottomInput.value);
+        this.bedrockHeightInput.onchange = () => console.log(this.bedrockHeightInput.value);
         // Axis labels:
-        this.leftAxisLabel = axisLabels.leftAxisLabel;
-        this.rightAxisLabel = axisLabels.rightAxisLabel;
-        this.topAxisLabel = axisLabels.topAxisLabel;
-        this.bottomAxisLabel = axisLabels.bottomAxisLabel;
+        this.leftAxisLabel = labels.leftAxisLabel;
+        this.rightAxisLabel = labels.rightAxisLabel;
+        this.topAxisLabel = labels.topAxisLabel;
+        this.bottomAxisLabel = labels.bottomAxisLabel;
+        // Palette's Current Block Label:
+        this.paletteCurrentBlock = labels.paletteCurrentBlock;
+        // General Info:
         this.height = height;
         this.width = width;             // Defined in terms of blocks, of course.
         this.paletteOptions = [];       // List of all the clickable elements in the palette, for switching your block type.
+        this.maxPaletteOptions = 64;    // The max amount of block types to show per 'page' on the palette.
         this.currentBlock = blocktionary[1];   // This will eventually be alterable by clicking different block types in the palette.
         this.columns = [];              // This is the list containing all the Cell objects
         this.output = [];               // This is the list containing just the block-type (number) of each cell.
         this.blockWidth = 16;           // Yes, eventually even the zoom level should be adjustable.
         this.horizontalOffset = 0;
-        this.verticalOffset = 0;        // Our old friends, lest we should forget about them for even an instant.
-        this.topAxisLabel.innerText = this.height + this.verticalOffset - 1;        // minus one because of index positions
-        this.bottomAxisLabel.innerText = this.verticalOffset;
-        this.rightAxisLabel.innerText = this.width + this.horizontalOffset - 1;      // minus one because of index positions
-        this.leftAxisLabel.innerText = this.horizontalOffset;
+        this.verticalOffset = 0;
+        // Adjustable properties:
+        this.bedrockTop = blocktionary[0];          // Block type for just the top layer of 'bedrock' option.
+        this.bedrockBottom = blocktionary[0];       // Block type for the bedrock interior (can have > 1 layer of this).
+        this.bedrockHeight = 0;                     // How many rows will the bedrock take up.
+        this.currentBrushSize = 1;                  // Keeps track of which brush size/shape is selected.
+        this.palettePageNumber = 1;                 // Keeps track of which page you're on in the palette.
     }
 
     // SET-UP METHODS:
@@ -64,10 +91,13 @@ class Editor {
 
     // Populate the Palette zone:
     populatePalette = () => {
+        // TO DO: Limit to value of maxPaletteOptions per 'page'
         blocktionary.forEach((blockObj) => {
             const img = new Swatch(this.palette, blockObj);
             this.paletteOptions.push(img);
         })
+        // Make dirt (the default block type) appear 'active':
+        this.paletteOptions[1].setActive();
         this.palette.addEventListener('click', this.updateSwatch);  // Every time the palette is clicked, check the swatches for updates.
     }
 
@@ -85,9 +115,14 @@ class Editor {
     // Every time an option is clicked in the Palette, update EVERY CELL to be ready to paint that block.
     updateSwatch = () => {
         this.paletteOptions.forEach((swatch) => {
-            if (swatch.justClicked) this.currentBlock = swatch.blockData;
-            swatch.justClicked = false;
-            // check if it's just been clicked. If so change the current type. Then... unclick it.
+            // If the swatch is the one that was just clicked, change the current block and make it 'active':
+            if (swatch.justClicked) {
+                this.currentBlock = swatch.blockData;
+                swatch.setActive();
+            } else {
+                swatch.setInactive();       // Otherwise, make sure the swatch's UI element is 'inactive'
+            }
+            swatch.justClicked = false; // check if it's just been clicked. If so change the current type. Then... unclick it.
         })
         // Finally, set EVERY SINGLE cell to make that the block of the day... there has got to be a better way to do this...
         this.columns.forEach((col) => {
@@ -95,7 +130,7 @@ class Editor {
                 cell.setPalette(this.currentBlock);
             })
         })
-        console.log(this.currentBlock.name);
+        this.paletteCurrentBlock.innerText = `${this.currentBlock.name} (${this.currentBlock.id})`;
     }
 
     // Call this function to update the axis label positions whenever the viewport pans up/down/left/right:
@@ -125,6 +160,9 @@ class Editor {
                 }
             }
         })
+        // If you've just scrolled up, make the scroll-down button appear enabled:
+        this.panDown.classList.add('enabled');
+        this.panDown.classList.remove('disabled');
         console.log('panning up');
         this.updateAxisLabels();
     }
@@ -146,6 +184,11 @@ class Editor {
             })
             console.log('panning down');
             this.updateAxisLabels();
+        }
+        // If you've just moved to the bottom, make the button appear disabled:
+        if (this.verticalOffset === 0) {
+            this.panDown.classList.add('disabled');
+            this.panDown.classList.remove('enabled');
         }
     }
 
@@ -171,6 +214,9 @@ class Editor {
             }) 
         }
         console.log('panning right');
+        // If you've just scrolled right, make the scroll left button appear enabled:
+        this.panLeft.classList.add('enabled');
+        this.panLeft.classList.remove('disabled');
         this.updateAxisLabels();
     }
 
@@ -189,6 +235,11 @@ class Editor {
             })
             console.log('panning left');
             this.updateAxisLabels();
+        }
+        // If you've just moved to the leftmost edge, make the button appear disabled:
+        if (this.horizontalOffset === 0) {
+            this.panLeft.classList.add('disabled');
+            this.panLeft.classList.remove('enabled');
         }
     }
 

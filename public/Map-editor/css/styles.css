@@ -15,6 +15,15 @@ h1 {
   border-bottom: 2px solid black;
 }
 
+.styled-button {
+  border: 2px solid black;
+  border-radius: 4px;
+  background-color: mediumslateblue;
+  font-weight: bold;
+  padding: 2px;
+  margin: 2px 0px;
+}
+
 .editor {
   display: flex;
   flex-direction: row;
@@ -33,6 +42,33 @@ h1 {
   width: 240px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  position: relative;
+}
+
+.palette-label {
+  position: absolute;
+  bottom: 40px;
+  justify-self: center;
+}
+
+.palette-preview {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  bottom: 4px;
+  justify-self: center;
+}
+
+.pagination-left {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+}
+
+.pagination-right {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
 }
 
 .swatch {
@@ -96,8 +132,62 @@ h1 {
 }
 
 .control-panel {
-  height: 360px;
+  height: 540px;
   width: 240px;
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.brush-options {
+  display: flex;
+  flex-direction: row;
+  grid-column-end: span 2;
+  justify-self: center;
+}
+
+.bedrock-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-end: span 2;
+}
+
+.editor-control-button {
+  border: 2px solid black;
+  border-radius: 50%;
+  height: 96px;
+  width: 96px;
+  justify-self: center;
+  font-size: 1.25em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.enabled {
+  background-color: mediumseagreen;
+}
+
+.disabled {
+  background-color: grey;
+}
+
+.selected {
+  background-color: lime;
+  box-shadow: 0px 0px 16px 4px limegreen;
+}
+
+.brush {
+  height: 64px;
+  width: 64px;
+  font-size: 0.9em;
+  margin: 0px 4px;
+}
+
+.bedrock-area-header {
+  grid-column-end: span 2;
+  margin: 0;
+  padding: 0;
+}
+
+.bedrock-input {
+  width: 96px;
 }

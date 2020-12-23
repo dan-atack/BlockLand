@@ -4,17 +4,29 @@ const palette = document.getElementById('palette');
 const controlPanel = document.getElementById('control-panel');
 const mapNameInput = document.getElementById('write-file');
 // Buttons (grouped together as an object)
-const controlPanelButtons = {};
-controlPanelButtons.panRight = document.getElementById('pan-right');
-controlPanelButtons.panLeft = document.getElementById('pan-left');
-controlPanelButtons.panUp = document.getElementById('pan-up');
-controlPanelButtons.panDown = document.getElementById('pan-down');
+const editorButtons = {};
+editorButtons.panRight = document.getElementById('pan-right');
+editorButtons.panLeft = document.getElementById('pan-left');
+editorButtons.panUp = document.getElementById('pan-up');
+editorButtons.panDown = document.getElementById('pan-down');
+editorButtons.palettePrev = document.getElementById('palette-prev');
+editorButtons.paletteNext = document.getElementById('palette-next');
+editorButtons.brushSmall = document.getElementById('brush-small');
+editorButtons.brushMedium = document.getElementById('brush-medium');
+editorButtons.brushLarge = document.getElementById('brush-large');
+editorButtons.addBedrock = document.getElementById('add-bedrock');
 // Labels (grouped together as object)
-const stageAxisLabels = {};
-stageAxisLabels.leftAxisLabel = document.getElementById('x-axis-left');
-stageAxisLabels.rightAxisLabel = document.getElementById('x-axis-right');
-stageAxisLabels.topAxisLabel = document.getElementById('y-axis-top');
-stageAxisLabels.bottomAxisLabel = document.getElementById('y-axis-bottom');
+const editorLabels = {};
+editorLabels.leftAxisLabel = document.getElementById('x-axis-left');
+editorLabels.rightAxisLabel = document.getElementById('x-axis-right');
+editorLabels.topAxisLabel = document.getElementById('y-axis-top');
+editorLabels.bottomAxisLabel = document.getElementById('y-axis-bottom');
+editorLabels.paletteCurrentBlock = document.getElementById('palette-current-block');
+// Input fields (group'd t'gether as object)
+const editorInputs = {};
+editorInputs.topLayer = document.getElementById('bedrock-top-input');
+editorInputs.bottomLayer = document.getElementById('bedrock-bottom-input');
+editorInputs.bedrockHeight = document.getElementById('bedrock-height-input');
 
 // Read experimental text file and print its contents:
 const fileReader = (ev, filename='test.txt') => {
@@ -57,9 +69,10 @@ const fileMaker = (ev) => {
     console.log('Bloop.');
 };
 
-// RUN ZONE:
+// RUN ZONE: Create and setup the editor:
 
-const ed = new Editor(stage, palette, controlPanel, controlPanelButtons, stageAxisLabels);
+const ed = new Editor(stage, palette, controlPanel, editorButtons, editorInputs, editorLabels);
 
 ed.populateInitialStage();
 ed.populatePalette();
+ed.updateAxisLabels();
