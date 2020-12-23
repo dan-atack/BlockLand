@@ -4,11 +4,12 @@ class Swatch {
         this.blockData = blockData;
         this.id = blockData.id;
         this.domElement = document.createElement('img');
-        const isGif = blockData.properties.includes('gif');
-        isGif ?
-        this.domElement.src = `assets/blocks/block${blockData.id}.gif`:
-        this.domElement.src = `assets/blocks/block${blockData.id}.png`;
-        if (blockData.id === '000') this.domElement.src = '';       // There is no image for the air
+        if (this.id !== '000') {
+            const isGif = blockData.properties.includes('gif');
+            isGif ?
+            this.domElement.src = `assets/blocks/block${blockData.id}.gif`:
+            this.domElement.src = `assets/blocks/block${blockData.id}.png`;
+        }
         this.domElement.id = `Swatch-${blockData.id}`;
         this.domElement.classList.add('swatch');
         this.root.appendChild(this.domElement);

@@ -926,6 +926,36 @@ One of the most ambitious features to be talked about for this project is the in
 
 22. Have the Editor change the palette value for every cell, so that its click responder 'paints' the image of that block to the cell, and registers the output to be that cell's 3-digit ID number.
 
+23. Fix the Air/erase button on the palette. Addendum: it is still ugly but acceptable for the map editor MVP.
+
+24. Determine which other features will be needed and then create tickets for them.
+
+25. Enable Pan Right button:
+
+26. Add a horizontalTranslate method to the Cell class, and have the Editor call this method (and supply an offset value) when the Pan Right button is pressed.
+
+27. The Pan Right button should also have the effect of checking if there are more columns to the right that are not currently on-stage, and creating them if so.
+
+28. Finally, make sure to deRender all cells that are pushed off to the left of the display area by panning right.
+
+29. Add a render method to the cells so they can be brought back when we pan left.
+
+30. Enable Pan left button: mirror image of the Pan Right button, EXCEPT that you should not be able to move further left than the initial screen position (restrict effect based on h-offset value - e.g. if h-offset <= 0, do nothing).
+
+31. Add Pan Up button, modelled on Pan Right's functionality.
+
+32. Ditto for Pan Down button; spell out in more detail if the horizontal stuff warrants it...
+
+33. Sync up horizontal and vertical map scroll so that they play nice together.
+
+34. Add indicators to the corners of the stage to show the height/width values on screen at a given moment.
+
+### 35. Expand the control panel area in the Editor Interface. In this field we'll have options for different 'bush' sizes, as well as a button and an input field for adding a 'bedrock' layer of variable depth to the bottom of the map, using the current palette selection as the block type.
+
+### 36. Add pagination to the Palette.
+
+### 37. Add a current block display to the palette (no more console logs for us!).
+
 ### Thought for the Palette - another click listener in the palette zone tells the Editor to quickly update (by calling an updatePalette method, of course) the 'currentPalette' property for all of the cells, so they can 'paint themselves' ??
 
 # Remaining Tasks for Refactoring:

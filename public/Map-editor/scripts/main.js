@@ -3,6 +3,18 @@ const stage = document.getElementById('stage');
 const palette = document.getElementById('palette');
 const controlPanel = document.getElementById('control-panel');
 const mapNameInput = document.getElementById('write-file');
+// Buttons (grouped together as an object)
+const controlPanelButtons = {};
+controlPanelButtons.panRight = document.getElementById('pan-right');
+controlPanelButtons.panLeft = document.getElementById('pan-left');
+controlPanelButtons.panUp = document.getElementById('pan-up');
+controlPanelButtons.panDown = document.getElementById('pan-down');
+// Labels (grouped together as object)
+const stageAxisLabels = {};
+stageAxisLabels.leftAxisLabel = document.getElementById('x-axis-left');
+stageAxisLabels.rightAxisLabel = document.getElementById('x-axis-right');
+stageAxisLabels.topAxisLabel = document.getElementById('y-axis-top');
+stageAxisLabels.bottomAxisLabel = document.getElementById('y-axis-bottom');
 
 // Read experimental text file and print its contents:
 const fileReader = (ev, filename='test.txt') => {
@@ -47,7 +59,7 @@ const fileMaker = (ev) => {
 
 // RUN ZONE:
 
-const ed = new Editor(stage, palette, controlPanel);
+const ed = new Editor(stage, palette, controlPanel, controlPanelButtons, stageAxisLabels);
 
 ed.populateInitialStage();
 ed.populatePalette();

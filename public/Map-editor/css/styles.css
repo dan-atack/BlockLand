@@ -47,10 +47,12 @@ h1 {
 }
 
 .stage {
-  height: 540px;
-  width: 960px;
+  height: 545px;
+  width: 722px;
+  border-radius: 0;
   position: relative;
-  overflow: hidden;
+  padding: 0;
+  margin: 0px 16px 0px 16px;
 }
 
 .cell {
@@ -65,6 +67,32 @@ h1 {
 
 .filled {
   background-color: brown;
+}
+
+.stage-axis {
+  font-size: 1.2em;
+  color: black;
+  position: absolute;
+}
+
+.axis-left {
+  bottom: -24px;
+  left: 0px;
+}
+
+.axis-right {
+  bottom: -24px;
+  right: 0px;
+}
+
+.axis-top {
+  left: -24px;
+  top: 0px;
+}
+
+.axis-bottom {
+  left: -24px;
+  bottom: 0px;
 }
 
 .control-panel {

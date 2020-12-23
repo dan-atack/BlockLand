@@ -27,14 +27,19 @@
             </div>
             <div class='editor'>
                 <div class='editor-component palette' id='palette'></div>
-                <div class='editor-component stage' id='stage'></div>
+                <div class='editor-component stage' id='stage'>
+                    <span class='stage-axis axis-right' id='x-axis-right'>X</span>
+                    <span class='stage-axis axis-left' id='x-axis-left'>X</span>
+                    <span class='stage-axis axis-top' id='y-axis-top'>Y</span>
+                    <span class='stage-axis axis-bottom' id='y-axis-bottom'>Y</span>
+                </div>
                 <div class='editor-component control-panel' id='control-panel'>
-                    <button>PAN UP</button>
-                    <button>PAN DOWN</button>
-                    <button>PAN LEFT</button>
-                    <button>PAN RIGHT</button>
-                    <button>ZOOM IN</button>
-                    <button>ZOOM OUT</button>
+                    <button id='pan-up'>PAN UP</button>
+                    <button id='pan-down'>PAN DOWN</button>
+                    <button id='pan-left'>PAN LEFT</button>
+                    <button id='pan-right'>PAN RIGHT</button>
+                    <button id='zoom-in'>ZOOM IN</button>
+                    <button id='zoom-out'>ZOOM OUT</button>
                 </div>
             </div>
             <script src='assets/libraries/blocktionary.js'></script>
