@@ -22,6 +22,7 @@ editorLabels.rightAxisLabel = document.getElementById('x-axis-right');
 editorLabels.topAxisLabel = document.getElementById('y-axis-top');
 editorLabels.bottomAxisLabel = document.getElementById('y-axis-bottom');
 editorLabels.paletteCurrentBlock = document.getElementById('palette-current-block');
+editorLabels.palettePreview = document.getElementById('palette-preview');
 // Input fields (group'd t'gether as object)
 const editorInputs = {};
 editorInputs.topLayer = document.getElementById('bedrock-top-input');

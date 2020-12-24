@@ -33,16 +33,17 @@ class Editor {
         this.brushSmall.onclick = () => console.log('click');
         this.brushMedium.onclick = () => console.log('click');
         this.brushLarge.onclick = () => console.log('click');
-        this.addBedrock.onclick = () => console.log('click');
+        this.addBedrock.onclick = this.handleAddBedrock;
         // Input handler functions assignments:
-        this.bedrockTopInput.onchange = () => console.log(this.bedrockTopInput.value);
-        this.bedrockBottomInput.onchange = () => console.log(this.bedrockBottomInput.value);
-        this.bedrockHeightInput.onchange = () => console.log(this.bedrockHeightInput.value);
+        this.bedrockTopInput.onchange = this.handleBedrockTop;
+        this.bedrockBottomInput.onchange = this.handleBedrockBottom;
+        this.bedrockHeightInput.onchange = this.handleBedrockHeight;
         // Axis labels:
         this.leftAxisLabel = labels.leftAxisLabel;
         this.rightAxisLabel = labels.rightAxisLabel;
         this.topAxisLabel = labels.topAxisLabel;
         this.bottomAxisLabel = labels.bottomAxisLabel;
+        this.palettePreview = labels.palettePreview;
         // Palette's Current Block Label:
         this.paletteCurrentBlock = labels.paletteCurrentBlock;
         // General Info:
@@ -60,7 +61,7 @@ class Editor {
         this.bedrockTop = blocktionary[0];          // Block type for just the top layer of 'bedrock' option.
         this.bedrockBottom = blocktionary[0];       // Block type for the bedrock interior (can have > 1 layer of this).
         this.bedrockHeight = 0;                     // How many rows will the bedrock take up.
-        this.currentBrushSize = 1;                  // Keeps track of which brush size/shape is selected.
+        this.currentBrushSelection = 'point';       // Keeps track of which brush shape is selected. Default is 'point' (1 block).
         this.palettePageNumber = 1;                 // Keeps track of which page you're on in the palette.
     }
 
@@ -124,13 +125,19 @@ class Editor {
             }
             swatch.justClicked = false; // check if it's just been clicked. If so change the current type. Then... unclick it.
         })
-        // Finally, set EVERY SINGLE cell to make that the block of the day... there has got to be a better way to do this...
+        // Set EVERY SINGLE cell to make that the block of the day... there has got to be a better way to do this...
         this.columns.forEach((col) => {
             col.forEach((cell) => {
                 cell.setPalette(this.currentBlock);
             })
         })
+        // Update 'current block' display text and image:
         this.paletteCurrentBlock.innerText = `${this.currentBlock.name} (${this.currentBlock.id})`;
+        if (this.currentBlock.properties.includes('gif')) {
+            this.palettePreview.src = `assets/blocks/block${this.currentBlock.id}.gif`;
+        } else {
+            this.palettePreview.src = `assets/blocks/block${this.currentBlock.id}.png`;
+        }
     }
 
     // Call this function to update the axis label positions whenever the viewport pans up/down/left/right:
@@ -163,7 +170,6 @@ class Editor {
         // If you've just scrolled up, make the scroll-down button appear enabled:
         this.panDown.classList.add('enabled');
         this.panDown.classList.remove('disabled');
-        console.log('panning up');
         this.updateAxisLabels();
     }
 
@@ -182,7 +188,6 @@ class Editor {
                     col[this.verticalOffset].render();
                 }
             })
-            console.log('panning down');
             this.updateAxisLabels();
         }
         // If you've just moved to the bottom, make the button appear disabled:
@@ -213,7 +218,6 @@ class Editor {
                 if (cell.y >= this.verticalOffset && cell.y < this.height + this.verticalOffset) cell.render();
             }) 
         }
-        console.log('panning right');
         // If you've just scrolled right, make the scroll left button appear enabled:
         this.panLeft.classList.add('enabled');
         this.panLeft.classList.remove('disabled');
@@ -233,13 +237,73 @@ class Editor {
             this.columns[this.horizontalOffset].forEach((cell) => {
                 if (cell.y >= this.verticalOffset && cell.y < this.height + this.verticalOffset) cell.render();
             })
-            console.log('panning left');
             this.updateAxisLabels();
         }
         // If you've just moved to the leftmost edge, make the button appear disabled:
         if (this.horizontalOffset === 0) {
             this.panLeft.classList.add('disabled');
             this.panLeft.classList.remove('enabled');
+        }
+    }
+
+    // BEDROCK INPUT HANDLERS:
+    handleBedrockTop = () => {
+        // Try to recognize the block type from its numerical ID; if this fails, default to type 1 (dirt):
+        // Format input string to be the right length (i.e. add zeros in front if it's too short):
+        if (this.bedrockTopInput.value.length === 3) {
+            this.bedrockTop = blocktionary.find((block) => block.id === this.bedrockTopInput.value);
+        } else if (this.bedrockTopInput.value.length === 2) {
+            this.bedrockTop = blocktionary.find((block) => block.id === '0' + this.bedrockTopInput.value);
+        } else {
+            this.bedrockTop = blocktionary.find((block) => block.id === '00' + this.bedrockTopInput.value);
+        }
+        if (!this.bedrockTop) {     // If the result is undefined (block not found) set to type 1 as a fallback:
+            this.bedrockTop = blocktionary[1];
+        }
+    }
+
+    handleBedrockBottom = () => {
+        if (this.bedrockBottomInput.value.length === 3) {
+            this.bedrockBottom = blocktionary.find((block) => block.id === this.bedrockBottomInput.value);
+        } else if (this.bedrockBottomInput.value.length === 2) {
+            this.bedrockBottom = blocktionary.find((block) => block.id === '0' + this.bedrockBottomInput.value);
+        } else {
+            this.bedrockBottom = blocktionary.find((block) => block.id === '00' + this.bedrockBottomInput.value);
+        }
+        if (!this.bedrockBottom) {
+            this.bedrockBottom = blocktionary[1];
+        }
+    }
+
+    handleBedrockHeight = () => {
+        // Convert the string value to a number and store it:
+        this.bedrockHeight = Number(this.bedrockHeightInput.value);
+        if (this.bedrockHeight < 0 || !Number.isInteger(this.bedrockHeight)) { // Don't allow negative numbers or decimal values
+            this.bedrockHeightInput.value = 0;
+            this.bedrockHeight = 0;
+        }
+    }
+
+    // Add Bedrock Button handler - where the actual bedrock addition logic lives:
+    handleAddBedrock = (ev) => {
+        ev.preventDefault();        // Prevent the page from refreshing.
+        try {                       // Use try/catch to prevent errors if some of the selections aren't good.
+            if (this.bedrockHeight === 0) {                     // If bedrock height is zero, do nothing.
+                console.log('Bedrock height = 0; No bedrock added.');
+            } else if (this.bedrockHeight === 1) {              // If it is 1, add one layer of the TOP element.
+                this.columns.forEach((col) => {
+                    col[0].paintCell(this.bedrockTop);
+                })
+            } else if (this.bedrockHeight > 1) {         // If height > 1, use the top type for row [height - 1]...
+                this.columns.forEach((col) => {
+                    col[this.bedrockHeight - 1].paintCell(this.bedrockTop);
+                    col.forEach((cell) => {     // ... Then for every cell that's LOWER than that, use the bottom type:
+                        if (cell.y < this.bedrockHeight - 1) cell.paintCell(this.bedrockBottom);
+                    })
+                })
+            }
+        } catch {
+            console.log('Invalid bedrock options selected. Please reconfigure and try again.');
         }
     }
 

@@ -23,7 +23,7 @@ class Columns {
     // At first it might be a bit like, identical volcanoes to the left, identical forests to the right, but it's a starT:
     this.currentBiomeLeft = shit_hit_fan;
     this.currentLeftwardBiomeIdx = 0;
-    this.currentBiomeRight = shit_hit_fan;
+    this.currentBiomeRight = lava_bedrock_test;
     this.currentRightwardBiomeIdx = 0;
   }
 

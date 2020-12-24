@@ -57,6 +57,7 @@ h1 {
   width: 32px;
   bottom: 4px;
   justify-self: center;
+  border: 2px solid limegreen;
 }
 
 .pagination-left {

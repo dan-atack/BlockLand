@@ -20,21 +20,25 @@ class Cell {
         this.rendered = false;      // Start unrendered and be rendered by the Editor:
     }
 
-    // When clicked, a cell is 'painted' with the Editor's palette type
+    // When clicked, call the Cell Painter function (immediately below) with the current blocktype from the palette:
     handleClick = () => {
-        if (this.paletteType.id !== '000') {
-            const isGif = this.paletteType.properties.includes('gif');
+        this.paintCell(this.paletteType);
+    }
+
+    // "Paints" the cell with a certain block type:
+    paintCell = (blockType) => {
+        if (blockType.id !== '000') {
+            const isGif = blockType.properties.includes('gif');
             isGif ?
-            this.domElement.src = `assets/blocks/block${this.paletteType.id}.gif`:
-            this.domElement.src = `assets/blocks/block${this.paletteType.id}.png`;
-            this.type = this.paletteType.id;
+            this.domElement.src = `assets/blocks/block${blockType.id}.gif`:
+            this.domElement.src = `assets/blocks/block${blockType.id}.png`;
+            this.type = blockType.id;
         } else {
             // This approach to using an 'air' image as whiteout looks a little ugly, but is acceptable for now.
             this.root.removeChild(this.domElement);
             this.domElement.src='assets/blocks/proto blocks/block000.png';
             this.root.appendChild(this.domElement);
         }
-        
     }
 
     // The Editor calls this method to update the blockType (integer) for the clicker function:
