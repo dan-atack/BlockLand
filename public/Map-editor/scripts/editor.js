@@ -30,9 +30,9 @@ class Editor {
         this.panLeft.onclick = this.handlePanLeft;
         this.palettePrev.onclick = () => console.log('click');
         this.paletteNext.onclick = () => console.log('click');
-        this.brushSmall.onclick = () => console.log('click');
-        this.brushMedium.onclick = () => console.log('click');
-        this.brushLarge.onclick = () => console.log('click');
+        this.brushSmall.onclick = () => this.selectBrush('Small');
+        this.brushMedium.onclick = () => this.selectBrush('Medium');
+        this.brushLarge.onclick = () => this.selectBrush('Large');
         this.addBedrock.onclick = this.handleAddBedrock;
         // Input handler functions assignments:
         this.bedrockTopInput.onchange = this.handleBedrockTop;
@@ -61,7 +61,7 @@ class Editor {
         this.bedrockTop = blocktionary[0];          // Block type for just the top layer of 'bedrock' option.
         this.bedrockBottom = blocktionary[0];       // Block type for the bedrock interior (can have > 1 layer of this).
         this.bedrockHeight = 0;                     // How many rows will the bedrock take up.
-        this.currentBrushSelection = 'point';       // Keeps track of which brush shape is selected. Default is 'point' (1 block).
+        this.currentBrushSelection = 'point';       // Keeps track of which brush shape is selected. Default is 'Small' (1 block).
         this.palettePageNumber = 1;                 // Keeps track of which page you're on in the palette.
     }
 
@@ -109,6 +109,10 @@ class Editor {
          this.columns.forEach((col) => {
             col.forEach((cell) => {
                 this.output[cell.x][cell.y] = parseInt(cell.type, 10);
+                if (cell.isClicked) {   // Tell me if the cell has been clicked just now, and reset its flag if so:
+                    cell.setUnclicked();
+                    this.paintAdditionalCells(cell.x, cell.y);  // Use coordinates of cell that was clicked to paint its neighbors
+                }
             })
         })
     }
@@ -133,7 +137,9 @@ class Editor {
         })
         // Update 'current block' display text and image:
         this.paletteCurrentBlock.innerText = `${this.currentBlock.name} (${this.currentBlock.id})`;
-        if (this.currentBlock.properties.includes('gif')) {
+        if (this.currentBlock.id === '000') {
+            this.palettePreview.src = 'assets/blocks/proto blocks/block000.png'
+        } else if (this.currentBlock.properties.includes('gif')) {
             this.palettePreview.src = `assets/blocks/block${this.currentBlock.id}.gif`;
         } else {
             this.palettePreview.src = `assets/blocks/block${this.currentBlock.id}.png`;
@@ -304,6 +310,45 @@ class Editor {
             }
         } catch {
             console.log('Invalid bedrock options selected. Please reconfigure and try again.');
+        }
+    }
+
+    // BRUSH SELECTION BUTTON HANDLER:
+    selectBrush = (shape) => {   // Shape = string name of brush shape option
+        this.currentBrushSelection = shape;
+        this.brushSmall.classList.remove('selected');    // Remove 'selected' class from all brush options
+        this.brushMedium.classList.remove('selected');
+        this.brushLarge.classList.remove('selected');
+        this[`brush${shape}`].classList.add('selected');    // Make the currently selected brush look 'selected.'
+    }
+
+    // Paint additional cells based on brush shape:
+    paintAdditionalCells = (x, y) => {  // X and Y are the coords of the cell that was just clicked AKA the epicenter.
+        switch (this.currentBrushSelection) {
+            case 'Small':   // If Small brush is selected then no additional cells need to be filled in.
+                break;
+            case 'Medium':      // For the Medium brush, paint a 3x3 square of the current block type.
+                if (x > 0) {    // Prevent attempts to brush too close to the canvas edge.
+                    for (let i = x - 1; i <= x + 1; i++) {
+                        if (y > 0) {
+                            for (let j = y - 1; j <= y + 1; j++) {
+                                this.columns[i][j].paintCell(this.currentBlock);
+                            }
+                        }
+                    }
+                }
+                break;
+            case 'Large':
+                if (x > 1) {    // Prevent attempts to brush too close to the canvas edge.
+                    for (let i = x - 2; i <= x + 2; i++) {
+                        if (y > 1) {
+                            for (let j = y - 2; j <= y + 2; j++) {
+                                this.columns[i][j].paintCell(this.currentBlock);
+                            }
+                        }
+                    }
+                }
+                break;
         }
     }
 

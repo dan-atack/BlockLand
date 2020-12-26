@@ -18,11 +18,17 @@ class Cell {
         this.domElement.id = `${x},${y}`;   // Absolute position info lives here.
         this.domElement.onmousedown = this.handleClick;
         this.rendered = false;      // Start unrendered and be rendered by the Editor:
+        this.isClicked = false;     // Low-tech way for the Editor to read if the cell has just been clicked.
     }
 
     // When clicked, call the Cell Painter function (immediately below) with the current blocktype from the palette:
     handleClick = () => {
         this.paintCell(this.paletteType);
+        this.isClicked = true;      // Set the clicked flag to true so the Editor can spot it... Is this a "signal?"
+    }
+
+    setUnclicked = () => {
+        this.isClicked = false;     // The Engine can call this to reset a Cell's click emitter signal.
     }
 
     // "Paints" the cell with a certain block type:
@@ -34,10 +40,9 @@ class Cell {
             this.domElement.src = `assets/blocks/block${blockType.id}.png`;
             this.type = blockType.id;
         } else {
-            // This approach to using an 'air' image as whiteout looks a little ugly, but is acceptable for now.
-            this.root.removeChild(this.domElement);
+            // Using an 'air' image as whiteout looks imperfect, but is acceptable for now.
             this.domElement.src='assets/blocks/proto blocks/block000.png';
-            this.root.appendChild(this.domElement);
+            this.type = blockType.id;
         }
     }
 

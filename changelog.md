@@ -964,9 +964,15 @@ One of the most ambitious features to be talked about for this project is the in
 
 41. Add Bedrock function: For every column, fill cells up to (bedrock height - 1) index with the bedrock bottom block type, and fill the final index position with the bedrock top type. Hitting the button should absolutely not refresh the page, and clicking it multiple times should have no additional effect (it simply sets each column's first X cells to the specified composition). Start by making the button console log the values for top, bottom and height.
 
-### 42. Now for the different 'brush' options: Start by making a simple handler function for each of the brush option buttons that stores the value of the currently selected brush option. Also, make the button element for the current selection glow like the current palette selection does.
+42. Now for the different 'brush' options: Start by making a simple handler function for each of the brush option buttons that stores the value of the currently selected brush option. Also, make the button element for the current selection glow like the current palette selection does.
 
-### 43.
+43. Create a paintAdditionalCells function for the Editor: First step is to make the Editor state which cell was just clicked (rather than getting that from the Cell itself).
+
+44. Now that that's out of the way, create the logic for painting additional cells, based on the coordinates of the one that was clicked + the current brush selection. PaintAdditionalCells should operate as a switch case function and be called from the updateCells method.
+
+### 45. Pagination time?
+
+### 46. Final thing for Map Editor v.1: Loading an existing biome in order to modify it. Shouldn't be too hard, surely?
 
 ### Before pushing to PRODUCTION, ensure all map-editor functionality is restricted by the DEV_MODE flag.
 
