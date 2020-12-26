@@ -28,8 +28,8 @@ class Editor {
         this.panDown.onclick = this.handlePanDown;
         this.panRight.onclick = this.handlePanRight;
         this.panLeft.onclick = this.handlePanLeft;
-        this.palettePrev.onclick = () => console.log('click');
-        this.paletteNext.onclick = () => console.log('click');
+        this.palettePrev.onclick = this.previousPalettePage;
+        this.paletteNext.onclick = this.advancePalettePage;
         this.brushSmall.onclick = () => this.selectBrush('Small');
         this.brushMedium.onclick = () => this.selectBrush('Medium');
         this.brushLarge.onclick = () => this.selectBrush('Large');
@@ -62,7 +62,8 @@ class Editor {
         this.bedrockBottom = blocktionary[0];       // Block type for the bedrock interior (can have > 1 layer of this).
         this.bedrockHeight = 0;                     // How many rows will the bedrock take up.
         this.currentBrushSelection = 'point';       // Keeps track of which brush shape is selected. Default is 'Small' (1 block).
-        this.palettePageNumber = 1;                 // Keeps track of which page you're on in the palette.
+        this.palettePageNumber = 0;                 // Keeps track of which page you're on in the palette.
+        this.blocksPerPage = 56;                    // Adjustable number of palette options per page.
     }
 
     // SET-UP METHODS:
@@ -92,10 +93,12 @@ class Editor {
 
     // Populate the Palette zone:
     populatePalette = () => {
-        // TO DO: Limit to value of maxPaletteOptions per 'page'
-        blocktionary.forEach((blockObj) => {
-            const img = new Swatch(this.palette, blockObj);
-            this.paletteOptions.push(img);
+        // Select the first items to populate the initiate palette:
+        blocktionary.forEach((blockObj, idx) => {
+            if (idx < this.blocksPerPage) {
+                const img = new Swatch(this.palette, blockObj);
+                this.paletteOptions.push(img);
+            }
         })
         // Make dirt (the default block type) appear 'active':
         this.paletteOptions[1].setActive();
@@ -152,6 +155,41 @@ class Editor {
         this.bottomAxisLabel.innerText = this.verticalOffset;
         this.rightAxisLabel.innerText = this.width + this.horizontalOffset - 1;     // minus one because of index positions;
         this.leftAxisLabel.innerText = this.horizontalOffset;
+    }
+
+    // PALETTE PAGINATION BUTTON HANDLERS:
+    advancePalettePage = () => {
+        // Clear all current palette options:
+        this.paletteOptions.forEach((swatch) => {
+            swatch.deRender();
+        })
+        this.paletteOptions = [];
+        // Advance current palette page value, and add the next batch of options:
+        this.palettePageNumber += 1;
+        // from (idx = page number * options per page) to (idx < page num + 1 * options per page)
+        blocktionary.forEach((block, idx) => {
+            if (idx >= this.palettePageNumber * this.blocksPerPage && idx < (this.palettePageNumber + 1) * this.blocksPerPage) {
+                const swatch = new Swatch(this.palette, block);
+                this.paletteOptions.push(swatch);
+            }
+        })
+    }
+
+    previousPalettePage = () => {
+        // Don't allow the button to scroll past the beginning of the list:
+        if (this.palettePageNumber > 0) {
+            this.paletteOptions.forEach((swatch) => {
+                swatch.deRender();
+            })
+            this.paletteOptions = [];
+            this.palettePageNumber -= 1;
+            blocktionary.forEach((block, idx) => {
+                if (idx >= this.palettePageNumber * this.blocksPerPage && idx < (this.palettePageNumber + 1) * this.blocksPerPage) {
+                    const swatch = new Swatch(this.palette, block);
+                    this.paletteOptions.push(swatch);
+                }
+            })
+        }
     }
 
     // CONTROL PANEL BUTTON HANDLERS:

@@ -970,9 +970,15 @@ One of the most ambitious features to be talked about for this project is the in
 
 44. Now that that's out of the way, create the logic for painting additional cells, based on the coordinates of the one that was clicked + the current brush selection. PaintAdditionalCells should operate as a switch case function and be called from the updateCells method.
 
-### 45. Pagination time?
+45. Pagination time: Initially populate the palette with only the first 64 entries in the Blocktionary. Create 6 new dummy block types to test this.
 
-### 46. Final thing for Map Editor v.1: Loading an existing biome in order to modify it. Shouldn't be too hard, surely?
+46. Paginaaation: On clicking the 'Next' button in the palette, cleanup all the existing palette options and then load items 65 - 128 from the blocktionary. Finally, make sure to increment the current palette page value.
+
+### 47. Make the previous button only work if the current palette page is greater than 1.
+
+### 48. Final thing for Map Editor v.1: Loading an existing biome in order to modify it. Shouldn't be too hard, surely?
+
+### 49. Final, FINAL thing: Make it so that hitting the 'E' key always selects Block Type zero, so you don't have to navigate back to the first page of the palette in order to Erase.
 
 ### Before pushing to PRODUCTION, ensure all map-editor functionality is restricted by the DEV_MODE flag.
 
