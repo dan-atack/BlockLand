@@ -14,7 +14,14 @@
                 </a>
             </div>
             <div class='banner'>
-                <button class='styled-button' role='button' id='read-file' onclick='fileReader(event)'>Load A Map</button>
+                <form class='file-namer'>
+                    <label>Load an existing map:</label>
+                    <input
+                        id='read-file'
+                        type='text'
+                    ></input>
+                </form>
+                <button class='styled-button' role='button' id='load-map'>Load A Map</button>
                 <form class='file-namer'>
                     <label>Enter map name (at least 4 characters, use underlines instead of spaces):</label>
                     <input
@@ -63,6 +70,8 @@
                 </div>
             </div>
             <script src='assets/libraries/blocktionary.js'></script>
+            <script src='assets/libraries/basic_biomes.js'></script>
+            <script src='assets/libraries/biomes.js'></script>
             <script src='Map-editor/scripts/swatch.js'></script>
             <script src='Map-editor/scripts/cell.js'></script>
             <script src='Map-editor/scripts/editor.js'></script>

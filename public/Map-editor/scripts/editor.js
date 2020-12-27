@@ -19,10 +19,12 @@ class Editor {
         this.brushMedium = buttons.brushMedium;
         this.brushLarge = buttons.brushLarge;
         this.addBedrock = buttons.addBedrock;
+        this.loadMap = buttons.loadMap;
         // Input components:
         this.bedrockTopInput = inputs.topLayer;
         this.bedrockBottomInput = inputs.bottomLayer;
         this.bedrockHeightInput = inputs.bedrockHeight;
+        this.loadMapInput = inputs.loadMapInput;
         // Button handler function assignments:
         this.panUp.onclick = this.handlePanUp;
         this.panDown.onclick = this.handlePanDown;
@@ -34,6 +36,7 @@ class Editor {
         this.brushMedium.onclick = () => this.selectBrush('Medium');
         this.brushLarge.onclick = () => this.selectBrush('Large');
         this.addBedrock.onclick = this.handleAddBedrock;
+        this.loadMap.onclick = this.handleLoadMap;
         // Input handler functions assignments:
         this.bedrockTopInput.onchange = this.handleBedrockTop;
         this.bedrockBottomInput.onchange = this.handleBedrockBottom;
@@ -64,6 +67,8 @@ class Editor {
         this.currentBrushSelection = 'point';       // Keeps track of which brush shape is selected. Default is 'Small' (1 block).
         this.palettePageNumber = 0;                 // Keeps track of which page you're on in the palette.
         this.blocksPerPage = 56;                    // Adjustable number of palette options per page.
+        // Loading an existing Map:
+        this.loadedMap = null;                    // Prepare to store an existing Map when its name is entered.
     }
 
     // SET-UP METHODS:
@@ -388,6 +393,46 @@ class Editor {
                 }
                 break;
         }
+    }
+
+    // Load an existing Map for continuous editing:
+    handleLoadMap = (ev) => {
+        ev.preventDefault();
+        const filename = this.loadMapInput.value
+        try {
+            this.loadedMap = eval(filename);    // Eval Rocks!!!
+            this.renderLoadedMap();
+        } catch {
+            console.log('Error loading selected map. Please ensure map name is spelled correctly, and that the map is in the correct file.')
+        }
+    }
+
+    renderLoadedMap = () => {
+        // Determine loaded map's dimensions, and if necessary, expand the Editor's dimensions to fit it.
+        if (this.loadedMap.length > this.width) {
+            // Add columns up to the width of the incoming map:
+            const columnsNeeded = this.loadedMap.length - this.columns.length;
+            for (let i = 0; i < columnsNeeded; i++) {
+                this.columns.push([]);
+                this.output.push([]);
+            }
+        };
+        this.loadedMap.forEach((col, idx) => {
+            // For each column in the incoming map, ensure the Editor's corresponding column is tall enough:
+            if (col.length > this.columns[idx].length) {
+                const rowsNeeded = col.length - this.columns[idx].length;
+                const rowHeight = this.columns[idx].length;
+                for (let i = 0; i < rowsNeeded; i++) {
+                    this.createCell(idx, rowHeight + i);
+                }
+            }
+        });
+        this.loadedMap.forEach((col, idx) => {
+            col.forEach((cell, row) => {
+                const cellId = ('00' + cell).slice(-3);
+                this.columns[idx][row].paintCell(blocktionary.find((block) => block.id === cellId))
+            })
+        })
     }
 
     // CLOSING METHODS:

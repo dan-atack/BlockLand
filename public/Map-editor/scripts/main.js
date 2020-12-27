@@ -15,6 +15,7 @@ editorButtons.brushSmall = document.getElementById('brush-small');
 editorButtons.brushMedium = document.getElementById('brush-medium');
 editorButtons.brushLarge = document.getElementById('brush-large');
 editorButtons.addBedrock = document.getElementById('add-bedrock');
+editorButtons.loadMap = document.getElementById('load-map');
 // Labels (grouped together as object)
 const editorLabels = {};
 editorLabels.leftAxisLabel = document.getElementById('x-axis-left');
@@ -28,18 +29,7 @@ const editorInputs = {};
 editorInputs.topLayer = document.getElementById('bedrock-top-input');
 editorInputs.bottomLayer = document.getElementById('bedrock-bottom-input');
 editorInputs.bedrockHeight = document.getElementById('bedrock-height-input');
-
-// Read experimental text file and print its contents:
-const fileReader = (ev, filename='test.txt') => {
-    ev.preventDefault();
-    fetch(`/readfile/${filename}`)
-    .then((reply) => {
-        return reply.json();
-    })
-    .then((data) => {
-        console.log(data);
-    })
-};
+editorInputs.loadMapInput = document.getElementById('read-file');
 
 // Take input from the Editor and create a new JS const with that name!
 const fileMaker = (ev) => {

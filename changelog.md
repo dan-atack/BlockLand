@@ -974,11 +974,21 @@ One of the most ambitious features to be talked about for this project is the in
 
 46. Paginaaation: On clicking the 'Next' button in the palette, cleanup all the existing palette options and then load items 65 - 128 from the blocktionary. Finally, make sure to increment the current palette page value.
 
-### 47. Make the previous button only work if the current palette page is greater than 1.
+47. Make the previous button only work if the current palette page is greater than 1.
 
-### 48. Final thing for Map Editor v.1: Loading an existing biome in order to modify it. Shouldn't be too hard, surely?
+48. Final thing for Map Editor v.1: Loading an existing biome in order to modify it. Start by adding the basic_biomes to the editor's HTML script imports section.
 
-### 49. Final, FINAL thing: Make it so that hitting the 'E' key always selects Block Type zero, so you don't have to navigate back to the first page of the palette in order to Erase.
+49. Add an input field to the Editor's 'banner' area to allow the user to input the name of a biome they wish to load. Verify that this function can recognize the biomes by console logging the length of a given biome, or saying "sorry, we couldn't find your biome" if it's not on the list.
+
+50. If the loaded biome (which is still an array) is longer than the current width of the editor, increase the editor's width and add empty cells to fit the incoming biome.
+
+51. For each column in the loaded map, if it is longer than the current height of the editor, increase the editor's height and add empty cells to fit the incoming biome.
+
+52. For each column of the loaded map, paint each cell with the appropriate block type, and add the ID to the output file.
+
+### 53. Adjust the map loader's empty cell generating procedure so that it populates all columns with empty cells up to the height of the tallest column, to avoid issues with empty spaces appearing in the grid due to unequal column heights with the original levels.
+
+### 54. Final, FINAL thing: Make it so that hitting the 'E' key always selects Block Type zero, so you don't have to navigate back to the first page of the palette in order to Erase.
 
 ### Before pushing to PRODUCTION, ensure all map-editor functionality is restricted by the DEV_MODE flag.
 
