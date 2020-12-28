@@ -185,3 +185,19 @@ const handleLogout = () => {
       }
     });
 };
+
+// Server Function 8: Open Map Editor Page:
+const openMapEditor = (ev) => {
+  ev.preventDefault();
+  if (DEV_MODE) {
+    fetch('/map-editor')
+    .then((res) => {
+      return res.json();
+    })
+    .then((msg) => {
+      if (msg === 'Map Editor Launched.') {
+        window.location.href = '/map-editor.html';
+      }
+    })
+  }
+}

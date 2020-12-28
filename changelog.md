@@ -878,7 +878,119 @@ At last the time has come to use the Player's XP! The in-game menu will be modif
 
 58. Then I think we can commit and close the branch.
 
-## Version 1.4.0: Level Editor??
+## Version 1.4.0: Level Editor!!!
+
+One of the most ambitious features to be talked about for this project is the inclusion of a level-editing capacity that doesn't involve creating long lists of lists by hand for the level/terrain files. The final 'feature' developed before the holidays will attempt to undertake this process by a series of proof-of-concept exercises geared at exploiting the Node File System's ability to read, and then write files to the hard-drive. The ultimate aim of this project is to create an interface in the web browser which can be used to generate a level file by filling in a grid on-screen, therefore allowing the content creator to have a mostly visual interface, instead of a huge ugly pile of numbers. That being said, progress on this Epic must move very cautiously, starting with a very simple file output test (create a hello world file) and adding complexity from there.
+
+1. Create a new endpoint/page for the Map Editor, so the user can go to a page that is specifically for the Map Editor (and outside the whole App structure of the actual game).
+
+2. Create a separate directory for the Map Editor files - test inputs to be read, and output files which will eventually come to resemble the files found in the biomes files. Also contained in here will be any Scripts that are related specifically to the map editor, and a CSS file for styling the map editor page as it develops.
+
+3. In the Map Editor page, make two buttons: Read File and Write to File.
+
+4. Create a dummy text file that will serve as a test of the 'read file' button.
+
+5. In the Server file, write a script that imports 'fs' from Node, and uses it in a simple fileReader function. Demo this by reading the test file describe above and logging it to the console.
+
+6. In the Map Editor scripts file, make the readFile function perform a GET request to the server, and have the server reply with the contents of the requested file.
+
+7. The real proof of the pudding: In the Map Editor scripts file, make the makeFile function perform a POST request to the server, which will then WRITE THE CONTENTS OF THE POST TO DISK!
+
+8. Create a simple text input and use that to determine the filename of the file-to-be-written. Create some differently named Hello Worlds to celebrate.
+
+9. Make a simple JavaScript file as a final preliminary proof-of-concept demo. And plug it in and walk around in it. Hoorah, phase one.
+
+10. Add rudimentary styling to the Map Editor page, and then get down to business making some levels!
+
+11. Final proof-of-concept exercise vis-a-vis file creation workflow: Modify the Create Map button responder to APPEND new content to an existing file (use the basic_biomes file for now).
+
+12. Add a third component to the editor: the control panel. This will hold buttons to move the map around either vertically or horizontally, and also zoom buttons, all of which will be dummies for now.
+
+13. Create the Editor Class, the engine of this new universe.
+
+14. Create the Cell Class, the Blocks of the Editor.
+
+15. Add a method to the Cell to change its type to 1 when clicked. Also make it change color by adding a css class.
+
+16. Add an event listener to the Editor so it can listen on clicks within its area, and tell you how many tiles have been clicked as proof that it's up-to-date.
+
+17. Add another field to the Editor: output. From the Editor's updateCells method, as cells are filled, add integers to this more minimal list, which is formatted as the biomes file expects to receive them (as integers).
+
+18. Make a god-damn level and walk around on it right now! Addendum: the level known as hidden_smile must be kept forever as the very first level (of any interest) to be produced entirely via a graphical interface!
+
+19. Import the Blocktionary into the Editor's html file.
+
+20. Add a method to the Editor to render a clickable image for each block in the blocktionary, labeled with the name of the block type.
+
+21. Add another click listener to the Editor, this time for the Palette area, to update its 'currentBlockBrush' property on whichever block type was clicked last.
+
+22. Have the Editor change the palette value for every cell, so that its click responder 'paints' the image of that block to the cell, and registers the output to be that cell's 3-digit ID number.
+
+23. Fix the Air/erase button on the palette. Addendum: it is still ugly but acceptable for the map editor MVP.
+
+24. Determine which other features will be needed and then create tickets for them.
+
+25. Enable Pan Right button:
+
+26. Add a horizontalTranslate method to the Cell class, and have the Editor call this method (and supply an offset value) when the Pan Right button is pressed.
+
+27. The Pan Right button should also have the effect of checking if there are more columns to the right that are not currently on-stage, and creating them if so.
+
+28. Finally, make sure to deRender all cells that are pushed off to the left of the display area by panning right.
+
+29. Add a render method to the cells so they can be brought back when we pan left.
+
+30. Enable Pan left button: mirror image of the Pan Right button, EXCEPT that you should not be able to move further left than the initial screen position (restrict effect based on h-offset value - e.g. if h-offset <= 0, do nothing).
+
+31. Add Pan Up button, modelled on Pan Right's functionality.
+
+32. Ditto for Pan Down button; spell out in more detail if the horizontal stuff warrants it...
+
+33. Sync up horizontal and vertical map scroll so that they play nice together.
+
+34. Add indicators to the corners of the stage to show the height/width values on screen at a given moment.
+
+35. Expand the control panel area in the Editor Interface. In this field we'll have options for different 'brush' sizes, as well as a button and an input field for adding a 'bedrock' layer of variable depth to the bottom of the map, using the current palette selection as the block type.
+
+36. Add pagination buttons to the Palette.
+
+37. Add a current block display element (span) to the palette.
+
+38. Bedrock functionality: Link up all of the inputs in the bedrock area to the Editor Class, and have it console.log their value on change.
+
+39. Add fields for bedrock top, bedrock bottom, bedrock height, currentBrushSize, and palettePageNumber to the Editor's initial properties list.
+
+40. Make the Palette's updateSwatch function update the label for the current block with its name and number, and show a picture of the selected block, AND make the swatch element glow faintly green.
+
+41. Add Bedrock function: For every column, fill cells up to (bedrock height - 1) index with the bedrock bottom block type, and fill the final index position with the bedrock top type. Hitting the button should absolutely not refresh the page, and clicking it multiple times should have no additional effect (it simply sets each column's first X cells to the specified composition). Start by making the button console log the values for top, bottom and height.
+
+42. Now for the different 'brush' options: Start by making a simple handler function for each of the brush option buttons that stores the value of the currently selected brush option. Also, make the button element for the current selection glow like the current palette selection does.
+
+43. Create a paintAdditionalCells function for the Editor: First step is to make the Editor state which cell was just clicked (rather than getting that from the Cell itself).
+
+44. Now that that's out of the way, create the logic for painting additional cells, based on the coordinates of the one that was clicked + the current brush selection. PaintAdditionalCells should operate as a switch case function and be called from the updateCells method.
+
+45. Pagination time: Initially populate the palette with only the first 64 entries in the Blocktionary. Create 6 new dummy block types to test this.
+
+46. Paginaaation: On clicking the 'Next' button in the palette, cleanup all the existing palette options and then load items 65 - 128 from the blocktionary. Finally, make sure to increment the current palette page value.
+
+47. Make the previous button only work if the current palette page is greater than 1.
+
+48. Final thing for Map Editor v.1: Loading an existing biome in order to modify it. Start by adding the basic_biomes to the editor's HTML script imports section.
+
+49. Add an input field to the Editor's 'banner' area to allow the user to input the name of a biome they wish to load. Verify that this function can recognize the biomes by console logging the length of a given biome, or saying "sorry, we couldn't find your biome" if it's not on the list.
+
+50. If the loaded biome (which is still an array) is longer than the current width of the editor, increase the editor's width and add empty cells to fit the incoming biome.
+
+51. For each column in the loaded map, if it is longer than the current height of the editor, increase the editor's height and add empty cells to fit the incoming biome.
+
+52. For each column of the loaded map, paint each cell with the appropriate block type, and add the ID to the output file.
+
+53. Adjust the map loader's empty cell generating procedure so that it populates all columns with empty cells up to the height of the tallest column, to avoid issues with empty spaces appearing in the grid due to unequal column heights with the original levels.
+
+54. Final, FINAL thing: Make it so that hitting the 'E' key always selects Block Type zero, so you don't have to navigate back to the first page of the palette in order to Erase.
+
+### Before pushing to PRODUCTION, ensure all map-editor functionality is restricted by the DEV_MODE flag.
 
 # Remaining Tasks for Refactoring:
 
