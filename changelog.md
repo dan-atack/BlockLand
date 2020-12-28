@@ -986,9 +986,9 @@ One of the most ambitious features to be talked about for this project is the in
 
 52. For each column of the loaded map, paint each cell with the appropriate block type, and add the ID to the output file.
 
-### 53. Adjust the map loader's empty cell generating procedure so that it populates all columns with empty cells up to the height of the tallest column, to avoid issues with empty spaces appearing in the grid due to unequal column heights with the original levels.
+53. Adjust the map loader's empty cell generating procedure so that it populates all columns with empty cells up to the height of the tallest column, to avoid issues with empty spaces appearing in the grid due to unequal column heights with the original levels.
 
-### 54. Final, FINAL thing: Make it so that hitting the 'E' key always selects Block Type zero, so you don't have to navigate back to the first page of the palette in order to Erase.
+54. Final, FINAL thing: Make it so that hitting the 'E' key always selects Block Type zero, so you don't have to navigate back to the first page of the palette in order to Erase.
 
 ### Before pushing to PRODUCTION, ensure all map-editor functionality is restricted by the DEV_MODE flag.
 

@@ -68,7 +68,8 @@ class Editor {
         this.palettePageNumber = 0;                 // Keeps track of which page you're on in the palette.
         this.blocksPerPage = 56;                    // Adjustable number of palette options per page.
         // Loading an existing Map:
-        this.loadedMap = null;                    // Prepare to store an existing Map when its name is entered.
+        this.loadedMap = null;                      // Prepare to store an existing Map when its name is entered.
+        document.addEventListener('keydown', this.handleEditorKeydowns); // Setup hotkey event listener.
     }
 
     // SET-UP METHODS:
@@ -395,6 +396,44 @@ class Editor {
         }
     }
 
+    // KEYBOARD HOTKEY RESPONDERS: Aren't hotkeys awesome?!
+    handleEditorKeydowns = (ev) => {
+        switch (ev.code){
+            case 'KeyE':                        // Eraser
+                this.setEraser();
+                break;
+            case 'KeyS':                        // Small Brush Size
+                this.selectBrush('Small');
+                break;
+            case 'KeyM':                        // Medium Brush Size
+                this.selectBrush('Medium');
+                break;
+            case 'KeyL':                        // Large Brush Size
+                this.selectBrush('Large');
+                break;
+            case 'ArrowUp':
+                this.handlePanUp();
+                break;
+            case 'ArrowDown':
+                this.handlePanDown();
+                break;
+            case 'ArrowLeft':
+                this.handlePanLeft();
+                break;
+            case 'ArrowRight':
+                this.handlePanRight();
+                break;
+            default:
+                // Do nothing.
+        }
+    }
+
+    // ERASER HOTKEY HANDLER:
+    setEraser = () => {
+        this.currentBlock = blocktionary[0];
+        this.updateSwatch();
+    }
+
     // Load an existing Map for continuous editing:
     handleLoadMap = (ev) => {
         ev.preventDefault();
@@ -408,7 +447,7 @@ class Editor {
     }
 
     renderLoadedMap = () => {
-        // Determine loaded map's dimensions, and if necessary, expand the Editor's dimensions to fit it.
+        // Determine loaded map's dimensions, and if necessary, expand the Editor's dimensions to fit it:
         if (this.loadedMap.length > this.width) {
             // Add columns up to the width of the incoming map:
             const columnsNeeded = this.loadedMap.length - this.columns.length;
@@ -417,16 +456,22 @@ class Editor {
                 this.output.push([]);
             }
         };
+        // Find the tallest column, and ensure each other column is that height so there are no gaps:
+        let tallestCol = 0;
+        this.loadedMap.forEach((col) => {
+            if (col.length > tallestCol) tallestCol = col.length;
+        })
+        tallestCol = Math.max(this.height, tallestCol) // Be sure to 'fill up' the loaded map at least to the top of the Editor!
         this.loadedMap.forEach((col, idx) => {
-            // For each column in the incoming map, ensure the Editor's corresponding column is tall enough:
             if (col.length > this.columns[idx].length) {
-                const rowsNeeded = col.length - this.columns[idx].length;
+                const rowsNeeded = tallestCol - this.columns[idx].length;
                 const rowHeight = this.columns[idx].length;
                 for (let i = 0; i < rowsNeeded; i++) {
                     this.createCell(idx, rowHeight + i);
                 }
             }
         });
+        // Finally, paint each cell from the imported map to the grid:
         this.loadedMap.forEach((col, idx) => {
             col.forEach((cell, row) => {
                 const cellId = ('00' + cell).slice(-3);
@@ -441,7 +486,13 @@ class Editor {
         this.columns.forEach((col) => {
             col.forEach((cell) => cell.deRender());
         })
+        this.columns = [];
+        this.paletteOptions.forEach((opt) => {
+            opt.deRender();
+        })
+        this.paletteOptions = [];
         this.stage.removeEventListener('click', this.updateCells);
         this.palette.removeEventListener('click', this.updateSwatch);
+        document.removeEventListener('keydown', this.handleEditorKeydowns);
     }
 }
