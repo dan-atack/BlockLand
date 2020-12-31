@@ -990,7 +990,19 @@ One of the most ambitious features to be talked about for this project is the in
 
 54. Final, FINAL thing: Make it so that hitting the 'E' key always selects Block Type zero, so you don't have to navigate back to the first page of the palette in order to Erase.
 
-### Before pushing to PRODUCTION, ensure all map-editor functionality is restricted by the DEV_MODE flag.
+### Version 1.4.1: Adding Content!
+
+As the year comes to a close, it's time to reflect on a job well done, and finally take advantage of the game architecture that has been created. It's a developer's dream come true right now, but unfortunately that doesn't make it super playable on its own. It's time to give the game some personality, starting by outlining the story and the first mission in detail so the content team will know what to get started on. Then the immediate focus will actually be on designing all of the specific UI improvements needed to make that first mission possible (including speech bubbles, waypoints, improvements to the game's sidebar, some GIFs, and more truthful attack animations, esp. for the player) as well as any final features of the game (such as a slide-show intro sequence, restricting the character's movement during the game's opening 'mind-controlled' sequence, and timing in-game dialogue sequences so they appear like real cartoon conversations).
+
+### 1. The slideshow: Create a new Class: Slideshow, which will be created by the App when the 'Start New Game' button is clicked. Like with the other game elements, the App will render a div as the 'root' element for the Slideshow to manage, as well as a 'Skip Slideshow' button that will be given as an additional constructor argument to the Slideshow, so it can tell it to stop.
+
+### 2. Rewire the App so that the Start New Game button doesn't immediately create the world, but instead calls a renderSlideshow method instead (this method's contents are described in the step above, of course).
+
+### 2. The Projector Class will create a series of images and text elements, and have a countdown before removing them and rendering a new one. Very similar to the Cutscene component developed for WoW, except that it doesn't have to use React hooks, and should thus be easier to comprehend.
+
+### 3. Create two dummmy slides and some basic text and have the Projector render one slide, then wait 10 seconds, then render the next slide, then wait 10 more seconds before disappearing.
+
+### 4. Make the game start after the last slide fades out.
 
 # Remaining Tasks for Refactoring:
 

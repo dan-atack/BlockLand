@@ -258,6 +258,13 @@ body {
   border-radius: 4px;
 }
 
+.slideshow {
+  margin-top: 1%;
+  margin-left: 10%;
+  border: 1px solid white;
+  border-radius: $standardRadius;
+}
+
 .player {
   transition-duration: 0.125s;
   position: absolute;

@@ -7,6 +7,7 @@ class App {
         this.currentUIElements = [];
         this.engine = null;
         this.skillTree = null;
+        this.slideshow = null;
     }
 
     showPreGameMenu = () => {
@@ -27,7 +28,6 @@ class App {
         this.engine.blocks.biomeBuilder(range(0, SCREEN_WIDTH / PLAYER_WIDTH - 1));
         this.engine.gameOn = true;
         this.engine.player.render()
-        // document.getElementById('pauseButton').style.display = 'initial';
         this.engine.clockRunning();
         // Player movement responders:
         document.addEventListener('keydown', this.engine.player.handlePlayerKeydowns);
@@ -123,7 +123,7 @@ class App {
         this.currentUI = 'Pre-Game Menu';
         this.renderElement('mainMenu', 'div', 'main-menu', universe);
         this.renderText('mainMenu', 0, 0, 48, "BlockLand: The Main Menu", 'intro-shine');
-        this.renderButton('startGame', 'menu-button', 'Start New Game', 'mainMenu', this.startButtonHandler);
+        this.renderButton('startGame', 'menu-button', 'Start New Game', 'mainMenu', this.startNewGameHandler);
         this.renderButton('loadGame', 'menu-button', 'Load Saved Game', 'mainMenu', this.startButtonHandler);
         this.renderButton('instructionsButton', 'menu-button', 'Instructions', 'mainMenu', this.instructionsButtonHandler);
         this.renderButton('backstory', 'menu-button', 'Background Story', 'mainMenu', this.backstoryButtonHandler);
@@ -201,6 +201,12 @@ class App {
         this.skillTree.renderSkillTree();
     }
 
+    renderSlideShow = () => {
+        this.renderElement('slideshow', 'div', 'slideshow', universe);
+        this.slideshow = new Slideshow(document.getElementById('slideshow'));
+        this.renderButton('skipIntro', 'menu-button', 'Skip Intro', 'slideshow', this.startButtonHandler);
+    }
+
     // Method for displaying the user name:
     updateUserName = () => {
         // Hide the logout button if we're in production mode. If we're in Dev mode, show the user's name:
@@ -216,9 +222,14 @@ class App {
 
     // Pre-game menu button handlers:
 
+    startNewGameHandler = () => {
+        this.deRenderCurrentUI();
+        this.renderSlideShow();     // Start New Game doesn't start the game immediately; it starts the slide show first.
+    }
+
     startButtonHandler = () => {
         this.deRenderCurrentUI();
-        this.startGame();
+        this.startGame();           // Start button (fired by slideshow's Skip button OR the Load Game button) starts the game.
     }
 
     instructionsButtonHandler = () => {
