@@ -994,15 +994,23 @@ One of the most ambitious features to be talked about for this project is the in
 
 As the year comes to a close, it's time to reflect on a job well done, and finally take advantage of the game architecture that has been created. It's a developer's dream come true right now, but unfortunately that doesn't make it super playable on its own. It's time to give the game some personality, starting by outlining the story and the first mission in detail so the content team will know what to get started on. Then the immediate focus will actually be on designing all of the specific UI improvements needed to make that first mission possible (including speech bubbles, waypoints, improvements to the game's sidebar, some GIFs, and more truthful attack animations, esp. for the player) as well as any final features of the game (such as a slide-show intro sequence, restricting the character's movement during the game's opening 'mind-controlled' sequence, and timing in-game dialogue sequences so they appear like real cartoon conversations).
 
-### 1. The slideshow: Create a new Class: Slideshow, which will be created by the App when the 'Start New Game' button is clicked. Like with the other game elements, the App will render a div as the 'root' element for the Slideshow to manage, as well as a 'Skip Slideshow' button that will be given as an additional constructor argument to the Slideshow, so it can tell it to stop.
+1. The slideshow: Create a new Class: Slideshow, which will be created by the App when the 'Start New Game' button is clicked. Like with the other game elements, the App will render a div as the 'root' element for the Slideshow to manage, as well as a 'Skip Slideshow' button. If pressed, the Skip Slideshow button will call a Slideshow cleanup method, to ensure that no intervals are left running in the background.
 
-### 2. Rewire the App so that the Start New Game button doesn't immediately create the world, but instead calls a renderSlideshow method instead (this method's contents are described in the step above, of course).
+2. Rewire the App so that the Start New Game button doesn't immediately create the world, but instead calls a renderSlideshow method instead. Have this method render the true Start Game button, which will read 'Skip Intro' as it is part of the intro slideshow screen now.
 
-### 2. The Projector Class will create a series of images and text elements, and have a countdown before removing them and rendering a new one. Very similar to the Cutscene component developed for WoW, except that it doesn't have to use React hooks, and should thus be easier to comprehend.
+3. Make a library file like the Blocktionary, with info for the slides: id (num), caption (text), alt text (describing the img), duration, and whether it's the last slide in a 'scene.'
 
-### 3. Create two dummmy slides and some basic text and have the Projector render one slide, then wait 10 seconds, then render the next slide, then wait 10 more seconds before disappearing.
+4. RenderSlide method: creates an IMG element with src=<path to asset> and attaches it to the root, then does the same for the the caption (creates a text entity??), AND THAT'S IT.
 
-### 4. Make the game start after the last slide fades out.
+5. AdvanceSlide method: derenders the current slide, increases the currentSlide value by one, then sets the currentSlideTimeLeft attribute to the duration value of the current slide, and calls the renderSlide method... and the updateSlide method to start a new timer.
+
+6. Start Slideshow method: Sets the value of the current slide's duration as timeRemaining, then calls the updateSlide method, which begins creating 1-second timeouts, each of which decrements the time remaining until the advanceSlide method is called.
+
+7. Slide class in CSS is absolute position, and has a widescreen (16: 9) aspect ratio, etc... Get it looking good with the dummy slides and make sure the skip button works as advertised and causes no errors.
+
+8. Have the Slideshow render each slide's text... AND make it scale the size of the letters based on the length of the slide's caption!
+
+### 9. Make a few rough attempts at the game's actual intro slides, USING DIFFERENT LEVELS OF DETAIL TO GET DIFFERENT FILE SIZES, then when they're done, make sure everything is normal again (remove wierd test values from constants, columns and mission data) then deploy this to production to evaluate how quickly different image sizes are served from Firebase.
 
 # Remaining Tasks for Refactoring:
 

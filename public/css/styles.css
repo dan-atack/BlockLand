@@ -211,8 +211,33 @@ body {
 .slideshow {
   margin-top: 1%;
   margin-left: 10%;
+  height: 640px;
+  width: 768px;
   border: 1px solid white;
-  border-radius: 8px; }
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #000; }
+
+.slide {
+  align-self: center;
+  margin: 16px;
+  height: 403.2px;
+  width: 716.8px; }
+
+.skip-button {
+  position: absolute;
+  bottom: 0px;
+  border: 2px solid cyan;
+  border-radius: 12px;
+  height: 48px;
+  min-width: 268.8px;
+  color: whitesmoke;
+  background-color: black;
+  font-size: 0.75em;
+  margin-bottom: 16px;
+  align-self: center; }
 
 .player {
   transition-duration: 0.125s;
