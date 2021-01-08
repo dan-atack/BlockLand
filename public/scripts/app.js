@@ -204,7 +204,8 @@ class App {
     renderSlideShow = () => {
         this.renderElement('slideshow', 'div', 'slideshow', universe);
         this.slideshow = new Slideshow(document.getElementById('slideshow'));
-        this.renderButton('skipIntro', 'menu-button', 'Skip Intro', 'slideshow', this.startButtonHandler);
+        this.renderButton('skipIntro', 'skip-button', 'Skip Intro', 'slideshow', this.startButtonHandler);
+        this.slideshow.startSlideshow();
     }
 
     // Method for displaying the user name:
@@ -229,6 +230,11 @@ class App {
 
     startButtonHandler = () => {
         this.deRenderCurrentUI();
+        if (this.slideshow) {
+            console.log('skip button activated.');
+            this.slideshow.stopSlideshow();
+            this.slideshow.deRenderSlide();
+        }
         this.startGame();           // Start button (fired by slideshow's Skip button OR the Load Game button) starts the game.
     }
 

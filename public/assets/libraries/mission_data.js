@@ -235,7 +235,7 @@ const missions = [
     levelNumber: 4,
     levelName: 'Guerilla Warfare',
     brief: "It looks like you're back in your own dimension again, but the area is still crawling with those Nazty creatures. Eliminate them from the sacred forest!!!",
-    achievementStatement: 'Did you feel that rumbling? Sounded like a wall coming down...',
+    achievementStatement: 'Quick! Back across the volcano!',
     objectives: [
       [
         'Kill all the baddies in the sacred forest',
@@ -258,6 +258,18 @@ const missions = [
       ['update-player-respawn', [-4, 8]],
       ['set-world-width', 105],
       [
+        'add-item',
+        [
+          -91, 21, {type: 'experience', power: 5, duration: 0}
+        ]
+      ],
+      [
+        'add-item',
+        [
+          -85, 41, {type: 'health', power: 5, duration: 0}
+        ]
+      ],
+      [
         'add-baddies',
         [
           [ -20, 7, 1002, 1008, [-20, -5]],
@@ -279,8 +291,37 @@ const missions = [
   },
   {
     levelNumber: 5,
+    levelName: 'Patrol',
+    brief: "They've sent out a patrol to get you! Take them out, then get back across the volcano and find a way into that fortress-looking place on the other side...",
+    achievementStatement: "It's open - GET IN THERE!",
+    objectives: [
+      [
+        'Wipe out the patrol and enter the Fortress.',
+        '',
+        'position',
+        [-6],
+        1
+      ]
+    ],
+    setupInstructions: [
+      ['update-player-respawn', [-81, 42]],
+      [
+        'add-baddies',
+        [
+          [ -45, 13, 1002, 1034, [-80, -44]],
+          [ -46, 12, 1002, 1035, [-80, -45]],
+          [ -47, 11, 1002, 1036, [-80, -46]],
+          [ -48, 11, 1002, 1022, [-80, -47]],
+          [ -49, 10, 1002, 1023, [-80, -48]],
+        ]
+      ],
+    ],  
+    specialFX: null,
+  },
+  {
+    levelNumber: 6,
     levelName: 'Fortress',
-    brief: "They've sent out a patrol to get you! Whoever these guys are, it's time to take the fight to them. Ambush the patrol, then infiltrate their fortress and kill their chief.",
+    brief: "Infiltrate their fortress and kill the chief scientist dude.",
     achievementStatement: 'Well it looks like BlockLand is safe... but for how long?',
     objectives: [
       [
@@ -292,6 +333,7 @@ const missions = [
       ],
     ],
     setupInstructions: [
+      ['update-player-respawn', [-2, 8]],
       ['remove-block', [1, 10]],
       ['remove-block', [1, 9]],
       ['remove-block', [1, 8]],
@@ -303,11 +345,6 @@ const missions = [
       [
         'add-baddies',
         [
-          [ -45, 13, 1002, 1034, [-80, -44]],
-          [ -46, 12, 1002, 1035, [-80, -45]],
-          [ -47, 11, 1002, 1036, [-80, -46]],
-          [ -48, 11, 1002, 1022, [-80, -47]],
-          [ -49, 10, 1002, 1023, [-80, -48]],
           [ 6, 10, 1002, 1024, [4, 6]],
           [ 13, 9, 1002, 1025, [8, 13]],
           [ 17, 3, 1002, 1037, [14, 17]],
@@ -326,7 +363,6 @@ const missions = [
         ],
       ],
       ['add-boss', [ 97, 30, 1003, 1033, [91, 97]]],
-      ['update-player-respawn', [-81, 42]]
     ],
     specialFX:[
       {
