@@ -20,6 +20,8 @@ class Sprite extends Entity {
     // Movement obstructions checker - record last position that movement was attempted from to see if one is bumping into something:
     this.lastMoveAttemptStart = null;
     this.lastJumpInitialHeight = null;
+    // Experimental:
+    this.speechBubble = null;
     // COMBAT-RELATED:
     this.maxHP = hitpoints;
     this.currentHP = hitpoints;
@@ -39,6 +41,10 @@ class Sprite extends Entity {
     this.attackRadius = 0;
     this.attackCountdown = 0;
     this.attackAnimation = document.createElement('img');
+    // Speech Related:
+    this.dialoguesUttered = [];
+    this.dialogueCountdown = 0;
+    this.currentDialogue = null;
   }
 
   // Sprite Methods control the most general things about moving entities:
@@ -188,7 +194,6 @@ class Sprite extends Entity {
     } else {                            // If you have just been hit you get a free pass however.
       this.hasBeenHit = false;
     }
-    
   }
 
   // Specific sub-routine for the physical consequences of violence:
@@ -197,7 +202,48 @@ class Sprite extends Entity {
     this.ySpeed = y;
   }
 
-  // E - Update root node for sprite and attack animation:
+  // E - Dialogue and Thought Bubbles:
+
+  // This method is called by the Engine whenever a Sprite fulfills a condition for speech:
+  handleDialogue = (dialogue) => {
+    if (this.dialogueCountdown === 0) {   // Wait until the countdown for any current dialogue finishes.
+      if (!this.dialoguesUttered.includes(dialogue.id) || dialogue.repeating) {
+        if (!this.dialoguesUttered.includes(dialogue.id)) this.dialoguesUttered.push(dialogue.id);
+        this.createDialogue(dialogue);        
+      }
+    } else if (this.dialogueCountdown === 1) {  // De-render a frame before the next dialogue appears
+      this.cleanupDialogue();
+    }
+  }
+
+  // Updates the dialogue countdown every cycle:
+  updateDialogueCountdown = () => {
+    if (this.dialogueCountdown > 0) {
+      this.dialogueCountdown -= 1;
+      if (this.currentDialogue) {
+        this.currentDialogue.repositionToParent(this.x, this.y, this.horizontalOffset, this.verticalOffset, this.facing);
+      }
+    } else if (this.currentDialogue){   // Ensure old dialogues are always cleaned up.
+      this.cleanupDialogue();
+    }
+  }
+
+  createDialogue = (dialogue) => {
+    this.currentDialogue = new Dialogue(this.root, this.x, this.y, dialogue);
+    this.currentDialogue.render();
+    // Position dialogue so that the bubble-tick is near to the Sprite:
+    this.currentDialogue.repositionToParent(this.x, this.y, this.horizontalOffset, this.verticalOffset, this.facing);
+    this.dialogueCountdown = dialogue.duration;
+    console.log('creating dialogue ', dialogue.id, this.dialogueCountdown);
+  }
+
+  cleanupDialogue = () => {
+    console.log('cleaning up dialogue ', this.currentDialogue.id);
+    this.currentDialogue.deRender();
+    this.currentDialogue = null;
+  }
+
+  // F - Update root node for sprite and attack animation:
   updateRoot(root) {
     // Re-assign new root element:
     this.root = root;

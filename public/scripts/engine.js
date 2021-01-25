@@ -24,6 +24,7 @@ class Engine {
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
     this.player = new Player(document.getElementById('world'), 4, 14);
+    this.dummyText = new Text(this.player.domElement, 0, 0, 22, 'Fuck me!', 'achievement');
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:
@@ -241,6 +242,11 @@ class Engine {
         // Lastly, check for DEATH: First the player checks, then the engine follows up in case of death:
         this.player.checkForDeath();
         this.checkForPlayerDeath();
+        // Dialogue handler updates:
+        this.handleMissionDialogue();
+        this.baddies.forEach((baddie) => baddie.updateDialogueCountdown());
+        this.player.updateDialogueCountdown();
+        // Sidebar elements are updated:
         this.updateSidebarDisplays();
         // Refresh the universe every 50 ms
       }
@@ -428,6 +434,35 @@ class Engine {
         }
       }, effect.duration * 1000);
     });
+  }
+
+  // Method to run each cycle and check if anyone is supposed to be talking:
+  handleMissionDialogue() {
+    Object.keys(this.mission.dialogue).forEach((character) => {
+      this.mission.dialogue[character].forEach((saying) => {
+        if (character === 'player') {
+          switch (saying.condition[0]) {
+            case 'position':
+              if (this[character].gridX === saying.condition[1]) {
+                this.player.handleDialogue(saying);
+              }
+          }
+        } else {
+          switch (saying.condition[0]) {
+            case 'position':
+              try {
+                const baddie = this.baddies.find((baddie) => baddie.id === character)
+                // Baddies can only speak if they're both alive and onscreen (the player can take these conditions for granted):
+                if (!baddie.isDying && baddie.rendered && baddie.gridX === saying.condition[1]) {
+                  baddie.handleDialogue(saying);
+                }
+              } catch {
+                // If the baddie is dead he says nothing.
+              }
+          }
+        }
+      })
+    })
   }
 
   // Player Death check occurs every game cycle:

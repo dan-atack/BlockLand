@@ -13,6 +13,7 @@
 //   objectives: [],
 //   setupInstructions: null,
 //   specialFX: null,
+//   dialogue: null,
 // },
 
 // B - This is a template for the data types:
@@ -25,6 +26,7 @@
 //   objectives: [array of objective data arrays],
 //   setupInstructions: array of instruction arrays, or null,
 //   specialFX: array of special fx cue objects, or null,
+//   dialogue: object whose keys are the names of Sprites, and whose values are sub-objects with text and conditions
 // },
 
 // C - Here is a template for individual mission setup instructions:
@@ -104,8 +106,61 @@ const missions = [
         ]
       ]
     ],
-    
-    specialFX: null
+    specialFX: null,
+    dialogue: {
+      player: [
+        {
+          id: 0,
+          text: 'Saying what all the other raptors are thinking',
+          type: 'speech',
+          repeating: true,
+          condition: ['position', 6],
+          duration: 30       // 20 game cycles = 1 second
+        },
+        {
+          id: 1,
+          text: 'Thinking.',
+          type: 'thought',
+          repeating: true,
+          condition: ['position', -1],
+          duration: 30
+        },
+        {
+          id: 2,
+          text: 'Looks like I better go the other way...',
+          type: 'thought',
+          repeating: false,
+          condition: ['position', 40],
+          duration: 30
+        },
+        {
+          id: 3,
+          text: 'Looks like I better go the other way...',
+          type: 'thought',
+          repeating: false,
+          condition: ['position', -40],
+          duration: 30
+        },
+        {
+          id: 4,
+          text: 'Are those performance-enhancing drugs? Well, when in Rome...',
+          type: 'thought',
+          repeating: false,
+          condition: ['position', -16],
+          duration: 50
+        },
+      ],
+      baddie_1001: [
+        {
+          id: 5,
+          text: 'Die scum!',
+          type: 'thought',
+          repeating: true,
+          condition: ['position', 17],
+          duration: 20,
+        },
+      ]
+    }
   },
   {
     levelNumber: 1,

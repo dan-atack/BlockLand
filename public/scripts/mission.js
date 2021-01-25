@@ -18,6 +18,7 @@ class Mission {
     this.setupInstructions = missionData.setupInstructions; // optional fifth parameter: thing/s to setup for the mission
     this.numberOfSetupSteps = 0; // will inform the engine how many instructions to follow for setup
     this.specialFX = missionData.specialFX; // optional sixth parameter: special FX cues!
+    this.dialogue = missionData.dialogue;   // optional dictionary of dialogue options
     // We'll store achieved objectives to keep, crossed off so we know we did them.
     this.objectivesAchieved = [];
     this.accomplished = false;

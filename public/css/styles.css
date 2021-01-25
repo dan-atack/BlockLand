@@ -239,6 +239,27 @@ body {
   margin-bottom: 16px;
   align-self: center; }
 
+.dialogue {
+  transition-duration: 0.125s;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  border: 3px solid black;
+  border-radius: 50%;
+  position: absolute;
+  padding: 12px;
+  width: 192px;
+  z-index: 150; }
+
+.bubble-tick {
+  transition-duration: 0.125s;
+  position: absolute;
+  bottom: -32px;
+  left: 40%;
+  height: 32px;
+  width: 32px;
+  z-index: 150; }
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
