@@ -38,12 +38,26 @@
 //            ], [ DETAILS LIST LENGTH VARIES BASED ON THE TYPE OF SETUP ACTION, TO ALLOW FOR MORE COMPLEX INSTRUCTIONS LATER ON]
 //          }
 
-// D - Lastly (for now) the blueprint for Special FX cues to play at the start of a mission (note that these must still be in an array!):
+// D - This is the blueprint for Special FX cues to play at the start of a mission (note that these must still be in an array!):
 //          {
 //            target: variable name of HTML dom element,
 //            effect: the string name of the CSS keyframe animation (or effect) to use,
 //            duration: time in seconds for the animation to last,
 //          }
+
+// E - Finally (for now), the shape of the dialogue object:
+// dialogue: {
+//   speaker_id: [
+//     {
+//       id: 0,
+//       text: 'What new treachery is this??',
+//       type: 'speech',   // or thought
+//       repeating: true,
+//       condition: ['position', 6],   // x coordinate only?
+//       duration: 40       // 20 game cycles = 1 second
+//     },  // EOL for dialogue id 0
+//   ],    // EOL for speaker_id's dialogues
+// }       // EOL for dialogues
 
 const missions = [
   // Mission 0 - The Starting Screen:
@@ -111,18 +125,18 @@ const missions = [
       player: [
         {
           id: 0,
-          text: 'Saying what all the other raptors are thinking',
+          text: 'What new treachery is this??',
           type: 'speech',
           repeating: true,
           condition: ['position', 6],
-          duration: 30       // 20 game cycles = 1 second
+          duration: 40       // 20 game cycles = 1 second
         },
         {
           id: 1,
-          text: 'Thinking.',
+          text: 'That lava looks hot!',
           type: 'thought',
           repeating: true,
-          condition: ['position', -1],
+          condition: ['position', 11],
           duration: 30
         },
         {
@@ -154,7 +168,7 @@ const missions = [
         {
           id: 5,
           text: 'Die scum!',
-          type: 'thought',
+          type: 'speech',
           repeating: true,
           condition: ['position', 17],
           duration: 20,
@@ -205,6 +219,7 @@ const missions = [
       ['update-player-respawn', [4, 7]],
     ],
     specialFX: null,
+    dialogue: null,
   },
   {
     levelNumber: 2,
@@ -425,7 +440,19 @@ const missions = [
         effect: 'rumbling',
         duration: 1.25,
       },
-    ]
+    ],
+    dialogue: {
+      baddie_1033: [
+        {
+          id: 10,
+          text: 'Well well Mister Dinosaur we meet at last!',
+          type: 'speech',   // or thought
+          repeating: true,
+          condition: ['position', 95],   // x coordinate only?
+          duration: 50
+        },
+      ],
+    }
   },
   {
     levelNumber: 6,

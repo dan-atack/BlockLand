@@ -37,7 +37,6 @@ class Dialogue extends Entity {
     }
     
     repositionToParent(x, y, horizontalOffset, verticalOffset, facing) {
-        console.log(x - horizontalOffset);
         if (facing === 'right') {
             this.x = x - 1.5;
             this.bubbleTick.style.transform = 'rotateY(0deg)';
@@ -49,11 +48,11 @@ class Dialogue extends Entity {
         if (x - horizontalOffset > 17) {
             this.x = x - 5;
             this.bubbleTick.style.transform = 'rotateY(180deg)';
-            // this.bubbleTick.style.left = `${(x - horizontalOffset - 16) * 25}%`;
         } else if (x - horizontalOffset < 3) {
             this.x = x + 1;
             this.bubbleTick.style.transform = 'rotateY(0deg)';
         }
+        // TODO: Use V-offset to override regular positioning if subject is too close to the toporbottom
         this.y = y + 1.5;
         this.horizontalTranslate(horizontalOffset);
         this.verticalTranslate(verticalOffset);

@@ -108,5 +108,7 @@ class Mission {
         effect.target = document.getElementById(`${newMissionData.specialFX[idx]['target']}`)
       })
     }
+    // Reset dialogue cues:
+    this.dialogue = newMissionData.dialogue;
   }
 }

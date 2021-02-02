@@ -1046,7 +1046,17 @@ The first enhancement to the game's UX prior to its big release will be the addi
 
 15. Make both a createDialogue and a cleanupDialogue method for Sprites that renders/derenders their dialogue when a dialogue countdown hits zero.
 
-### 16. Make the bubble-tick appear nearer to the bottom of the text bubble, make the font _slightly_ smaller, and add horizontal/vertical translation to the bubbles so they join the Sprite that uttered them.
+16. Make the bubble-tick appear nearer to the bottom of the text bubble, make the font _slightly_ smaller, and add horizontal/vertical translation to the bubbles so they join the Sprite that uttered them.
+
+17. Make dialogue bubble ticks and position change if their speaker is too close to the edge of the screen.
+
+### 18. Make dialogue position respond to utterer proximity to the vertical edges as well.
+
+19. Make the Engine clear its dialogue registry every time the mission changes.
+
+20. Make the final boss say something, as a test that dialogue works anywhere.
+
+### 21. Aesthetical consideration: can we make dialogues disappear non-instantaneously by adding some sort of fade-out property to them as they are de-rendered?
 
 # Remaining Tasks for Refactoring:
 
