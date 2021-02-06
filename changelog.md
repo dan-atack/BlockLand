@@ -990,7 +990,7 @@ One of the most ambitious features to be talked about for this project is the in
 
 54. Final, FINAL thing: Make it so that hitting the 'E' key always selects Block Type zero, so you don't have to navigate back to the first page of the palette in order to Erase.
 
-### Version 1.4.1: Adding Content!
+## Version 1.4.1: Adding Content!
 
 As the year comes to a close, it's time to reflect on a job well done, and finally take advantage of the game architecture that has been created. It's a developer's dream come true right now, but unfortunately that doesn't make it super playable on its own. It's time to give the game some personality, starting by outlining the story and the first mission in detail so the content team will know what to get started on. Then the immediate focus will actually be on designing all of the specific UI improvements needed to make that first mission possible (including speech bubbles, waypoints, improvements to the game's sidebar, some GIFs, and more truthful attack animations, esp. for the player) as well as any final features of the game (such as a slide-show intro sequence, restricting the character's movement during the game's opening 'mind-controlled' sequence, and timing in-game dialogue sequences so they appear like real cartoon conversations).
 
@@ -1010,7 +1010,53 @@ As the year comes to a close, it's time to reflect on a job well done, and final
 
 8. Have the Slideshow render each slide's text... AND make it scale the size of the letters based on the length of the slide's caption!
 
-### 9. Make a few rough attempts at the game's actual intro slides, USING DIFFERENT LEVELS OF DETAIL TO GET DIFFERENT FILE SIZES, then when they're done, make sure everything is normal again (remove wierd test values from constants, columns and mission data) then deploy this to production to evaluate how quickly different image sizes are served from Firebase.
+9. Make a few rough attempts at the game's actual intro slides, USING DIFFERENT LEVELS OF DETAIL TO GET DIFFERENT FILE SIZES, then when they're done, make sure everything is normal again (remove wierd test values from constants, columns and mission data) then deploy this to production to evaluate how quickly different image sizes are served from Firebase.
+
+## Version 1.4.2: UX Enhancements - Dialogue and Thought Bubbles
+
+The first enhancement to the game's UX prior to its big release will be the addition of speech and thought bubbles. These will be used for plot advancement, gameplay hints, and comic relief. Speech and thought bubble elements will be properties of Sprites, and be rendered to the World just like attack animations. Data for the messages and conditions for when to display them will be contained in the mission_data files, and the Engine will check every cycle if a Sprite should say or think something.
+
+1. In the mission_data file, work out the structure of the dialogue information.
+
+2. Expand the Mission object to store and update the dialogue info for the current level.
+
+3. Create a new Engine method to check each cycle for the all of the conditions for the current mission's dialogues, and console log any dialogues as appropriate.
+
+4. Add a Sprite method that the Engine calls when a dialogue occurs, so that the Sprites do the console logging.
+
+5. Add a 'duration' to each dialogue's data, representing how long it should be shown (in game cycles).
+
+6. Add a unique ID value to each dialogue's data, so that Sprites can keep track of which dialogues they've uttered (this will be useful to prevent repetitions of one-time dialogues, and also to control the frequency with which repeatable dialogues are re-uttered).
+
+7. To the Sprite Class, add a new trait: an array of 'dialogues uttered' which stores the ID's of dialogues spoken.
+
+8. When a Sprite's dialogue method is called, have it send that dialogue to the dialogues uttered list. Prevent the message from repeating if its ID is in the uttered list, unless it has repeat = true.
+
+9. To the Sprite Class, add a trait for current dialogue, and another for currentDialogueCountdown.
+
+10. Instead of firing every frame, make a dialogue count down to zero before considering any other dialogue cues.
+
+11. Create a new class, Dialogue, that is a Div, a paragraph, and an image of a bubble tick (you can take it from the critter folder!)
+
+12. The Dialogue's render function is a bit more elaborate than the standard Entity's, since it has to stick the main element (domElement) to the world, and then pin the bubble-tick to that element.
+
+13. Create CSS classes for the dialogue and bubble-tick elements.
+
+14. Integrate the Dialogue script to the index, and then rewire the Sprite's dialogue method to create a Dialogue entity instead of logging to the console. This entity will be stored as the Sprite's dialogue (new property).
+
+15. Make both a createDialogue and a cleanupDialogue method for Sprites that renders/derenders their dialogue when a dialogue countdown hits zero.
+
+16. Make the bubble-tick appear nearer to the bottom of the text bubble, make the font _slightly_ smaller, and add horizontal/vertical translation to the bubbles so they join the Sprite that uttered them.
+
+17. Make dialogue bubble ticks and position change if their speaker is too close to the edge of the screen.
+
+### 18. Make dialogue position respond to utterer proximity to the vertical edges as well.
+
+19. Make the Engine clear its dialogue registry every time the mission changes.
+
+20. Make the final boss say something, as a test that dialogue works anywhere.
+
+### 21. Aesthetical consideration: can we make dialogues disappear non-instantaneously by adding some sort of fade-out property to them as they are de-rendered?
 
 # Remaining Tasks for Refactoring:
 
@@ -1040,6 +1086,8 @@ As the year comes to a close, it's time to reflect on a job well done, and final
 
 ### 6. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
+### 7. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
+
 # PHASE X - Art Department:
 
 ### 1. Touch up water and swamp-water block images to make them more transparent... OR alter the player sprite's
@@ -1059,6 +1107,8 @@ As the year comes to a close, it's time to reflect on a job well done, and final
 ### II. On Scalability for smaller screens: CSS rule for body of main page layout: below a certain screen size, reposition sidebar below main game display.
 
 ### III. On touch-screen responsiveness: investigate using the document object to pinpoint the coordinates of a mouseup event; use those to trigger Player movement responder functions instead of/as complement to keyboard presses.
+
+### IV. Firebase is pretty quick but not instantaneous when serving image files larger than roughly 500 KB. For the pre-game slideshow, we can either take this into account and serve primarily low-resolution images OR have each slide get rendered 'behind' some kind of additional obscuring layer so that the image has time to load before it is presented to the user!
 
 Artwork Upgrades: Display new block images as tiles in the file where you work on them so you can see them side by side as you edit - in fact, why not bring them straight into the game and walk around on them while you're at it?! Cue the Test Stage.
 
