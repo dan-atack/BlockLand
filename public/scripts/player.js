@@ -1,5 +1,5 @@
-// The Player Class! You'll start out as a little sprite and maybe eventually you'll be able to move. If you're good.
-// Addendum: Who would have thought moving would be so hard!
+// The Player Class! Also known as 'the sprite that is you.'
+
 class Player extends Sprite {
   constructor(root, xStart, yStart, hitpoints=3) {
     super(root, xStart, yStart, hitpoints);
@@ -132,6 +132,8 @@ class Player extends Sprite {
       this.currentAttackKnockback = 0.25;     // Knockback is converted into kinetic motion (request)
       // then call the attack rendering function, and tell it which animation to use:
       this.attack('slash');
+      const data = [this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, {id: 1000, text: '', type: 'announcement'}];
+      makePopup(data);
     }
   }
 
@@ -142,14 +144,27 @@ class Player extends Sprite {
 
   // Items and special statuses:
   pickupItem = (item) => {
+    playSound(item.type); // all items play a sound when they get picked up.
+    // Popup generator's data parameter needs a LOT of information:
+    let popupData = [
+      this.root,
+      this.x,
+      this.y,
+      this.horizontalOffset,
+      this.verticalOffset,
+      {id: this.gridX + this.gridY, text: '', type: ''},
+    ];
+
     switch (item.type) {
-      case 'health':
-        if (this.currentHP < this.maxHP) {
-          this.currentHP = Math.min(this.currentHP += item.power, this.maxHP);
-        }
+      case 'health':  // Determine how much HP you're allowed to increase by, then apply and announce:
+        const increase = Math.min(this.currentHP + item.power, this.maxHP) - this.currentHP;
+        this.currentHP += increase;
+        popupData[5] = {id: this.gridX + this.gridY, text: `+${increase} HP`, type: 'announcement-health'};
         break;
       case 'experience':
         this.gainExperience(item.power);
+        popupData[1] -= 3;  // Ultra-hackily reposition text to be more centered over the player!
+        popupData[5] = {id: this.gridX + this.gridY, text: `Gained ${item.power} experience!`, type: 'announcement-experience'};
         break;
       case 'steroids':
         // First, remove any previous special effect (including any steroids previously consumed):
@@ -159,8 +174,16 @@ class Player extends Sprite {
         this.itemEffect.value = item.power;
         this.itemEffect.timeRemaining = item.duration;
         this.itemEffect.properties.forEach((prop) => this[prop] += this.itemEffect.value);
+        popupData[1] -= 3;  // Ultra-hackily reposition text to be more centered over the player!
+        popupData[5] = {
+            id: this.gridX + this.gridY,
+            text: `SUPER STRENGTH FOR NEXT ${item.duration / 20} SECONDS!`,
+            type: 'announcement-steroids',
+            duration: 2,
+        };
         break;
     }
+    makePopup(popupData);
   }
 
   // Advance Item special status countdown (to regulate long-lasting effects)

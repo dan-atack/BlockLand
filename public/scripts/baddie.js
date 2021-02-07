@@ -156,5 +156,8 @@ class Baddie extends Sprite {
     if (this.attackAnimation) {
       this.haltAttack();
     }
+    if (this.currentDialogue) {
+      this.cleanupDialogue();
+    }
   }
 }

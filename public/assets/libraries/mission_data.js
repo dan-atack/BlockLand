@@ -88,15 +88,6 @@ const missions = [
       [   // Instruction 1:
         'add-baddies',
         [
-          // The New Way (?):
-          // {
-          //   xStart: 17,
-          //   yStart: 10,
-          //   baddieType: 1002,
-          //   baddieSerial: 1001,
-          //   xRange: [16, 17],
-          //   hitpoints: 10
-          // },
           [ 18, 10, 1002, 1001, [16, 18]],
           [ -10, 7, 1001, 1002, [-10, 0]],
         ],
@@ -110,13 +101,13 @@ const missions = [
       [
         'add-item',
         [
-          39, 13, {type: 'health', power: 2, duration: 0}
+          37, 14, {type: 'health', power: 2, duration: 0}
         ]
       ],
       [
         'add-item',
         [
-          -40, 10, {type: 'steroids', power: 0.2, duration: 100}
+          -38, 6, {type: 'steroids', power: 0.2, duration: 100}
         ]
       ]
     ],
@@ -125,11 +116,11 @@ const missions = [
       player: [
         {
           id: 0,
-          text: 'What new treachery is this??',
+          text: 'Wat the fu -- ',
           type: 'speech',
           repeating: true,
-          condition: ['position', 6],
-          duration: 40       // 20 game cycles = 1 second
+          condition: ['position', 5],
+          duration: 20       // 20 game cycles = 1 second
         },
         {
           id: 1,
