@@ -1076,7 +1076,25 @@ It will be important for users to know what effects the various items they pick 
 
 9. Make the announcement class drift upwards slowly with CSS.
 
-### 10. Add an announcement to the Player's item pickup process.
+10. Add announcements to each of the Player's item pickup switch cases.
+
+11. Determine what items will actually be in the game, including their properties. Aim to have 3 - 5 item types.
+
+12. Give items a circular green glow effect, like the Golden Egg has.
+
+13. Create a graphical asset for the fourth, and for now final item type: the Super-Solider Serum (syringe full of green liquid).
+
+14. Create a test Serum in the mission_data for level one and look at it 'in the field.'
+
+15. Create a more abstract Player method for processing temporary status effects, based on the Steroids-handling switch case.
+
+16. Add a damageModifier to the Sprite class's initial attributes. Use this to store temporary stat boosts for attacks, and incorporate this value when determining attackDamage.
+
+17. Increase the Baddies' default HP to 2, and see if: A) this prevents you from one-hit killing baddies, and B) that taking the Serum gives you this ability. Graphical elements can be added later; for now just test that the serum works and move on.
+
+18. Add a sound effect for the serum and close this branch.
+
+## Version 1.4.4: UX Enhancements - The Level-up Process
 
 # Remaining Tasks for Refactoring:
 

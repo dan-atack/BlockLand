@@ -4,7 +4,7 @@ class Baddie extends Sprite {
   // Just like the player class! Oh boy, it's like they're RELATED or something >:-(
   // New to the bad guys since they're not unique: type (for which sprite to render) and serial number (for the engine)
   // xRange is an array of the start/stop values of the baddie's territory.
-  constructor(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints=1) {
+  constructor(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints=3) {
     // Presumes that all enemies start off the initial screen; corrected further below after DOM element is appended to document:
     super(root, xStart, yStart, hitpoints);
     this.type = baddieType;

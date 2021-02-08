@@ -25,6 +25,7 @@ class Player extends Sprite {
     this.levelsGainedThisInning = 0;          // the number of Levelups gained since your last death/mission accomplishment.
     this.skillsList = [skills.find((skill) => skill.id === 'BASIC')];    // the list of skill objects the player benefits from.
     this.skillsAvailable = 0;                 // calculated from the difference between your level and the length of your skills list.
+    this.clawAttackBaseDamage = 1;            // Each attack will have a base damage value that can be modified as the Player levels up.
     // SKILL RELATED ATTRIBUTES:
     this.intelligence = 100;                  // Raptors have an initial IQ of 100
     // COMBAT ZONE :
@@ -128,7 +129,7 @@ class Player extends Sprite {
       // Set attacking to true and set all other initial attack values:
       this.attackRadius = 0.5;
       this.attackCountdown = 10;
-      this.currentAttackDamage = 1;
+      this.currentAttackDamage = this.clawAttackBaseDamage + this.attackModifier;
       this.currentAttackKnockback = 0.25;     // Knockback is converted into kinetic motion (request)
       // then call the attack rendering function, and tell it which animation to use:
       this.attack('slash');
@@ -163,18 +164,12 @@ class Player extends Sprite {
         break;
       case 'experience':
         this.gainExperience(item.power);
-        popupData[1] -= 3;  // Ultra-hackily reposition text to be more centered over the player!
+        popupData[1] -= 2;  // Reposition text to be more centered over the player!
         popupData[5] = {id: this.gridX + this.gridY, text: `Gained ${item.power} experience!`, type: 'announcement-experience'};
         break;
       case 'steroids':
-        // First, remove any previous special effect (including any steroids previously consumed):
-        this.removeItemEffects();
-        // Taking steroids makes you momentarily run faster and jump higher, by changing those properties for a set duration:
-        this.itemEffect.properties = ['topSpeed', 'jumpImpulse'];
-        this.itemEffect.value = item.power;
-        this.itemEffect.timeRemaining = item.duration;
-        this.itemEffect.properties.forEach((prop) => this[prop] += this.itemEffect.value);
-        popupData[1] -= 3;  // Ultra-hackily reposition text to be more centered over the player!
+        this.handleTemporaryItem(item, ['jumpImpulse', 'topSpeed'] )
+        popupData[1] -= 3;
         popupData[5] = {
             id: this.gridX + this.gridY,
             text: `SUPER STRENGTH FOR NEXT ${item.duration / 20} SECONDS!`,
@@ -182,8 +177,27 @@ class Player extends Sprite {
             duration: 2,
         };
         break;
+      case 'serum':
+        this.handleTemporaryItem(item, ['attackModifier']);
+        popupData[1] -= 3;
+        popupData[5] = {
+          id: this.gridX + this.gridY,
+          text: `DOUBLE DAMAGE FOR ${item.duration / 20} SECONDS!`,
+          type: 'announcement-steroids',
+          duration: 2.5,
+      };
     }
     makePopup(popupData);
+  }
+
+  // item = data from mission_data, props = list of Sprite properties affected (e.g. topSpeed, jumpImpulse, etc.)
+  handleTemporaryItem = (item, props) => {  
+    // First, remove any previous special effect (including any steroids previously consumed):
+    this.removeItemEffects();
+    this.itemEffect.properties = props;
+    this.itemEffect.value = item.power;
+    this.itemEffect.timeRemaining = item.duration;
+    this.itemEffect.properties.forEach((prop) => this[prop] += this.itemEffect.value);
   }
 
   // Advance Item special status countdown (to regulate long-lasting effects)
