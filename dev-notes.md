@@ -33,3 +33,9 @@
 3. Is its root updated when we come out of the in-game menu?
 
 4. Does it need to be removed at the end of a mission?
+
+### Map Editor Workflow:
+
+- You can edit older maps by loading them by their const name.
+
+- Edited maps appear as new consts in the basic_biomes library.

@@ -33,6 +33,7 @@ class Sprite extends Entity {
     // When an attack is made it will do a certain amount of damage AND impart momentum in the form of a 'knockback':
     this.currentAttackDamage = 0;
     this.currentAttackKnockback = 0;
+    this.attackModifier = 0; // this value stores damage bonuses from temporary effects (i.e. drugs).
     // Attack position represents the attack animation's absolute position:
     this.attackPosition = 0;
     // Your width is also needed to complete the attack animation's position calculation:
@@ -234,11 +235,9 @@ class Sprite extends Entity {
     // Position dialogue so that the bubble-tick is near to the Sprite:
     this.currentDialogue.repositionToParent(this.x, this.y, this.horizontalOffset, this.verticalOffset, this.facing);
     this.dialogueCountdown = dialogue.duration;
-    console.log('creating dialogue ', dialogue.id, this.dialogueCountdown);
   }
 
   cleanupDialogue = () => {
-    console.log('cleaning up dialogue ', this.currentDialogue.id);
     this.currentDialogue.deRender();
     this.currentDialogue = null;
   }

@@ -88,35 +88,34 @@ const missions = [
       [   // Instruction 1:
         'add-baddies',
         [
-          // The New Way (?):
-          // {
-          //   xStart: 17,
-          //   yStart: 10,
-          //   baddieType: 1002,
-          //   baddieSerial: 1001,
-          //   xRange: [16, 17],
-          //   hitpoints: 10
-          // },
-          [ 18, 10, 1002, 1001, [16, 18]],
-          [ -10, 7, 1001, 1002, [-10, 0]],
+          [ 19, 10, 1002, 1001, [17, 19]],
+          [ -10, 8, 1001, 1002, [-10, 0]],
+          [ -12, 9, 1002, 9000, [-12, 0]],
+          [ -14, 10, 1001, 9001, [-14, 0]],
         ],
       ],  // End of instruction 1
       [
         'add-item',
         [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          -18, 11, {type: 'steroids', power: 0.2, duration: 100}
+          -18, 10, {type: 'steroids', power: 0.2, duration: 100}
+        ]
+      ],
+      [
+        'add-item',
+        [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
+          0, 8, {type: 'serum', power: 1, duration: 200}
         ]
       ],
       [
         'add-item',
         [
-          39, 13, {type: 'health', power: 2, duration: 0}
+          37, 14, {type: 'health', power: 2, duration: 0}
         ]
       ],
       [
         'add-item',
         [
-          -40, 10, {type: 'steroids', power: 0.2, duration: 100}
+          -38, 6, {type: 'steroids', power: 0.2, duration: 100}
         ]
       ]
     ],
@@ -125,38 +124,30 @@ const missions = [
       player: [
         {
           id: 0,
-          text: 'What new treachery is this??',
-          type: 'speech',
-          repeating: true,
-          condition: ['position', 6],
-          duration: 40       // 20 game cycles = 1 second
+          text: 'That lava looks hot!',
+          type: 'thought',
+          repeating: false,
+          condition: ['position', 11],
+          duration: 30
         },
         {
           id: 1,
-          text: 'That lava looks hot!',
+          text: 'Looks like I better go the other way...',
           type: 'thought',
-          repeating: true,
-          condition: ['position', 11],
-          duration: 30
+          repeating: false,
+          condition: ['position', 40],
+          duration: 40
         },
         {
           id: 2,
           text: 'Looks like I better go the other way...',
           type: 'thought',
           repeating: false,
-          condition: ['position', 40],
-          duration: 30
+          condition: ['position', -40],
+          duration: 40
         },
         {
           id: 3,
-          text: 'Looks like I better go the other way...',
-          type: 'thought',
-          repeating: false,
-          condition: ['position', -40],
-          duration: 30
-        },
-        {
-          id: 4,
           text: 'Are those performance-enhancing drugs? Well, when in Rome...',
           type: 'thought',
           repeating: false,
@@ -166,7 +157,7 @@ const missions = [
       ],
       baddie_1001: [
         {
-          id: 5,
+          id: 4,
           text: 'Die scum!',
           type: 'speech',
           repeating: true,
@@ -186,7 +177,7 @@ const missions = [
         'Investigate the anomaly at the Center',
         'Whooaaaaa!!',
         'position',
-        [5, 14],
+        [5, 13],
         2,
       ],
     ],
@@ -196,7 +187,7 @@ const missions = [
         'create-block', // idx = 0 - code word for switch case
         [
           // idx = 1 - array containing coords and block type for 'create-block' switch case in engine
-          [5, 14], // create-block idx = 0 - coordinates to target
+          [5, 13], // create-block idx = 0 - coordinates to target
           989, // create-block idx = 1 - block type to render
         ],
       ], // end of first instructions set
@@ -207,13 +198,13 @@ const missions = [
           // baddie ranges must be processed by the engine, not given as a range function output here:
           [ -19, 12, 1002, 1003, [-19, -14]],
           [ -29, 10, 1002, 1004, [-36, -29]],
-          [ 22, 9, 1001, 1005, [22, 34]],
+          [ 23, 10, 1001, 1005, [23, 34]],
         ],
       ],
       [
         'add-item',
         [
-          -2, 11, {type: 'experience', power: 5, duration: 0}
+          -2, 12, {type: 'experience', power: 5, duration: 0}
         ]
       ],
       ['update-player-respawn', [4, 7]],

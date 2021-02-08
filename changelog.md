@@ -1050,13 +1050,51 @@ The first enhancement to the game's UX prior to its big release will be the addi
 
 17. Make dialogue bubble ticks and position change if their speaker is too close to the edge of the screen.
 
-### 18. Make dialogue position respond to utterer proximity to the vertical edges as well.
+18. Make the Engine clear its dialogue registry every time the mission changes.
 
-19. Make the Engine clear its dialogue registry every time the mission changes.
+19. Make the final boss say something, as a test that dialogue works anywhere.
 
-20. Make the final boss say something, as a test that dialogue works anywhere.
+## Version 1.4.3: UX Enhancements - The Item Pickup Process
 
-### 21. Aesthetical consideration: can we make dialogues disappear non-instantaneously by adding some sort of fade-out property to them as they are de-rendered?
+It will be important for users to know what effects the various items they pick up bestow, so this feature will be aimed at enhancing the experience of picking up an item: showing its benefits, as well as generally improving the 'loucanphile' of the items themselves before they are picked up. This will also be the first use of SOUND effects that the game has attempted. Key to the item pickup process (And several other related processes) will be the creation of a new Popup class, descended from the Entity class, which will contain the text that tells you what an item does (e.g. "+1 HP" or "+50% top speed for 10 seconds", etc). Filters that cover the world div might also be a cool way to show the persistence of an item's effect, like the steroid boost for example.
+
+1. Sounds first: Get a heartbeat sound effect, and add that to the index.html file.
+
+2. Create a playSound function in the helpers directory, which is hardwired to just play the heartbeat sound.
+
+3. Add that function to the index, and have it get called whenever the player presses the spacebar.
+
+4. Rewire this setup so that the playSound function has error-proofing and takes a variable (the id of the sound file to be played).
+
+5. Make the sound play event happen as part of the Player's item pickup routine.
+
+6. Add sounds for the other two item types, but first, test the function's error-handling by calling for a sound that isn't there.
+
+7. Update the README file to give shoutouts to SoundJay, AudioTrimmer.com, and Lunapic (if they're not credited already).
+
+8. Create the Popup class, a self-removing descendant of the Entity class. It's thing is that it takes a dialogueData argument to its constructor, which contains a 'duration' value which sets a timeout for an automatic de-render. If this works, the Dialogue element should become a descendant of the Popup (could solve it's whole not-disappearing issue).
+
+9. Make the announcement class drift upwards slowly with CSS.
+
+10. Add announcements to each of the Player's item pickup switch cases.
+
+11. Determine what items will actually be in the game, including their properties. Aim to have 3 - 5 item types.
+
+12. Give items a circular green glow effect, like the Golden Egg has.
+
+13. Create a graphical asset for the fourth, and for now final item type: the Super-Solider Serum (syringe full of green liquid).
+
+14. Create a test Serum in the mission_data for level one and look at it 'in the field.'
+
+15. Create a more abstract Player method for processing temporary status effects, based on the Steroids-handling switch case.
+
+16. Add a damageModifier to the Sprite class's initial attributes. Use this to store temporary stat boosts for attacks, and incorporate this value when determining attackDamage.
+
+17. Increase the Baddies' default HP to 2, and see if: A) this prevents you from one-hit killing baddies, and B) that taking the Serum gives you this ability. Graphical elements can be added later; for now just test that the serum works and move on.
+
+18. Add a sound effect for the serum and close this branch.
+
+## Version 1.4.4: UX Enhancements - The Level-up Process
 
 # Remaining Tasks for Refactoring:
 
@@ -1084,9 +1122,13 @@ The first enhancement to the game's UX prior to its big release will be the addi
 
 5. New issue detected: for levels with tallness greater than the screen's height, there is a stacking image error for blocks that start rendered ABOVE the top of the initial screen (and are thus given bad cues for when to toggle their appearance afterwards). Add some logic to the blocks' initial render instructions to account for this.
 
-### 6. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
+### 6. Dialogues uttered by baddies don't always disappear! This is a pretty major one, so it should be investigated before any other issue. Addendum: Adding the stop dialogue command to the baddie's death sequence seems to have solved the puzzle, but this is not 100% verified just yet.
 
 ### 7. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
+
+### 8. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
+
+### 9. It looks as thought a lot of baddies and items are being perpetually rendered and de-rendered offscreen... Stop that from happening so much.
 
 # PHASE X - Art Department:
 
@@ -1099,6 +1141,10 @@ The first enhancement to the game's UX prior to its big release will be the addi
 ### 4. Sign post blocks (alt. size rules for some block types???? Built as readable property in the Blocktionary???)
 
 ### 5. Add a new backdrop for the background story page (new SCSS rules for back-story class and App creates the element).
+
+### 6. Can we make dialogues disappear non-instantaneously by adding some sort of fade-out property to them as they are de-rendered?
+
+### 7. Make dialogue position respond to utterer proximity to the vertical edges as well. Perhaps see if the horizontal compensator can be made a bit less jumpy as well (offset takes a variable instead of a hard-coded value).
 
 # Food for Future Thought/ General Notes:
 
