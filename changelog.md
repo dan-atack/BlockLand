@@ -1096,6 +1096,28 @@ It will be important for users to know what effects the various items they pick 
 
 ## Version 1.4.4: UX Enhancements - The Level-up Process
 
+Similarly to the Item Pickup process, we want to use a combination of sound and graphical popups to inform the user that they have achieved a levelup, and to direct them towards the Menu so they can select a new skill. The current interface gives little clue aside from the resetting of the experience bar, so let's make it a little bit clearer that the Player has levelled-up for starters, then add some subtle prods towards the Menu bar. The ideal balance alerts the user to go to the Menu without overwhelming them or cluttering the UI (It might therefore be a useful moment to remove some of the mission achievement text during this feature implementation). Also included in this feature branch will be a replacement of the Mission module's XP-related messages with Player-centered popups for when you gain XP from mission objectives. Further UX enhancements to the mission/objectives 'workflow' are outside the scope of this feature.
+
+1. Pick a 'levelup' sound and play it when the Player levels up.
+
+2. Reuse the popup component to display a Levelup text alert above the Player's head at the appropriate time.
+
+3. Change the font, colour and text of the Menu button when the Player levels up, and give it an extra potent 'shine' animation as long as the Player has unpurchased skills. Go to the stylesheet and get your \*\*\*\*in' shinebox!
+
+### 4. In the Menu itself, alter the colour schemes for the 'Available' and 'Purchased' skills so they are a bit more differentiated.
+
+### 5. While we are at it, change the Philosoraptor skill to something that boosts the claw attack's base damage. Test to confirm (obvs).
+
+### 6. While we are at it, get rid of the Mission module's text announcement of the XP gains for completing an objective, and replace it with a popup (sans sound?) that shows the Player gaining XP (like how the item pickup does it).
+
+### 7. The brutalest part: Add some kind of explosion effect using pure CSS/SCSS to the Experience bar whenever a levelup occurs.
+
+### 8. Make the Experience bar briefly glow red if you lose XP as a result of dying (to indicate it has been decremented).
+
+### 9. Make a cool SCSS text animation for the Levelup popup so that the letters do a wave as they float upwards.
+
+### 10. Another challenge: this is definitely the time to implement the 'are you sure'/current selection feature for the skill tree choice workflow, so... think about how to do that.
+
 # Remaining Tasks for Refactoring:
 
 ### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
@@ -1122,13 +1144,17 @@ It will be important for users to know what effects the various items they pick 
 
 5. New issue detected: for levels with tallness greater than the screen's height, there is a stacking image error for blocks that start rendered ABOVE the top of the initial screen (and are thus given bad cues for when to toggle their appearance afterwards). Add some logic to the blocks' initial render instructions to account for this.
 
-### 6. Dialogues uttered by baddies don't always disappear! This is a pretty major one, so it should be investigated before any other issue. Addendum: Adding the stop dialogue command to the baddie's death sequence seems to have solved the puzzle, but this is not 100% verified just yet.
+6. Dialogues uttered by baddies don't always disappear! This is a pretty major one, so it should be investigated before any other issue. Addendum: Adding the stop dialogue command to the baddie's death sequence seems to have solved the puzzle.
 
 ### 7. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
 
 ### 8. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
 ### 9. It looks as thought a lot of baddies and items are being perpetually rendered and de-rendered offscreen... Stop that from happening so much.
+
+### 10. Falling into lava should really be lethal to the Baddies too.
+
+### 11. The syringe tip for the Serum Item asset is cut off by the CSS border-radius. Find some non-intrusive way to fix that.
 
 # PHASE X - Art Department:
 

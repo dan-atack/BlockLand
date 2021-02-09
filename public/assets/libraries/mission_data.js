@@ -103,7 +103,13 @@ const missions = [
       [
         'add-item',
         [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          0, 8, {type: 'serum', power: 1, duration: 200}
+          -12, 10, {type: 'experience', power: 9, duration: 0}
+        ]
+      ],
+      [
+        'add-item',
+        [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
+          0, 7, {type: 'serum', power: 1, duration: 200}
         ]
       ],
       [

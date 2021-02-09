@@ -123,10 +123,10 @@ class App {
         this.currentUI = 'Pre-Game Menu';
         this.renderElement('mainMenu', 'div', 'main-menu', universe);
         this.renderText('mainMenu', 0, 0, 48, "BlockLand: The Main Menu", 'intro-shine');
-        this.renderButton('startGame', 'menu-button', 'Start New Game', 'mainMenu', this.startNewGameHandler);
-        this.renderButton('loadGame', 'menu-button', 'Load Saved Game', 'mainMenu', this.startButtonHandler);
+        this.renderButton('startGame', 'menu-button', 'New Game', 'mainMenu', this.startNewGameHandler);
+        this.renderButton('loadGame', 'menu-button', 'Load Game', 'mainMenu', this.startButtonHandler);
         this.renderButton('instructionsButton', 'menu-button', 'Instructions', 'mainMenu', this.instructionsButtonHandler);
-        this.renderButton('backstory', 'menu-button', 'Background Story', 'mainMenu', this.backstoryButtonHandler);
+        this.renderButton('backstory', 'menu-button', 'Story', 'mainMenu', this.backstoryButtonHandler);
     }
 
     renderInstructionsPage = () => {

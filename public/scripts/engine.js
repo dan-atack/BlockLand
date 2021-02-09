@@ -24,7 +24,6 @@ class Engine {
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
     this.player = new Player(document.getElementById('world'), 4, 14);
-    this.dummyText = new Text(this.player.domElement, 0, 0, 22, 'Fuck me!', 'achievement');
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:
@@ -52,6 +51,7 @@ class Engine {
       resetButton: 'resetButton',
       prevLvl: 'text-prev-lvl',
       nextLvl: 'text-next-lvl',
+      mainMenuButton: 'inGameMenuButton'  // This is just to change its colour when you level up.
     }
     // This sidebar elements dictionary is then used to map each element to an Engine attribute with the same name:
     Object.keys(this.sidebarElements).forEach((element) => this[element] = document.getElementById(this.sidebarElements[element]));
@@ -78,7 +78,7 @@ class Engine {
       this.setupNextMission(instruction);
     });
     // When the in-game menu is opened, every entity that is rendered at that time must be de-rendered and kept in this list:
-    this.onScreenEntities = [];
+    this.onScreenEntities = []; 
   }
 
   // ENGINE METHODS:
@@ -473,7 +473,7 @@ class Engine {
     if (this.player.isDead) {
       this.gameOn = false;
       this.resetButton.style.display = 'initial';
-      this.resetButton.style.width = '192px';
+      this.resetButton.style.width = '224px';
       document.getElementById('pauseButton').style.display = 'none';
       this.announcement = new Text(
         document.getElementById('world'),
@@ -492,6 +492,14 @@ class Engine {
     // this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
     this.updateXPBar();
     this.updateHealthBar();
+    // UX enhancement for levelup flow:
+    if (this.player.skillsAvailable > 0) {
+      this.mainMenuButton.innerText = 'LEVEL UP!';
+      this.mainMenuButton.classList.add('levelup');
+    } else {
+      this.mainMenuButton.innerText = 'MENU';
+      this.mainMenuButton.classList.remove('levelup');
+    }
   }
 
   updateHealthBar = () => {

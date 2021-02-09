@@ -231,14 +231,28 @@ class Player extends Sprite {
   // Detect levelups and manage values when they occur:
   checkForLevelUp = () => {
     if (this.experience >= this.nextLevelXP) {
-      this.skillsAvailable += 1;
-      this.level += 1;
-      this.levelsGainedThisInning += 1;
-      this.previousLevelsXP.push(this.nextLevelXP);
-      // Cost of next level increases by ten percent times your current level - (your IQ points over 100)%:
-      const xpModifier = (this.intelligence - 100) / 100;
-      this.nextLevelXP += Math.floor((this.nextLevelXP * (1 + this.level / 10)) * (1 - xpModifier));
+      this.handleLevelUp();
     }
+  }
+
+  handleLevelUp = () => {
+    playSound('levelup');
+    const popupData = [
+      this.root,
+      this.x,
+      this.y,
+      this.horizontalOffset,
+      this.verticalOffset,
+      {id: this.gridX + this.gridY, text: `LEVEL ${this.level + 1}`, type: 'announcement-levelup'},
+    ];
+    makePopup(popupData)
+    this.skillsAvailable += 1;
+    this.level += 1;
+    this.levelsGainedThisInning += 1;
+    this.previousLevelsXP.push(this.nextLevelXP);
+    // Cost of next level increases by ten percent times your current level - (your IQ points over 100)%:
+    const xpModifier = (this.intelligence - 100) / 100;
+    this.nextLevelXP += Math.floor((this.nextLevelXP * (1 + this.level / 10)) * (1 - xpModifier));
   }
 
   // Handle everything to do with gaining skills (skills are passed as a list of skill objects):

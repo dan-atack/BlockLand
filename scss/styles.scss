@@ -1,7 +1,7 @@
 $block-width: 32px;
 $world-height-in-blocks: 21;
 $world-width-in-blocks: 21;
-$standardRadius: 8px;
+$standardRadius: 12px;
 $experienceLight: rgba(0, 250, 154, 0.89);
 
 @keyframes spin {
@@ -63,6 +63,17 @@ $experienceLight: rgba(0, 250, 154, 0.89);
   }
 }
 
+@keyframes shinebox {
+  from {
+    text-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db;
+    box-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db;
+  }
+  to {
+    text-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63;
+    box-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63;
+  }
+}
+
 @keyframes vortex {
   0% {
     transform: rotateZ(0deg);
@@ -98,6 +109,7 @@ body {
   color: white;
   display: flex;
   max-height: 88vh;
+  font-family: 'Russo One', sans-serif;
 }
 
 .sign-in {
@@ -183,6 +195,7 @@ body {
   height: $block-width * 2;
   min-width: $world-width-in-blocks * $block-width / 2;
   color: whitesmoke;
+  font-family: 'Russo One';
   background-color: black;
   box-shadow: 0px 0px 2px 4px whitesmoke;
   font-size: 1em;
@@ -363,6 +376,12 @@ body {
   text-shadow: 0px 4px 12px rgb(155, 4, 4);
 }
 
+.announcement-levelup {
+  font-size: $block-width;
+  color: rgb(241, 230, 71);
+  text-shadow: 0px 4px 12px rgb(241, 230, 71);
+}
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
@@ -453,7 +472,6 @@ body {
 
 .sidebar {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: $world-width-in-blocks * $block-width / 3;
   padding: 12px;
   border: 1px solid cyan;
@@ -466,7 +484,6 @@ body {
 
 .healthbar-box {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: ($world-width-in-blocks * $block-width / 3) + ($block-width * 3 / 4);
   padding: 12px 0px;
   border: 1px solid cyan;
@@ -493,7 +510,6 @@ body {
 
 .experiencebar-box {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: ($world-width-in-blocks * $block-width / 3) + ($block-width / 2);
   height: $block-width * 2.5;
   padding: 12px 4px;
@@ -509,14 +525,17 @@ body {
 .experiencebar-shell {
   color: $experienceLight;
   border: 2px solid $experienceLight;
-  background-color: rgb(16, 45, 65);
+  background-image: linear-gradient(rgba(36, 152, 230, 0.829), rgb(16, 45, 65));
   padding: 2px;
   height: 24px;
   border-radius: 12px;
 }
 
 .experiencebar-inner {
-  background-color: $experienceLight;
+  background-image: linear-gradient(
+    rgba(125, 255, 205, 0.89),
+    rgb(35, 190, 131)
+  );
   height: 24px;
   border-radius: 10px;
 }
@@ -544,14 +563,18 @@ body {
 .sidebar-button {
   margin: 16px;
   padding: 16px;
-  border-radius: $standardRadius;
-  border: 2px solid whitesmoke;
+  border-radius: $standardRadius * 2;
+  border: 2px solid rgb(34, 85, 85);
   height: 64px;
   width: $block-width * 7;
-  background-color: aqua;
-  color: darkred;
+  background-image: linear-gradient(
+    rgba(8, 224, 26, 0.8),
+    rgba(7, 51, 11, 0.8)
+  );
+  color: rgb(24, 0, 20);
   font-size: 28px;
   font-weight: bold;
+  font-family: 'Russo One', sans-serif;
 }
 
 .block {
@@ -592,7 +615,7 @@ body {
 }
 
 .levelup {
-  animation: shine 1.5s ease-in-out infinite alternate;
+  animation: shinebox 2.5s ease-in-out infinite alternate;
 }
 
 .text {
