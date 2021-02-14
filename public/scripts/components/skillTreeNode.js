@@ -12,8 +12,9 @@ class SkillTreeNode {
         this.tooltipText = skillData.tooltipText;
         this.status = status;
         this.branches = [];     // This list will keep track of any branch elements to be displayed/derendered.
-        // This boolean will be flipped in the event that the node is clicked on and available:
-        this.justPurchased = false;
+        // These booleans will be flipped in the event that the node is clicked on and available:
+        this.justSelected = false;    // Flag for whether this Skill has just been selected.
+        this.justPurchased = false;   // Flag for whether this Skill has just been purchased.
         // Create elements:
         this.container = document.createElement('div');
         this.textField = document.createElement('span');
@@ -87,15 +88,58 @@ class SkillTreeNode {
     // Handler for user interaction:
     handleSelect = () => {
         if (this.status === 'unavailable') {
-            console.log('This skill cannot be unlocked... yet!');
+            const popupData = [
+                this.root,
+                this.x - 2,
+                this.y,
+                0,
+                0,
+                {id: this.x + this.y, text: `${this.text} cannot be obtained... yet!`, type: 'skill-tree-alert', duration: 2.5},
+              ];
+              makePopup(popupData);
+              playSound('purchase-fail');
         } else if (this.status === 'available') {
-            console.log('purchasing ', this.text);
-            this.status = 'purchased';
-            this.justPurchased = true;
-            this.container.classList.add('purchased');
+            const popupData = [
+                this.root,
+                this.x - 2,
+                this.y,
+                0,
+                0,
+                {id: this.x + this.y, text: 'Click again to confirm skill purchase!', type: 'skill-tree-select', duration: 2.5},
+            ];
+            makePopup(popupData);
+            playSound('select');
+            this.container.classList.add('selected');
+            this.container.onmouseup = this.handleConfirm;
+            this.justSelected = true;
         } else if (this.status === 'purchased') {
-            console.log('You already have this skill!');
+            const popupData = [
+                this.root,
+                this.x - 2,
+                this.y,
+                0,
+                0,
+                {id: this.x + this.y, text: 'You already have this skill!', type: 'skill-tree-select', duration: 2.5},
+              ];
+              makePopup(popupData);
         }
+    }
+
+    handleConfirm = () => {
+        const popupData = [
+            this.root,
+            this.x - 2,
+            this.y,
+            0,
+            0,
+            {id: this.x + this.y, text: `${this.text} purchased!`, type: 'skill-tree-confirm', duration: 2.5},
+        ];
+        makePopup(popupData);
+        playSound('confirm');
+        this.status = 'purchased';
+        this.justPurchased = true;
+        this.container.classList.remove('selected');
+        this.container.classList.add('purchased');
     }
 
     makeUnavailable = () => {

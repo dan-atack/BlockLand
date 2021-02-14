@@ -24,7 +24,6 @@ class Engine {
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
     this.player = new Player(document.getElementById('world'), 4, 14);
-    this.dummyText = new Text(this.player.domElement, 0, 0, 22, 'Fuck me!', 'achievement');
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:
@@ -49,17 +48,16 @@ class Engine {
       displayPlayerHP: 'playerHP',
       displayPlayerXPLabel: 'text-Experience',
       displayPlayerXP: 'playerXP-inner',
+      displayPlayerXPContainer: 'playerXP-outer',
       resetButton: 'resetButton',
       prevLvl: 'text-prev-lvl',
       nextLvl: 'text-next-lvl',
+      mainMenuButton: 'inGameMenuButton'  // This is just to change its colour when you level up.
     }
     // This sidebar elements dictionary is then used to map each element to an Engine attribute with the same name:
     Object.keys(this.sidebarElements).forEach((element) => this[element] = document.getElementById(this.sidebarElements[element]));
     // Uncomment these for DEV MODE (uncomment the updateSidebarDisplay and updateSidebarRoot methods too)
     // this.displayPlayerCoords = document.getElementById('playerCoords');
-    // this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
-    // this.displayPlayerMedium = document.getElementById('playerStandingInMedium');
-    //
     // Physics Object handles motion and collision detection. One Physics per sprite (hello relativity!)
     this.playerPhysics = new Physics(this.blocks, this.player);
     // Scripts is the list of all the baddies' physics packs:
@@ -78,7 +76,7 @@ class Engine {
       this.setupNextMission(instruction);
     });
     // When the in-game menu is opened, every entity that is rendered at that time must be de-rendered and kept in this list:
-    this.onScreenEntities = [];
+    this.onScreenEntities = []; 
   }
 
   // ENGINE METHODS:
@@ -467,13 +465,46 @@ class Engine {
     }
   }
 
+  // High-level function for altering the appearance of the Sidebar when the Player gains or loses a level:
+  checkForLevelUp = () => {
+    // If the Player has unspent skill points, direct them to the Menu button by altering its appearance:
+    if (this.player.skillsAvailable > 0) {
+      this.mainMenuButton.innerText = 'LEVEL UP! CHOOSE NEW SKILL';
+      this.mainMenuButton.classList.add('levelup');
+    } else {    // Restore Menu button's normal appearance when all skill points are spent:
+      this.mainMenuButton.innerText = 'MENU';
+      this.mainMenuButton.classList.remove('levelup');
+    }
+    // Check if the Player has just leveled up (or demoted) and if so, initiate a one-time effect on the XP bar:
+    if (this.player.justLeveledUp) this.handlePlayerLevelup();
+    if (this.player.justDemoted) this.handlePlayerLevelDown();
+  }
+
+  // Gives the XP bar a one-time shine effect when you level up:
+  handlePlayerLevelup = () => {
+    this.player.justLeveledUp = false;    // Reset the Player's flag as an acknowledgement of the signal.
+    this.displayPlayerXPContainer.classList.add('XP');
+    setTimeout(() => {
+      this.displayPlayerXPContainer.classList.remove('XP');
+    }, 1500);
+  }
+
+  // Gives the XP bar a one-time red glare effect when you lose a level:
+  handlePlayerLevelDown = () => {
+    this.player.justDemoted = false;    // Reset the Player's flag as an acknowledgement of the signal.
+    this.displayPlayerXPContainer.classList.add('obituary');
+    setTimeout(() => {
+      this.displayPlayerXPContainer.classList.remove('obituary');
+    }, 1500);
+  }
+
   // Player Death check occurs every game cycle:
   checkForPlayerDeath() {
     // the player can handle their own death now, but some things the engine's gotta do itself:
     if (this.player.isDead) {
       this.gameOn = false;
       this.resetButton.style.display = 'initial';
-      this.resetButton.style.width = '192px';
+      this.resetButton.style.width = '224px';
       document.getElementById('pauseButton').style.display = 'none';
       this.announcement = new Text(
         document.getElementById('world'),
@@ -489,9 +520,10 @@ class Engine {
   updateSidebarDisplays = () => {
     // Dev mode leftovers:
     // this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
-    // this.displayPlayerStandingOn.innerText = `Standing on: ${this.player.standingOn.name}`;
     this.updateXPBar();
     this.updateHealthBar();
+    // UX enhancement for levelup flow:
+    this.checkForLevelUp();
   }
 
   updateHealthBar = () => {
@@ -509,13 +541,18 @@ class Engine {
     this.displayPlayerHP.innerText = `${healthHearts}`;
     this.displayPlayerHP.style.width = `${this.player.currentHP * 10}%`;
     this.displayPlayerHP.style.backgroundColor = hpColor;
+    if (this.player.currentHP === 0) {
+      this.displayPlayerHP.classList.add('rounded');
+    } else {
+      this.displayPlayerHP.classList.remove('rounded');
+    }
   }
 
   updateXPBar = () => {
     // Get Previous level XP threshold to use as the low end of the bar:
     const previousLevel = this.player.previousLevelsXP[this.player.previousLevelsXP.length - 1]
     const pointsNeeded = this.player.nextLevelXP - previousLevel;
-    // Calculate Player's progress towards the next level, from the previous one (prev = 40, next = 50, current = 42, % = 20)
+    // Calculate Player's progress towards the next level, from the previous one:
     const nextPercent = (this.player.experience - previousLevel) / pointsNeeded * 100;
     this.displayPlayerXP.style.width = `${nextPercent}%`;
     this.displayPlayerXPLabel.innerText = `Experience: ${this.player.experience} / ${this.player.nextLevelXP}`;

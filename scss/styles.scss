@@ -1,7 +1,7 @@
 $block-width: 32px;
 $world-height-in-blocks: 21;
 $world-width-in-blocks: 21;
-$standardRadius: 8px;
+$standardRadius: 12px;
 $experienceLight: rgba(0, 250, 154, 0.89);
 
 @keyframes spin {
@@ -48,9 +48,11 @@ $experienceLight: rgba(0, 250, 154, 0.89);
 @keyframes redglow {
   from {
     text-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504;
+    box-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504;
   }
   to {
     text-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763;
+    box-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763;
   }
 }
 
@@ -60,6 +62,17 @@ $experienceLight: rgba(0, 250, 154, 0.89);
   }
   to {
     text-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63;
+  }
+}
+
+@keyframes shinebox {
+  from {
+    text-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db;
+    box-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db;
+  }
+  to {
+    text-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63;
+    box-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63;
   }
 }
 
@@ -98,6 +111,7 @@ body {
   color: white;
   display: flex;
   max-height: 88vh;
+  font-family: 'Russo One', sans-serif;
 }
 
 .sign-in {
@@ -183,6 +197,7 @@ body {
   height: $block-width * 2;
   min-width: $world-width-in-blocks * $block-width / 2;
   color: whitesmoke;
+  font-family: 'Russo One';
   background-color: black;
   box-shadow: 0px 0px 2px 4px whitesmoke;
   font-size: 1em;
@@ -224,7 +239,7 @@ body {
   border-radius: 16px;
   border: 3px solid #000;
   position: absolute;
-  z-index: 10;
+  z-index: 1000;
   bottom: 80%;
   left: 50%;
   margin-left: -60px;
@@ -235,22 +250,55 @@ body {
 }
 
 .skill-tree-container:hover .tooltiptext {
+  position: absolute;
   visibility: visible;
   opacity: 1;
-  z-index: 10;
+  z-index: 1000;
+}
+
+.skill-tree-alert {
+  color: rgba(250, 142, 0, 0.89);
+  text-shadow: 0px 4px 12px rgba(250, 92, 0, 0.89);
+  max-width: $block-width * 6;
+  background-color: black;
+  border-radius: $standardRadius;
+  font-size: $block-width / 2 !important;
+}
+
+.skill-tree-select {
+  color: $experienceLight;
+  text-shadow: 0px 4px 12px rgba(10, 185, 118, 0.89);
+  max-width: $block-width * 6;
+  background-color: black;
+  border-radius: $standardRadius;
+  font-size: $block-width / 2 !important;
+}
+
+.skill-tree-confirm {
+  color: rgb(46, 207, 46);
+  text-shadow: 0px 4px 12px rgb(33, 170, 33);
+  max-width: $block-width * 6;
+  background-color: black;
+  border-radius: $standardRadius;
+  font-size: $block-width / 1.5 !important;
 }
 
 .available {
   border: 2px solid $experienceLight;
-  box-shadow: 0px 0px 4px yellowgreen;
+  box-shadow: 0px 0px 8px $experienceLight;
   &:hover {
-    box-shadow: 0px 0px 16px $experienceLight;
+    box-shadow: 0px 0px 16px 8px $experienceLight;
   }
 }
 
+.selected {
+  border: 2px solid rgba(10, 185, 118, 0.89);
+  box-shadow: 0px 0px 12px 8px $experienceLight;
+}
+
 .purchased {
-  border: 2px solid limegreen;
-  box-shadow: 0px 0px 12px limegreen;
+  border: 2px solid rgb(12, 231, 12);
+  box-shadow: 0px 0px 24px 8px rgb(12, 231, 12);
 }
 
 .unavailable {
@@ -363,6 +411,18 @@ body {
   text-shadow: 0px 4px 12px rgb(155, 4, 4);
 }
 
+.announcement-levelup {
+  font-size: $block-width;
+  color: rgb(241, 230, 71);
+  text-shadow: 0px 4px 12px rgb(241, 230, 71);
+}
+
+.announcement-xp-gain {
+  font-size: $block-width;
+  color: $experienceLight;
+  text-shadow: 0px 4px 12px $experienceLight;
+}
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
@@ -453,7 +513,6 @@ body {
 
 .sidebar {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: $world-width-in-blocks * $block-width / 3;
   padding: 12px;
   border: 1px solid cyan;
@@ -466,8 +525,8 @@ body {
 
 .healthbar-box {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: ($world-width-in-blocks * $block-width / 3) + ($block-width * 3 / 4);
+  height: 91.6px;
   padding: 12px 0px;
   border: 1px solid cyan;
   text-align: center;
@@ -493,7 +552,6 @@ body {
 
 .experiencebar-box {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: ($world-width-in-blocks * $block-width / 3) + ($block-width / 2);
   height: $block-width * 2.5;
   padding: 12px 4px;
@@ -509,14 +567,17 @@ body {
 .experiencebar-shell {
   color: $experienceLight;
   border: 2px solid $experienceLight;
-  background-color: rgb(16, 45, 65);
+  background-image: linear-gradient(rgba(36, 152, 230, 0.829), rgb(16, 45, 65));
   padding: 2px;
   height: 24px;
   border-radius: 12px;
 }
 
 .experiencebar-inner {
-  background-color: $experienceLight;
+  background-image: linear-gradient(
+    rgba(125, 255, 205, 0.89),
+    rgb(35, 190, 131)
+  );
   height: 24px;
   border-radius: 10px;
 }
@@ -544,14 +605,18 @@ body {
 .sidebar-button {
   margin: 16px;
   padding: 16px;
-  border-radius: $standardRadius;
-  border: 2px solid whitesmoke;
+  border-radius: $standardRadius * 2;
+  border: 2px solid rgb(34, 85, 85);
   height: 64px;
   width: $block-width * 7;
-  background-color: aqua;
-  color: darkred;
+  background-image: linear-gradient(
+    rgba(8, 224, 26, 0.8),
+    rgba(7, 51, 11, 0.8)
+  );
+  color: rgb(24, 0, 20);
   font-size: 28px;
   font-weight: bold;
+  font-family: 'Russo One', sans-serif;
 }
 
 .block {
@@ -588,11 +653,12 @@ body {
 }
 
 .XP {
-  animation: shine 1.5s ease-in-out alternate;
+  animation: shinebox 1.5s ease-in-out alternate;
 }
 
 .levelup {
-  animation: shine 1.5s ease-in-out infinite alternate;
+  animation: shinebox 2.5s ease-in-out infinite alternate;
+  font-size: $block-width / 2;
 }
 
 .text {
@@ -631,4 +697,9 @@ body {
   animation: redglow 1.5s ease-in-out infinite alternate;
   z-index: 100;
   position: relative;
+}
+
+.rounded {
+  border-radius: 50%;
+  height: $block-width / 2;
 }

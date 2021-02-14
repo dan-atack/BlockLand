@@ -35,31 +35,32 @@ class Mission {
       objective.test();
       if (objective.achieved) {
         this.subject.gainExperience(objective.xpValue);
-        // document.getElementById('playerXP').classList.add('XP');
         this.objectivesAchieved.push(objective);
         const announcement = new Text(
           document.getElementById('world'),
           0,
           0,
           22,
-          `${objective.achievementStatement} +${objective.xpValue} XP!`,
+          objective.achievementStatement,
           'achievement'
         );
+        const popupData = [
+          this.subject.root,
+          this.subject.x,
+          this.subject.y,
+          this.subject.horizontalOffset,
+          this.subject.verticalOffset,
+          {id: this.subject.gridX + this.subject.gridY, text: `+ ${objective.xpValue + 1} XP`, type: 'announcement-xp-gain', duration: 2},
+        ];
+        makePopup(popupData)
         setTimeout(() => {
-          announcement.removeDOM();
-          try {
-            // document.getElementById('playerXP').classList.remove('XP');
-          } catch {
-            // If the element has been removed due to the menu being opened, do nothing
-          }
-          
+          announcement.removeDOM();          
         }, 3000);
       }
     });
     if (this.objectivesRemaining.length === 0 && !this.victoryMessageAwarded) {
       this.accomplished = true;
       // Hello Shiny text!
-      // document.getElementById('playerXP').classList.add('levelup');
       let announcement = new Text(
         document.getElementById('world'),
         0,
@@ -70,11 +71,6 @@ class Mission {
       );
       setTimeout(() => {
         announcement.removeDOM();
-        try {
-          // document.getElementById('playerXP').classList.remove('levelup');
-        } catch {
-          // If the element has been removed due to the menu being opened, do nothing
-        }
         this.victoryMessageAwarded = false;
       }, 4500);
       this.victoryMessageAwarded = true;

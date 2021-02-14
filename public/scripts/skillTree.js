@@ -55,8 +55,14 @@ class SkillTree {
 
     // Click listener is activated to monitor changes to the child nodes:
     listenOnClick = () => {
-        // check if each node has just been purchased:
+        // check if each node has just been selected, and reset its flag it so; if not, ensure it does not appear selected:
         this.treeNodes.forEach((node) => {
+            if (node.justSelected) {
+                node.justSelected = false;
+            } else {
+                node.container.classList.remove('selected');
+                node.container.onmouseup = node.handleSelect;
+            }
             if (node.justPurchased) {
                 this.handleSkillPurchase(node);
             }

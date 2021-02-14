@@ -29,15 +29,25 @@
 
 @keyframes redglow {
   from {
-    text-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504; }
+    text-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504;
+    box-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504; }
   to {
-    text-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763; } }
+    text-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763;
+    box-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763; } }
 
 @keyframes shine {
   from {
     text-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db; }
   to {
     text-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63; } }
+
+@keyframes shinebox {
+  from {
+    text-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db;
+    box-shadow: 3px 3px 15px #89d3db, -3px -3px 15px #89d3db; }
+  to {
+    text-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63;
+    box-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63; } }
 
 @keyframes vortex {
   0% {
@@ -63,7 +73,8 @@ body {
   background-color: #0d0f0d;
   color: white;
   display: flex;
-  max-height: 88vh; }
+  max-height: 88vh;
+  font-family: 'Russo One', sans-serif; }
 
 .sign-in {
   text-align: center;
@@ -116,12 +127,12 @@ body {
   font-weight: bold;
   background-color: yellowgreen;
   border: 2px solid whitesmoke;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 8px; }
 
 .main-menu {
   border: 3px solid whitesmoke;
-  border-radius: 12px;
+  border-radius: 18px;
   position: relative;
   width: 60%;
   height: 90%;
@@ -139,6 +150,7 @@ body {
   height: 64px;
   min-width: 336px;
   color: whitesmoke;
+  font-family: 'Russo One';
   background-color: black;
   box-shadow: 0px 0px 2px 4px whitesmoke;
   font-size: 1em;
@@ -153,7 +165,7 @@ body {
   align-self: center;
   margin-bottom: 32px;
   border: 2px solid rgba(0, 250, 154, 0.89);
-  border-radius: 8px; }
+  border-radius: 12px; }
 
 .skill-tree-container {
   border-radius: 50%;
@@ -177,7 +189,7 @@ body {
   border-radius: 16px;
   border: 3px solid #000;
   position: absolute;
-  z-index: 10;
+  z-index: 1000;
   bottom: 80%;
   left: 50%;
   margin-left: -60px;
@@ -187,19 +199,48 @@ body {
   line-height: 16px; }
 
 .skill-tree-container:hover .tooltiptext {
+  position: absolute;
   visibility: visible;
   opacity: 1;
-  z-index: 10; }
+  z-index: 1000; }
+
+.skill-tree-alert {
+  color: rgba(250, 142, 0, 0.89);
+  text-shadow: 0px 4px 12px rgba(250, 92, 0, 0.89);
+  max-width: 192px;
+  background-color: black;
+  border-radius: 12px;
+  font-size: 16px !important; }
+
+.skill-tree-select {
+  color: rgba(0, 250, 154, 0.89);
+  text-shadow: 0px 4px 12px rgba(10, 185, 118, 0.89);
+  max-width: 192px;
+  background-color: black;
+  border-radius: 12px;
+  font-size: 16px !important; }
+
+.skill-tree-confirm {
+  color: #2ecf2e;
+  text-shadow: 0px 4px 12px #21aa21;
+  max-width: 192px;
+  background-color: black;
+  border-radius: 12px;
+  font-size: 21.33333px !important; }
 
 .available {
   border: 2px solid rgba(0, 250, 154, 0.89);
-  box-shadow: 0px 0px 4px yellowgreen; }
+  box-shadow: 0px 0px 8px rgba(0, 250, 154, 0.89); }
   .available:hover {
-    box-shadow: 0px 0px 16px rgba(0, 250, 154, 0.89); }
+    box-shadow: 0px 0px 16px 8px rgba(0, 250, 154, 0.89); }
+
+.selected {
+  border: 2px solid rgba(10, 185, 118, 0.89);
+  box-shadow: 0px 0px 12px 8px rgba(0, 250, 154, 0.89); }
 
 .purchased {
-  border: 2px solid limegreen;
-  box-shadow: 0px 0px 12px limegreen; }
+  border: 2px solid #0ce70c;
+  box-shadow: 0px 0px 24px 8px #0ce70c; }
 
 .unavailable {
   border: 2px solid gray;
@@ -228,7 +269,7 @@ body {
   height: 640px;
   width: 768px;
   border: 1px solid white;
-  border-radius: 8px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -297,6 +338,16 @@ body {
   color: #9b0404;
   text-shadow: 0px 4px 12px #9b0404; }
 
+.announcement-levelup {
+  font-size: 32px;
+  color: #f1e647;
+  text-shadow: 0px 4px 12px #f1e647; }
+
+.announcement-xp-gain {
+  font-size: 32px;
+  color: rgba(0, 250, 154, 0.89);
+  text-shadow: 0px 4px 12px rgba(0, 250, 154, 0.89); }
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
@@ -342,7 +393,7 @@ body {
   height: 672px;
   position: relative;
   font-size: 36px;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   text-align: center; }
 
@@ -368,11 +419,10 @@ body {
   width: 288px;
   height: 672px;
   border: 2px solid cyan;
-  border-radius: 8px; }
+  border-radius: 12px; }
 
 .sidebar {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 224px;
   padding: 12px;
   border: 1px solid cyan; }
@@ -383,8 +433,8 @@ body {
 
 .healthbar-box {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 248px;
+  height: 91.6px;
   padding: 12px 0px;
   border: 1px solid cyan;
   text-align: center;
@@ -408,7 +458,6 @@ body {
 
 .experiencebar-box {
   color: white;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 240px;
   height: 80px;
   padding: 12px 4px;
@@ -423,13 +472,13 @@ body {
 .experiencebar-shell {
   color: rgba(0, 250, 154, 0.89);
   border: 2px solid rgba(0, 250, 154, 0.89);
-  background-color: #102d41;
+  background-image: linear-gradient(rgba(36, 152, 230, 0.829), #102d41);
   padding: 2px;
   height: 24px;
   border-radius: 12px; }
 
 .experiencebar-inner {
-  background-color: rgba(0, 250, 154, 0.89);
+  background-image: linear-gradient(rgba(125, 255, 205, 0.89), #23be83);
   height: 24px;
   border-radius: 10px; }
 
@@ -440,26 +489,27 @@ body {
 .logout {
   position: relative;
   margin-left: 30%;
-  border-radius: 8px; }
+  border-radius: 12px; }
 
 .top {
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 12px 12px 0px 0px;
   display: flex; }
 
 .bottom {
-  border-radius: 0px 0px 8px 8px; }
+  border-radius: 0px 0px 12px 12px; }
 
 .sidebar-button {
   margin: 16px;
   padding: 16px;
-  border-radius: 8px;
-  border: 2px solid whitesmoke;
+  border-radius: 24px;
+  border: 2px solid #225555;
   height: 64px;
   width: 224px;
-  background-color: aqua;
-  color: darkred;
+  background-image: linear-gradient(rgba(8, 224, 26, 0.8), rgba(7, 51, 11, 0.8));
+  color: #180014;
   font-size: 28px;
-  font-weight: bold; }
+  font-weight: bold;
+  font-family: 'Russo One', sans-serif; }
 
 .block {
   position: absolute;
@@ -491,10 +541,11 @@ body {
   animation: spin 6s linear infinite reverse; }
 
 .XP {
-  animation: shine 1.5s ease-in-out alternate; }
+  animation: shinebox 1.5s ease-in-out alternate; }
 
 .levelup {
-  animation: shine 1.5s ease-in-out infinite alternate; }
+  animation: shinebox 2.5s ease-in-out infinite alternate;
+  font-size: 16px; }
 
 .text {
   position: relative;
@@ -523,7 +574,11 @@ body {
   background-color: black;
   padding: 4px;
   border: 1px solid whitesmoke;
-  border-radius: 8px;
+  border-radius: 12px;
   animation: redglow 1.5s ease-in-out infinite alternate;
   z-index: 100;
   position: relative; }
+
+.rounded {
+  border-radius: 50%;
+  height: 16px; }
