@@ -42,12 +42,12 @@ const skills = [
    tooltipText: '+ 5% Jump Height \n \n "Even a tiny increase to air-time is pretty impressive, really."',
 },
 {
-   id: 'INTEL-01',
-   text: "Philoso-raptor",
-   attributeAffected: 'intelligence',
-   value: 10,                       // AKA a 10% reduction in the increase of the cost of future skills.
+   id: 'ATTACK-01',
+   text: "Sharper Claws",
+   attributeAffected: 'clawAttackBaseDamage',
+   value: 1,                       // AKA a 10% reduction in the increase of the cost of future skills.
    prerequisites: [],
-   tooltipText: '-10% Cost of All Future Skills \n \n "Clever Girl!"',
+   tooltipText: 'Claw Attack + 1 Damage \n \n "You\'re sharp and you\'re no fool."',
 },
 {
    id: 'SPEED-02',

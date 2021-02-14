@@ -29,9 +29,11 @@
 
 @keyframes redglow {
   from {
-    text-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504; }
+    text-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504;
+    box-shadow: 1px 1px 15px #e75512, -1px -1px 15px #f73504; }
   to {
-    text-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763; } }
+    text-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763;
+    box-shadow: 1px 1px 15px #cfa48f, -1px -1px 15px #b97763; } }
 
 @keyframes shine {
   from {
@@ -187,7 +189,7 @@ body {
   border-radius: 16px;
   border: 3px solid #000;
   position: absolute;
-  z-index: 10;
+  z-index: 1000;
   bottom: 80%;
   left: 50%;
   margin-left: -60px;
@@ -197,19 +199,48 @@ body {
   line-height: 16px; }
 
 .skill-tree-container:hover .tooltiptext {
+  position: absolute;
   visibility: visible;
   opacity: 1;
-  z-index: 10; }
+  z-index: 1000; }
+
+.skill-tree-alert {
+  color: rgba(250, 142, 0, 0.89);
+  text-shadow: 0px 4px 12px rgba(250, 92, 0, 0.89);
+  max-width: 192px;
+  background-color: black;
+  border-radius: 12px;
+  font-size: 16px !important; }
+
+.skill-tree-select {
+  color: rgba(0, 250, 154, 0.89);
+  text-shadow: 0px 4px 12px rgba(10, 185, 118, 0.89);
+  max-width: 192px;
+  background-color: black;
+  border-radius: 12px;
+  font-size: 16px !important; }
+
+.skill-tree-confirm {
+  color: #2ecf2e;
+  text-shadow: 0px 4px 12px #21aa21;
+  max-width: 192px;
+  background-color: black;
+  border-radius: 12px;
+  font-size: 21.33333px !important; }
 
 .available {
   border: 2px solid rgba(0, 250, 154, 0.89);
-  box-shadow: 0px 0px 4px yellowgreen; }
+  box-shadow: 0px 0px 8px rgba(0, 250, 154, 0.89); }
   .available:hover {
-    box-shadow: 0px 0px 16px rgba(0, 250, 154, 0.89); }
+    box-shadow: 0px 0px 16px 8px rgba(0, 250, 154, 0.89); }
+
+.selected {
+  border: 2px solid rgba(10, 185, 118, 0.89);
+  box-shadow: 0px 0px 12px 8px rgba(0, 250, 154, 0.89); }
 
 .purchased {
-  border: 2px solid limegreen;
-  box-shadow: 0px 0px 12px limegreen; }
+  border: 2px solid #0ce70c;
+  box-shadow: 0px 0px 24px 8px #0ce70c; }
 
 .unavailable {
   border: 2px solid gray;
@@ -312,6 +343,11 @@ body {
   color: #f1e647;
   text-shadow: 0px 4px 12px #f1e647; }
 
+.announcement-xp-gain {
+  font-size: 32px;
+  color: rgba(0, 250, 154, 0.89);
+  text-shadow: 0px 4px 12px rgba(0, 250, 154, 0.89); }
+
 .player {
   transition-duration: 0.125s;
   position: absolute;
@@ -398,6 +434,7 @@ body {
 .healthbar-box {
   color: white;
   width: 248px;
+  height: 91.6px;
   padding: 12px 0px;
   border: 1px solid cyan;
   text-align: center;
@@ -504,10 +541,11 @@ body {
   animation: spin 6s linear infinite reverse; }
 
 .XP {
-  animation: shine 1.5s ease-in-out alternate; }
+  animation: shinebox 1.5s ease-in-out alternate; }
 
 .levelup {
-  animation: shinebox 2.5s ease-in-out infinite alternate; }
+  animation: shinebox 2.5s ease-in-out infinite alternate;
+  font-size: 16px; }
 
 .text {
   position: relative;
@@ -540,3 +578,7 @@ body {
   animation: redglow 1.5s ease-in-out infinite alternate;
   z-index: 100;
   position: relative; }
+
+.rounded {
+  border-radius: 50%;
+  height: 16px; }

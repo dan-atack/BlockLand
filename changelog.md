@@ -1104,19 +1104,33 @@ Similarly to the Item Pickup process, we want to use a combination of sound and 
 
 3. Change the font, colour and text of the Menu button when the Player levels up, and give it an extra potent 'shine' animation as long as the Player has unpurchased skills. Go to the stylesheet and get your \*\*\*\*in' shinebox!
 
-### 4. In the Menu itself, alter the colour schemes for the 'Available' and 'Purchased' skills so they are a bit more differentiated.
+4. In the Menu itself, alter the colour schemes for the 'Available' and 'Purchased' skills so they are a bit more differentiated.
 
-### 5. While we are at it, change the Philosoraptor skill to something that boosts the claw attack's base damage. Test to confirm (obvs).
+5. While we are at it, change the Philosoraptor skill to something that boosts the claw attack's base damage. Test to confirm (obvs).
 
-### 6. While we are at it, get rid of the Mission module's text announcement of the XP gains for completing an objective, and replace it with a popup (sans sound?) that shows the Player gaining XP (like how the item pickup does it).
+6. While we are at it, get rid of the Mission module's text announcement of the XP gains for completing an objective, and replace it with a popup (sans sound?) that shows the Player gaining XP (like how the item pickup does it).
 
-### 7. The brutalest part: Add some kind of explosion effect using pure CSS/SCSS to the Experience bar whenever a levelup occurs.
+7. Add a temporary glow effect using pure CSS/SCSS to the Experience bar whenever a levelup occurs.
 
-### 8. Make the Experience bar briefly glow red if you lose XP as a result of dying (to indicate it has been decremented).
+8. Make the Experience bar briefly glow red if you lose XP as a result of dying (to indicate it has been decremented). This is achieved by having the Player emit a signal for either the levelup or demotion event when they occur, and the Engine constantly checking for that signal (A boolean) and resetting it to false when it detects it.
 
-### 9. Make a cool SCSS text animation for the Levelup popup so that the letters do a wave as they float upwards.
+9. Another challenge: this is definitely the time to implement the 'are you sure'/current selection feature for the skill tree choice workflow, so... think about how to do that.
 
-### 10. Another challenge: this is definitely the time to implement the 'are you sure'/current selection feature for the skill tree choice workflow, so... think about how to do that.
+10. Play a sound when a new skill is selected (and confirmed).
+
+## Version 1.4.5: UX Enhancements - Doing damage and Killing Baddies
+
+The game's combat system needs to more clearly display information about combat events, starting with your attacks damaging (but not necessarily killing) Baddies. Baddie HP values and Player attack values will be defined during the course of this feature addition, as well as all UI improvements for conveying these values. Specifically, this PR will aim to add: blood animations for damaged enemies, popups (a la Popup component) for rendering numbers about damage dealt, sound effects for baddies taking damage and dying, and more elaborate death animations. Individual enemy healthbars might also be included, to appear upon a baddie becoming damaged, depending on the outcome of some feasibility tests for this component.
+
+### 1. Amuse yourself by recording 3 different reaction noises to be used when Baddie type 1002 is killed.
+
+### 2. Integrate these sound effects to be played when the Baddie is killed, with a random selection being played each time.
+
+### 3. Add a sound for the Player's claw attack, to be played upon the execution of the attack.
+
+## Version 1.4.6: UX Enhancements - Taking Damage from Baddies and Dying
+
+One thing to remember here is that when you're killed, the Restart button should glow the way the Menu button does when you get killed.
 
 # Remaining Tasks for Refactoring:
 
@@ -1156,6 +1170,8 @@ Similarly to the Item Pickup process, we want to use a combination of sound and 
 
 ### 11. The syringe tip for the Serum Item asset is cut off by the CSS border-radius. Find some non-intrusive way to fix that.
 
+### 12. Game balance fix: introduce a playerHP checkpoint so that when you die, you don't automatically get your health filled all the way back up.
+
 # PHASE X - Art Department:
 
 ### 1. Touch up water and swamp-water block images to make them more transparent... OR alter the player sprite's
@@ -1186,6 +1202,6 @@ Artwork Upgrades: Display new block images as tiles in the file where you work o
 
 ### More/different attacks for the player? Different cooldown times, greater or shorter ranges, Y-axis specific moves, should all be combinable with our current system.
 
-### Getting knocked back by an attack should also in that moment of invulnerability, also disable your movement responders, at least for the direction you just got hit from!
+### Getting knocked back by an attack should caues a moment of invulnerability, and also disable your movement responders, at least for the direction you just got hit from!
 
 ### Level Chirality: Be aware of it! Could a simple Find-and-replace function built into the columns object solve the issue?! ALL Biomes A) become objects B) have IDs as well as names C) have chirality sub-object: { left: 17, right: 18 } that feeds into block swapper method!

@@ -17,6 +17,8 @@ class Player extends Sprite {
     this.jumping = false;
     this.crouching = false;
     // Let's RPG it up a bit!
+    this.justLeveledUp = false;   // Flag to act as an event for the Engine to pick up on and trigger visual effects for levelup.
+    this.justDemoted = false;     // Flag to act as an event for the Engine to pick up on and trigger effects for a DEMOTION.
     this.experience = 0;                      // the number of XP points you have collected
     this.level = 1;                           // the number of your current level
     this.nextLevelXP = 10;                    // the number of XP points needed for the next level
@@ -25,11 +27,11 @@ class Player extends Sprite {
     this.levelsGainedThisInning = 0;          // the number of Levelups gained since your last death/mission accomplishment.
     this.skillsList = [skills.find((skill) => skill.id === 'BASIC')];    // the list of skill objects the player benefits from.
     this.skillsAvailable = 0;                 // calculated from the difference between your level and the length of your skills list.
-    this.clawAttackBaseDamage = 1;            // Each attack will have a base damage value that can be modified as the Player levels up.
     // SKILL RELATED ATTRIBUTES:
     this.intelligence = 100;                  // Raptors have an initial IQ of 100
     // COMBAT ZONE :
     this.attackAnimation.id = 'player-attack';
+    this.clawAttackBaseDamage = 1;        // Each attack will have a base damage value that can be modified as the Player levels up.
     // Player will keep score of baddies killed for objective-scoring purposes (this is prop drilling):
     this.baddiesDestroyed = 0;
     this.baddiesKilledThisInning = 0;
@@ -237,15 +239,16 @@ class Player extends Sprite {
 
   handleLevelUp = () => {
     playSound('levelup');
+    this.justLeveledUp = true;
     const popupData = [
       this.root,
       this.x,
-      this.y,
+      this.y + 2,
       this.horizontalOffset,
       this.verticalOffset,
-      {id: this.gridX + this.gridY, text: `LEVEL ${this.level + 1}`, type: 'announcement-levelup'},
+      {id: this.gridX + this.gridY, text: `LEVEL ${this.level + 1}`, type: 'announcement-levelup', duration: 2},
     ];
-    makePopup(popupData)
+    makePopup(popupData);
     this.skillsAvailable += 1;
     this.level += 1;
     this.levelsGainedThisInning += 1;
@@ -294,6 +297,7 @@ class Player extends Sprite {
     this.level -= this.levelsGainedThisInning;
     //  Roll back the list of previous levels' XP thresholds once per level lost:
     if (this.levelsGainedThisInning > 0)  {
+      this.justDemoted = true;  // Alert the Engine that a demotion has occurred.
       for (let i = 0; i < this.levelsGainedThisInning; i++) {
         this.nextLevelXP = this.previousLevelsXP.pop();
       }
