@@ -1122,17 +1122,17 @@ Similarly to the Item Pickup process, we want to use a combination of sound and 
 
 The game's combat system needs to more clearly display information about combat events, starting with your attacks damaging (but not necessarily killing) Baddies. Baddie HP values and Player attack values will be defined during the course of this feature addition, as well as all UI improvements for conveying these values. Specifically, this PR will aim to add: blood animations for damaged enemies, popups (a la Popup component) for rendering numbers about damage dealt, sound effects for baddies taking damage and dying, and more elaborate death animations. Individual enemy healthbars might also be included, to appear upon a baddie becoming damaged, depending on the outcome of some feasibility tests for this component.
 
-### 1. Amuse yourself by recording 3 different reaction noises to be used when Baddie type 1002 is killed.
+1. Amuse yourself by recording 4 different reaction noises to be used when any baddie is killed.
 
-### 2. Integrate these sound effects to be played when the Baddie is killed, with a random selection being played each time.
+2. Integrate these sound effects to be played when the Baddie is killed, with a random selection being played each time.
 
-### 3. Add a sound for the Player's claw attack, to be played upon the execution of the attack.
+### 3. Add a similar selection of sounds for the Player's claw attack, to be played upon the execution of the attack. Implement.
 
 ## Version 1.4.6: UX Enhancements - Taking Damage from Baddies and Dying
 
 One thing to remember here is that when you're killed, the Restart button should glow the way the Menu button does when you get killed.
 
-# Remaining Tasks for Refactoring:
+# Remaining Tasks for Refactoring / Thoughts for the Future:
 
 ### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
 

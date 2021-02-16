@@ -229,7 +229,7 @@ class Engine {
         this.baddies.forEach((baddie) => {
           baddie.handleCollisions();
           if (baddie.isDying) {
-            baddie.handleDeath('attack');
+            baddie.handleDeath();
           }
         });
         this.checkforBaddieDeaths();
@@ -328,9 +328,8 @@ class Engine {
         break;
       case 'clear-baddies':
         this.baddies.forEach((baddie) => {
-          // baddies killed this way are instantly removed from the game:
-          baddie.deathLoops = 0;
-          baddie.handleDeath();
+          // baddies are instantly removed from the game:
+          baddie.deRender();
           // Note that this method of baddie removal does not count toward 'baddies destroyed' counter.
         });
         this.baddies = [];

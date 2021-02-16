@@ -189,7 +189,7 @@ class Sprite extends Entity {
         this.damageRecieved = 0;
         this.hasBeenHit = true;
         if (this.currentHP <= 0) {
-          this.handleDeath('attack');   // ... Or maybe even is fatal!
+          this.handleDeath();   // ... Or maybe even is fatal!
         }
       }
     } else {                            // If you have just been hit you get a free pass however.

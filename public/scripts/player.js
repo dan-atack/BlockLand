@@ -147,7 +147,7 @@ class Player extends Sprite {
 
   // Items and special statuses:
   pickupItem = (item) => {
-    playSound(item.type); // all items play a sound when they get picked up.
+    playSound(`${item.type}-sound`); // all items play a sound when they get picked up.
     // Popup generator's data parameter needs a LOT of information:
     let popupData = [
       this.root,
@@ -238,7 +238,7 @@ class Player extends Sprite {
   }
 
   handleLevelUp = () => {
-    playSound('levelup');
+    playSound('levelup-sound');
     this.justLeveledUp = true;
     const popupData = [
       this.root,

@@ -117,46 +117,34 @@ class Baddie extends Sprite {
     if (this.hasBeenRendered) return this.y === this.lastJumpInitialHeight;
   }
 
-  // Handle Collision: Like the player class, baddies will register collisions they're involved in:
-  // handleCollisions() {
-  //   if (this.damageRecieved > 0) {
-  //     this.currentHP -= this.damageRecieved;
-  //     this.damageRecieved = 0;
-
-  //     // Forward thinking here: when HP are introduced there will be more options here, and the collision status
-  //     // is the key (status should be the name of a type of attack, or better still an attack object with a name and a damage amount!)
-  //     this.handleDeath();
-  //   }
-  // }
-
-  // Death - A baddie's final moments are his finest:
-  handleDeath(type) {
+  // Death - A baddie's final moments are his finest. Running this function means the baddie's isDying property is true:
+  handleDeath() {
     // Engine can check a baddie for deathLoops and remove them when the counter reaches zero:
-    if (this.deathLoops > 0) {
+    if (this.deathLoops > 0) {        // Passing this condition means you're not quite dead yet.
       // Death of a baddie: baddie sprite is replaced by a gif of them dying which plays for a certain amount of game loops:
-      if (this.deathLoops === 20) {
-        // collision status is the key to HP: hit by Attack object: {name: 'claws', id: 101, dmg: 5, type: 'slashing'}
+      if (this.deathLoops === 20) {   // Passing this condition means you've just started dying.
+        this.isDying = true;
+        playSound(`baddie-death-${Math.floor(Math.random() * 4)}-sound`);   // Play one of four unique baddie death sounds!!!
         this.domElement.src = `./assets/effects/animations/baddie-${this.type}-death.gif`;
         // ensure proper sprite orientation:
         this.facing === 'right'
           ? (this.domElement.style.transform = 'rotateY(0deg)')
           : 'rotate&(180deg)';
       }
-      this.isDying = true;
       this.domElement.style.width = `${PLAYER_WIDTH}px`;
       this.domElement.style.height = `${PLAYER_WIDTH}px`;
       this.domElement.style.zIndex = 100;
       // Countdown to sprite removal:
       this.deathLoops -= 1;
-    } else {
+    } else {                        // Passing THIS condition means that you are all-the-way dead. Goodbye.
       this.isDying = false;
       this.isDead = true;
       this.deRender();
     }
-    if (this.attackAnimation) {
+    if (this.attackAnimation) {     // Halt any ongoing attack animation/effect immediately when baddie starts to die.
       this.haltAttack();
     }
-    if (this.currentDialogue) {
+    if (this.currentDialogue) {     // Halt any ongoing dialogue bubbles immediately when baddie starts to die.
       this.cleanupDialogue();
     }
   }
