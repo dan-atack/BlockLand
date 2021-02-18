@@ -135,6 +135,7 @@ class Player extends Sprite {
       this.currentAttackKnockback = 0.25;     // Knockback is converted into kinetic motion (request)
       // then call the attack rendering function, and tell it which animation to use:
       this.attack('slash');
+      playSound(`slash-${Math.floor(Math.random() * 3)}-sound`);  // Play one of three slash sound effects!
       const data = [this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, {id: 1000, text: '', type: 'announcement'}];
       makePopup(data);
     }
@@ -290,7 +291,6 @@ class Player extends Sprite {
 
   // Carry out death procedures:
   handleDeath() {
-    console.log(this.skillsAvailable);
     this.isDead = true;
     // Remove all experience and levels gained this inning (i.e. since the last checkpoint):
     this.experience -= this.experienceGainedThisInning;

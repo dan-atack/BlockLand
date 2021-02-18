@@ -1126,7 +1126,17 @@ The game's combat system needs to more clearly display information about combat 
 
 2. Integrate these sound effects to be played when the Baddie is killed, with a random selection being played each time.
 
-### 3. Add a similar selection of sounds for the Player's claw attack, to be played upon the execution of the attack. Implement.
+3. Add a similar selection of sounds for the Player's claw attack, to be played upon the execution of the attack. Implement.
+
+### 4. Create an animated blood splatter GIF and add it to the game's assets.
+
+### 5. Create an Effect class, descended from the Entity Class. It will be subclassed by both the Popup and the Animation class, which is what we're trying to develop here in the first place.
+
+### 6. The Effect class will need to be given everything non-specific to the Popup, which is to say the custom timeout/self-cleanup render method and the offsets.
+
+### 7. The Popup class will then inherit these general properties from the Effect class, and add the text-specific stuff, e.g. the popup classname, text-oriented ID convention, the dialogueData param, being a paragraph element, etc.
+
+### 8. Finally, the Animation class will inherit the timeout-render from Effect, and pretty much just render itself as an image at the desired location and wink out of existence a moment later.
 
 ## Version 1.4.6: UX Enhancements - Taking Damage from Baddies and Dying
 
@@ -1160,7 +1170,7 @@ One thing to remember here is that when you're killed, the Restart button should
 
 6. Dialogues uttered by baddies don't always disappear! This is a pretty major one, so it should be investigated before any other issue. Addendum: Adding the stop dialogue command to the baddie's death sequence seems to have solved the puzzle.
 
-### 7. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
+### 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment!
 
 ### 8. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
@@ -1171,6 +1181,8 @@ One thing to remember here is that when you're killed, the Restart button should
 ### 11. The syringe tip for the Serum Item asset is cut off by the CSS border-radius. Find some non-intrusive way to fix that.
 
 ### 12. Game balance fix: introduce a playerHP checkpoint so that when you die, you don't automatically get your health filled all the way back up.
+
+### 13. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
 
 # PHASE X - Art Department:
 
