@@ -357,6 +357,11 @@ body {
 .attack {
   position: absolute; }
 
+.damage {
+  position: absolute;
+  width: 64px;
+  height: 32px; }
+
 .baddie-moving {
   transition-duration: 0.25s;
   position: absolute;

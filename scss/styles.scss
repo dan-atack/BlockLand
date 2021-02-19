@@ -434,6 +434,12 @@ body {
   position: absolute;
 }
 
+.damage {
+  position: absolute;
+  width: $block-width * 2;
+  height: $block-width;
+}
+
 .baddie-moving {
   transition-duration: 0.25s;
   position: absolute;

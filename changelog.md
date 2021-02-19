@@ -1128,7 +1128,7 @@ The game's combat system needs to more clearly display information about combat 
 
 3. Add a similar selection of sounds for the Player's claw attack, to be played upon the execution of the attack. Implement.
 
-### 4. Create an animated blood splatter GIF and add it to the game's assets.
+4. Create an animated blood splatter GIF and add it to the game's assets.
 
 ### 5. Create an Effect class, descended from the Entity Class. It will be subclassed by both the Popup and the Animation class, which is what we're trying to develop here in the first place.
 
@@ -1172,17 +1172,19 @@ One thing to remember here is that when you're killed, the Restart button should
 
 ### 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment!
 
-### 8. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
+### 8. It also appears that the Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements.
 
-### 9. It looks as thought a lot of baddies and items are being perpetually rendered and de-rendered offscreen... Stop that from happening so much.
+### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
-### 10. Falling into lava should really be lethal to the Baddies too.
+### 10. It looks as thought a lot of baddies and items are being perpetually rendered and de-rendered offscreen... Stop that from happening so much.
 
-### 11. The syringe tip for the Serum Item asset is cut off by the CSS border-radius. Find some non-intrusive way to fix that.
+### 11. Falling into lava should really be lethal to the Baddies too.
 
-### 12. Game balance fix: introduce a playerHP checkpoint so that when you die, you don't automatically get your health filled all the way back up.
+### 12. The syringe tip for the Serum Item asset is cut off by the CSS border-radius. Find some non-intrusive way to fix that.
 
-### 13. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
+### 13. Game balance fix: introduce a playerHP checkpoint so that when you die, you don't automatically get your health filled all the way back up.
+
+### 14. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
 
 # PHASE X - Art Department:
 
