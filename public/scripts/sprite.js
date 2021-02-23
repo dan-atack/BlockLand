@@ -182,7 +182,7 @@ class Sprite extends Entity {
   // D - Taking Damage and getting thrown around:
 
   // General formula for what to do when you are 'hit':
-  handleCollisions = (x, y) => {
+  handleCollisions = () => {
     if (!this.hasBeenHit) {             // If you HAVEN'T just been hit...
       if (this.damageRecieved > 0) {    // ... Then if you take damage it hurts:
         this.currentHP -= this.damageRecieved;
@@ -199,8 +199,14 @@ class Sprite extends Entity {
 
   // Specific sub-routine for the physical consequences of violence:
   getKnockedBack = (x, y) => {
-    this.xSpeed = x;
+    this.xSpeed = x;  // Collisions module sets X and Y speed of a sprite to 'knock it back.'
     this.ySpeed = y;
+    // Only animate if this sprite does not currently have an animation playing:
+    if (!document.getElementById(`animation-${this.id}`)) {
+      const direction = x > 0 ? 'right' : 'left'; // If X is positive you are moved to the right, thus have been hit from the left.
+    const blood = new Animation(this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, this.id, 'blood-splatter-1', direction);
+    blood.render();
+    };
   }
 
   // E - Dialogue and Thought Bubbles:
@@ -238,8 +244,10 @@ class Sprite extends Entity {
   }
 
   cleanupDialogue = () => {
-    this.currentDialogue.deRender();
-    this.currentDialogue = null;
+    if (this.currentDialogue) {
+      this.currentDialogue.deRender();
+      this.currentDialogue = null;
+    };
   }
 
   // F - Update root node for sprite and attack animation:

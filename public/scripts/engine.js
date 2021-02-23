@@ -227,6 +227,7 @@ class Engine {
         // Initiate collision detection between objects in motion:
         this.collisions.compare(3, this.baddies);
         this.baddies.forEach((baddie) => {
+          if (baddie.damageReceived && baddie.currentHP === baddie.maxHP) console.log(`${baddie.id} hit.`)
           baddie.handleCollisions();
           if (baddie.isDying) {
             baddie.handleDeath();
@@ -598,7 +599,10 @@ class Engine {
     // Then reset the current (and global) baddies-killed counters, and halt any baddie attacks that are in progress:
     this.baddiesDestroyed -= this.baddiesKilledThisInning;
     this.baddiesKilledThisInning = 0;
-    this.baddies.forEach((baddie) => baddie.haltAttack());
+    this.baddies.forEach((baddie) => {
+      baddie.haltAttack();
+      baddie.cleanupDialogue(); 
+    });
     // Update player's kill data too:
     this.player.baddiesDestroyed = this.baddiesDestroyed;
     this.player.baddiesKilledThisInning = this.baddiesKilledThisInning;

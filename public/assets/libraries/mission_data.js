@@ -228,14 +228,14 @@ const missions = [
         'Visit the right side of this new universe.',
         "It's bacon all the way down!",
         'position',
-        [18],
+        [21],
         1,
       ],
       [
         'Visit the left side of this new universe.',
         "It's bacon all the way down!",
         'position',
-        [-18],
+        [-21],
         1,
       ],
     ],
@@ -255,7 +255,7 @@ const missions = [
       ],
       [
         'set-world-width', // set-world-width will alter the world width to make levels wider or tighter
-        18, // one argument only: the new world width for the global variable
+        21, // one argument only: the new world width for the global variable
       ],
       // Clear remaining baddies from the previous world (make sure to do this BEFORE adding new baddies to the current level!)
       ['clear-baddies'],

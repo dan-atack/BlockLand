@@ -359,6 +359,7 @@ body {
 
 .damage {
   position: absolute;
+  z-index: 1000;
   width: 64px;
   height: 32px; }
 

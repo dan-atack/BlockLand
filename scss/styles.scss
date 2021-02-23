@@ -436,6 +436,7 @@ body {
 
 .damage {
   position: absolute;
+  z-index: 1000;
   width: $block-width * 2;
   height: $block-width;
 }
