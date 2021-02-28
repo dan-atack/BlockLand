@@ -25,8 +25,8 @@ class Sprite extends Entity {
     // COMBAT-RELATED:
     this.maxHP = hitpoints;
     this.currentHP = hitpoints;
-    // If you get hit, you recieve damage and you have been hit (granting momentary invulnerability):
-    this.damageRecieved = 0;
+    // If you get hit, you Receive damage and you have been hit (granting momentary invulnerability):
+    this.damageReceived = 0;
     this.hasBeenHit = false;
     // Set this value to true when an attack is initiated:
     this.isAttacking = false;
@@ -184,9 +184,13 @@ class Sprite extends Entity {
   // General formula for what to do when you are 'hit':
   handleCollisions = () => {
     if (!this.hasBeenHit) {             // If you HAVEN'T just been hit...
-      if (this.damageRecieved > 0) {    // ... Then if you take damage it hurts:
-        this.currentHP -= this.damageRecieved;
-        this.damageRecieved = 0;
+      if (this.damageReceived > 0) {    // ... Then if you take damage it hurts:
+        // If this is your first time taking damage (And you're not the player) get ready to show a healthbar:
+        if (this.currentHP === this.maxHP && this.id != 'player') {
+          console.log(`${this.id} has been damaged for the first time.`);
+        }
+        this.currentHP -= this.damageReceived;
+        this.damageReceived = 0;
         this.hasBeenHit = true;
         if (this.currentHP <= 0) {
           this.handleDeath();   // ... Or maybe even is fatal!

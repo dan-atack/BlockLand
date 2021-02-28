@@ -686,11 +686,11 @@ Recovering HP and augmenting the max HP for the Player will be the subject of fu
 
 3. Give each specific attack (Claws, electricity) a damage value, in the form of of yet another Sprite property: currentAttackDamage.
 
-4. For the Sprite, Player and Baddie Classes, change all references to 'collisionStatus' property to 'damageRecieved' property, and change the value from a string to an integer.
+4. For the Sprite, Player and Baddie Classes, change all references to 'collisionStatus' property to 'damageReceived' property, and change the value from a string to an integer.
 
-5. Update the Collisions module to take an attack's damage value and pass that onto the victim's damageRecieved property.
+5. Update the Collisions module to take an attack's damage value and pass that onto the victim's damageReceived property.
 
-6. For the Player and Baddie classes, make their collision-status check mechanism subtract damageRecieved from current hitpoints; if the result is equal to or less than zero, then make them die. As soon as the subtraction is complete reset damageRecieved to zero.
+6. For the Player and Baddie classes, make their collision-status check mechanism subtract damageReceived from current hitpoints; if the result is equal to or less than zero, then make them die. As soon as the subtraction is complete reset damageReceived to zero.
 
 7. Remove the playerMedium Sidebar element from the App and Engine.
 
@@ -1140,11 +1140,15 @@ The game's combat system needs to more clearly display information about combat 
 
 ### 9. Build a Healthbar component (Entity subclass again?) with an outer shell and an inner bar, modelled off the Player health display but slightly simpler, to put above the heads of damaged Baddies.
 
-### 10. In the Engine loop's baddie damage update section (around line 230 right now) add a condition to check if a Baddie has just received damage (via the hasBeenHit flag) AND if they are currently at full HP. If this condition is true then they have just been hit for the first time, which is when you will render the Healthbar component above them.
+### 10. The Healthbar will need an updateSelf method which takes two arrays: [the current and max HP of its subject] and [x and y position on the screen], which will be given to the Healthbar WITH OFFSETS already calculated by the Baddie when HIS updateHealthbar method is called.
 
-### 11. Just below that but above the if (baddie.isDying) line, IF the Baddie is at less than full HP, call the Baddie's updateHealthbar function.
+### 11. In the Baddie's handleCollisions method, add a condition to detect if a Baddie has been damaged for the first time (this currently belongs to the Sprite class but it shouldn't).
 
-### 12. Now, in the Baddie Class, create that function: Since it's going to be updated every cycle until the Baddie dies, it must contain instructions to update the fullness/colour of the Healthbar element, and translate so that it's always in the right position above the guy's head.
+### 12. The first time the Baddie is at less than full HP, call the Baddie's createHealthbar function, which renders a healthbar to a position just above the Baddie's head.
+
+### 13. Add a new flag for Baddies: isDamaged. This boolean will let the Engine know, each cycle, if it needs to update the Baddie's healthbar by calling the updateHealthbar method.
+
+### 14. Create the updateHealthbar method for Baddies. This should take care of translating the bar, updating its status (feeding it the Baddie's current HP so that it can update its width and color)
 
 ### X. Fix bugs 7 and 8 before closing this branch of development.
 

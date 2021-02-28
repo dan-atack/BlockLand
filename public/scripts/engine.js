@@ -227,7 +227,6 @@ class Engine {
         // Initiate collision detection between objects in motion:
         this.collisions.compare(3, this.baddies);
         this.baddies.forEach((baddie) => {
-          if (baddie.damageReceived && baddie.currentHP === baddie.maxHP) console.log(`${baddie.id} hit.`)
           baddie.handleCollisions();
           if (baddie.isDying) {
             baddie.handleDeath();

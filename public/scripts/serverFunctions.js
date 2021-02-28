@@ -40,7 +40,7 @@ const dataTest2 = () => {
   }
 };
 
-// Server Test 3: Send the server the time and recieve an acknowledgement echo:
+// Server Test 3: Send the server the time and Receive an acknowledgement echo:
 
 const sendWorldData = (progressReport) => {
   if (DEV_MODE) {

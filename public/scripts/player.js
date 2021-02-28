@@ -337,7 +337,7 @@ class Player extends Sprite {
     // Next, eliminate player statuses related to death:
     this.standingOn = blocktionary[0];
     this.medium = blocktionary[0];
-    this.damageRecieved = 0;
+    this.damageReceived = 0;
     this.currentHP = this.maxHP;
   }
 }

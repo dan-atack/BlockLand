@@ -32,7 +32,7 @@ class Collisions {
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
             // If there's a hit, player takes damage and is knocked according to what direction you're hit from:
-            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
           }
         } else {
@@ -43,7 +43,7 @@ class Collisions {
             // Baddie's zone of killing you is UNAFFECTED by baddie attacks (until we invent energy fields anyway):
             badDictionary[`baddie_${baddie.type}`].backToBack.dangerZone
           ) {
-            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
           }
         }
@@ -60,7 +60,7 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if attack is successful, the baddie is hit!
-            baddie.damageRecieved = player.currentAttackDamage;
+            baddie.damageReceived = player.currentAttackDamage;
             baddie.getKnockedBack(-baddieHorizontalKnock, baddieVerticalKnock);
             // If your strike fails we must consider whether you can now be killed by them:
           } else if (
@@ -73,7 +73,7 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
           }
         } else {
@@ -85,13 +85,13 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if attack succeeds, the baddie is hit!
-            baddie.damageRecieved = player.currentAttackDamage;
+            baddie.damageReceived = player.currentAttackDamage;
             baddie.getKnockedBack(-baddieHorizontalKnock, baddieVerticalKnock);
           } else if (
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].playerBehind.dangerZone
           ) {
-            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
           }
         }
@@ -108,13 +108,13 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if they are, the baddie is killed!
-            baddie.damageRecieved = player.currentAttackDamage;
+            baddie.damageReceived = player.currentAttackDamage;
             baddie.getKnockedBack(baddieHorizontalKnock, baddieVerticalKnock);
           } else if (
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].playerBehind.dangerZone
           ) {
-            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
           }
         } else {
@@ -126,7 +126,7 @@ class Collisions {
               deltaEu - badDictionary[`baddie_${baddie.type}`].spriteWidth
           ) {
             // if they are, the baddie is killed!
-            baddie.damageRecieved = player.currentAttackDamage;
+            baddie.damageReceived = player.currentAttackDamage;
             baddie.getKnockedBack(baddieHorizontalKnock, baddieVerticalKnock);
           } else if (
             deltaEu <
@@ -138,7 +138,7 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
           }
         }
@@ -151,7 +151,7 @@ class Collisions {
             deltaEu <
             badDictionary[`baddie_${baddie.type}`].backToBack.dangerZone
           ) {
-            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
           }
         } else {
@@ -167,7 +167,7 @@ class Collisions {
               // AND make sure the player is more or less in the right height range:
               Math.abs(player.y - baddie.y) < baddie.attackRadius)
           ) {
-            player.damageRecieved = baddie.currentAttackDamage || 1;
+            player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
           }
         }
