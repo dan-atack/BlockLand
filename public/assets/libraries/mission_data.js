@@ -63,8 +63,8 @@ const missions = [
   // Mission 0 - The Starting Screen:
   {
     levelNumber: 0,
-    levelName: 'Intro',
-    brief: "Following the creation of the world, the Designer thought it a good idea to walk to both edges of the world to see if they exist. Go do that, then we'll think of something more interesting for you.\n\n PS Watch out for those lava tiles and baddies!",
+    levelName: 'Escape',
+    brief: "Escape from this place! Start by getting to higher ground.",
     achievementStatement: "Well done, you have visited the world's ends. Your medal is in the mail.",
     objectives: [
       [
@@ -89,8 +89,8 @@ const missions = [
         'add-baddies',
         [
           [ 19, 10, 1002, 1001, [17, 19]],
-          [ -10, 8, 1001, 1002, [-10, 0]],
-          [ -12, 9, 1002, 9000, [-12, 0]],
+          [ 26, 15, 1002, 1002, [13, 26]],
+          [ 28, 15, 1002, 9000, [13, 28]],
           [ -14, 10, 1001, 9001, [-14, 0]],
         ],
       ],  // End of instruction 1

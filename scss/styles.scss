@@ -455,6 +455,13 @@ body {
   height: $block-width * 1.1;
 }
 
+.baddie-healthbar {
+  height: $block-width / 4;
+  width: $block-width;
+  background-color: red;
+  position: absolute;
+}
+
 .boss {
   width: $block-width * 1.6;
   height: $block-width * 1.6;

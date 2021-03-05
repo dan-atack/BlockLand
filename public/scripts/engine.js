@@ -23,7 +23,7 @@ class Engine {
     // Same principle applies to the vertical:
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
-    this.player = new Player(document.getElementById('world'), 4, 14);
+    this.player = new Player(document.getElementById('world'), 10, 9);
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:
@@ -70,7 +70,7 @@ class Engine {
     // Game loop will only run when game is "on"; main file's any key sets this to true when you start; dying should make it false.
     this.gameOn = false;   
     // Use this to update player respawn coordinates:
-    this.playerRespawnCoords = [5, 8];
+    this.playerRespawnCoords = [10, 9];
     // Finally, run the setup instructions for the first level (all other levels will be setup by the game loop process):
     this.mission.setupInstructions.forEach((instruction) => {
       this.setupNextMission(instruction);
@@ -628,6 +628,7 @@ class Engine {
       baddie.verticalTranslate(this.verticalOffset);
       baddie.advanceAttackCountdown()
       baddie.patrol();
+      baddie.updateHealthbar();
     });
   };
 

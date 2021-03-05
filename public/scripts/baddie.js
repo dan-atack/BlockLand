@@ -57,11 +57,27 @@ class Baddie extends Sprite {
     // If a Baddie is within both the horizontal AND vertical range, render them (and set has-been-rendered flag).
     if (withinHorizontalRange && withinVerticalRange) {
       this.render()
+      // If baddie has been damaged, also show his HP bar:
+      if (this.currentHP < this.maxHP) this.renderHealthbar();
       this.hasBeenRendered = true;
     } else {
-      this.deRender()
+      this.deRender();
     }
   };
+
+  // Custom derender job: gets rid of more mess than the rest!
+  deRender = () => {
+    if (this.rendered) {
+      this.root.removeChild(this.domElement);
+      this.rendered = false;
+      // Specifically, if a baddie has a healthbar it needs to be cleaned up whenever the baddie goes away.
+      if (this.healthbar) {
+        this.healthbar.deRender();
+        this.healthbar = null;
+      }
+      if (this.currentDialogue) this.cleanupDialogue();
+    }
+  }
 
   // Run the patrol method every engine cycle. Patrol will first tick off an internal counter (movement every 5 engine cycles),
   // then determine where a baddie is in terms of his patrol route, then move then reset the counter.

@@ -1138,23 +1138,21 @@ The game's combat system needs to more clearly display information about combat 
 
 8. Finally, the Animation class will inherit the timeout-render from Effect, and pretty much just render itself as an image at the desired location and wink out of existence a moment later. Easy as pie, eh?
 
-### 9. Build a Healthbar component (Entity subclass again?) with an outer shell and an inner bar, modelled off the Player health display but slightly simpler, to put above the heads of damaged Baddies.
+9. Build a Healthbar component (Entity subclass again?) with an outer shell and an inner bar, modelled off the Player health display but slightly simpler, to put above the heads of damaged Baddies.
 
-### 10. The Healthbar will need an updateSelf method which takes two arrays: [the current and max HP of its subject] and [x and y position on the screen], which will be given to the Healthbar WITH OFFSETS already calculated by the Baddie when HIS updateHealthbar method is called.
+10. The Healthbar will need an updateSelf method which takes two arrays: [the current and max HP of its subject] and [x and y position on the screen], which will be given to the Healthbar WITH OFFSETS already calculated by the Baddie when HIS updateHealthbar method is called.
 
-### 11. In the Baddie's handleCollisions method, add a condition to detect if a Baddie has been damaged for the first time (this currently belongs to the Sprite class but it shouldn't).
+11. In the Baddie's handleCollisions method, add a condition to detect if a Baddie has been damaged for the first time (this currently belongs to the Sprite class but it shouldn't).
 
-### 12. The first time the Baddie is at less than full HP, call the Baddie's createHealthbar function, which renders a healthbar to a position just above the Baddie's head.
+12. The first time the Baddie is at less than full HP, call the Baddie's createHealthbar function, which renders a healthbar to a position just above the Baddie's head.
 
-### 13. Add a new flag for Baddies: isDamaged. This boolean will let the Engine know, each cycle, if it needs to update the Baddie's healthbar by calling the updateHealthbar method.
+13. Create the updateHealthbar method for Baddies. This should take care of translating the bar, updating its status (feeding it the Baddie's current HP so that it can update its width and color). ADDENDUM: The naming conventions suggested in the last 5 or so checkpoints didn't come out precisely like what was outlined, but it was pretty much exactly like that.
 
-### 14. Create the updateHealthbar method for Baddies. This should take care of translating the bar, updating its status (feeding it the Baddie's current HP so that it can update its width and color)
-
-### X. Fix bugs 7 and 8 before closing this branch of development.
+14. Fix bugs 7 and 8 before closing this branch of development.
 
 ## Version 1.4.6: UX Enhancements - Taking Damage from Baddies and Dying
 
-One thing to remember here is that when you're killed, the Restart button should glow the way the Menu button does when you get killed.
+One thing to remember here is that when you're killed, the Restart button should glow the way the Menu button does when you level up.
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
@@ -1186,7 +1184,7 @@ One thing to remember here is that when you're killed, the Restart button should
 
 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment! Addendum: they weren't the previous level, BaconLand was simply too small to completely fill the entire screen if entered from a rightward approach, so the extraneous tiles were in fact a default map being generated as filler by the Columns module - exactly as it is meant to function!
 
-8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements.
+### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements.
 
 ### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 

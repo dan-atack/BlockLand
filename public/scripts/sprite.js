@@ -46,6 +46,8 @@ class Sprite extends Entity {
     this.dialoguesUttered = [];
     this.dialogueCountdown = 0;
     this.currentDialogue = null;
+    // Get ready to show a healthbar if damaged:
+    this.healthbar = null;
   }
 
   // Sprite Methods control the most general things about moving entities:
@@ -187,7 +189,7 @@ class Sprite extends Entity {
       if (this.damageReceived > 0) {    // ... Then if you take damage it hurts:
         // If this is your first time taking damage (And you're not the player) get ready to show a healthbar:
         if (this.currentHP === this.maxHP && this.id != 'player') {
-          console.log(`${this.id} has been damaged for the first time.`);
+          this.renderHealthbar();
         }
         this.currentHP -= this.damageReceived;
         this.damageReceived = 0;
@@ -254,7 +256,24 @@ class Sprite extends Entity {
     };
   }
 
-  // F - Update root node for sprite and attack animation:
+  // F - Render and Update Healthbar (for baddies only...?)
+
+  renderHealthbar = () => {
+    if (!this.healthbar) {
+      this.healthbar = new Healthbar(this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, this.id);
+      this.healthbar.handleRender();
+    }
+  }
+
+  updateHealthbar = () => {
+    if (this.healthbar) {
+      this.healthbar.updatePosition(this.x, this.y + 1.5, this.horizontalOffset, this.verticalOffset);
+      const hp = (this.currentHP / this.maxHP);
+      this.healthbar.updateFullness(hp);
+    }
+  }
+
+  // G - Update root node for sprite and attack animation:
   updateRoot(root) {
     // Re-assign new root element:
     this.root = root;
