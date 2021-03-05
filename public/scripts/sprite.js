@@ -25,8 +25,8 @@ class Sprite extends Entity {
     // COMBAT-RELATED:
     this.maxHP = hitpoints;
     this.currentHP = hitpoints;
-    // If you get hit, you recieve damage and you have been hit (granting momentary invulnerability):
-    this.damageRecieved = 0;
+    // If you get hit, you Receive damage and you have been hit (granting momentary invulnerability):
+    this.damageReceived = 0;
     this.hasBeenHit = false;
     // Set this value to true when an attack is initiated:
     this.isAttacking = false;
@@ -46,6 +46,8 @@ class Sprite extends Entity {
     this.dialoguesUttered = [];
     this.dialogueCountdown = 0;
     this.currentDialogue = null;
+    // Get ready to show a healthbar if damaged:
+    this.healthbar = null;
   }
 
   // Sprite Methods control the most general things about moving entities:
@@ -182,14 +184,18 @@ class Sprite extends Entity {
   // D - Taking Damage and getting thrown around:
 
   // General formula for what to do when you are 'hit':
-  handleCollisions = (x, y) => {
+  handleCollisions = () => {
     if (!this.hasBeenHit) {             // If you HAVEN'T just been hit...
-      if (this.damageRecieved > 0) {    // ... Then if you take damage it hurts:
-        this.currentHP -= this.damageRecieved;
-        this.damageRecieved = 0;
+      if (this.damageReceived > 0) {    // ... Then if you take damage it hurts:
+        // If this is your first time taking damage (And you're not the player) get ready to show a healthbar:
+        if (this.currentHP === this.maxHP && this.id != 'player') {
+          this.renderHealthbar();
+        }
+        this.currentHP -= this.damageReceived;
+        this.damageReceived = 0;
         this.hasBeenHit = true;
         if (this.currentHP <= 0) {
-          this.handleDeath('attack');   // ... Or maybe even is fatal!
+          this.handleDeath();   // ... Or maybe even is fatal!
         }
       }
     } else {                            // If you have just been hit you get a free pass however.
@@ -199,8 +205,14 @@ class Sprite extends Entity {
 
   // Specific sub-routine for the physical consequences of violence:
   getKnockedBack = (x, y) => {
-    this.xSpeed = x;
+    this.xSpeed = x;  // Collisions module sets X and Y speed of a sprite to 'knock it back.'
     this.ySpeed = y;
+    // Only animate if this sprite does not currently have an animation playing:
+    if (!document.getElementById(`animation-${this.id}`)) {
+      const direction = x > 0 ? 'right' : 'left'; // If X is positive you are moved to the right, thus have been hit from the left.
+    const blood = new Animation(this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, this.id, 'blood-splatter-1', direction);
+    blood.render();
+    };
   }
 
   // E - Dialogue and Thought Bubbles:
@@ -238,11 +250,30 @@ class Sprite extends Entity {
   }
 
   cleanupDialogue = () => {
-    this.currentDialogue.deRender();
-    this.currentDialogue = null;
+    if (this.currentDialogue) {
+      this.currentDialogue.deRender();
+      this.currentDialogue = null;
+    };
   }
 
-  // F - Update root node for sprite and attack animation:
+  // F - Render and Update Healthbar (for baddies only...?)
+
+  renderHealthbar = () => {
+    if (!this.healthbar) {
+      this.healthbar = new Healthbar(this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, this.id);
+      this.healthbar.handleRender();
+    }
+  }
+
+  updateHealthbar = () => {
+    if (this.healthbar) {
+      this.healthbar.updatePosition(this.x, this.y + 1.5, this.horizontalOffset, this.verticalOffset);
+      const hp = (this.currentHP / this.maxHP);
+      this.healthbar.updateFullness(hp);
+    }
+  }
+
+  // G - Update root node for sprite and attack animation:
   updateRoot(root) {
     // Re-assign new root element:
     this.root = root;

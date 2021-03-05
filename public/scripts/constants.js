@@ -10,7 +10,7 @@ const DEV_MODE = true;
 // World Constraints: Establishing the maximum size of the entire world, in terms of width in columns,
 // spreading in either direction of the initial game screen:
 
-let WORLD_WIDTH = 40;
+let WORLD_WIDTH = 50;
 
 // For the moment, ALL universal physical constants must be exponents of two, unless you wanna see some REALLY crazy shit...
 

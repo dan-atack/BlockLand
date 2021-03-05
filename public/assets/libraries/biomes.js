@@ -9,8 +9,8 @@
 // With any block of your choice! Ideal for testing elaborate multi-block patterning effects!
 
 // Enter the NUMBER of the block you wish to test:
-const protoBlock = 15;
-const offBlock = 14; // Test graphic interaction of multiple block types!
+const protoBlock = 730;
+const offBlock = 721; // Test graphic interaction of multiple block types!
 
 const testStage = [
   [ 3, 3, 3, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, ],
@@ -21,6 +21,16 @@ const testStage = [
   [3, 3, 3, 0, 0, 0, 20],
   [3, 3, 3, 3],
   [3, 3, 3, 3],
+  [0, 0, protoBlock],
+  [0, 0, protoBlock],
+  [0, 0, protoBlock],
+  [0, 0, protoBlock],
+  [0, 0, protoBlock],
+  [0, offBlock, protoBlock],
+  [0, 0, protoBlock],
+  [0, 0, protoBlock],
+  [0, 0, protoBlock],
+  [0, offBlock, protoBlock],
   [ 3, 3, 3, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, ],
   [3, 3, 3, protoBlock],
   [3, 3, 3, protoBlock, protoBlock],
@@ -225,6 +235,11 @@ const baconLandRight = [
   [40, 40, 40, 43, 970],
   [40, 40, 40, 43, 970],
   [40, 40, 40, 43, 972],
+  [40, 40, 40, 43, 0, 0, 973],
+  [40, 40, 40, 43, 0, 0, 970],
+  [40, 40, 40, 43, 0, 0, 970],
+  [40, 40, 40, 43, 0, 0, 970],
+  [40, 40, 40, 43, 0, 0, 972],
 ];
 
 const baconLandLeft = [
@@ -247,6 +262,10 @@ const baconLandLeft = [
   [40, 40, 40, 43, 970],
   [40, 40, 40, 43, 970, 0, 0, 0, 0, 0, 0, 974, 971, 971, 975],
   [40, 40, 40, 43, 973],
+  [40, 40, 40, 43, 0, 972],
+  [40, 40, 40, 43, 0, 970],
+  [40, 40, 40, 43, 0, 970],
+  [40, 40, 40, 43, 0, 973],
 ];
 
 const treeForts = [

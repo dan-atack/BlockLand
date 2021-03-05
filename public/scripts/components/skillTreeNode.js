@@ -97,7 +97,7 @@ class SkillTreeNode {
                 {id: this.x + this.y, text: `${this.text} cannot be obtained... yet!`, type: 'skill-tree-alert', duration: 2.5},
               ];
               makePopup(popupData);
-              playSound('purchase-fail');
+              playSound('purchase-fail-sound');
         } else if (this.status === 'available') {
             const popupData = [
                 this.root,
@@ -108,7 +108,7 @@ class SkillTreeNode {
                 {id: this.x + this.y, text: 'Click again to confirm skill purchase!', type: 'skill-tree-select', duration: 2.5},
             ];
             makePopup(popupData);
-            playSound('select');
+            playSound('select-sound');
             this.container.classList.add('selected');
             this.container.onmouseup = this.handleConfirm;
             this.justSelected = true;
@@ -135,7 +135,7 @@ class SkillTreeNode {
             {id: this.x + this.y, text: `${this.text} purchased!`, type: 'skill-tree-confirm', duration: 2.5},
         ];
         makePopup(popupData);
-        playSound('confirm');
+        playSound('confirm-sound');
         this.status = 'purchased';
         this.justPurchased = true;
         this.container.classList.remove('selected');

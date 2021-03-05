@@ -357,6 +357,12 @@ body {
 .attack {
   position: absolute; }
 
+.damage {
+  position: absolute;
+  z-index: 1000;
+  width: 64px;
+  height: 32px; }
+
 .baddie-moving {
   transition-duration: 0.25s;
   position: absolute;
@@ -368,6 +374,12 @@ body {
   transition-duration: 0s;
   width: 35.2px;
   height: 35.2px; }
+
+.baddie-healthbar {
+  height: 8px;
+  width: 32px;
+  background-color: red;
+  position: absolute; }
 
 .boss {
   width: 51.2px;

@@ -50,7 +50,7 @@ class Mission {
           this.subject.y,
           this.subject.horizontalOffset,
           this.subject.verticalOffset,
-          {id: this.subject.gridX + this.subject.gridY, text: `+ ${objective.xpValue + 1} XP`, type: 'announcement-xp-gain', duration: 2},
+          {id: this.subject.gridX + this.subject.gridY, text: `+ ${objective.xpValue} XP`, type: 'announcement-xp-gain', duration: 2},
         ];
         makePopup(popupData)
         setTimeout(() => {

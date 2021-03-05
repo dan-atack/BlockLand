@@ -434,6 +434,13 @@ body {
   position: absolute;
 }
 
+.damage {
+  position: absolute;
+  z-index: 1000;
+  width: $block-width * 2;
+  height: $block-width;
+}
+
 .baddie-moving {
   transition-duration: 0.25s;
   position: absolute;
@@ -446,6 +453,13 @@ body {
   transition-duration: 0s;
   width: $block-width * 1.1;
   height: $block-width * 1.1;
+}
+
+.baddie-healthbar {
+  height: $block-width / 4;
+  width: $block-width;
+  background-color: red;
+  position: absolute;
 }
 
 .boss {
