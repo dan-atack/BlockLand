@@ -20,9 +20,11 @@
 
 4. All new feature development should be done on branches named for their version/patch number. A branch may have many commits before it is merged. When a branch is merged back to the master, that version/patch is considered ready for release and should be imported to production. Use GitHub's difference display to verify which files need to be brought in (or removed) from production version to update successfully.
 
-5. This current Prod-vs-Dev configuration requires the development code to be run from a local Express server rather than the Production version's Firebase server. The game CONSTANTS file will have a 'DEV_MODE' boolean that will always be true in Dev and false in Production, so that no toggling is needed when importing new code into production. Just make sure that if the production version's CONSTANTS file ever needs to be updated that its variable is kept to production mode and not dev mode, otherwise it won't work... There must be some way to do that with a local environment variable...
+5. When changing CSS rules be sure to always do it from the SCSS folder.
 
-6. When changing CSS rules be sure to always do it from the SCSS folder.
+6. To update the production version, copy the 'public' folder from your Dev directory and replace the inner 'public' folder in the Production mode (the one in Blockland-PROD-X.X.X/BlockLand-version-X.X.X/public).
+
+7. After that's done, set the DEV_MODE boolean to false and then do a firebase deploy. Wait about 10 minutes then test it out live!
 
 ### Things to Check When Adding Entities to the Engine Cycle:
 
@@ -39,3 +41,9 @@
 - You can edit older maps by loading them by their const name.
 
 - Edited maps appear as new consts in the basic_biomes library.
+
+- You must make at least one change to a map before saving it, otherwise you get an empty biome!
+
+- When using a newly saved map that is a copy of an older one, check that it hasn't gained any extra thickness (sometimes there seems to be an issue with the editor where it adds duplicate columns to the start of a map).
+
+- Make sure your maps have a tall border at the end to add realism and to prevent the player from falling off the edge!
