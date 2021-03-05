@@ -64,23 +64,23 @@ const missions = [
   {
     levelNumber: 0,
     levelName: 'Escape',
-    brief: "Escape from this place! Start by getting to higher ground.",
-    achievementStatement: "Well done, you have visited the world's ends. Your medal is in the mail.",
+    brief: "Escape from the Nazi laboratory! You may have to fight your way to higher ground!",
+    achievementStatement: "Get to ze portal!!!",
     objectives: [
       [
         // Objective One:
-        'Reach the Rightmost Edge of the world.', // 0 - Objective instructions statement
-        "Good job, you've clearly got the *right* stuff!", // 1 - Objective achievement statement
+        'Escape from your cell.', // 0 - Objective instructions statement
+        "Prisoner Has Escaped from Holding Pen A", // 1 - Objective achievement statement
         'position', // 2 - Objective test type
-        [40], // 3 - Objective coordinate/s
+        [15], // 3 - Objective coordinate/s
         1, // 4 - XP value for objective
       ],
       [
         // Objective Two:
-        'Reach the Leftmost Edge of the world.',
-        'No dinosaur *left* behind!',
+        'Get to the roof.',
+        'Good job, now...',
         'position',
-        [-40],
+        [30, 35],
         1,
       ],
     ],
@@ -96,32 +96,14 @@ const missions = [
       ],  // End of instruction 1
       [
         'add-item',
-        [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          -18, 10, {type: 'steroids', power: 0.2, duration: 100}
-        ]
-      ],
-      [
-        'add-item',
-        [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          -12, 10, {type: 'experience', power: 9, duration: 0}
-        ]
-      ],
-      [
-        'add-item',
-        [ // x, y, [item type, power, duration] this list is the 'item data' and is passed as-is to the item constructor:
-          0, 7, {type: 'serum', power: 1, duration: 200}
+        [
+          37, 15, {type: 'health', power: 1, duration: 0}
         ]
       ],
       [
         'add-item',
         [
-          37, 14, {type: 'health', power: 2, duration: 0}
-        ]
-      ],
-      [
-        'add-item',
-        [
-          -38, 6, {type: 'steroids', power: 0.2, duration: 100}
+          15, 10, {type: 'experience', power: 5, duration: 0}
         ]
       ]
     ],
@@ -152,22 +134,24 @@ const missions = [
           condition: ['position', -40],
           duration: 40
         },
-        {
-          id: 3,
-          text: 'Are those performance-enhancing drugs? Well, when in Rome...',
-          type: 'thought',
-          repeating: false,
-          condition: ['position', -16],
-          duration: 50
-        },
       ],
       baddie_1001: [
         {
           id: 4,
           text: 'Die scum!',
           type: 'speech',
-          repeating: true,
+          repeating: false,
           condition: ['position', 17],
+          duration: 30,
+        },
+      ],
+      baddie_1002: [
+        {
+          id: 4,
+          text: 'Stop him!',
+          type: 'speech',
+          repeating: false,
+          condition: ['position', 26],
           duration: 20,
         },
       ]
@@ -176,14 +160,14 @@ const missions = [
   {
     levelNumber: 1,
     levelName: 'Finding the Portal',
-    brief: 'What are you doing over there at the edge?! A portal has mysteriously appeared back near where you started your journey. Go and find it!',
+    brief: 'A portal has mysteriously appeared on the roof. This is your chance to make good your escape!',
     achievementStatement: "My God, it's full of bacon!",
     objectives: [
       [
         'Investigate the anomaly at the Center',
         'Whooaaaaa!!',
         'position',
-        [5, 13],
+        [5, 35],
         2,
       ],
     ],
@@ -193,7 +177,7 @@ const missions = [
         'create-block', // idx = 0 - code word for switch case
         [
           // idx = 1 - array containing coords and block type for 'create-block' switch case in engine
-          [5, 13], // create-block idx = 0 - coordinates to target
+          [5, 35], // create-block idx = 0 - coordinates to target
           989, // create-block idx = 1 - block type to render
         ],
       ], // end of first instructions set
@@ -204,7 +188,6 @@ const missions = [
           // baddie ranges must be processed by the engine, not given as a range function output here:
           [ -19, 12, 1002, 1003, [-19, -14]],
           [ -29, 10, 1002, 1004, [-36, -29]],
-          [ 23, 10, 1001, 1005, [23, 34]],
         ],
       ],
       [
@@ -213,7 +196,7 @@ const missions = [
           -2, 12, {type: 'experience', power: 5, duration: 0}
         ]
       ],
-      ['update-player-respawn', [4, 7]],
+      ['update-player-respawn', [37, 29]],
     ],
     specialFX: null,
     dialogue: null,
