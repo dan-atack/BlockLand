@@ -201,8 +201,9 @@ class Engine {
         let timeString = `${hour} : ${min} : ${sec}`;
         this.clock.innerText = timeString;
         this.player.determineMedium(this.blocks);
-        // Next, the new player movement system: Check which movement requests the player is going to perform:
+        // Next, the player movement system: Check which movement requests the player is going to perform:
         this.player.handleMovementRequests();
+        this.player.updatePlayerImage();  // Determine whether the Player is running or standing still.
         // Advance player attack countdown:
         this.player.advanceAttackCountdown();
         // The New Physics: Now completely in the hands of the Physics object... Now ~ 83% bug free!
@@ -509,7 +510,7 @@ class Engine {
         document.getElementById('world'),
         0,
         0,
-        32,
+        64,
         'YOU GOT KILLED!',
         'obituary'
       );

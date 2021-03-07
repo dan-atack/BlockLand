@@ -3,7 +3,7 @@
 class Player extends Sprite {
   constructor(root, xStart, yStart, hitpoints=3) {
     super(root, xStart, yStart, hitpoints);
-    this.domElement.src = './assets/sprites/player.png';
+    this.domElement.src = './assets/sprites/player-standing.gif';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
     this.domElement.style.bottom = `${this.y * PLAYER_WIDTH}px`;
     this.position = `${this.x},${this.y}`;
@@ -16,6 +16,7 @@ class Player extends Sprite {
     this.movingLeft = false;
     this.jumping = false;
     this.crouching = false;
+    this.running = false;   // This boolean tracks when the player starts or stops running, to control animations.
     // Let's RPG it up a bit!
     this.justLeveledUp = false;   // Flag to act as an event for the Engine to pick up on and trigger visual effects for levelup.
     this.justDemoted = false;     // Flag to act as an event for the Engine to pick up on and trigger effects for a DEMOTION.
@@ -110,6 +111,19 @@ class Player extends Sprite {
       this.standUp();
     }
   };
+
+  // Runs each cycle to determine what image to use based on the player's state of motion:
+  updatePlayerImage = () => {
+    const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
+    if (moving && !this.running) {  // If you have momentum but have not yet declared running, you have just started to run:
+      this.domElement.src = './assets/sprites/player-running.gif';
+      this.running = true;
+    }
+    else if (!moving && this.running) { // If you don't have momentum but are 'running' then you have just stopped:
+      this.domElement.src = './assets/sprites/player-standing.gif';
+      this.running = false;
+    }
+  }
 
   // Only the player has the ability (not to mention the motivation) to want to crouch/stand up:
 
@@ -282,6 +296,7 @@ class Player extends Sprite {
       (this.medium.properties.length > 0 &&
         this.medium.properties.includes('lethal'))
     ) {
+      playSound('lava-death-sound');
       this.currentHP = 0;
       this.handleDeath();
       }
@@ -292,6 +307,7 @@ class Player extends Sprite {
   // Carry out death procedures:
   handleDeath() {
     this.isDead = true;
+    playSound('player-death-0-sound');
     // Remove all experience and levels gained this inning (i.e. since the last checkpoint):
     this.experience -= this.experienceGainedThisInning;
     this.level -= this.levelsGainedThisInning;

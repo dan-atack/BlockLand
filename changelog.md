@@ -1152,7 +1152,38 @@ The game's combat system needs to more clearly display information about combat 
 
 ## Version 1.4.6: UX Enhancements - Taking Damage from Baddies and Dying
 
-One thing to remember here is that when you're killed, the Restart button should glow the way the Menu button does when you level up.
+The next phase of the game's combat UI enhancements will focus on the consequences of violence against the Player. Quite a few elements of this feature are in place already as the Player shares a common root with the Baddies since they're all Sprites. So this feature will see the addition of some new sounds and visual effects, but should not require any major re-tooling or introduction of new class types. We'll be looking specifically at adding sound effects for the Player taking damage/getting killed, a new blood animation, and a new animated GIF for when the Player gets killed.
+One more thing to remember here is that when you're killed, the Restart button should glow the way the Menu button does when you level up.
+
+1. Record three sounds for a raptor getting hurt/expressing displeasure.
+
+2. Record or import a sound of a raptor getting killed.
+
+3. Record or obtain one or two 'sizzle' sounds for when the Player falls into lava.
+
+4. Add the logic for Player injury sounds to the Sprite class's handleCollisions method (around where baddie healthbars appear).
+
+5. Add the logic for the Player death sounds to the Player class's handleDeath method.
+
+6. Add the logic for the sizzle sound to the Player's checkForDeath method, in the lava death section (there is opportunity to have other lethal substances here too, so we could add some green acid or something down the line).
+
+7. Make a second animated GIF for the blood-splatter effect, and have them used interchangeably.
+
+### 8. Make an animated GIF of the Player dying, and have that be substituted for the Player's sprite when they die. Then, make the restart button reset the player's image (or better still, activate a Sprite class method that does this).
+
+### 9. When the Player dies, make the Restart button glow the way the Menu does when there is a levelup.
+
+### 10. When a Baddie falls in something lethal, make them die (and make the fizzle noise play).
+
+### 11. (Trickier) When the Player dies, instead of restoring them to full HP, have them be restored to the amount of HP they had at the last levelup (this will require adding a new 'hpAtCheckpoint' property to the Player, to be used when a reset occurs).
+
+### 12. Gradualist approach to content addition: make 3 more blocks, one of which is the animated steam block.
+
+### 13. Make an animated GIF of the Player at rest; just 3-4 frames of bobbing gently up and down. Swap this in for the Player's current image!
+
+### 14. Make a bigger, faster-moving GIF for the Player's claw attack. Swap this in for the Player's current attack animation.
+
+15. Create and implement running / standing animations for the Player. No big deal.
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
