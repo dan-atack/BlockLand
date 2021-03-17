@@ -1169,13 +1169,13 @@ One more thing to remember here is that when you're killed, the Restart button s
 
 7. Make a second animated GIF for the blood-splatter effect, and have them used interchangeably.
 
-### 8. Make an animated GIF of the Player dying, and have that be substituted for the Player's sprite when they die. Then, make the restart button reset the player's image (or better still, activate a Sprite class method that does this).
+8. Make an animated GIF of the Player dying, and have that be substituted for the Player's sprite when they die. Then, make the restart button reset the player's image (or better still, activate a Sprite class method that does this).
 
-### 9. When the Player dies, make the Restart button glow the way the Menu does when there is a levelup.
+9. When the Player dies, make the Restart button glow the way the Menu does when there is a levelup, and disable the Main Menu button.
 
-### 10. When a Baddie falls in something lethal, make them die (and make the fizzle noise play).
+10. When a Baddie falls in something lethal, make them die (and make the fizzle noise play).
 
-### 11. (Trickier) When the Player dies, instead of restoring them to full HP, have them be restored to the amount of HP they had at the last levelup (this will require adding a new 'hpAtCheckpoint' property to the Player, to be used when a reset occurs).
+11. (Trickier) When the Player dies, instead of restoring them to full HP, have them be restored to the amount of HP they had at the last levelup (this will require adding a new 'hpAtCheckpoint' property to the Player, to be used when a reset occurs).
 
 ### 12. Gradualist approach to content addition: make 3 more blocks, one of which is the animated steam block.
 
@@ -1184,6 +1184,8 @@ One more thing to remember here is that when you're killed, the Restart button s
 ### 14. Make a bigger, faster-moving GIF for the Player's claw attack. Swap this in for the Player's current attack animation.
 
 15. Create and implement running / standing animations for the Player. No big deal.
+
+### 16. Experiment with a different slash animation for the Player attack; either a big fast white slashing effect, or an actual claw animation??
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
@@ -1215,19 +1217,21 @@ One more thing to remember here is that when you're killed, the Restart button s
 
 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment! Addendum: they weren't the previous level, BaconLand was simply too small to completely fill the entire screen if entered from a rightward approach, so the extraneous tiles were in fact a default map being generated as filler by the Columns module - exactly as it is meant to function!
 
-### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements.
+8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements.
 
 ### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
-### 10. It looks as thought a lot of baddies and items are being perpetually rendered and de-rendered offscreen... Stop that from happening so much.
+### 10. It looks as thought a lot of baddies and items are being perpetually rendered and de-rendered offscreen... Stop that from happening so much. Addendum: It's not as bad as it looks; mostly they're simply checking to see if they should render, but not going all the way... test this though?!!
 
-### 11. Falling into lava should really be lethal to the Baddies too.
+11. Falling into lava should really be lethal to the Baddies too. Addendum: LET 'EM BURN! LET 'EM BURN!!!
 
 ### 12. The syringe tip for the Serum Item asset is cut off by the CSS border-radius. Find some non-intrusive way to fix that.
 
-### 13. Game balance fix: introduce a playerHP checkpoint so that when you die, you don't automatically get your health filled all the way back up.
+13. Game balance fix: introduce a playerHP checkpoint so that when you die, you don't automatically get your health filled all the way back up.
 
 ### 14. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
+
+### 15. When you die and respawn after finishing a level, the baddies and goodies from the previous level are not respawned. Not necessarily an issue that requires a coded fix per se, but something to keep in mind during level design process (such that, if you complete a mission, you should be transported away from the opportunity to go back and look for things that won't be there any more).
 
 # PHASE X - Art Department:
 

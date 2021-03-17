@@ -26,6 +26,7 @@ class Player extends Sprite {
     this.previousLevelsXP = [0];                 // records the XP costs of ALL previous levels attained in case of multi-level loss.
     this.experienceGainedThisInning = 0;      // the number of XP points gained since your last death/mission accomplishment.
     this.levelsGainedThisInning = 0;          // the number of Levelups gained since your last death/mission accomplishment.
+    this.hpCheckpoint = this.maxHP;          // the amount of HP you will have when you respawn (updated at each mission checkpoint).
     this.skillsList = [skills.find((skill) => skill.id === 'BASIC')];    // the list of skill objects the player benefits from.
     this.skillsAvailable = 0;                 // calculated from the difference between your level and the length of your skills list.
     // SKILL RELATED ATTRIBUTES:
@@ -239,8 +240,9 @@ class Player extends Sprite {
     this.checkForLevelUp();
   }
 
-  // Reset XP counters for the current 'inning' whenever a mission is completed:
-  experienceCheckpoint = () => {
+  // Reset HP, XP counters for the current 'inning' whenever a mission is completed:
+  missionCheckpoint = () => {
+    this.hpCheckpoint = this.currentHP; // 'Save' the current HP value, so that if you die this is what you respawn with.
     this.experienceGainedThisInning = 0;
     this.levelsGainedThisInning = 0;
   }
@@ -308,6 +310,13 @@ class Player extends Sprite {
   handleDeath() {
     this.isDead = true;
     playSound('player-death-0-sound');
+    this.domElement.src = './assets/sprites/player-dying.gif';    // replace sprite with death animation.
+    if (
+      !((this.standingOn.properties.length > 0 &&
+        this.standingOn.properties.includes('lethal')) ||
+      (this.medium.properties.length > 0 &&
+        this.medium.properties.includes('lethal')))
+    ) this.domElement.classList.add('dead-player');   // only add special CSS style if the death was not caused by lava.
     // Remove all experience and levels gained this inning (i.e. since the last checkpoint):
     this.experience -= this.experienceGainedThisInning;
     this.level -= this.levelsGainedThisInning;
@@ -350,10 +359,12 @@ class Player extends Sprite {
   resurrect() {
     // Resurrection: first, undeclare your legally dead status:
     this.isDead = false;
+    this.domElement.src = './assets/sprites/player-standing.gif'; // restore default player image.
+    this.domElement.classList.remove('dead-player');
     // Next, eliminate player statuses related to death:
     this.standingOn = blocktionary[0];
     this.medium = blocktionary[0];
     this.damageReceived = 0;
-    this.currentHP = this.maxHP;
+    this.currentHP = this.hpCheckpoint;   // No free HP from dying/respawning!
   }
 }

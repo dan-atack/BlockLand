@@ -133,6 +133,12 @@ class Baddie extends Sprite {
     if (this.hasBeenRendered) return this.y === this.lastJumpInitialHeight;
   }
 
+  // Checked once per cycle, this function will ring true if the baddie falls into something lethal:
+  checkForTerrainDeath = () => {
+    const inLava = this.standingOn.properties.includes('lethal');
+    return inLava
+  }
+
   // Death - A baddie's final moments are his finest. Running this function means the baddie's isDying property is true:
   handleDeath() {
     // Engine can check a baddie for deathLoops and remove them when the counter reaches zero:

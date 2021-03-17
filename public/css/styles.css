@@ -49,6 +49,14 @@
     text-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63;
     box-shadow: 0px 0px 20px #06565f, 0px 0px 10px #085a63; } }
 
+@keyframes redshinebox {
+  from {
+    text-shadow: 3px 3px 15px #db5516, -3px -3px 15px #d63a0a;
+    box-shadow: 3px 3px 15px #d47245, -3px -3px 15px #e24a24; }
+  to {
+    text-shadow: 0px 0px 20px #db5516, 0px 0px 10px #d63a0a;
+    box-shadow: 0px 0px 20px #d47245, 0px 0px 10px #e24a24; } }
+
 @keyframes vortex {
   0% {
     transform: rotateZ(0deg); }
@@ -68,6 +76,12 @@
     transform: translate(0, -8px); }
   100% {
     transform: translate(0, -4px); } }
+
+@keyframes sink {
+  0% {
+    transform: translate(0, 0); }
+  100% {
+    transform: translate(0, 10.66667px); } }
 
 body {
   background-color: #0d0f0d;
@@ -523,6 +537,11 @@ body {
   font-weight: bold;
   font-family: 'Russo One', sans-serif; }
 
+.disabled {
+  background-image: none;
+  background-color: gray;
+  cursor: not-allowed; }
+
 .block {
   position: absolute;
   width: 32px;
@@ -590,6 +609,17 @@ body {
   animation: redglow 1.5s ease-in-out infinite alternate;
   z-index: 100;
   position: relative; }
+
+.dead-player {
+  position: absolute;
+  z-index: 1000;
+  animation: sink 1s linear 0.5s 1;
+  animation-fill-mode: forwards; }
+
+.restart-button {
+  animation: redshinebox 2.5s ease-in-out infinite alternate;
+  background-image: none;
+  background-color: #cc3333; }
 
 .rounded {
   border-radius: 50%;
