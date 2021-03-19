@@ -64,7 +64,7 @@ class Editor {
         this.bedrockTop = blocktionary[0];          // Block type for just the top layer of 'bedrock' option.
         this.bedrockBottom = blocktionary[0];       // Block type for the bedrock interior (can have > 1 layer of this).
         this.bedrockHeight = 0;                     // How many rows will the bedrock take up.
-        this.currentBrushSelection = 'point';       // Keeps track of which brush shape is selected. Default is 'Small' (1 block).
+        this.currentBrushSelection = 'Small';       // Keeps track of which brush shape is selected. Default is 'Small' (1 block).
         this.palettePageNumber = 0;                 // Keeps track of which page you're on in the palette.
         this.blocksPerPage = 56;                    // Adjustable number of palette options per page.
         // Loading an existing Map:

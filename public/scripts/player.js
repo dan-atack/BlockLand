@@ -3,7 +3,7 @@
 class Player extends Sprite {
   constructor(root, xStart, yStart, hitpoints=3) {
     super(root, xStart, yStart, hitpoints);
-    this.domElement.src = './assets/sprites/player.png';
+    this.domElement.src = './assets/sprites/player-standing.gif';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;
     this.domElement.style.bottom = `${this.y * PLAYER_WIDTH}px`;
     this.position = `${this.x},${this.y}`;
@@ -16,6 +16,7 @@ class Player extends Sprite {
     this.movingLeft = false;
     this.jumping = false;
     this.crouching = false;
+    this.running = false;   // This boolean tracks when the player starts or stops running, to control animations.
     // Let's RPG it up a bit!
     this.justLeveledUp = false;   // Flag to act as an event for the Engine to pick up on and trigger visual effects for levelup.
     this.justDemoted = false;     // Flag to act as an event for the Engine to pick up on and trigger effects for a DEMOTION.
@@ -25,6 +26,7 @@ class Player extends Sprite {
     this.previousLevelsXP = [0];                 // records the XP costs of ALL previous levels attained in case of multi-level loss.
     this.experienceGainedThisInning = 0;      // the number of XP points gained since your last death/mission accomplishment.
     this.levelsGainedThisInning = 0;          // the number of Levelups gained since your last death/mission accomplishment.
+    this.hpCheckpoint = this.maxHP;          // the amount of HP you will have when you respawn (updated at each mission checkpoint).
     this.skillsList = [skills.find((skill) => skill.id === 'BASIC')];    // the list of skill objects the player benefits from.
     this.skillsAvailable = 0;                 // calculated from the difference between your level and the length of your skills list.
     // SKILL RELATED ATTRIBUTES:
@@ -111,6 +113,19 @@ class Player extends Sprite {
     }
   };
 
+  // Runs each cycle to determine what image to use based on the player's state of motion:
+  updatePlayerImage = () => {
+    const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
+    if (moving && !this.running) {  // If you have momentum but have not yet declared running, you have just started to run:
+      this.domElement.src = './assets/sprites/player-running.gif';
+      this.running = true;
+    }
+    else if (!moving && this.running) { // If you don't have momentum but are 'running' then you have just stopped:
+      this.domElement.src = './assets/sprites/player-standing.gif';
+      this.running = false;
+    }
+  }
+
   // Only the player has the ability (not to mention the motivation) to want to crouch/stand up:
 
   crouch() {
@@ -130,11 +145,11 @@ class Player extends Sprite {
     if (this.attackCountdown === 0) {
       // Set attacking to true and set all other initial attack values:
       this.attackRadius = 0.5;
-      this.attackCountdown = 10;
+      this.attackCountdown = 6;
       this.currentAttackDamage = this.clawAttackBaseDamage + this.attackModifier;
       this.currentAttackKnockback = 0.25;     // Knockback is converted into kinetic motion (request)
       // then call the attack rendering function, and tell it which animation to use:
-      this.attack('slash');
+      this.attack('claw');
       playSound(`slash-${Math.floor(Math.random() * 3)}-sound`);  // Play one of three slash sound effects!
       const data = [this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, {id: 1000, text: '', type: 'announcement'}];
       makePopup(data);
@@ -225,8 +240,9 @@ class Player extends Sprite {
     this.checkForLevelUp();
   }
 
-  // Reset XP counters for the current 'inning' whenever a mission is completed:
-  experienceCheckpoint = () => {
+  // Reset HP, XP counters for the current 'inning' whenever a mission is completed:
+  missionCheckpoint = () => {
+    this.hpCheckpoint = this.currentHP; // 'Save' the current HP value, so that if you die this is what you respawn with.
     this.experienceGainedThisInning = 0;
     this.levelsGainedThisInning = 0;
   }
@@ -282,6 +298,7 @@ class Player extends Sprite {
       (this.medium.properties.length > 0 &&
         this.medium.properties.includes('lethal'))
     ) {
+      playSound('lava-death-sound');
       this.currentHP = 0;
       this.handleDeath();
       }
@@ -292,6 +309,14 @@ class Player extends Sprite {
   // Carry out death procedures:
   handleDeath() {
     this.isDead = true;
+    playSound('player-death-0-sound');
+    this.domElement.src = './assets/sprites/player-dying.gif';    // replace sprite with death animation.
+    if (
+      !((this.standingOn.properties.length > 0 &&
+        this.standingOn.properties.includes('lethal')) ||
+      (this.medium.properties.length > 0 &&
+        this.medium.properties.includes('lethal')))
+    ) this.domElement.classList.add('dead-player');   // only add special CSS style if the death was not caused by lava.
     // Remove all experience and levels gained this inning (i.e. since the last checkpoint):
     this.experience -= this.experienceGainedThisInning;
     this.level -= this.levelsGainedThisInning;
@@ -334,10 +359,12 @@ class Player extends Sprite {
   resurrect() {
     // Resurrection: first, undeclare your legally dead status:
     this.isDead = false;
+    this.domElement.src = './assets/sprites/player-standing.gif'; // restore default player image.
+    this.domElement.classList.remove('dead-player');
     // Next, eliminate player statuses related to death:
     this.standingOn = blocktionary[0];
     this.medium = blocktionary[0];
     this.damageReceived = 0;
-    this.currentHP = this.maxHP;
+    this.currentHP = this.hpCheckpoint;   // No free HP from dying/respawning!
   }
 }

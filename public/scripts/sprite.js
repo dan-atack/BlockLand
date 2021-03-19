@@ -141,7 +141,11 @@ class Sprite extends Entity {
     this.attackAnimation.style.width = `${this.attackRadius * PLAYER_WIDTH}px`;
     // Ensure prominence with z-index value:
     this.attackAnimation.style.zIndex = 10;
-    this.attackAnimation.className = 'attack';
+    if (this.id === 'player') {
+      this.attackAnimation.className = 'player-attack';
+    } else {
+      this.attackAnimation.className = 'attack';
+    }
     // Translate BEFORE rendering:
     this.translateAttackAnimation();
     // Add attack animation:
@@ -190,6 +194,9 @@ class Sprite extends Entity {
         // If this is your first time taking damage (And you're not the player) get ready to show a healthbar:
         if (this.currentHP === this.maxHP && this.id != 'player') {
           this.renderHealthbar();
+        // Alternately, if you ARE the player, this is where your damage sound is emitted:
+        } else if (this.id === 'player' && this.currentHP > 1) {  // (unless you have only 1 HP in which case don't play hurt sound)
+          playSound(`player-hurt-${Math.floor(Math.random() * 3)}-sound`);
         }
         this.currentHP -= this.damageReceived;
         this.damageReceived = 0;
@@ -210,7 +217,17 @@ class Sprite extends Entity {
     // Only animate if this sprite does not currently have an animation playing:
     if (!document.getElementById(`animation-${this.id}`)) {
       const direction = x > 0 ? 'right' : 'left'; // If X is positive you are moved to the right, thus have been hit from the left.
-    const blood = new Animation(this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, this.id, 'blood-splatter-1', direction);
+    const whichBlood = Math.floor(Math.random() * 2);
+    const blood = new Animation(
+      this.root,
+      this.x,
+      this.y,
+      this.horizontalOffset,
+      this.verticalOffset,
+      this.id,
+      `blood-splatter-${whichBlood}`,
+      direction
+    );
     blood.render();
     };
   }

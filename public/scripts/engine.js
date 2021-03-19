@@ -201,8 +201,9 @@ class Engine {
         let timeString = `${hour} : ${min} : ${sec}`;
         this.clock.innerText = timeString;
         this.player.determineMedium(this.blocks);
-        // Next, the new player movement system: Check which movement requests the player is going to perform:
+        // Next, the player movement system: Check which movement requests the player is going to perform:
         this.player.handleMovementRequests();
+        this.player.updatePlayerImage();  // Determine whether the Player is running or standing still.
         // Advance player attack countdown:
         this.player.advanceAttackCountdown();
         // The New Physics: Now completely in the hands of the Physics object... Now ~ 83% bug free!
@@ -228,9 +229,11 @@ class Engine {
         this.collisions.compare(3, this.baddies);
         this.baddies.forEach((baddie) => {
           baddie.handleCollisions();
-          if (baddie.isDying) {
+          if (baddie.checkForTerrainDeath()) {
             baddie.handleDeath();
-          }
+            playSound('lava-death-sound');
+          } 
+          if (baddie.isDying) baddie.handleDeath();
         });
         this.checkforBaddieDeaths();
         // Victory: Filter out accomplished objectives, then check for mission objective achievements, then update sidebar:
@@ -257,7 +260,7 @@ class Engine {
     this.gameOn = false;
     // Reset baddies-killed-this-inning counter and give player experience checkpoint:
     this.baddiesKilledThisInning = 0;
-    this.player.experienceCheckpoint();
+    this.player.missionCheckpoint();
     // Cancel all current baddie attacks:
     this.baddies.forEach((baddie) => baddie.haltAttack());
     // When the mission updates we update the engine's mission level counter:
@@ -504,12 +507,16 @@ class Engine {
       this.gameOn = false;
       this.resetButton.style.display = 'initial';
       this.resetButton.style.width = '224px';
+      this.resetButton.classList.add('restart-button');
+      // Temporarily disable main menu button when player dies:
+      this.mainMenuButton.onmouseup = null;
+      this.mainMenuButton.classList.add('disabled');
       document.getElementById('pauseButton').style.display = 'none';
       this.announcement = new Text(
         document.getElementById('world'),
         0,
         0,
-        32,
+        64,
         'YOU GOT KILLED!',
         'obituary'
       );
@@ -565,6 +572,11 @@ class Engine {
     this.player.resurrect();
     // Then, remove your obituary notice:
     this.announcement.removeDOM();
+    // Then, unhighlight the reset button itself:
+    this.resetButton.classList.remove('restart-button');
+    // Reactivate the Menu button:
+    this.mainMenuButton.onmouseup = app.inGameMenuHandler;
+    this.mainMenuButton.classList.remove('disabled');
     // we'll move you back to a specified position when you die:
     this.player.y = this.playerRespawnCoords[1];
     this.player.domElement.style.bottom = `${this.player.y * PLAYER_WIDTH}px`;

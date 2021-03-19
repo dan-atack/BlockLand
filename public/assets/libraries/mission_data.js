@@ -88,10 +88,14 @@ const missions = [
       [   // Instruction 1:
         'add-baddies',
         [
-          [ 19, 10, 1002, 1001, [17, 19]],
+          [ 19, 10, 1002, 1001, [17, 23]],
           [ 26, 15, 1002, 1002, [13, 26]],
           [ 28, 15, 1002, 9000, [13, 28]],
           [ -14, 10, 1001, 9001, [-14, 0]],
+          [ 30, 20, 1002, 9002, [30, 34]],
+          [ 26, 19, 1002, 9003, [24, 26]],
+          [ 17, 32, 1002, 9004, [17, 20]],
+          [ 20, 45, 1002, 9005, [20, 23]],
         ],
       ],  // End of instruction 1
       [
@@ -115,29 +119,13 @@ const missions = [
           text: 'That lava looks hot!',
           type: 'thought',
           repeating: false,
-          condition: ['position', 11],
+          condition: ['position', 21],
           duration: 30
-        },
-        {
-          id: 1,
-          text: 'Looks like I better go the other way...',
-          type: 'thought',
-          repeating: false,
-          condition: ['position', 40],
-          duration: 40
-        },
-        {
-          id: 2,
-          text: 'Looks like I better go the other way...',
-          type: 'thought',
-          repeating: false,
-          condition: ['position', -40],
-          duration: 40
         },
       ],
       baddie_1001: [
         {
-          id: 4,
+          id: 1,
           text: 'Die scum!',
           type: 'speech',
           repeating: false,
@@ -147,11 +135,21 @@ const missions = [
       ],
       baddie_1002: [
         {
-          id: 4,
+          id: 2,
           text: 'Stop him!',
           type: 'speech',
           repeating: false,
           condition: ['position', 26],
+          duration: 20,
+        },
+      ],
+      baddie_9003: [
+        {
+          id: 3,
+          text: 'He\'s getting away!!',
+          type: 'speech',
+          repeating: true,
+          condition: ['position', 25],
           duration: 20,
         },
       ]
