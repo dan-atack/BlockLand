@@ -1185,6 +1185,26 @@ One more thing to remember here is that when you're killed, the Restart button s
 
 15. Create and implement running / standing animations for the Player. No big deal.
 
+## Version 1.4.7: UX Enhancements - The Objective and Mission Achievement Process
+
+Just a few more enhancements to go: the sounds and sights associated with completing a mission. In particular, playing a sound when an objective is met, playing a different sound for a mission achievement, as well as popups to direct the user to the menu when a levelup occurs as well as when the first mission is accomplished. Making the game instructions page visible from the in-game menu and updating said page should also be contemplated here, as well as simplifying the pre-game menu or differentiating between a 'Dev' and 'Production' version. Gotta think about that final UI!
+
+### 1. Add a sound for achieving an objective - just a small sound.
+
+### 2. Add a bigger sound for achieving a mission, and mute the objective sound when it plays.
+
+### 3. The first time that a mission is achieved, make a big popup, possibly arrow-shaped, to point the user to the in-game menu.
+
+### 4. The first time a levelup is achieved, make another big popup to direct the user to the menu button.
+
+### 5. Remove the Load Game button from the pre-game menu.
+
+### 6. Re-arrange the in-game menu to lead to the Game Instructions / Controls page.
+
+### 7. Update the Instructions / Controls page to tell about the levelup workflow, how to see your objectives, etc. and make some space for some new hotkeys!
+
+
+
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
 ### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
