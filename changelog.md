@@ -1177,15 +1177,13 @@ One more thing to remember here is that when you're killed, the Restart button s
 
 11. (Trickier) When the Player dies, instead of restoring them to full HP, have them be restored to the amount of HP they had at the last levelup (this will require adding a new 'hpAtCheckpoint' property to the Player, to be used when a reset occurs).
 
-### 12. Gradualist approach to content addition: make 3 more blocks, one of which is the animated steam block.
+12. Gradualist approach to content addition: make 3 more blocks, one of which is animated.
 
-### 13. Make an animated GIF of the Player at rest; just 3-4 frames of bobbing gently up and down. Swap this in for the Player's current image!
+13. Make an animated GIF of the Player at rest; just 3-4 frames of bobbing gently up and down. Swap this in for the Player's current image!
 
-### 14. Make a bigger, faster-moving GIF for the Player's claw attack. Swap this in for the Player's current attack animation.
+14. Make a bigger, faster-moving GIF for the Player's claw attack. Swap this in for the Player's current attack animation.
 
 15. Create and implement running / standing animations for the Player. No big deal.
-
-### 16. Experiment with a different slash animation for the Player attack; either a big fast white slashing effect, or an actual claw animation??
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 

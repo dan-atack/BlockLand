@@ -145,11 +145,11 @@ class Player extends Sprite {
     if (this.attackCountdown === 0) {
       // Set attacking to true and set all other initial attack values:
       this.attackRadius = 0.5;
-      this.attackCountdown = 10;
+      this.attackCountdown = 6;
       this.currentAttackDamage = this.clawAttackBaseDamage + this.attackModifier;
       this.currentAttackKnockback = 0.25;     // Knockback is converted into kinetic motion (request)
       // then call the attack rendering function, and tell it which animation to use:
-      this.attack('slash');
+      this.attack('claw');
       playSound(`slash-${Math.floor(Math.random() * 3)}-sound`);  // Play one of three slash sound effects!
       const data = [this.root, this.x, this.y, this.horizontalOffset, this.verticalOffset, {id: 1000, text: '', type: 'announcement'}];
       makePopup(data);

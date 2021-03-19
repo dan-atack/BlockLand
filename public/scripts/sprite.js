@@ -141,7 +141,11 @@ class Sprite extends Entity {
     this.attackAnimation.style.width = `${this.attackRadius * PLAYER_WIDTH}px`;
     // Ensure prominence with z-index value:
     this.attackAnimation.style.zIndex = 10;
-    this.attackAnimation.className = 'attack';
+    if (this.id === 'player') {
+      this.attackAnimation.className = 'player-attack';
+    } else {
+      this.attackAnimation.className = 'attack';
+    }
     // Translate BEFORE rendering:
     this.translateAttackAnimation();
     // Add attack animation:
