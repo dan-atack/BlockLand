@@ -174,6 +174,8 @@ class App {
         this.renderButton('missionBriefButton', 'menu-button', 'Current Mission', 'inGameMenu', this.showMissionBriefingHandler);
         this.renderSkillTree();
         this.renderButton('returnToGame', 'menu-button', 'Resume Game', 'inGameMenu', this.returnToGameHandler);
+        // Highlight mission briefing button if objectives have not been read:
+        if (this.engine.unreadObjectives) document.getElementById('missionBriefButton').classList.add('levelup-menu-shine');
     }
 
     renderBriefingPage = () => {
@@ -302,6 +304,7 @@ class App {
     showMissionBriefingHandler = () => {
         this.deRenderCurrentUI();
         this.renderBriefingPage();
+        this.engine.unreadObjectives = false; // Acknowledge that the current mission's objectives have been seen.
     }
 
     saveGameHandler = () => {

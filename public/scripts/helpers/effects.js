@@ -13,3 +13,8 @@ const makePopup = (data) => {
     const effect = new Popup(...data);
     effect.render();
 }
+
+const makeArrow = (data) => {
+    const arrow = new Arrow(...data);
+    arrow.render();
+}

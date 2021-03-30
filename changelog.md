@@ -1189,13 +1189,13 @@ One more thing to remember here is that when you're killed, the Restart button s
 
 Just a few more enhancements to go: the sounds and sights associated with completing a mission. In particular, playing a sound when an objective is met, playing a different sound for a mission achievement, as well as popups to direct the user to the menu when a levelup occurs as well as when the first mission is accomplished. Making the game instructions page visible from the in-game menu and updating said page should also be contemplated here, as well as simplifying the pre-game menu or differentiating between a 'Dev' and 'Production' version. Gotta think about that final UI!
 
-### 1. Add a sound for achieving an objective - just a small sound.
+1. Add a sound for achieving an objective - just a small sound.
 
-### 2. Add a bigger sound for achieving a mission, and mute the objective sound when it plays.
+2. Add a bigger sound for achieving a mission, and don't play the objective sound when this one plays.
 
-### 3. The first time that a mission is achieved, make a big popup, possibly arrow-shaped, to point the user to the in-game menu.
+3. The first time that a mission is achieved, make a big popup, possibly arrow-shaped, to point the user to the in-game menu.
 
-### 4. The first time a levelup is achieved, make another big popup to direct the user to the menu button.
+4. The first time a levelup is achieved, make another big popup to direct the user to the menu button.
 
 ### 5. Remove the Load Game button from the pre-game menu.
 
@@ -1203,7 +1203,11 @@ Just a few more enhancements to go: the sounds and sights associated with comple
 
 ### 7. Update the Instructions / Controls page to tell about the levelup workflow, how to see your objectives, etc. and make some space for some new hotkeys!
 
+### 8. Add a new Switch case to the Objective Class's test method to check for whether the Player has crossed a certain X or Y threshold for the first time (ring true as soon as X or Y (or both) is/are greater than, or less than n, where n is the coords of your invisible 'line,' and its sign represents the direction you cross it from).
 
+### 9. Hitting the Restart button should have a sound too.
+
+### 10. Whenever an objective is achieved, make the Menu button briefly flash/glow to attract attention.
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 

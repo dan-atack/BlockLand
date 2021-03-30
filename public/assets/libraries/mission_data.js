@@ -70,19 +70,19 @@ const missions = [
       [
         // Objective One:
         'Escape from your cell.', // 0 - Objective instructions statement
-        "Prisoner Has Escaped from Holding Pen A", // 1 - Objective achievement statement
+        "Objective Achieved: Escape from Cell", // 1 - Objective achievement statement
         'position', // 2 - Objective test type
         [15], // 3 - Objective coordinate/s
         1, // 4 - XP value for objective
       ],
-      [
-        // Objective Two:
-        'Get to the roof.',
-        'Good job, now...',
-        'position',
-        [30, 35],
-        1,
-      ],
+      // [
+      //   // Objective Two:
+      //   'Get to the roof.',
+      //   'Good job, now...',
+      //   'position',
+      //   [30, 35],
+      //   1,
+      // ],
     ],
     setupInstructions: [
       [   // Instruction 1:
@@ -107,7 +107,7 @@ const missions = [
       [
         'add-item',
         [
-          15, 10, {type: 'experience', power: 5, duration: 0}
+          15, 10, {type: 'experience', power: 10, duration: 0}
         ]
       ]
     ],
@@ -148,7 +148,7 @@ const missions = [
           id: 3,
           text: 'He\'s getting away!!',
           type: 'speech',
-          repeating: true,
+          repeating: false,
           condition: ['position', 25],
           duration: 20,
         },

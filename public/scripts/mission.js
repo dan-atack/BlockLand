@@ -34,6 +34,10 @@ class Mission {
     this.objectivesRemaining.forEach((objective) => {
       objective.test();
       if (objective.achieved) {
+        // if this is not the only/last objective, play objective sound
+        if (this.objectivesRemaining.length > 1) {
+          playSound('objective-achievement-sound');
+        }
         this.subject.gainExperience(objective.xpValue);
         this.objectivesAchieved.push(objective);
         const announcement = new Text(
@@ -59,6 +63,12 @@ class Mission {
       }
     });
     if (this.objectivesRemaining.length === 0 && !this.victoryMessageAwarded) {
+      playSound('mission-achievement-sound');
+      if (this.levelNumber === 0) {
+        makeArrow([document.getElementById('sidebar'), -8, 9, 0, 0]);
+      }
+      document.getElementById('inGameMenuButton').classList.add('levelup-menu-shine'); // menu shines briefly when mission changes
+      // if this is the first mission, make a popup announcement pointing to the menu
       this.accomplished = true;
       // Hello Shiny text!
       let announcement = new Text(
@@ -71,8 +81,13 @@ class Mission {
       );
       setTimeout(() => {
         announcement.removeDOM();
+        try {
+          document.getElementById('inGameMenuButton').classList.remove('levelup-menu-shine');
+        } catch {
+          // #$%^ proper rendering techniques.
+        }
         this.victoryMessageAwarded = false;
-      }, 4500);
+      }, 10000);
       this.victoryMessageAwarded = true;
     }
   }

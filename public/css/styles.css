@@ -77,6 +77,14 @@
   100% {
     transform: translate(0, -4px); } }
 
+@keyframes horizontal-bobbing {
+  0% {
+    transform: translate(16px, 0px); }
+  50% {
+    transform: translate(32px, 0); }
+  100% {
+    transform: translate(16px, 0px); } }
+
 @keyframes sink {
   0% {
     transform: translate(0, 0); }
@@ -203,7 +211,7 @@ body {
   border-radius: 16px;
   border: 3px solid #000;
   position: absolute;
-  z-index: 1000;
+  z-index: 3;
   bottom: 80%;
   left: 50%;
   margin-left: -60px;
@@ -213,6 +221,12 @@ body {
   line-height: 16px; }
 
 .skill-tree-container:hover .tooltiptext {
+  position: absolute;
+  visibility: visible;
+  opacity: 1;
+  z-index: 1000; }
+
+.skill-tree-container:hover {
   position: absolute;
   visibility: visible;
   opacity: 1;
@@ -275,7 +289,8 @@ body {
   position: absolute;
   color: rgba(0, 250, 154, 0.89);
   padding: 16px;
-  border-radius: 4px; }
+  border-radius: 4px;
+  max-width: 210px; }
 
 .slideshow {
   margin-top: 1%;
@@ -439,6 +454,7 @@ body {
   opacity: 33%; }
 
 .sidebar-container {
+  position: relative;
   margin-top: 1%;
   margin-left: 1%;
   box-sizing: border-box;
@@ -582,6 +598,9 @@ body {
   animation: shinebox 2.5s ease-in-out infinite alternate;
   font-size: 16px; }
 
+.levelup-menu-shine {
+  animation: shinebox 5s ease-in-out infinite alternate; }
+
 .text {
   position: relative;
   z-index: 100; }
@@ -628,3 +647,10 @@ body {
 .rounded {
   border-radius: 50%;
   height: 16px; }
+
+.pointer {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+  animation: horizontal-bobbing 5s cubic-bezier(0.7, 0.18, 0.24, 0.77) infinite alternate;
+  transform: rotateY(180deg); }

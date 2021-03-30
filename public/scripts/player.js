@@ -256,6 +256,9 @@ class Player extends Sprite {
 
   handleLevelUp = () => {
     playSound('levelup-sound');
+    if (this.level === 1) {
+      makeArrow([document.getElementById('sidebar')]);
+    }
     this.justLeveledUp = true;
     const popupData = [
       this.root,
