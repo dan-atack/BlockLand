@@ -129,7 +129,7 @@ class App {
         this.renderButton('backstory', 'menu-button', 'Story', 'mainMenu', this.backstoryButtonHandler);
     }
 
-    renderInstructionsPage = () => {
+    renderInstructionsPage = (ingame) => {  // If ingame (boolean) is true, give the return to main button a link to the in-game menu.
         this.currentUI = 'Instructions Page';
         this.renderElement('instructionsPage', 'div', 'main-menu', universe);
         this.renderText('instructionsPage', 0, 0, 42, "BlockLand: The Instructions", 'intro-shine');
@@ -137,18 +137,35 @@ class App {
             'instructionsPage', 
             0, 
             0, 
-            24, 
-            "MOVEMENT: WASD or Arrow Keys.\n S (Down-Arrow) lets you crouch, but it's mostly for show.",
+            22, 
+            "MOVEMENT: WASD or Arrow Keys.\n W (Up-Arrow) is jump, S (Down-Arrow) lets you crouch, but this is purely cosmetic.",
             );
         this.renderText(
             'instructionsPage', 
             0, 
             0, 
-            24, 
-            "COMBAT: Press the Space bar just before you engage the enemy.\n Turning around halts your attack.",
-
+            22, 
+            "COMBAT: Press the Space bar to slash with your claws.\nCharging in works well against most enemies but agility is your greatest strength. Turning around halts your attack.",
             );
-        this.renderButton('returnToMain', 'menu-button', 'Return to Main', 'instructionsPage', this.showPreGameMenu);
+        this.renderText(
+            'instructionsPage', 
+            0, 
+            0, 
+            22, 
+            "GOODIES: Scattered throughout the world are various powerups and goodies.\nPick up an item by running into it, and read the description that pops up to see what it does!",
+        );
+        this.renderText(
+            'instructionsPage', 
+            0, 
+            0, 
+            22, 
+            "LEVELLING-UP: Complete objectives and grab bonus XP to level up.\nWith each levelup you can purchase a new skill in the in-game menu.",
+        );
+        if (ingame) {
+            this.renderButton('returnToMain', 'menu-button', 'Return to Main', 'instructionsPage', this.returnToMainMenuHandler);
+        } else {
+            this.renderButton('returnToMain', 'menu-button', 'Return to Main', 'instructionsPage', this.showPreGameMenu);
+        }
     }
 
     renderBackstoryPage = () => {
@@ -171,7 +188,21 @@ class App {
         this.renderElement('inGameMenu', 'div', 'main-menu', universe);
         this.renderText('inGameMenu', 0, 0, 36, 'BlockLand: The In-Game Menu', 'intro-shine');
         // Display mission briefing and objectives:
-        this.renderButton('missionBriefButton', 'menu-button', 'Current Mission', 'inGameMenu', this.showMissionBriefingHandler);
+        this.renderElement('inGameOptionsContainer', 'div', 'ingame-options-container', document.getElementById('inGameMenu'))
+        this.renderButton(
+            'missionBriefButton',
+            'menu-button',
+            'Current Mission',
+            'inGameOptionsContainer',
+            this.showMissionBriefingHandler
+        );
+        this.renderButton(
+            'instructionsButton',
+            'menu-button',
+            'Game Controls',
+            'inGameOptionsContainer',
+            this.inGameinstructionsButtonHandler
+        );
         this.renderSkillTree();
         this.renderButton('returnToGame', 'menu-button', 'Resume Game', 'inGameMenu', this.returnToGameHandler);
         // Highlight mission briefing button if objectives have not been read:
@@ -242,7 +273,12 @@ class App {
 
     instructionsButtonHandler = () => {
         this.deRenderCurrentUI();
-        this.renderInstructionsPage();
+        this.renderInstructionsPage(false); // False means this is not coming from the in-game menu.
+    }
+
+    inGameinstructionsButtonHandler = () => {
+        this.deRenderCurrentUI();
+        this.renderInstructionsPage(true);  // True here means this IS coming from the in-game menu.
     }
 
     backstoryButtonHandler = () => {

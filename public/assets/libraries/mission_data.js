@@ -69,20 +69,20 @@ const missions = [
     objectives: [
       [
         // Objective One:
-        'Escape from your cell.', // 0 - Objective instructions statement
-        "Objective Achieved: Escape from Cell", // 1 - Objective achievement statement
+        'Escape from holding cell.', // 0 - Objective instructions statement
+        "Objective Achieved: Escape from holding Cell", // 1 - Objective achievement statement
         'position', // 2 - Objective test type
         [15], // 3 - Objective coordinate/s
         1, // 4 - XP value for objective
       ],
-      // [
-      //   // Objective Two:
-      //   'Get to the roof.',
-      //   'Good job, now...',
-      //   'position',
-      //   [30, 35],
-      //   1,
-      // ],
+      [
+        // Objective Two:
+        'Get to the roof.',
+        'Objective Achieved: Get to the roof',
+        'position',
+        [30, 35],
+        1,
+      ],
     ],
     setupInstructions: [
       [   // Instruction 1:

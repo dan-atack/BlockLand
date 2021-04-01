@@ -570,7 +570,8 @@ class Engine {
 
   // In case, in answer to the question 'would you like to play again?'... the user has selected... YES:
   handleReset() {
-    // First, resurrect the player:
+    // First, resurrect the player and play a sound:
+    playSound('confirm-sound');
     this.player.resurrect();
     // Then, remove your obituary notice:
     this.announcement.removeDOM();

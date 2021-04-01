@@ -1199,15 +1199,15 @@ Just a few more enhancements to go: the sounds and sights associated with comple
 
 ### 5. Remove the Load Game button from the pre-game menu.
 
-### 6. Re-arrange the in-game menu to lead to the Game Instructions / Controls page.
+6. Re-arrange the in-game menu to lead to the Game Instructions / Controls page.
 
-### 7. Update the Instructions / Controls page to tell about the levelup workflow, how to see your objectives, etc. and make some space for some new hotkeys!
+7. Update the Instructions / Controls page to tell about the levelup workflow, how to see your objectives, etc. and make some space for some new hotkeys!
 
 ### 8. Add a new Switch case to the Objective Class's test method to check for whether the Player has crossed a certain X or Y threshold for the first time (ring true as soon as X or Y (or both) is/are greater than, or less than n, where n is the coords of your invisible 'line,' and its sign represents the direction you cross it from).
 
-### 9. Hitting the Restart button should have a sound too.
+9. Hitting the Restart button should have a sound too.
 
-### 10. Whenever an objective is achieved, make the Menu button briefly flash/glow to attract attention.
+10. Make the text messages for achieving all objectives very literal - e.g. 'Objective completed: escape from holding cell."
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
