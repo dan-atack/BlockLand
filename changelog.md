@@ -1185,6 +1185,30 @@ One more thing to remember here is that when you're killed, the Restart button s
 
 15. Create and implement running / standing animations for the Player. No big deal.
 
+## Version 1.4.7: UX Enhancements - The Objective and Mission Achievement Process
+
+Just a few more enhancements to go: the sounds and sights associated with completing a mission. In particular, playing a sound when an objective is met, playing a different sound for a mission achievement, as well as popups to direct the user to the menu when a levelup occurs as well as when the first mission is accomplished. Making the game instructions page visible from the in-game menu and updating said page should also be contemplated here, as well as simplifying the pre-game menu or differentiating between a 'Dev' and 'Production' version. Gotta think about that final UI!
+
+1. Add a sound for achieving an objective - just a small sound.
+
+2. Add a bigger sound for achieving a mission, and don't play the objective sound when this one plays.
+
+3. The first time that a mission is achieved, make a big popup, possibly arrow-shaped, to point the user to the in-game menu.
+
+4. The first time a levelup is achieved, make another big popup to direct the user to the menu button.
+
+5. Remove the Load Game button from the pre-game menu.
+
+6. Re-arrange the in-game menu to lead to the Game Instructions / Controls page.
+
+7. Update the Instructions / Controls page to tell about the levelup workflow, how to see your objectives, etc. and make some space for some new hotkeys!
+
+8. Add a new Switch case to the Objective Class's test method to check for whether the Player has crossed a certain X or Y threshold for the first time (ring true as soon as X or Y (or both) is/are greater than, or less than n, where n is the coords of your invisible 'line,' and its sign represents the direction you cross it from).
+
+9. Hitting the Restart button should have a sound too.
+
+10. Make the text messages for achieving all objectives very literal - e.g. 'Objective completed: escape from holding cell."
+
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
 ### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
@@ -1215,7 +1239,7 @@ One more thing to remember here is that when you're killed, the Restart button s
 
 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment! Addendum: they weren't the previous level, BaconLand was simply too small to completely fill the entire screen if entered from a rightward approach, so the extraneous tiles were in fact a default map being generated as filler by the Columns module - exactly as it is meant to function!
 
-8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements.
+### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements. Addendum: It's not the baddie removal process but the horizontal/vertical translation process that is causing the cleanup to fail. Probably.
 
 ### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 

@@ -4,7 +4,11 @@ class SkillTree {
     constructor(root, skillsAvailable, skillsPurchased) {
         this.root = root;
         this.skillsAvailable = skillsAvailable;
-        this.displayRemaining = new Text(this.root, 0, 8.75, 20, `Skills Available: ${this.skillsAvailable}`, 'skill-tree-pts-remaining');
+        this.displayRemaining = new Text(this.root, 0, 7, 32, `Skills Available: ${this.skillsAvailable}`, 'skill-tree-pts-remaining');
+        this.clickToPurchase = null;
+        if (skillsAvailable) {
+            this.clickToPurchase = new Text(this.root, 0, 6.5, 12, '(Double click on a skill to purchase it)', 'skill-tree-pts-remaining');
+        }
         // Skills the Player already has will have the status 'purchased':
         this.skillsPurchased = skillsPurchased;
         // Keep track, separately, if which skills have been purchased during this session:

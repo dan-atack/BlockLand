@@ -40,6 +40,7 @@ class Engine {
       this.player,
       missions[this.currentMission]
     );
+    this.unreadObjectives = true; // Boolean for whether the Player has ever seen the current mission objectives.
     this.theTime = new Date();
     // Dictionary is used to associate Engine-updated sidebar elements to their HTML elements' ID strings:
     this.sidebarElements = {
@@ -267,6 +268,7 @@ class Engine {
     this.currentMission += 1;
     // Then activate the Mission object's loadNewMission function with the current mission number:
     this.mission.loadNewMission(missions[this.currentMission]);
+    this.unreadObjectives = true; // Update objectives-read boolean.
     // Check to see whether there are any setup instructions for the next level and run setupMission method accordingly:
     if (this.mission.numberOfSetupSteps > 0) {
       this.mission.setupInstructions.forEach((setOfInstructions) =>
@@ -568,7 +570,8 @@ class Engine {
 
   // In case, in answer to the question 'would you like to play again?'... the user has selected... YES:
   handleReset() {
-    // First, resurrect the player:
+    // First, resurrect the player and play a sound:
+    playSound('confirm-sound');
     this.player.resurrect();
     // Then, remove your obituary notice:
     this.announcement.removeDOM();

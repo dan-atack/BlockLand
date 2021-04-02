@@ -4,7 +4,7 @@
 // mission objects when the game Engine needs to create them. Each object's array should follow the format to create
 // this kind of object.
 
-// A - Copyable Object Template:
+// A - Copyable Mission Template:
 // {
 //   levelNumber: null,
 //   levelName: null,
@@ -45,7 +45,7 @@
 //            duration: time in seconds for the animation to last,
 //          }
 
-// E - Finally (for now), the shape of the dialogue object:
+// E - The shape of the dialogue object:
 // dialogue: {
 //   speaker_id: [
 //     {
@@ -59,6 +59,17 @@
 //   ],    // EOL for speaker_id's dialogues
 // }       // EOL for dialogues
 
+// F - Shape of the 'threshold' objective type:
+// [
+//   "Escape from holding cell."",                              // 0 - Objective instructions statement
+//   "Objective Achieved: Escape from holding Cell",            // 1 - Objective achievement statement
+//   "threshold",                                               // 2 - Objective test type
+//   { directions: ['toTheRight', 'above'], coords: [15, 20]},  // 3 - Objective details (in this case, directions, coords)
+//   Directions options: 'toTheRight', 'toTheLeft', 'above', 'below' referring to the player's position relative to the target coordinates
+//   NOTE that the x-axis value must always be given first e.g. ['toTheLeft', 'below'] and NOT ['above', 'toTheRight']
+//   1,                                                         // 4 - XP value for objective
+// ],
+
 const missions = [
   // Mission 0 - The Starting Screen:
   {
@@ -69,18 +80,18 @@ const missions = [
     objectives: [
       [
         // Objective One:
-        'Escape from your cell.', // 0 - Objective instructions statement
-        "Prisoner Has Escaped from Holding Pen A", // 1 - Objective achievement statement
-        'position', // 2 - Objective test type
-        [15], // 3 - Objective coordinate/s
+        'Escape from holding cell.', // 0 - Objective instructions statement
+        "Objective Achieved: Escape from holding Cell", // 1 - Objective achievement statement
+        'threshold', // 2 - Objective test type
+        { directions: ['toTheRight', 'above'], coords: [15, 15]}, // 3 - Objective details (in this case, directions, coords)
         1, // 4 - XP value for objective
       ],
       [
         // Objective Two:
         'Get to the roof.',
-        'Good job, now...',
-        'position',
-        [30, 35],
+        'Objective Achieved: Get to the roof',
+        'threshold',
+        { directions: ['toTheRight', 'above'], coords: [30, 32]},
         1,
       ],
     ],
@@ -107,7 +118,7 @@ const missions = [
       [
         'add-item',
         [
-          15, 10, {type: 'experience', power: 5, duration: 0}
+          15, 10, {type: 'experience', power: 10, duration: 0}
         ]
       ]
     ],
@@ -148,7 +159,7 @@ const missions = [
           id: 3,
           text: 'He\'s getting away!!',
           type: 'speech',
-          repeating: true,
+          repeating: false,
           condition: ['position', 25],
           duration: 20,
         },
