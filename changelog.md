@@ -1239,7 +1239,7 @@ Just a few more enhancements to go: the sounds and sights associated with comple
 
 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment! Addendum: they weren't the previous level, BaconLand was simply too small to completely fill the entire screen if entered from a rightward approach, so the extraneous tiles were in fact a default map being generated as filler by the Columns module - exactly as it is meant to function!
 
-8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements.
+### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements. Addendum: It's not the baddie removal process but the horizontal/vertical translation process that is causing the cleanup to fail. Probably.
 
 ### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 

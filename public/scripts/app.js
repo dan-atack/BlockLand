@@ -124,7 +124,6 @@ class App {
         this.renderElement('mainMenu', 'div', 'main-menu', universe);
         this.renderText('mainMenu', 0, 0, 48, "BlockLand: The Main Menu", 'intro-shine');
         this.renderButton('startGame', 'menu-button', 'New Game', 'mainMenu', this.startNewGameHandler);
-        this.renderButton('loadGame', 'menu-button', 'Load Game', 'mainMenu', this.startButtonHandler);
         this.renderButton('instructionsButton', 'menu-button', 'Instructions', 'mainMenu', this.instructionsButtonHandler);
         this.renderButton('backstory', 'menu-button', 'Story', 'mainMenu', this.backstoryButtonHandler);
     }
@@ -264,11 +263,10 @@ class App {
     startButtonHandler = () => {
         this.deRenderCurrentUI();
         if (this.slideshow) {
-            console.log('skip button activated.');
             this.slideshow.stopSlideshow();
             this.slideshow.deRenderSlide();
         }
-        this.startGame();           // Start button (fired by slideshow's Skip button OR the Load Game button) starts the game.
+        this.startGame();           // Start button (fired by slideshow's Skip button) starts the game.
     }
 
     instructionsButtonHandler = () => {
@@ -341,22 +339,6 @@ class App {
         this.deRenderCurrentUI();
         this.renderBriefingPage();
         this.engine.unreadObjectives = false; // Acknowledge that the current mission's objectives have been seen.
-    }
-
-    saveGameHandler = () => {
-        console.log('Saving game. Please wait.');
-    }
-
-    loadGameHandler = () => {
-        console.log('Loading game. Please wait.');
-    }
-
-    preferencesHandler = () => {
-        console.log('The lever you have requested #Preferences# is not in service. Please make a note of it.');
-    }
-
-    exitGameHandler = () => {
-        console.log('Exit the game my lord!??');
     }
 
     returnToMainMenuHandler = () => {
