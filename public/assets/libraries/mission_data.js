@@ -205,7 +205,7 @@ const missions = [
           -2, 12, {type: 'experience', power: 5, duration: 0}
         ]
       ],
-      ['update-player-respawn', [37, 29]],
+      ['update-player-respawn', [37, 37]],
     ],
     specialFX: null,
     dialogue: null,
