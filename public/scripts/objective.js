@@ -28,6 +28,32 @@ class Objective {
             this.subject.y === this.details[1];
         }
         break;
+      case 'threshold':
+        // Threshold tests if the player has PASSED a particular set of coordinates,
+        // so this.details is an object of the shape { directions: ['right-of', 'above'], coords: [10, 20] }
+        // Note that the first direction/coord is the X-axis, and the second pair is Y-axis
+        if (this.details.directions.length === 1) {                   // Single (x) axis check:
+          if (this.details.directions[0] === 'toTheRight') {
+            this.achieved = this.subject.x > this.details.coords[0]   // Succeed if player is to the right
+          } else if (this.details.directions[0] === 'toTheLeft') {
+            this.achieved = this.subject.x < this.details.coords[0]   // Succeed if player is to the left
+          }
+        } else {                                                      // 2-axis check:
+          let xPass = false;
+          let yPass = false;
+          if (this.details.directions[0] === 'toTheRight') {
+            xPass = this.subject.x > this.details.coords[0];
+          } else if (this.details.directions[0] === 'toTheLeft') {
+            xPass = this.subject.x < this.details.coords[0];
+          }
+          if (this.details.directions[1] === 'above') {
+            yPass = this.subject.y > this.details.coords[1];
+          } else if (this.details.directions[1] === 'below') {
+            yPass = this.subject.y < this.details.coords[1];
+          }
+          this.achieved = xPass && yPass;
+        }
+        break;
       case 'mission-kill-count':
         // For mission-specific, general kill-count-related objectives, this.details is the target number of kills:
         this.achieved = this.subject.baddiesKilledThisInning >= this.details[0];

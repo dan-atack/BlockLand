@@ -4,7 +4,7 @@
 // mission objects when the game Engine needs to create them. Each object's array should follow the format to create
 // this kind of object.
 
-// A - Copyable Object Template:
+// A - Copyable Mission Template:
 // {
 //   levelNumber: null,
 //   levelName: null,
@@ -45,7 +45,7 @@
 //            duration: time in seconds for the animation to last,
 //          }
 
-// E - Finally (for now), the shape of the dialogue object:
+// E - The shape of the dialogue object:
 // dialogue: {
 //   speaker_id: [
 //     {
@@ -59,6 +59,17 @@
 //   ],    // EOL for speaker_id's dialogues
 // }       // EOL for dialogues
 
+// F - Shape of the 'threshold' objective type:
+// [
+//   "Escape from holding cell."",                              // 0 - Objective instructions statement
+//   "Objective Achieved: Escape from holding Cell",            // 1 - Objective achievement statement
+//   "threshold",                                               // 2 - Objective test type
+//   { directions: ['toTheRight', 'above'], coords: [15, 20]},  // 3 - Objective details (in this case, directions, coords)
+//   Directions options: 'toTheRight', 'toTheLeft', 'above', 'below' referring to the player's position relative to the target coordinates
+//   NOTE that the x-axis value must always be given first e.g. ['toTheLeft', 'below'] and NOT ['above', 'toTheRight']
+//   1,                                                         // 4 - XP value for objective
+// ],
+
 const missions = [
   // Mission 0 - The Starting Screen:
   {
@@ -71,16 +82,16 @@ const missions = [
         // Objective One:
         'Escape from holding cell.', // 0 - Objective instructions statement
         "Objective Achieved: Escape from holding Cell", // 1 - Objective achievement statement
-        'position', // 2 - Objective test type
-        [15], // 3 - Objective coordinate/s
+        'threshold', // 2 - Objective test type
+        { directions: ['toTheRight', 'above'], coords: [15, 15]}, // 3 - Objective details (in this case, directions, coords)
         1, // 4 - XP value for objective
       ],
       [
         // Objective Two:
         'Get to the roof.',
         'Objective Achieved: Get to the roof',
-        'position',
-        [30, 35],
+        'threshold',
+        { directions: ['toTheRight', 'above'], coords: [30, 32]},
         1,
       ],
     ],
