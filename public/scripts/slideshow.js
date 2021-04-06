@@ -19,8 +19,8 @@ class Slideshow {
         this.root.appendChild(this.image);
         // Create text object with caption data (scale text to always fit based on number of characters):
         const words = slideData[this.currentSlide].caption;
-        const fittedSize = Math.min(72, (240 * (1 / Math.sqrt(words.length)))); // Max allowed font size is 72px
-        this.caption = new Text(this.root, 0, 0, fittedSize, words, 'obituary');
+        const fittedSize = Math.min(36, (420 * (1 / Math.sqrt(words.length)))); // Max allowed font size is 36px
+        this.caption = new Text(this.root, 0, 0, fittedSize, words, 'slideshow-text');
     }
 
     deRenderSlide = () => {
@@ -46,15 +46,14 @@ class Slideshow {
         if (this.currentSlideTimeLeft > 0) {
             setTimeout(() => {
                 this.currentSlideTimeLeft -= 1;
-                console.log('tick ', this.currentSlideTimeLeft)
                 this.updateSlide();
             }, 1000)
         } else {        // When the time runs out, check if it's the last slide, and advance to the next slide if it ISN'T:
             if (!this.lastSlide) {
                 this.advanceSlide();
-            } else {    // If it is the last slide, then set the isPlaying flag to false (this will cue the start of the game??):
+            } else {    // If it is the last slide, then set the isPlaying flag to false and change the skip button's text:
                 this.isPlaying = false;
-                console.log('show is over, folks.');
+                document.getElementById('skipIntro').innerText = 'Start Game';
             }
         }
     }

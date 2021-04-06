@@ -301,7 +301,7 @@ body {
 .slideshow {
   margin-top: 1%;
   margin-left: 10%;
-  height: 640px;
+  height: 720px;
   width: 768px;
   border: 1px solid white;
   border-radius: 12px;
@@ -315,6 +315,16 @@ body {
   margin: 16px;
   height: 403.2px;
   width: 716.8px; }
+
+.slideshow-text {
+  color: #e75b5b;
+  text-shadow: 1px 1px 7px #f73504;
+  background-color: black;
+  padding: 4px;
+  border: 1px solid whitesmoke;
+  border-radius: 12px;
+  z-index: 100;
+  position: relative; }
 
 .skip-button {
   position: absolute;
@@ -456,8 +466,10 @@ body {
   width: 672px;
   height: 672px;
   position: absolute;
-  background-image: url("../assets/backgrounds/background001.png");
-  opacity: 33%; }
+  background-image: url("../assets/backgrounds/background003.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 20%; }
 
 .sidebar-container {
   position: relative;
