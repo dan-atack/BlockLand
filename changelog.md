@@ -1225,9 +1225,9 @@ It is now time to get to work on the game's raison-d'etre: its awesome storyline
 
 1. Do text for all slides first.
 
-### 2. Draw rough sketches of each slide on paper.
+2. Draw rough sketches of each slide on paper.
 
-### 3. Render the slides with Pixilart; if necessary, ask Eric how to output the images with a larger resolution than they were drawn in without losing quality.
+3. Render the slides with Pixilart; if necessary, ask Eric how to output the images with a larger resolution than they were drawn in without losing quality.
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
