@@ -77,7 +77,7 @@ class Engine {
       this.setupNextMission(instruction);
     });
     // When the in-game menu is opened, every entity that is rendered at that time must be de-rendered and kept in this list:
-    this.onScreenEntities = []; 
+    this.onScreenEntities = [];
   }
 
   // ENGINE METHODS:
@@ -510,16 +510,26 @@ class Engine {
       this.resetButton.style.display = 'initial';
       this.resetButton.style.width = '224px';
       this.resetButton.classList.add('restart-button');
+      // Allow use of the any key to reset the game:
+      document.addEventListener('keydown', app.resetButtonHandler);
       // Temporarily disable main menu button when player dies:
       this.mainMenuButton.onmouseup = null;
       this.mainMenuButton.classList.add('disabled');
       document.getElementById('pauseButton').style.display = 'none';
-      this.announcement = new Text(
+      this.announcement1 = new Text(
         document.getElementById('world'),
         0,
         0,
         64,
         'YOU GOT KILLED!',
+        'obituary'
+      );
+      this.announcement2 = new Text(
+        document.getElementById('world'),
+        0,
+        0,
+        16,
+        'Press any key to resume from last checkpoint',
         'obituary'
       );
     }
@@ -573,10 +583,13 @@ class Engine {
     // First, resurrect the player and play a sound:
     playSound('confirm-sound');
     this.player.resurrect();
-    // Then, remove your obituary notice:
-    this.announcement.removeDOM();
+    // Then, remove your obituary notices:
+    this.announcement1.removeDOM();
+    this.announcement2.removeDOM();
     // Then, unhighlight the reset button itself:
     this.resetButton.classList.remove('restart-button');
+    // Remove any key event listener from the reset button:
+    document.addEventListener('keydown', app.resetButtonHandler);
     // Reactivate the Menu button:
     this.mainMenuButton.onmouseup = app.inGameMenuHandler;
     this.mainMenuButton.classList.remove('disabled');

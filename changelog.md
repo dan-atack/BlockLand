@@ -1209,6 +1209,26 @@ Just a few more enhancements to go: the sounds and sights associated with comple
 
 10. Make the text messages for achieving all objectives very literal - e.g. 'Objective completed: escape from holding cell."
 
+## Version 1.4.8 - UX Enhancements - Useful hotkeys and final double-checks
+
+We're nearly finished with the special UX enhancements project, and the game has developed a much more satisfying Loucanphile ("Lookandfeel"). All that remains before beginning the major content-creation phase is to add a few handy hotkeys and do some final evaluation of the game's interface to make sure we got everything that's desired. It might be a good moment to have a novice player take the game for a test run and see their response, and then press them into saying how great it is so that no additional work is needed.
+
+1. When you die, the any key should trigger the restart button, and an onscreen text element should tell the player about this fact.
+
+### 2. Hitting the spacebar during the opening cutscene sequence should skip to the next slide, unless you are at the last one in which case it should start the game immediately.
+
+### 3. When the game starts there should be a sound (maybe another drum beat, like 'ba ba bum bummmm' or something).
+
+## Version 1.5.0 - Content Team - Pre-game Slideshow
+
+It is now time to get to work on the game's raison-d'etre: its awesome storyline and artwork. Starting at the beginning, this PR will add the text and visual content for the pre-game slideshow, which contextualizes the game and in particular the starting situation for the Player. Total duration of this sequence should be no more than 60 seconds (i.e. 4 - 5 slides at the most) and the images should be fairly low-res so we don't kill the Firebase server when this game starts getting mad traffic!
+
+1. Do text for all slides first.
+
+2. Draw rough sketches of each slide on paper.
+
+3. Render the slides with Pixilart; if necessary, ask Eric how to output the images with a larger resolution than they were drawn in without losing quality.
+
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
 ### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
