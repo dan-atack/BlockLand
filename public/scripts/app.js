@@ -311,8 +311,12 @@ class App {
         }
     }
 
-    resetButtonHandler = () => {
-        if (this.engine.player.isDead) this.engine.handleReset();
+    resetButtonHandler = (event) => {
+        if (event && event.code === 'KeyR') {  // Handler for key responder
+            if (this.engine.player.isDead) this.engine.handleReset();
+        } else if (!event) {    // Handler for click responder
+            if (this.engine.player.isDead) this.engine.handleReset();
+        }  
     }
 
     // In-game menu button handlers:

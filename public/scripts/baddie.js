@@ -23,10 +23,14 @@ class Baddie extends Sprite {
     this.id = `baddie_${baddieSerial}`;
     // Initial CSS image class is baddie-trans, which is short for 'translation-mode,' used for lockstep motion with passing terrain:
     this.domElement.className = 'baddie-trans';
-    // Patrol interval refers to how many game cycles pass between movement impulses:
-    this.patrolInterval = 10;
+    // Patrol interval refers to how many game cycles pass between movement impulses (differs per baddie type)
+    this.patrolInterval = badDictionary[`baddie_${this.type}`].patrolInterval;
     // Patrol interval ticker:
     this.patrolTick = 0;
+    // Range within which baddie can 'see' the player:
+    this.lineOfSight = 3;
+    this.enemySpotted = false; // This variable will control whether to attack, and is set by the lookAhead method called each round.
+
     // Baddies stick around so you can watch them die, but we say they're dying so they can't harm you while they perish:
     this.isDying = false;
     // DeathLoops! A value for how many cycles the engine should keep your sprite around for to watch you die:
@@ -88,6 +92,20 @@ class Baddie extends Sprite {
       this.patrolTick += 1;
       // If it's time to move then we enter our first block, and reset the ticker:
       if (this.patrolTick === this.patrolInterval) {
+        // For baddies with an attack, activate that attack if the player is in view:
+        if (this.enemySpotted) {
+          switch (this.type) {
+            case 1003:
+              this.electricityAttack();
+              break;
+            case 1004:
+              this.gunshotAttack();
+              break;
+            default:
+              // No attack is the default behaviour.
+          }
+          
+        }
         // Reset jump height history if movement has been successful:
         if (!this.verifyXObstruction()) this.lastJumpInitialHeight = null;
         this.domElement.classList.add('baddie-moving');
@@ -120,6 +138,20 @@ class Baddie extends Sprite {
             this.moveRight();
           }
         }
+      }
+    }
+  }
+
+  // Given the player's coords, return true if the player is within the line of sight and on the same level vertically
+  lookAhead = (playerCoords) => {
+    this.enemySpotted = false;  // Reset this flag to false by default.
+    if (this.facing === 'right') {  // To be 'seen' the baddie must be downstream (to the left) and within range
+      if (this.x < playerCoords[0] && this.x + this.lineOfSight >= playerCoords[0] && this.gridY === playerCoords[1]) {
+        this.enemySpotted = true;
+      } 
+    } else if (this.facing === 'left') {  // To be seen the baddie must be upstream (to the right of player), and within range
+      if (this.x > playerCoords[0] && this.x - this.lineOfSight <= playerCoords[0] && this.gridY === playerCoords[1]) {
+        this.enemySpotted = true;
       }
     }
   }
@@ -170,4 +202,29 @@ class Baddie extends Sprite {
       this.cleanupDialogue();
     }
   }
+
+  // Specific attacks info is fed into the general attack function:
+
+  electricityAttack() {
+    if (this.attackCountdown === 0) {
+      this.attackRadius = 1.5;
+      this.attackCountdown = 8;
+      this.currentAttackDamage = 2;
+      this.currentAttackKnockback = 0.75;
+      // then call the general purpose attack function, and tell it which animation to use:
+      this.attack('electricity');
+      this.attackAnimation.classList.add('boss');
+      playSound('electricity-sound');
+    }
+  }
+
+  gunshotAttack = () => {
+    this.attackRadius = 4;
+    this.attackCountdown = 8;
+    this.currentAttackDamage = 1;
+    this.currentAttackKnockback = 0.75;
+    this.attack('gunshot');
+    playSound('gunshot-sound');
+  }
+
 }

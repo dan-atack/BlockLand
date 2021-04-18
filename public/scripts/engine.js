@@ -529,7 +529,7 @@ class Engine {
         0,
         0,
         16,
-        'Press any key to resume from last checkpoint',
+        'Press R to resume from last checkpoint',
         'obituary'
       );
     }
@@ -652,6 +652,7 @@ class Engine {
         this.blocks.visibilityRange,
         this.blocks.verticalRange
       );
+      baddie.lookAhead([this.player.x, this.player.gridY]); // Grid Y is used to make an easy match with baddie's height.
       baddie.horizontalTranslate(this.horizontalOffset);
       baddie.verticalTranslate(this.verticalOffset);
       baddie.advanceAttackCountdown()

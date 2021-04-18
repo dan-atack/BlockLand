@@ -1229,6 +1229,22 @@ It is now time to get to work on the game's raison-d'etre: its awesome storyline
 
 3. Render the slides with Pixilart; if necessary, ask Eric how to output the images with a larger resolution than they were drawn in without losing quality.
 
+## Version 1.5.1 - Better Baddies
+
+We need a few more kinds of bad guys for the initial level. The scientist with the electric attack (formerly the game's boss) will be redesignated as the next-level baddie, and a new SS Officer baddie will become the new boss, with a new attack. Since different baddies will need to run different scripts for their patrols/behaviour, a method of loading different behaviours based on baddie type will need to be one of the first things devised.
+
+1. Create a baddie method: lookAhead, which will console log if the player is within a certain range (determined by the baddie's also-new lineOfSight property) as well as on the same level (GridY match).
+
+2. Change the patrol method to use a switch case, where the baddie's type determines which kind of patrol strategy is used.
+
+3. Add machinegun attack, and make the scientist available as a regular baddie type (with the electricity attack).
+
+### 4. Make a quick n dirty gif for each of the baddies running.
+
+### 5. Add some logic for baddies to pause, attack, and then turn around when the player passes them: have the lookAhead method also sense if the playerIsRightBehind, and if so, attack, set that flag to false, and set a new flag, turnAroundToChasePlayer to true. Finally, the patrol method should check for this flag whenever the patrol interval is reached, and turn the baddie around immediately and reset it if it's true.
+
+### X. Artistic note for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
+
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
 ### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
@@ -1274,6 +1290,8 @@ It is now time to get to work on the game's raison-d'etre: its awesome storyline
 ### 14. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
 
 ### 15. When you die and respawn after finishing a level, the baddies and goodies from the previous level are not respawned. Not necessarily an issue that requires a coded fix per se, but something to keep in mind during level design process (such that, if you complete a mission, you should be transported away from the opportunity to go back and look for things that won't be there any more).
+
+### 16. There's an error when you skip the pre-game slideshow on line 56 of slideshow.js.
 
 # PHASE X - Art Department:
 

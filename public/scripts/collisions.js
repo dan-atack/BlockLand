@@ -220,6 +220,7 @@ const badDictionary = {
     },
   },
   baddie_1002: {
+    patrolInterval: 5,
     spriteWidth: 1,
     // For this type of encounter (initially there are four possible encounter angles),
     faceToFace: {
@@ -238,6 +239,7 @@ const badDictionary = {
     },
   },
   baddie_1003: {
+    patrolInterval: 7,
     spriteWidth: 1,
     // For this type of encounter (initially there are four possible encounter angles),
     faceToFace: {
@@ -249,6 +251,22 @@ const badDictionary = {
     },
     playerBehind: {
       // Baddie kill radii change depend on what angle you're approaching from:
+      dangerZone: 0.7,
+    },
+    backToBack: {
+      dangerZone: 0.85,
+    },
+  },
+  baddie_1004: {
+    patrolInterval: 10,
+    spriteWidth: 1,
+    faceToFace: {
+      dangerZone: 0.8,
+    },
+    baddieBehind: {
+      dangerZone: 0.8,
+    },
+    playerBehind: {
       dangerZone: 0.7,
     },
     backToBack: {
