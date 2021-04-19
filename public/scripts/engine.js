@@ -204,7 +204,7 @@ class Engine {
         this.player.determineMedium(this.blocks);
         // Next, the player movement system: Check which movement requests the player is going to perform:
         this.player.handleMovementRequests();
-        this.player.updatePlayerImage();  // Determine whether the Player is running or standing still.
+        this.player.updateImage();  // Determine whether the Player is running or standing still.
         // Advance player attack countdown:
         this.player.advanceAttackCountdown();
         // The New Physics: Now completely in the hands of the Physics object... Now ~ 83% bug free!
@@ -532,6 +532,8 @@ class Engine {
         'Press R to resume from last checkpoint',
         'obituary'
       );
+      // Lastly, make the baddies all stand still:
+      this.baddies.forEach((baddie) => baddie.displayStandingGif());
     }
   }
 
@@ -657,6 +659,8 @@ class Engine {
       baddie.verticalTranslate(this.verticalOffset);
       baddie.advanceAttackCountdown()
       baddie.patrol();
+      baddie.updateImage();
+      baddie.handleMovementRequests();
       baddie.updateHealthbar();
     });
   };

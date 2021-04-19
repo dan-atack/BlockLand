@@ -1239,9 +1239,7 @@ We need a few more kinds of bad guys for the initial level. The scientist with t
 
 3. Add machinegun attack, and make the scientist available as a regular baddie type (with the electricity attack).
 
-### 4. Make a quick n dirty gif for each of the baddies running.
-
-### 5. Add some logic for baddies to pause, attack, and then turn around when the player passes them: have the lookAhead method also sense if the playerIsRightBehind, and if so, attack, set that flag to false, and set a new flag, turnAroundToChasePlayer to true. Finally, the patrol method should check for this flag whenever the patrol interval is reached, and turn the baddie around immediately and reset it if it's true.
+4. Make a quick n dirty gif for each of the baddies running.
 
 ### X. Artistic note for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
 
@@ -1292,6 +1290,8 @@ We need a few more kinds of bad guys for the initial level. The scientist with t
 ### 15. When you die and respawn after finishing a level, the baddies and goodies from the previous level are not respawned. Not necessarily an issue that requires a coded fix per se, but something to keep in mind during level design process (such that, if you complete a mission, you should be transported away from the opportunity to go back and look for things that won't be there any more).
 
 ### 16. There's an error when you skip the pre-game slideshow on line 56 of slideshow.js.
+
+### 17. Boss class baddie currently has messed up styling; flattened kind of look.
 
 # PHASE X - Art Department:
 

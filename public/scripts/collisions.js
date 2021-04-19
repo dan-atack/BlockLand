@@ -203,6 +203,8 @@ const badDictionary = {
   // For this baddie type,
   baddie_1001: {
     // Sprite width is worth taking into account since some baddies will be wider than a single column:
+    patrolInterval: 3,
+    topSpeed: 0.15,
     spriteWidth: 1.125, // width is given in terms of columns
     // For this type of encounter,
     faceToFace: {
@@ -220,12 +222,13 @@ const badDictionary = {
     },
   },
   baddie_1002: {
-    patrolInterval: 5,
+    patrolInterval: 2,
+    topSpeed: 0.15,
     spriteWidth: 1,
     // For this type of encounter (initially there are four possible encounter angles),
     faceToFace: {
       // Use the kill radius to determine how close is too close for comfort:
-      dangerZone: 1,
+      dangerZone: 1.1,
     },
     baddieBehind: {
       dangerZone: 0.8,
@@ -239,7 +242,8 @@ const badDictionary = {
     },
   },
   baddie_1003: {
-    patrolInterval: 7,
+    patrolInterval: 4,
+    topSpeed: 0.2,
     spriteWidth: 1,
     // For this type of encounter (initially there are four possible encounter angles),
     faceToFace: {
@@ -258,7 +262,8 @@ const badDictionary = {
     },
   },
   baddie_1004: {
-    patrolInterval: 10,
+    patrolInterval: 5,
+    topSpeed: 0.125,
     spriteWidth: 1,
     faceToFace: {
       dangerZone: 0.8,

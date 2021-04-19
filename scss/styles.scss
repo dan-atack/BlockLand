@@ -504,18 +504,18 @@ body {
   height: $block-width;
 }
 
-.baddie-moving {
-  transition-duration: 0.25s;
-  position: absolute;
+.baddie {
   width: $block-width * 1.1;
   height: $block-width * 1.1;
+  position: absolute;
+}
+
+.baddie-moving {
+  transition-duration: 0.25s;
 }
 
 .baddie-trans {
-  position: absolute;
   transition-duration: 0s;
-  width: $block-width * 1.1;
-  height: $block-width * 1.1;
 }
 
 .baddie-healthbar {
@@ -526,8 +526,10 @@ body {
 }
 
 .boss {
-  width: $block-width * 1.6;
-  height: $block-width * 1.6;
+  transition-duration: 0.25s;
+  position: absolute;
+  width: $block-width * 2;
+  height: $block-width * 2;
 }
 
 // Fighting back against chirality-related issues!

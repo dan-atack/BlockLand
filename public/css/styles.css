@@ -412,17 +412,16 @@ body {
   width: 64px;
   height: 32px; }
 
-.baddie-moving {
-  transition-duration: 0.25s;
-  position: absolute;
+.baddie {
   width: 35.2px;
-  height: 35.2px; }
+  height: 35.2px;
+  position: absolute; }
+
+.baddie-moving {
+  transition-duration: 0.25s; }
 
 .baddie-trans {
-  position: absolute;
-  transition-duration: 0s;
-  width: 35.2px;
-  height: 35.2px; }
+  transition-duration: 0s; }
 
 .baddie-healthbar {
   height: 8px;
@@ -431,8 +430,10 @@ body {
   position: absolute; }
 
 .boss {
-  width: 51.2px;
-  height: 51.2px; }
+  transition-duration: 0.25s;
+  position: absolute;
+  width: 64px;
+  height: 64px; }
 
 .flowing-right {
   transform: rotate(0deg); }

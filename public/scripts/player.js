@@ -11,12 +11,6 @@ class Player extends Sprite {
     this.id = 'player';
     this.domElement.id = 'player';
     this.domElement.className = 'player';
-    // MOVEMENT 2.0: Key responders set movement requests, which are converted by movement-handler functions to x/y speeds:
-    this.movingRight = false;
-    this.movingLeft = false;
-    this.jumping = false;
-    this.crouching = false;
-    this.running = false;   // This boolean tracks when the player starts or stops running, to control animations.
     // Let's RPG it up a bit!
     this.justLeveledUp = false;   // Flag to act as an event for the Engine to pick up on and trigger visual effects for levelup.
     this.justDemoted = false;     // Flag to act as an event for the Engine to pick up on and trigger effects for a DEMOTION.
@@ -42,6 +36,12 @@ class Player extends Sprite {
     // Item/special status management:
     // Item Effect is a dictionary containing the property that is affected, how much it is affected, and for how long:
     this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
+    // God mode in dev mode:
+    // if (DEV_MODE) {
+    //   this.maxHP = 10;
+    //   this.currentHP = 10;
+    //   this.jumpImpulse = 1;
+    // }
   }
 
   // Movement responder comes in two parts: Part I - Keydown responder series:
@@ -99,45 +99,6 @@ class Player extends Sprite {
     }
   };
 
-  // Final stage of the new movement process: Movement Request Handler calls movement functions each game cycle
-  // based on what keys are still depressed vs keyed up. Should result in smoother jumping and responsiveness:
-  handleMovementRequests = () => {
-    // For each type of movement, check if it's requested:
-    if (this.movingRight) this.moveRight();
-    if (this.movingLeft) this.moveLeft();
-    if (this.jumping) this.jump();
-    if (this.crouching) {
-      this.crouch();
-    } else {
-      this.standUp();
-    }
-  };
-
-  // Runs each cycle to determine what image to use based on the player's state of motion:
-  updatePlayerImage = () => {
-    const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
-    if (moving && !this.running) {  // If you have momentum but have not yet declared running, you have just started to run:
-      this.domElement.src = './assets/sprites/player-running.gif';
-      this.running = true;
-    }
-    else if (!moving && this.running) { // If you don't have momentum but are 'running' then you have just stopped:
-      this.domElement.src = './assets/sprites/player-standing.gif';
-      this.running = false;
-    }
-  }
-
-  // Only the player has the ability (not to mention the motivation) to want to crouch/stand up:
-
-  crouch() {
-    // It seems a logical thing that a raptor should be able to crouch...
-    if (!(this.y == 0)) {
-      this.domElement.style.height = `${PLAYER_WIDTH * 0.6}px`;
-    }
-  }
-
-  standUp() {
-    this.domElement.style.height = `${PLAYER_WIDTH}px`;
-  }
 
   // Specific attacks are linked to keys and contain the info needed for a particular attack to be rendered:
 

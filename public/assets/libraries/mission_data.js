@@ -99,10 +99,9 @@ const missions = [
       [   // Instruction 1:
         'add-baddies',
         [
-          [ 19, 10, 1002, 1001, [11, 14]],  // last number here must never exceed initial x value or baddie might fall off the edge.
-          [ 26, 15, 1004, 1002, [13, 26]],
+          [ 19, 10, 1002, 1001, [10, 14]],  // last number here must never exceed initial x value or baddie might fall off the edge.
+          [ 26, 15, 1003, 1002, [13, 26]],
           [ 28, 15, 1002, 9000, [13, 28]],
-          [ -14, 10, 1001, 9001, [-14, 0]],
           [ 34, 20, 1004, 9002, [30, 34]],
           [ 26, 19, 1002, 9003, [24, 26]],
           [ 20, 32, 1002, 9004, [17, 20]],

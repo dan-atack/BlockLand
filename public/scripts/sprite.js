@@ -17,9 +17,15 @@ class Sprite extends Entity {
     this.grip = 0;    // A higher value here lowers your stopping distance on land
     // The medium you're in can affect your movement (air is normal, water will be slower)
     this.medium = { id: '000', name: 'Air', properties: ['permeable'] };
-    // Movement obstructions checker - record last position that movement was attempted from to see if one is bumping into something:
-    this.lastMoveAttemptStart = null;
+    // Movement Related properties:
+    this.lastMoveAttemptStart = null;    // Last position that movement was attempted from, to see if one is bumping into something.
     this.lastJumpInitialHeight = null;
+    // MOVEMENT 2.0: Key responders/baddie scripts set movement requests, which are converted by movement-handler functions to x/y speeds:
+    this.movingRight = false;
+    this.movingLeft = false;
+    this.jumping = false;
+    this.crouching = false;
+    this.running = false;   // This boolean tracks when the sprite starts or stops running, to control animations.
     // Experimental:
     this.speechBubble = null;
     // COMBAT-RELATED:
@@ -88,6 +94,47 @@ class Sprite extends Entity {
       this.lastJumpInitialHeight = this.y;
     }
   }
+
+  // Only the player has the ability (not to mention the motivation) to want to crouch/stand up, but any sprite has the right:
+
+  crouch() {
+    // It seems a logical thing that a raptor should be able to crouch...
+    if (!(this.y == 0)) {
+      this.domElement.style.height = `${PLAYER_WIDTH * 0.6}px`;
+    }
+  }
+
+  standUp() {
+    this.domElement.style.height = `${PLAYER_WIDTH}px`;
+  }
+
+  // Runs each cycle to determine what image to use based on the player's state of motion:
+  updateImage = () => {
+    const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
+    if (moving && !this.running) {  // If you have momentum but have not yet declared running, you have just started to run.
+      // Make sure to use the right sprite for either the player of whatever baddie we're supposed to see:
+      this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-running.gif`;
+      this.running = true;
+    }
+    else if (!moving && this.running) { // If you don't have momentum but are 'running' then you have just stopped:
+      this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-standing.gif`;
+      this.running = false;
+    }
+  }
+
+  // Final stage of the new movement process: Movement Request Handler calls movement functions each game cycle
+  // based on what keys are still depressed vs keyed up. Should result in smoother jumping and responsiveness:
+  handleMovementRequests = () => {
+    // For each type of movement, check if it's requested:
+    if (this.movingRight) this.moveRight();
+    if (this.movingLeft) this.moveLeft();
+    if (this.jumping) this.jump();
+    if (this.crouching) {
+      this.crouch();
+    } else {
+      this.standUp();
+    }
+  };
 
   // B - Translation methods for Sprites and their attack animations:
 
