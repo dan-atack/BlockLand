@@ -75,8 +75,8 @@ const missions = [
   {
     levelNumber: 0,
     levelName: 'Escape',
-    brief: "Escape from the Nazi laboratory! You may have to fight your way to higher ground!",
-    achievementStatement: "Get to ze portal!!!",
+    brief: "You've been taken to some kind of science dungeon! Find some kind of control panel or exit switch or something and get the heck outta here!",
+    achievementStatement: "* CELL BLOCK B DOORS OPENED *",
     objectives: [
       [
         // Objective One:

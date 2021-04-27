@@ -1241,7 +1241,9 @@ We need a few more kinds of bad guys for the initial level. The scientist with t
 
 4. Make a quick n dirty gif for each of the baddies running.
 
-### X. Artistic note for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
+## Version 1.5.2 - Level One: Laboratory
+
+We are at last in a position to really work on the first level, which can reuse large parts of the existing 'laboratory' biome built so far, but with a more well thought out design and flow. We'll start by recreating the entire level on paper to map out objectives, goodies, baddies, etc. Make sure there are at least 1 or 2 places that aren't necessary to get to in order to finish the level, but that can be visited for bonus XP and easter-egg text in the form of player dialogue. Then it's off to Pixilart to make a few new block types (cell bars, another girder floor/girder wall combo, etc.) Next, render the level in the map editor. Then, disable all baddies and goodies in the current map, and walk around it to determine baddie start locations and patrol routes, as well as goodie placements. Then, place the baddies and goodies and test out the level. Finally, set objectives and revamp the text, and get ready to say good bye to Baconland...
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
@@ -1293,6 +1295,8 @@ We need a few more kinds of bad guys for the initial level. The scientist with t
 
 ### 17. Boss class baddie currently has messed up styling; flattened kind of look.
 
+### 18. In production version, the arrow pointing to the main menu after the player's first levelup/mission accomplishment is too low, since there is no player/logout section in the production version to push the button as far down as it appears in dev mode. Raise the arrow approximately one block's height.
+
 # PHASE X - Art Department:
 
 ### 1. Touch up water and swamp-water block images to make them more transparent... OR alter the player sprite's
@@ -1308,6 +1312,8 @@ We need a few more kinds of bad guys for the initial level. The scientist with t
 ### 6. Can we make dialogues disappear non-instantaneously by adding some sort of fade-out property to them as they are de-rendered?
 
 ### 7. Make dialogue position respond to utterer proximity to the vertical edges as well. Perhaps see if the horizontal compensator can be made a bit less jumpy as well (offset takes a variable instead of a hard-coded value).
+
+### 8. Artistic note for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
 
 # Food for Future Thought/ General Notes:
 

@@ -58,7 +58,9 @@ class Engine {
     // This sidebar elements dictionary is then used to map each element to an Engine attribute with the same name:
     Object.keys(this.sidebarElements).forEach((element) => this[element] = document.getElementById(this.sidebarElements[element]));
     // Uncomment these for DEV MODE (uncomment the updateSidebarDisplay and updateSidebarRoot methods too)
-    // this.displayPlayerCoords = document.getElementById('playerCoords');
+    if (DEV_MODE) {
+      this.displayPlayerCoords = document.getElementById('playerCoords');
+    }
     // Physics Object handles motion and collision detection. One Physics per sprite (hello relativity!)
     this.playerPhysics = new Physics(this.blocks, this.player);
     // Scripts is the list of all the baddies' physics packs:
@@ -538,8 +540,10 @@ class Engine {
   }
 
   updateSidebarDisplays = () => {
-    // Dev mode leftovers:
-    // this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
+    // Dev mode only:
+    if (DEV_MODE) {
+      this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
+    }
     this.updateXPBar();
     this.updateHealthBar();
     // UX enhancement for levelup flow:
@@ -778,8 +782,9 @@ class Engine {
   // Whenever the game interface comes back, ensure all Sidebar display elements are updated correctly:
   updateSidebarRoots = () => {
     // OLD ELEMENTS WITH POTENTIAL DEV-RELATED USEFULNESS:
-    // this.displayPlayerCoords = document.getElementById('playerCoords');
-    // this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
+    if (DEV_MODE) {
+      this.displayPlayerCoords = document.getElementById('playerCoords');
+    }
     // Re-map all connections to newly generated elements:
     Object.keys(this.sidebarElements).forEach((element) => this[element] = document.getElementById(this.sidebarElements[element]));
   }
