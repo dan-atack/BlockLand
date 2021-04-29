@@ -138,6 +138,15 @@ $experienceLight: rgba(0, 250, 154, 0.89);
   }
 }
 
+@keyframes control-panel {
+  0% {
+    box-shadow: 0px -4px 16px 2px limegreen;
+  }
+  100% {
+    box-shadow: 0px -12px 16px 4px limegreen;
+  }
+}
+
 body {
   background-color: #0d0f0d;
   color: white;
@@ -532,7 +541,7 @@ body {
   height: $block-width * 2;
 }
 
-// Fighting back against chirality-related issues!
+// Block properties that translate directly to CSS classes:
 .flowing-right {
   transform: rotate(0deg);
 }
@@ -547,6 +556,15 @@ body {
 
 .flowing-up {
   transform: rotate(270deg);
+}
+
+.facing-left {
+  transform: rotateY(180deg);
+}
+
+.green-glow {
+  border-radius: 4px;
+  animation: control-panel 4s infinite alternate;
 }
 
 .world {

@@ -1245,6 +1245,52 @@ We need a few more kinds of bad guys for the initial level. The scientist with t
 
 We are at last in a position to really work on the first level, which can reuse large parts of the existing 'laboratory' biome built so far, but with a more well thought out design and flow. We'll start by recreating the entire level on paper to map out objectives, goodies, baddies, etc. Make sure there are at least 1 or 2 places that aren't necessary to get to in order to finish the level, but that can be visited for bonus XP and easter-egg text in the form of player dialogue. Then it's off to Pixilart to make a few new block types (cell bars, another girder floor/girder wall combo, etc.) Next, render the level in the map editor. Then, disable all baddies and goodies in the current map, and walk around it to determine baddie start locations and patrol routes, as well as goodie placements. Then, place the baddies and goodies and test out the level. Finally, set objectives and revamp the text, and get ready to say good bye to Baconland...
 
+1. Roadmap plan: the Laboratory level will be comprised of three sections, with one mission per section:
+
+- Section 1: Cell Block Tango: You have to get into the security station through the air duct and hit the switch to open the main doors.
+- Section 2: Geothermal Plant: First taste of the game's platformishness, you must jump to gain elevation and avoid falling in the lava.
+- Section 3: Radio Station: First deployment of machine-gun baddies; player must hit 3 switches to contact the Raptor Resistance.
+
+### 2. Make new blocks:
+
+- Grating (723)
+- Ducts (707)
+- Bars (735)
+- Cell Block Doors (736)
+- Control Panel A (737)
+- Control Panel B (738) <--- Special property: Glowing-top (green vertical shadow from the top)
+- Security Station Sign Panel, Left Side (724)
+- Security Station Sign Panel, Right Side (725)
+- Standing Baddie 1002 (900 & 901)
+- Standing Baddie 1003 (902 & 903)
+- Standing Baddie 1004 (904 & 905) <--| Property: passable (so that actual baddies don't have to jump them but they still appear solid)
+- Each standing baddie also comes with an alternate 'facing-left' version using a CSS property that faces left instead of right.
+
+3. Build out the bottom of the map with these blocks, so that everything needed for mission 1 is in place.
+
+4. Place some 'standing baddie' blocks on the level above you as though they're looking down at your struggle. Also add one or two real ones to patrol around and say some (one-time) remarks.
+
+### 5. If necessary, add logic to the dialogue's placement algorithm to adjust its height if it's too high up.
+
+6. In the game, measure the locations of the blocks that need to be removed when the gates open, as well as the positions of the baddie blocks that will need to be replaced with actual dudes.
+
+7. Write the mission/objective text for mission one.
+
+### 8. Write the dialogue bubbles for mission one.
+
+### 9. For mission two's setup, add instructions for the removal of the cell block door blocks and the standing baddie blocks.
+
+### 10. Place the actual baddies for the floor immediately above the cell block area.
+
+### 11. Return briefly to the map editor and carve out the general space that will form the 'geothermal plant' mission (the bulk of mission 2) and consider which new blocks to add for this area.
+
+### 12. Make new blocks:
+
+- ### Stalactite B
+- ### Four small boxes
+- ### Tape Reel Bank
+- ### Bed of Broken Chains for Mission One!
+
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
 ### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
@@ -1275,7 +1321,7 @@ We are at last in a position to really work on the first level, which can reuse 
 
 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment! Addendum: they weren't the previous level, BaconLand was simply too small to completely fill the entire screen if entered from a rightward approach, so the extraneous tiles were in fact a default map being generated as filler by the Columns module - exactly as it is meant to function!
 
-### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements. Addendum: It's not the baddie removal process but the horizontal/vertical translation process that is causing the cleanup to fail. Probably.
+### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements. Addendum: It's not the baddie removal process but the horizontal/vertical translation process that is causing the cleanup to fail. Probably. And it seems to only affect repeating messages, so... good luck with that.
 
 ### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 

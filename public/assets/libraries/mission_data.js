@@ -74,54 +74,49 @@ const missions = [
   // Mission 0 - The Starting Screen:
   {
     levelNumber: 0,
-    levelName: 'Escape',
+    levelName: 'Escape, Part I',
     brief: "You've been taken to some kind of science dungeon! Find some kind of control panel or exit switch or something and get the heck outta here!",
-    achievementStatement: "* CELL BLOCK B DOORS OPENED *",
+    achievementStatement: "* ZE CELL BLOCK DOORS ARE NOW OPENINGK *",
     objectives: [
       [
         // Objective One:
-        'Escape from holding cell.', // 0 - Objective instructions statement
-        "Objective Achieved: Escape from holding Cell", // 1 - Objective achievement statement
-        'threshold', // 2 - Objective test type
-        { directions: ['toTheRight', 'above'], coords: [15, 15]}, // 3 - Objective details (in this case, directions, coords)
-        1, // 4 - XP value for objective
-      ],
-      [
-        // Objective Two:
-        'Get to the roof.',
-        'Objective Achieved: Get to the roof',
-        'threshold',
-        { directions: ['toTheRight', 'above'], coords: [30, 32]},
-        1,
+        'Open the Cell Block Door', // 0 - Objective instructions statement
+        "Objective Achieved: Open Holding Cell Doors", // 1 - Objective achievement statement
+        'position', // 2 - Objective test type
+        [61, 12], // 3 - Objective details (in this case, coords)
+        2, // 4 - XP value for objective
       ],
     ],
     setupInstructions: [
       [   // Instruction 1:
         'add-baddies',
         [
-          [ 19, 10, 1002, 1001, [10, 14]],  // last number here must never exceed initial x value or baddie might fall off the edge.
-          [ 26, 15, 1003, 1002, [13, 26]],
-          [ 28, 15, 1002, 9000, [13, 28]],
-          [ 34, 20, 1004, 9002, [30, 34]],
-          [ 26, 19, 1002, 9003, [24, 26]],
-          [ 20, 32, 1002, 9004, [17, 20]],
-          [ 23, 45, 1002, 9005, [20, 23]],
-          [ 21, 15, 1003, 9006, [17, 21]],
-          [ 29, 27, 1004, 9007, [21, 29]],
+          [ 24, 15, 1003, 1001, [18, 24]],  // last number here must never exceed initial x value or baddie might fall off the edge.
+          [ 30, 9, 1003, 1002, [23, 30]],
+          [ 40, 9, 1002, 1003, [39, 40]],
+          [ 55, 11, 1003, 1004, [46, 55]],
+          [ 63, 12, 1002, 1005, [46, 63]],
+          [ 62, 12, 1002, 1006, [47, 62]]
         ],
       ],  // End of instruction 1
       [
         'add-item',
         [
-          37, 15, {type: 'health', power: 2, duration: 0}
+          37, 9, {type: 'health', power: 2, duration: 0}
         ]
       ],
       [
         'add-item',
         [
-          15, 10, {type: 'experience', power: 10, duration: 0}
+          64, 26, {type: 'experience', power: 2, duration: 0}
         ]
-      ]
+      ],
+      [
+        'add-item',
+        [
+          64, 12, {type: 'health', power: 2, duration: 0}
+        ]
+      ],
     ],
     specialFX: null,
     dialogue: {
@@ -138,33 +133,53 @@ const missions = [
       baddie_1001: [
         {
           id: 1,
-          text: 'Ze specimen ist escaping!!',
+          text: 'Ze specimen ist loose! Get him!',
           type: 'speech',
           repeating: false,
-          condition: ['position', 18],
+          condition: ['position', 22],
           duration: 40,
         },
       ],
-      baddie_9000: [
+      baddie_1002: [
+        {
+          id: 2,
+          text: 'Achtung!',
+          type: 'speech',
+          repeating: false,
+          condition: ['position', 28],
+          duration: 20,
+        },
+      ],
+      baddie_1003: [
+        {
+          id: 2,
+          text: 'Did you hear zat?',
+          type: 'speech',
+          repeating: false,
+          condition: ['position', 41],
+          duration: 50,
+        },
+      ],
+      baddie_1004: [
+        {
+          id: 2,
+          text: 'Ze specimen ist loose!',
+          type: 'speech',
+          repeating: false,
+          condition: ['position', 28],
+          duration: 20,
+        },
+      ],
+      baddie_1005: [
         {
           id: 2,
           text: 'Fix bayonets!',
           type: 'speech',
           repeating: false,
-          condition: ['position', 26],
-          duration: 30,
-        },
-      ],
-      baddie_9004: [
-        {
-          id: 3,
-          text: 'He\'s getting away!!',
-          type: 'speech',
-          repeating: false,
-          condition: ['position', 25],
+          condition: ['position', 60],
           duration: 20,
         },
-      ]
+      ],
     }
   },
   {
