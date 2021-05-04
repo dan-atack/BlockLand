@@ -41,7 +41,7 @@ class Cell {
             this.type = blockType.id;
         } else {
             // Using an 'air' image as whiteout looks imperfect, but is acceptable for now.
-            this.domElement.src='assets/blocks/proto blocks/block000.png';
+            this.domElement.src='assets/blocks/block000.png';
             this.type = blockType.id;
         }
     }

@@ -1229,6 +1229,72 @@ It is now time to get to work on the game's raison-d'etre: its awesome storyline
 
 3. Render the slides with Pixilart; if necessary, ask Eric how to output the images with a larger resolution than they were drawn in without losing quality.
 
+## Version 1.5.1 - Better Baddies
+
+We need a few more kinds of bad guys for the initial level. The scientist with the electric attack (formerly the game's boss) will be redesignated as the next-level baddie, and a new SS Officer baddie will become the new boss, with a new attack. Since different baddies will need to run different scripts for their patrols/behaviour, a method of loading different behaviours based on baddie type will need to be one of the first things devised.
+
+1. Create a baddie method: lookAhead, which will console log if the player is within a certain range (determined by the baddie's also-new lineOfSight property) as well as on the same level (GridY match).
+
+2. Change the patrol method to use a switch case, where the baddie's type determines which kind of patrol strategy is used.
+
+3. Add machinegun attack, and make the scientist available as a regular baddie type (with the electricity attack).
+
+4. Make a quick n dirty gif for each of the baddies running.
+
+## Version 1.5.2 - Level One: Laboratory
+
+We are at last in a position to really work on the first level, which can reuse large parts of the existing 'laboratory' biome built so far, but with a more well thought out design and flow. We'll start by recreating the entire level on paper to map out objectives, goodies, baddies, etc. Make sure there are at least 1 or 2 places that aren't necessary to get to in order to finish the level, but that can be visited for bonus XP and easter-egg text in the form of player dialogue. Then it's off to Pixilart to make a few new block types (cell bars, another girder floor/girder wall combo, etc.) Next, render the level in the map editor. Then, disable all baddies and goodies in the current map, and walk around it to determine baddie start locations and patrol routes, as well as goodie placements. Then, place the baddies and goodies and test out the level. Finally, set objectives and revamp the text, and get ready to say good bye to Baconland...
+
+1. Roadmap plan: the Laboratory level will be comprised of three sections, with one mission per section:
+
+- Section 1: Cell Block Tango: You have to get into the security station through the air duct and hit the switch to open the main doors.
+- Section 2: Geothermal Plant: First taste of the game's platformishness, you must jump to gain elevation and avoid falling in the lava.
+- Section 3: Radio Station: First deployment of machine-gun baddies; player must hit 3 switches to contact the Raptor Resistance.
+
+### 2. Make new blocks:
+
+- Grating (723)
+- Ducts (707)
+- Bars (735)
+- Cell Block Doors (736)
+- Control Panel A (737)
+- Control Panel B (738) <--- Special property: Glowing-top (green vertical shadow from the top)
+- Security Station Sign Panel, Left Side (724)
+- Security Station Sign Panel, Right Side (725)
+- Standing Baddie 1002 (900 & 901)
+- Standing Baddie 1003 (902 & 903)
+- Standing Baddie 1004 (904 & 905) <--| Property: passable (so that actual baddies don't have to jump them but they still appear solid)
+- Each standing baddie also comes with an alternate 'facing-left' version using a CSS property that faces left instead of right.
+
+3. Build out the bottom of the map with these blocks, so that everything needed for mission 1 is in place.
+
+4. Place some 'standing baddie' blocks on the level above you as though they're looking down at your struggle. Also add one or two real ones to patrol around and say some (one-time) remarks.
+
+### 5. If necessary, add logic to the dialogue's placement algorithm to adjust its height if it's too high up.
+
+6. In the game, measure the locations of the blocks that need to be removed when the gates open, as well as the positions of the baddie blocks that will need to be replaced with actual dudes.
+
+7. Write the mission/objective text for mission one.
+
+8. Write the dialogue bubbles for mission one.
+
+9. For mission two's setup, add instructions for the removal of the cell block door blocks and the standing baddie blocks.
+
+10. Place the actual baddies for the floor immediately above the cell block area, and remove the blocks that were in their place. Baddies' patrol routes should cause them to run down into the basement/cell block area.
+
+### 11. Return briefly to the map editor and carve out the general space that will form the 'search for the elevator' mission (the bulk of mission 2) and consider which new blocks to add for this area.
+
+### 12. Make new blocks:
+
+- ### Stalactite B
+- ### Four small boxes (as in, a block that looks like 4 boxes, not four individual box-like blocks)
+- ### Tape Reel Bank
+- ### Surgical bed with Broken Chains for Mission One!
+- ### Elevator double sign
+- ### Flashing Hazard Light
+
+### 13. For the elevator mission, you have to get out of the prison block, kill the guards and then climb to the elevator shaft entrance. First you have to escape the cell block area, then find and hit the elevator button. When you complete this mission, instead of getting on the elevator, a bunch of baddies ambush you. A special new baddie, the General (use the scientist but with slightly updated image) shouts 'kill him' before patrolling away to a distant and unreachable far-away part of the map. You then follow the tunnel that the ambush baddies came from to the 'geothermal plant' area.
+
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
 ### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
@@ -1259,7 +1325,7 @@ It is now time to get to work on the game's raison-d'etre: its awesome storyline
 
 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment! Addendum: they weren't the previous level, BaconLand was simply too small to completely fill the entire screen if entered from a rightward approach, so the extraneous tiles were in fact a default map being generated as filler by the Columns module - exactly as it is meant to function!
 
-### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements. Addendum: It's not the baddie removal process but the horizontal/vertical translation process that is causing the cleanup to fail. Probably.
+### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements. Addendum: It's not the baddie removal process but the horizontal/vertical translation process that is causing the cleanup to fail. Probably. And it seems to only affect repeating messages, so... good luck with that.
 
 ### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
@@ -1274,6 +1340,12 @@ It is now time to get to work on the game's raison-d'etre: its awesome storyline
 ### 14. The Philosoraptor (intelligence-01) perk initially has no effect; it should immediately reduce the amount of XP needed for you to attain your next level (currently you have to pick it, then level up AGAIN before the XP discount kicks in).
 
 ### 15. When you die and respawn after finishing a level, the baddies and goodies from the previous level are not respawned. Not necessarily an issue that requires a coded fix per se, but something to keep in mind during level design process (such that, if you complete a mission, you should be transported away from the opportunity to go back and look for things that won't be there any more).
+
+### 16. There's an error when you skip the pre-game slideshow on line 56 of slideshow.js.
+
+### 17. Boss class baddie currently has messed up styling; flattened kind of look.
+
+### 18. In production version, the arrow pointing to the main menu after the player's first levelup/mission accomplishment is too low, since there is no player/logout section in the production version to push the button as far down as it appears in dev mode. Raise the arrow approximately one block's height.
 
 # PHASE X - Art Department:
 
@@ -1290,6 +1362,8 @@ It is now time to get to work on the game's raison-d'etre: its awesome storyline
 ### 6. Can we make dialogues disappear non-instantaneously by adding some sort of fade-out property to them as they are de-rendered?
 
 ### 7. Make dialogue position respond to utterer proximity to the vertical edges as well. Perhaps see if the horizontal compensator can be made a bit less jumpy as well (offset takes a variable instead of a hard-coded value).
+
+### 8. Artistic note for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
 
 # Food for Future Thought/ General Notes:
 

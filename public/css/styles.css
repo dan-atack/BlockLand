@@ -91,6 +91,18 @@
   100% {
     transform: translate(0, 10.66667px); } }
 
+@keyframes control-panel-green {
+  0% {
+    box-shadow: 0px -4px 16px 2px limegreen; }
+  100% {
+    box-shadow: 0px -12px 16px 4px limegreen; } }
+
+@keyframes control-panel-red {
+  0% {
+    box-shadow: 0px -4px 16px 2px #ed1c24; }
+  100% {
+    box-shadow: 0px -12px 16px 4px #ed1c24; } }
+
 body {
   background-color: #0d0f0d;
   color: white;
@@ -412,17 +424,16 @@ body {
   width: 64px;
   height: 32px; }
 
-.baddie-moving {
-  transition-duration: 0.25s;
-  position: absolute;
+.baddie {
   width: 35.2px;
-  height: 35.2px; }
+  height: 35.2px;
+  position: absolute; }
+
+.baddie-moving {
+  transition-duration: 0.25s; }
 
 .baddie-trans {
-  position: absolute;
-  transition-duration: 0s;
-  width: 35.2px;
-  height: 35.2px; }
+  transition-duration: 0s; }
 
 .baddie-healthbar {
   height: 8px;
@@ -431,8 +442,10 @@ body {
   position: absolute; }
 
 .boss {
-  width: 51.2px;
-  height: 51.2px; }
+  transition-duration: 0.25s;
+  position: absolute;
+  width: 64px;
+  height: 64px; }
 
 .flowing-right {
   transform: rotate(0deg); }
@@ -445,6 +458,17 @@ body {
 
 .flowing-up {
   transform: rotate(270deg); }
+
+.facing-left {
+  transform: rotateY(180deg); }
+
+.green-glow {
+  border-radius: 4px;
+  animation: control-panel-green 4s infinite alternate; }
+
+.red-glow {
+  border-radius: 4px;
+  animation: control-panel-red 4s infinite alternate; }
 
 .world {
   margin-top: 1%;

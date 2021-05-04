@@ -58,7 +58,9 @@ class Engine {
     // This sidebar elements dictionary is then used to map each element to an Engine attribute with the same name:
     Object.keys(this.sidebarElements).forEach((element) => this[element] = document.getElementById(this.sidebarElements[element]));
     // Uncomment these for DEV MODE (uncomment the updateSidebarDisplay and updateSidebarRoot methods too)
-    // this.displayPlayerCoords = document.getElementById('playerCoords');
+    if (DEV_MODE) {
+      this.displayPlayerCoords = document.getElementById('playerCoords');
+    }
     // Physics Object handles motion and collision detection. One Physics per sprite (hello relativity!)
     this.playerPhysics = new Physics(this.blocks, this.player);
     // Scripts is the list of all the baddies' physics packs:
@@ -204,7 +206,7 @@ class Engine {
         this.player.determineMedium(this.blocks);
         // Next, the player movement system: Check which movement requests the player is going to perform:
         this.player.handleMovementRequests();
-        this.player.updatePlayerImage();  // Determine whether the Player is running or standing still.
+        this.player.updateImage();  // Determine whether the Player is running or standing still.
         // Advance player attack countdown:
         this.player.advanceAttackCountdown();
         // The New Physics: Now completely in the hands of the Physics object... Now ~ 83% bug free!
@@ -284,9 +286,9 @@ class Engine {
         this.gameOn = true;
         clearInterval(resumer);
       }
-      // freeze the game for as long as the missions special FX cue requires, or 500ms as a default:
+      // freeze the game for as long as the missions special FX cue requires, or 0ms as a default:
     },
-    this.mission.specialFX ? this.mission.specialFX[2] * 1000 : 500
+    this.mission.specialFX ? this.mission.specialFX[2] * 1000 : 0
     );
   }
 
@@ -447,7 +449,11 @@ class Engine {
             switch (saying.condition[0]) {
               case 'position':
                 if (this[character].gridX === saying.condition[1]) {
-                  this.player.handleDialogue(saying);
+                  if (saying.condition[2] && this[character].gridY === saying.condition[2]) {
+                    this.player.handleDialogue(saying); // If a Y coordinate is also provided, test for it as well.
+                  } else if (!saying.condition[2]) {
+                    this.player.handleDialogue(saying); // If there is no Y coordinate, also show the dialogue.
+                  }
                 }
             }
           } else {
@@ -529,15 +535,19 @@ class Engine {
         0,
         0,
         16,
-        'Press any key to resume from last checkpoint',
+        'Press R to resume from last checkpoint',
         'obituary'
       );
+      // Lastly, make the baddies all stand still:
+      this.baddies.forEach((baddie) => baddie.displayStandingGif());
     }
   }
 
   updateSidebarDisplays = () => {
-    // Dev mode leftovers:
-    // this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
+    // Dev mode only:
+    if (DEV_MODE) {
+      this.displayPlayerCoords.innerText = `PLAYER COORDS: ${this.player.x.toFixed(2)}, ${this.player.y.toFixed(2)}`;
+    }
     this.updateXPBar();
     this.updateHealthBar();
     // UX enhancement for levelup flow:
@@ -652,10 +662,13 @@ class Engine {
         this.blocks.visibilityRange,
         this.blocks.verticalRange
       );
+      baddie.lookAhead([this.player.x, this.player.gridY]); // Grid Y is used to make an easy match with baddie's height.
       baddie.horizontalTranslate(this.horizontalOffset);
       baddie.verticalTranslate(this.verticalOffset);
       baddie.advanceAttackCountdown()
       baddie.patrol();
+      baddie.updateImage();
+      baddie.handleMovementRequests();
       baddie.updateHealthbar();
     });
   };
@@ -773,8 +786,9 @@ class Engine {
   // Whenever the game interface comes back, ensure all Sidebar display elements are updated correctly:
   updateSidebarRoots = () => {
     // OLD ELEMENTS WITH POTENTIAL DEV-RELATED USEFULNESS:
-    // this.displayPlayerCoords = document.getElementById('playerCoords');
-    // this.displayPlayerStandingOn = document.getElementById('playerStandingOnBlockType');
+    if (DEV_MODE) {
+      this.displayPlayerCoords = document.getElementById('playerCoords');
+    }
     // Re-map all connections to newly generated elements:
     Object.keys(this.sidebarElements).forEach((element) => this[element] = document.getElementById(this.sidebarElements[element]));
   }

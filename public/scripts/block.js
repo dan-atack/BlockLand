@@ -63,11 +63,14 @@ class Block extends Entity {
           case 'gif':
             this.domElement.src = `./assets/blocks/block${this.blockData.id}.gif`;
             break;
+          // Many block properties map directly to CSS properties:
           case 'flowing-left':
           case 'flowing-right':
           case 'flowing-up':
           case 'flowing-down':
-            // Flowing blocks will take a direction instruction and use CSS to render flow in that direction:
+          case 'facing-left':
+          case 'green-glow':
+          case 'red-glow':
             this.domElement.classList.add(property);
             break;
           case 'opaque':

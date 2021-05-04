@@ -53,7 +53,11 @@ class Slideshow {
                 this.advanceSlide();
             } else {    // If it is the last slide, then set the isPlaying flag to false and change the skip button's text:
                 this.isPlaying = false;
-                document.getElementById('skipIntro').innerText = 'Start Game';
+                try {
+                    document.getElementById('skipIntro').innerText = 'Start Game';
+                } catch {
+                    // Just in case we get an error when the slideshow is skipped.
+                }
             }
         }
     }

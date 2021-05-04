@@ -106,10 +106,9 @@ class App {
         this.renderElement('playerHPBox', 'div', 'healthbar-box', document.getElementById('sidebar'), 'top');
         this.renderText('playerHPBox', 0, 0, 18, 'Player HP:', 'sidebar-label');
         this.renderElement('playerHP', 'div', 'healthbar', document.getElementById('playerHPBox'));
-        // Keep these around to uncomment for 'dev mode' if they're needed. Make sure to re-enable them in the Engine too.
-        // this.renderElement('playerCoords', 'span', 'sidebar', document.getElementById('sidebar'));
-        // this.renderElement('playerXP', 'span', 'sidebar', document.getElementById('sidebar'));
-        // this.renderElement('playerStandingOnBlockType', 'span', 'sidebar', document.getElementById('sidebar'));
+        if (DEV_MODE) {
+            this.renderElement('playerCoords', 'span', 'sidebar', document.getElementById('sidebar'));
+        }
         this.renderElement('playerXPBox', 'div', 'experiencebar-box', document.getElementById('sidebar'));
         this.renderText('playerXPBox', 0, 0, 18, 'Experience', 'sidebar-label');
         this.renderElement('playerXP-outer', 'div', 'experiencebar-shell', document.getElementById('playerXPBox'));
@@ -311,8 +310,12 @@ class App {
         }
     }
 
-    resetButtonHandler = () => {
-        if (this.engine.player.isDead) this.engine.handleReset();
+    resetButtonHandler = (event) => {
+        if (event && event.code === 'KeyR') {  // Handler for key responder
+            if (this.engine.player.isDead) this.engine.handleReset();
+        } else if (!event) {    // Handler for click responder
+            if (this.engine.player.isDead) this.engine.handleReset();
+        }  
     }
 
     // In-game menu button handlers:

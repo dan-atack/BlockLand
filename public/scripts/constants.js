@@ -10,7 +10,7 @@ const DEV_MODE = true;
 // World Constraints: Establishing the maximum size of the entire world, in terms of width in columns,
 // spreading in either direction of the initial game screen:
 
-let WORLD_WIDTH = 50;
+let WORLD_WIDTH = 100;
 
 // For the moment, ALL universal physical constants must be exponents of two, unless you wanna see some REALLY crazy shit...
 
@@ -26,7 +26,7 @@ const minimumVelocity = 0.03125;        // AKA one pixel's fraction of the scree
 // Player and block sprite size will be determined first, and the world (screen) will be sized based on their dimensions.
 const BLOCK_WIDTH = 32;
 const PLAYER_WIDTH = 32;
-const BOSS_WIDTH = 48;
+const BOSS_WIDTH = 64;
 // TODO: Further incorporate the game's logic with SCSS so that these variables are determined by a user's screen size:
 const SCREEN_WIDTH_IN_BLOCKS = 21;
 const SCREEN_HEIGHT_IN_BLOCKS = 20;

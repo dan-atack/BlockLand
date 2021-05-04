@@ -22,11 +22,19 @@ class Baddie extends Sprite {
     this.domElement.id = `baddie_${baddieSerial}`;
     this.id = `baddie_${baddieSerial}`;
     // Initial CSS image class is baddie-trans, which is short for 'translation-mode,' used for lockstep motion with passing terrain:
-    this.domElement.className = 'baddie-trans';
-    // Patrol interval refers to how many game cycles pass between movement impulses:
-    this.patrolInterval = 10;
+    this.domElement.classList.add('baddie');
+    this.domElement.classList.add('baddie-trans');
+    // Patrol interval refers to how many game cycles pass between movement impulses (differs per baddie type)
+    this.patrolInterval = badDictionary[`baddie_${this.type}`].patrolInterval;
+    this.topSpeed = badDictionary[`baddie_${this.type}`].topSpeed;
     // Patrol interval ticker:
     this.patrolTick = 0;
+    // This is the amount of game frames to show the running animation before resetting to the standing gif.
+    this.runningGifMaxFrames = 4;
+    this.runningFramesShown = 0;
+    // Range within which baddie can 'see' the player:
+    this.lineOfSight = 3;
+    this.enemySpotted = false; // This variable will control whether to attack, and is set by the lookAhead method called each round.
     // Baddies stick around so you can watch them die, but we say they're dying so they can't harm you while they perish:
     this.isDying = false;
     // DeathLoops! A value for how many cycles the engine should keep your sprite around for to watch you die:
@@ -86,8 +94,21 @@ class Baddie extends Sprite {
     if (!this.isDying && this.hasBeenRendered) {
       // Add a tick:
       this.patrolTick += 1;
-      // If it's time to move then we enter our first block, and reset the ticker:
+      // If it's time to move then we enter our action block, and reset the ticker:
       if (this.patrolTick === this.patrolInterval) {
+        // For baddies with an attack, activate that attack if the player is in view:
+        if (this.enemySpotted) {
+          switch (this.type) {
+            case 1003:
+              this.electricityAttack();
+              break;
+            case 1004:
+              this.gunshotAttack();
+              break;
+            default:
+              // No attack is the default behaviour.
+          }  
+        }
         // Reset jump height history if movement has been successful:
         if (!this.verifyXObstruction()) this.lastJumpInitialHeight = null;
         this.domElement.classList.add('baddie-moving');
@@ -95,33 +116,91 @@ class Baddie extends Sprite {
         // If you've already jumped and you're still stuck, turn around:
         if (this.verifyYObstruction() && this.verifyXObstruction()) {
           // depending on which way you're facing, move the other way:
-          this.facing === 'right' ? this.moveLeft() : this.moveRight();
+          this.facing === 'right' ? this.movingLeft = true : this.movingRight = true;
+          this.facing === 'right' ? this.movingRight = false : this.movingLeft = false;
           // Resent jump evaluator:
           this.lastJumpInitialHeight = null;
           // If the baddie encounters an obstacle, jump:
         } else if (this.verifyXObstruction()) {
-          this.jump();
+          this.jumping = true;
         }
         // Next determine the direction of movement. We'll do rightwards first:
         if (this.facing === 'right') {
           // Final condition: if you're going right, where are you now? If not at the right edge, keep going (add to x):
           if (this.x < this.xRange[1]) {
-            this.moveRight();
+            this.movingRight = true;
+            this.movingLeft = false;
           } else {
             // If you ARE at the far right, turn around and move leftwards by reducing x:
-            this.moveLeft();
+            this.movingLeft = true;
+            this.movingRight = false;
           }
           // Leftward motion:
         } else {
           // Leftward edge detection - the mirror image:
           if (this.x > this.xRange[0]) {
-            this.moveLeft();
+            this.movingLeft = true;
+            this.movingRight = false;
           } else {
-            this.moveRight();
+            this.movingRight = true;
+            this.movingLeft = false;
           }
         }
       }
     }
+  }
+
+  // Given the player's coords, return true if the player is within the line of sight and on the same level vertically
+  lookAhead = (playerCoords) => {
+    this.enemySpotted = false;  // Reset this flag to false by default.
+    if (this.facing === 'right') {  // To be 'seen' the baddie must be downstream (to the left) and within range
+      if (this.x < playerCoords[0] && this.x + this.lineOfSight >= playerCoords[0] && this.gridY === playerCoords[1]) {
+        this.enemySpotted = true;
+      } 
+    } else if (this.facing === 'left') {  // To be seen the baddie must be upstream (to the right of player), and within range
+      if (this.x > playerCoords[0] && this.x - this.lineOfSight <= playerCoords[0] && this.gridY === playerCoords[1]) {
+        this.enemySpotted = true;
+      }
+    }
+  }
+
+  // The baddie version of this method comes with a deactivation function, so they don't run forever:
+  handleMovementRequests = () => {
+    // For each type of movement, check if it's requested:
+    if (this.movingRight) {
+      this.moveRight();
+      this.movingRight = false;
+    }
+    if (this.movingLeft) {
+      this.moveLeft();
+      this.movingLeft = false;
+    }
+    if (this.jumping) {
+      this.jump();
+      this.jumping = false;
+    }
+    if (this.crouching) {
+      this.crouch();
+    } else {
+      this.standUp();
+    }
+  };
+
+  updateImage = () => {
+    const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
+    if (moving && this.runningFramesShown === 0) {  // If moving but have not yet shown any running frames, you have just started to run.
+      // Make sure to use the right sprite for either the player of whatever baddie we're supposed to see:
+      this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-running.gif`;
+      this.runningFramesShown += 1;
+    }
+    else if (!moving && this.runningFramesShown === this.runningGifMaxFrames) { // If you don't have momentum but are 'running' then you have just stopped:
+      this.displayStandingGif();
+      this.runningFramesShown = 0;
+    }
+  }
+
+  displayStandingGif = () => {
+    this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-standing.gif`;
   }
 
   // Verify obstruction: If one is trying to leave from the same place as one's last attempt was made from, one is stuck:
@@ -170,4 +249,29 @@ class Baddie extends Sprite {
       this.cleanupDialogue();
     }
   }
+
+  // Specific attacks info is fed into the general attack function:
+
+  electricityAttack() {
+    if (this.attackCountdown === 0) {
+      this.attackRadius = 1.25;
+      this.attackCountdown = 8;
+      this.currentAttackDamage = 1;
+      this.currentAttackKnockback = 0.75;
+      // then call the general purpose attack function, and tell it which animation to use:
+      this.attack('electricity');
+      this.attackAnimation.classList.add('boss');
+      playSound('electricity-sound');
+    }
+  }
+
+  gunshotAttack = () => {
+    this.attackRadius = 4;
+    this.attackCountdown = 6;
+    this.currentAttackDamage = 1;
+    this.currentAttackKnockback = 0.75;
+    this.attack('gunshot');
+    playSound('gunshot-sound');
+  }
+
 }
