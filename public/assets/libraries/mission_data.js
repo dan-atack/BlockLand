@@ -61,7 +61,7 @@
 
 // F - Shape of the 'threshold' objective type:
 // [
-//   "Escape from holding cell."",                              // 0 - Objective instructions statement
+//   "Escape from holding cell.",                               // 0 - Objective instructions statement
 //   "Objective Achieved: Escape from holding Cell",            // 1 - Objective achievement statement
 //   "threshold",                                               // 2 - Objective test type
 //   { directions: ['toTheRight', 'above'], coords: [15, 20]},  // 3 - Objective details (in this case, directions, coords)
@@ -69,52 +69,71 @@
 //   NOTE that the x-axis value must always be given first e.g. ['toTheLeft', 'below'] and NOT ['above', 'toTheRight']
 //   1,                                                         // 4 - XP value for objective
 // ],
+// [
+// G - Sequence of setup instructions to reset stage with a new level:
+// [
+//  'clear-stage', // clear stage setup instruction tells all the columns to wipe clear,
+// ],
+// [
+//   'reset-stage', // reset stage will run biome builder with a biome of one's choice:
+//   [
+//     baconLandRight, // idx 0: select biome for the right
+//     baconLandLeft, // idx 1: select biome for the left
+//     [0, SCREEN_WIDTH_IN_BLOCKS], // idx 2: column start/stop values for newly rendered terrain
+//   ],
+// ],
+// [
+//   'set-world-width', // set-world-width will alter the world width to make levels wider or tighter
+//   21, // one argument only: the new world width for the global variable
+// ],
+// Clear remaining baddies from the previous world (make sure to do this BEFORE adding new baddies to the current level!)
+// ['clear-baddies'],
 
 const missions = [
   // Mission 0 - The Starting Screen:
   {
     levelNumber: 0,
-    levelName: 'Escape, Part I',
+    levelName: "Escape, Part I",
     brief: "You've been taken to some kind of science dungeon! Find some kind of control panel or exit switch or something and get the heck outta here!",
     achievementStatement: "* ZE CELL BLOCK DOORS ARE NOW OPENINGK *",
     objectives: [
       [
         // Objective One:
-        'Open the Cell Block Door', // 0 - Objective instructions statement
-        "Objective Achieved: Open Holding Cell Doors", // 1 - Objective achievement statement
-        'position', // 2 - Objective test type
+        "Open the Cell Block Door", // 0 - Objective instructions statement
+        "", // 1 - Objective achievement statement (empty in this case so it doesn't clash with the mission achievement message).
+        "position", // 2 - Objective test type
         [61, 12], // 3 - Objective details (in this case, coords)
         2, // 4 - XP value for objective
       ],
     ],
     setupInstructions: [
       [   // Instruction 1:
-        'add-baddies',
+        "add-baddies",
         [
           [ 24, 15, 1003, 1001, [18, 24]],  // last number here must never exceed initial x value or baddie might fall off the edge.
           [ 30, 9, 1003, 1002, [23, 30]],
-          [ 40, 9, 1002, 1003, [39, 40]],
+          [ 42, 9, 1002, 1003, [39, 42]],
           [ 55, 11, 1003, 1004, [46, 55]],
           [ 63, 12, 1002, 1005, [46, 63]],
-          [ 62, 12, 1002, 1006, [47, 62]]
+          [ 61, 12, 1002, 1006, [47, 61]]
         ],
       ],  // End of instruction 1
       [
-        'add-item',
+        "add-item",
         [
-          37, 9, {type: 'health', power: 2, duration: 0}
+          37, 9, {type: "health", power: 2, duration: 0}
         ]
       ],
       [
-        'add-item',
+        "add-item",
         [
-          64, 26, {type: 'experience', power: 2, duration: 0}
+          64, 26, {type: "experience", power: 2, duration: 0}
         ]
       ],
       [
-        'add-item',
+        "add-item",
         [
-          64, 12, {type: 'health', power: 2, duration: 0}
+          64, 12, {type: "health", power: 2, duration: 0}
         ]
       ],
     ],
@@ -123,60 +142,68 @@ const missions = [
       player: [
         {
           id: 0,
-          text: 'That lava looks hot!',
-          type: 'thought',
+          text: "No fortress can hold me!",
+          type: "thought",
           repeating: false,
-          condition: ['position', 21],
+          condition: ["position", 11, 11],
+          duration: 30
+        },
+        {
+          id: 1,
+          text: "That glowing terminal looks promising...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
           duration: 30
         },
       ],
       baddie_1001: [
         {
-          id: 1,
-          text: 'Ze specimen ist loose! Get him!',
-          type: 'speech',
+          id: 2,
+          text: "Ze specimen ist loose! Get him!",
+          type: "speech",
           repeating: false,
-          condition: ['position', 22],
+          condition: ["position", 22],
           duration: 40,
         },
       ],
       baddie_1002: [
         {
-          id: 2,
-          text: 'Achtung!',
-          type: 'speech',
+          id: 3,
+          text: "Achtung!",
+          type: "speech",
           repeating: false,
-          condition: ['position', 28],
+          condition: ["position", 28],
           duration: 20,
         },
       ],
       baddie_1003: [
         {
-          id: 2,
-          text: 'Did you hear zat?',
-          type: 'speech',
+          id: 4,
+          text: "Did you hear zat?",
+          type: "speech",
           repeating: false,
-          condition: ['position', 41],
+          condition: ["position", 41],
           duration: 50,
         },
       ],
       baddie_1004: [
         {
-          id: 2,
-          text: 'Ze specimen ist loose!',
-          type: 'speech',
+          id: 5,
+          text: "Ze specimen ist loose! GUARDS!!!",
+          type: "speech",
           repeating: false,
-          condition: ['position', 28],
-          duration: 20,
+          condition: ["position", 50],
+          duration: 25,
         },
       ],
       baddie_1005: [
         {
-          id: 2,
-          text: 'Fix bayonets!',
-          type: 'speech',
+          id: 6,
+          text: "Fix bayonets!",
+          type: "speech",
           repeating: false,
-          condition: ['position', 60],
+          condition: ["position", 60],
           duration: 20,
         },
       ],
@@ -184,99 +211,236 @@ const missions = [
   },
   {
     levelNumber: 1,
-    levelName: 'Finding the Portal',
-    brief: 'A portal has mysteriously appeared on the roof. This is your chance to make good your escape!',
-    achievementStatement: "My God, it's full of bacon!",
+    levelName: "Escape, Part II",
+    brief: "The holding cell area has been opened, and your captors do not seem too happy about it. Get out of the dungeon, and find the service elevator. Hey, how do dinosaurs know about service elevators anyway?",
+    achievementStatement: "* SUBJECT IS IN ELEVATOR - DEPLOY ZE AMBUSH. *",
     objectives: [
       [
-        'Investigate the anomaly at the Center',
-        'Whooaaaaa!!',
-        'position',
-        [5, 35],
+        "Escape from the holding cells",
+        "Objective Achieved: Escape from Holding Cells",
+        "threshold",
+        { directions: ['toTheLeft', 'above'], coords: [9, 15]},
+        2,
+      ],
+      [
+        "Find the elevator",
+        "",
+        "position",
+        [38, 34],
         2,
       ],
     ],
     setupInstructions: [
+      ['remove-block', [38, 9]],
+      ['remove-block', [9, 9]],
+      ['remove-block', [12, 15]],
+      ['remove-block', [14, 15]],
+      ['remove-block', [25, 15]],
+      ['remove-block', [28, 15]],
+      ['remove-block', [33, 15]],
+      ['remove-block', [61, 11]],
       [
-        // Start of first set of instructions tuple:
-        'create-block', // idx = 0 - code word for switch case
+        'create-block', 
         [
-          // idx = 1 - array containing coords and block type for 'create-block' switch case in engine
-          [5, 35], // create-block idx = 0 - coordinates to target
-          989, // create-block idx = 1 - block type to render
-        ],
-      ], // end of first instructions set
-      // Baddie addition instruction template: [0: engine-reducer switch-case code phrase, 1: array of baddie data arrays
+          [61, 11], 
+          740,
+        ]
+      ],
       [
-        'add-baddies',
+        "add-baddies",
         [
-          // baddie ranges must be processed by the engine, not given as a range function output here:
-          [ -19, 12, 1002, 1003, [-19, -14]],
-          [ -29, 10, 1002, 1004, [-36, -29]],
+          [ 12, 15, 1003, 1007, [6, 13]],
+          [ 14, 15, 1002, 1008, [6, 15]],
+          [ 25, 15, 1003, 1009, [25, 38]],
+          [ 28, 15, 1002, 1010, [6, 27]],
+          [ 33, 15, 1004, 1011, [12, 33]],
+          [ 13, 24, 1002, 1012, [13, 17]],
+          [ 32, 27, 1002, 1013, [24, 32]],
+          [ 5, 35, 1002, 1014, [5, 13]],
         ],
+      ],
+      [
+        "add-item",
+        [
+          20, 10, {type: "health", power: 2, duration: 0}
+        ]
+      ],
+      [
+        "add-item",
+        [
+          37, 29, {type: "experience", power: 2, duration: 0}
+        ]
+      ],
+      [
+        "add-item",
+        [
+          3, 44, {type: "experience", power: 2, duration: 0}
+        ]
       ],
       [
         'add-item',
         [
-          -2, 12, {type: 'experience', power: 5, duration: 0}
+          21, 32, {type: "health", power: 2, duration: 0}
         ]
       ],
-      ['update-player-respawn', [37, 37]],
+      ["update-player-respawn", [63, 12]],
     ],
     specialFX: null,
-    dialogue: null,
+    dialogue: {
+      player: [
+        {
+          id: 7,
+          text: "There must be a call button somewhere...",
+          type: "thought",
+          repeating: true,
+          condition: ["position", 26, 33],
+          duration: 40
+        },
+        {
+          id: 8,
+          text: "That glowing terminal looks promising...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
+          duration: 30
+        },
+      ],
+      baddie_1009: [
+        {
+          id: 9,
+          text: "Don't let it get away!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 26],
+          duration: 40
+        },
+      ],
+      baddie_1011: [
+        {
+          id: 10,
+          text: "Screw bayonets-- LOCK UND LOAD!!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 28],
+          duration: 40
+        },
+      ]
+    },
   },
   {
     levelNumber: 2,
-    levelName: 'BaconLand',
-    brief: "You seem to have fallen through an interdimensional portal. Luckily there seems to be plenty to eat in this universe. Go and touch this world's edges for the sake of science, then brace yourself for what comes next...",
-    achievementStatement: 'Uhhh, so much bacon!',
+    levelName: "Escape, Part III",
+    brief: "Looks like the elevator option isn't going to work. Luckily those fiends opened some doors in their cowardly ambush, maybe you can follow them to get out. It looks pretty hot up ahead but maybe you can follow the tunnels to the surface.",
+    achievementStatement: "* SPECIMEN IS STILL ESCAPINGK. GUARD PERSONNEL PLEASE TRY HARDER. *",
     objectives: [
       [
-        'Visit the right side of this new universe.',
-        "It's bacon all the way down!",
-        'position',
+        "Enter the Geothermal power station.",
+        "Objective Achieved: Enter Geothermal Power Station",
+        "position",
         [21],
         1,
       ],
       [
-        'Visit the left side of this new universe.',
-        "It's bacon all the way down!",
-        'position',
+        "Reach the heat exchange unit at the top of the shaft.",
+        "",
+        "position",
         [-21],
         1,
       ],
     ],
     setupInstructions: [
-      ['clear-items'], // tells the engine to tidy up any leftover items from the previous world
-      ['remove-block', [0, 7]],
-      [
-        'clear-stage', // clear stage setup instruction tells all the columns to wipe clear,
-      ],
-      [
-        'reset-stage', // reset stage will run biome builder with a biome of one's choice:
+        ['update-player-respawn', [38, 35]],
+        ['clear-baddies'],
+        ['remove-block', [38, 33]], // Control panel - replace with red version
+        ['remove-block', [38, 37]],
+        ['remove-block', [39, 37]],
+        ['remove-block', [41, 33]],
+        ['remove-block', [39, 22]],
         [
-          baconLandRight, // idx 0: select biome for the right
-          baconLandLeft, // idx 1: select biome for the left
-          [0, SCREEN_WIDTH_IN_BLOCKS], // idx 2: column start/stop values for newly rendered terrain
+          'create-block', 
+          [
+            [22, 31], 
+            702
+          ]
+        ],
+        [
+          'create-block', 
+          [
+            [23, 31], 
+            702
+          ]
+        ],
+        [
+          'create-block', 
+          [
+            [24, 31], 
+            702
+          ]
+        ],
+        [
+          'create-block', 
+          [
+            [34, 31], 
+            702
+          ]
+        ],
+        [
+          'create-block', 
+          [
+            [35, 31], 
+            702
+          ]
+        ],
+        [
+          'create-block', 
+          [
+            [38, 33], 
+            740
+          ]
+        ],
+        [
+          'add-baddies',
+          [
+            [ 22, 32, 1002, 1015, [22, 40]],
+            [ 23, 32, 1004, 1016, [23, 40]],
+            [ 41, 33, 1003, 1017, [25, 40]],
+            [ 42, 33, 1004, 1018, [25, 40]],
+          ] 
+        ],
+        [
+          "add-item",
+          [
+            41, 22, {type: "experience", power: 2, duration: 0}
+          ]
+        ],
+        [
+          "add-item",
+          [
+            45, 38, {type: "health", power: 2, duration: 0}
+          ]
         ],
       ],
-      [
-        'set-world-width', // set-world-width will alter the world width to make levels wider or tighter
-        21, // one argument only: the new world width for the global variable
-      ],
-      // Clear remaining baddies from the previous world (make sure to do this BEFORE adding new baddies to the current level!)
-      ['clear-baddies'],
-      [
-        'add-baddies',
-        [
-          [ -10, 8, 1002, 1006, [-10, -1]],
-          [ 10, 8, 1002, 1007, [1, 10]],
-        ],
-      ],
-      ['update-player-respawn', [0, 11]],
-    ],
     specialFX: null,
+    dialogue: {
+      player: [
+        {
+          id: 11,
+          text: "Who keeps placing these signs?",
+          type: "thought",
+          repeating: true,
+          condition: ["position", 66],
+          duration: 40
+        },
+        {
+          id: 8,
+          text: "That glowing terminal looks promising...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
+          duration: 30
+        },
+      ],
+    },
   },
   {
     levelNumber: 3,

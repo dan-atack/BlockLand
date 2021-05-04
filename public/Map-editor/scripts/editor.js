@@ -147,7 +147,7 @@ class Editor {
         // Update 'current block' display text and image:
         this.paletteCurrentBlock.innerText = `${this.currentBlock.name} (${this.currentBlock.id})`;
         if (this.currentBlock.id === '000') {
-            this.palettePreview.src = 'assets/blocks/proto blocks/block000.png'
+            this.palettePreview.src = 'assets/blocks/block000.png'
         } else if (this.currentBlock.properties.includes('gif')) {
             this.palettePreview.src = `assets/blocks/block${this.currentBlock.id}.gif`;
         } else {

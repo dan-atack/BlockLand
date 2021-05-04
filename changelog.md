@@ -1276,20 +1276,24 @@ We are at last in a position to really work on the first level, which can reuse 
 
 7. Write the mission/objective text for mission one.
 
-### 8. Write the dialogue bubbles for mission one.
+8. Write the dialogue bubbles for mission one.
 
-### 9. For mission two's setup, add instructions for the removal of the cell block door blocks and the standing baddie blocks.
+9. For mission two's setup, add instructions for the removal of the cell block door blocks and the standing baddie blocks.
 
-### 10. Place the actual baddies for the floor immediately above the cell block area.
+10. Place the actual baddies for the floor immediately above the cell block area, and remove the blocks that were in their place. Baddies' patrol routes should cause them to run down into the basement/cell block area.
 
-### 11. Return briefly to the map editor and carve out the general space that will form the 'geothermal plant' mission (the bulk of mission 2) and consider which new blocks to add for this area.
+### 11. Return briefly to the map editor and carve out the general space that will form the 'search for the elevator' mission (the bulk of mission 2) and consider which new blocks to add for this area.
 
 ### 12. Make new blocks:
 
 - ### Stalactite B
-- ### Four small boxes
+- ### Four small boxes (as in, a block that looks like 4 boxes, not four individual box-like blocks)
 - ### Tape Reel Bank
-- ### Bed of Broken Chains for Mission One!
+- ### Surgical bed with Broken Chains for Mission One!
+- ### Elevator double sign
+- ### Flashing Hazard Light
+
+### 13. For the elevator mission, you have to get out of the prison block, kill the guards and then climb to the elevator shaft entrance. First you have to escape the cell block area, then find and hit the elevator button. When you complete this mission, instead of getting on the elevator, a bunch of baddies ambush you. A special new baddie, the General (use the scientist but with slightly updated image) shouts 'kill him' before patrolling away to a distant and unreachable far-away part of the map. You then follow the tunnel that the ambush baddies came from to the 'geothermal plant' area.
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 

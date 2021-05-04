@@ -1,7 +1,7 @@
 // The Player Class! Also known as 'the sprite that is you.'
 
 class Player extends Sprite {
-  constructor(root, xStart, yStart, hitpoints=3) {
+  constructor(root, xStart, yStart, hitpoints=5) {
     super(root, xStart, yStart, hitpoints);
     this.domElement.src = './assets/sprites/player-standing.gif';
     this.domElement.style.left = `${this.x * PLAYER_WIDTH}px`;

@@ -70,6 +70,7 @@ class Block extends Entity {
           case 'flowing-down':
           case 'facing-left':
           case 'green-glow':
+          case 'red-glow':
             this.domElement.classList.add(property);
             break;
           case 'opaque':

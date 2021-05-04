@@ -254,9 +254,9 @@ class Baddie extends Sprite {
 
   electricityAttack() {
     if (this.attackCountdown === 0) {
-      this.attackRadius = 1.5;
+      this.attackRadius = 1.25;
       this.attackCountdown = 8;
-      this.currentAttackDamage = 2;
+      this.currentAttackDamage = 1;
       this.currentAttackKnockback = 0.75;
       // then call the general purpose attack function, and tell it which animation to use:
       this.attack('electricity');
@@ -267,7 +267,7 @@ class Baddie extends Sprite {
 
   gunshotAttack = () => {
     this.attackRadius = 4;
-    this.attackCountdown = 8;
+    this.attackCountdown = 6;
     this.currentAttackDamage = 1;
     this.currentAttackKnockback = 0.75;
     this.attack('gunshot');

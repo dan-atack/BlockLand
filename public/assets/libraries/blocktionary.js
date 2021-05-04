@@ -110,6 +110,7 @@ const blocktionary = [
   { id: '737', name: 'Control Panel A', properties: ['gif'] },
   { id: '738', name: 'Control Panel B', properties: ['gif'] },
   { id: '739', name: 'Control Panel C', properties: ['gif', 'green-glow'] },  // new prop: green-glow!
+  { id: '740', name: 'Control Panel D', properties: ['gif', 'red-glow'] },  // new prop: red-glow!
   { id: '790', name: 'Hanging-Wires', properties: ['passable'] },
   { id: '791', name: 'Hanging-Chains', properties: ['permeable'] },
   { id: '900', name: 'Standing-Baddie-1002', properties: ['gif', 'passable'] },

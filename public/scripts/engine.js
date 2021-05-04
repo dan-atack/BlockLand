@@ -286,9 +286,9 @@ class Engine {
         this.gameOn = true;
         clearInterval(resumer);
       }
-      // freeze the game for as long as the missions special FX cue requires, or 500ms as a default:
+      // freeze the game for as long as the missions special FX cue requires, or 0ms as a default:
     },
-    this.mission.specialFX ? this.mission.specialFX[2] * 1000 : 500
+    this.mission.specialFX ? this.mission.specialFX[2] * 1000 : 0
     );
   }
 
@@ -449,7 +449,11 @@ class Engine {
             switch (saying.condition[0]) {
               case 'position':
                 if (this[character].gridX === saying.condition[1]) {
-                  this.player.handleDialogue(saying);
+                  if (saying.condition[2] && this[character].gridY === saying.condition[2]) {
+                    this.player.handleDialogue(saying); // If a Y coordinate is also provided, test for it as well.
+                  } else if (!saying.condition[2]) {
+                    this.player.handleDialogue(saying); // If there is no Y coordinate, also show the dialogue.
+                  }
                 }
             }
           } else {

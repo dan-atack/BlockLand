@@ -20,10 +20,9 @@ class Columns {
     this.verticalRange = [0, SCREEN_HEIGHT_IN_BLOCKS];
     // Now, to broaden the diversity of the wider world:
     // block Printer function will take these arguments, skillfully inserted into the block printer's logic.
-    // At first it might be a bit like, identical volcanoes to the left, identical forests to the right, but it's a starT:
     this.currentBiomeLeft = wetlands;
     this.currentLeftwardBiomeIdx = 0;
-    this.currentBiomeRight = laboratory2;
+    this.currentBiomeRight = laboratory1;
     this.currentRightwardBiomeIdx = 0;
   }
 

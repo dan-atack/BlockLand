@@ -91,11 +91,17 @@
   100% {
     transform: translate(0, 10.66667px); } }
 
-@keyframes control-panel {
+@keyframes control-panel-green {
   0% {
     box-shadow: 0px -4px 16px 2px limegreen; }
   100% {
     box-shadow: 0px -12px 16px 4px limegreen; } }
+
+@keyframes control-panel-red {
+  0% {
+    box-shadow: 0px -4px 16px 2px #ed1c24; }
+  100% {
+    box-shadow: 0px -12px 16px 4px #ed1c24; } }
 
 body {
   background-color: #0d0f0d;
@@ -458,7 +464,11 @@ body {
 
 .green-glow {
   border-radius: 4px;
-  animation: control-panel 4s infinite alternate; }
+  animation: control-panel-green 4s infinite alternate; }
+
+.red-glow {
+  border-radius: 4px;
+  animation: control-panel-red 4s infinite alternate; }
 
 .world {
   margin-top: 1%;

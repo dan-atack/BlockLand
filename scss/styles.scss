@@ -138,12 +138,21 @@ $experienceLight: rgba(0, 250, 154, 0.89);
   }
 }
 
-@keyframes control-panel {
+@keyframes control-panel-green {
   0% {
     box-shadow: 0px -4px 16px 2px limegreen;
   }
   100% {
     box-shadow: 0px -12px 16px 4px limegreen;
+  }
+}
+
+@keyframes control-panel-red {
+  0% {
+    box-shadow: 0px -4px 16px 2px rgb(237, 28, 36);
+  }
+  100% {
+    box-shadow: 0px -12px 16px 4px rgb(237, 28, 36);
   }
 }
 
@@ -564,7 +573,12 @@ body {
 
 .green-glow {
   border-radius: 4px;
-  animation: control-panel 4s infinite alternate;
+  animation: control-panel-green 4s infinite alternate;
+}
+
+.red-glow {
+  border-radius: 4px;
+  animation: control-panel-red 4s infinite alternate;
 }
 
 .world {
