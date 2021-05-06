@@ -142,11 +142,11 @@ const missions = [
       player: [
         {
           id: 0,
-          text: "No fortress can hold me!",
+          text: "No fortress can hold me!!",
           type: "thought",
           repeating: false,
-          condition: ["position", 11, 11],
-          duration: 30
+          condition: ["position", 12],
+          duration: 40
         },
         {
           id: 1,
@@ -237,7 +237,7 @@ const missions = [
       ['remove-block', [14, 15]],
       ['remove-block', [25, 15]],
       ['remove-block', [28, 15]],
-      ['remove-block', [33, 15]],
+      ['remove-block', [31, 15]],
       ['remove-block', [61, 11]],
       [
         'create-block', 
@@ -253,7 +253,7 @@ const missions = [
           [ 14, 15, 1002, 1008, [6, 15]],
           [ 25, 15, 1003, 1009, [25, 38]],
           [ 28, 15, 1002, 1010, [6, 27]],
-          [ 33, 15, 1004, 1011, [12, 33]],
+          [ 31, 15, 1004, 1011, [12, 33]],
           [ 13, 24, 1002, 1012, [13, 17]],
           [ 32, 27, 1002, 1013, [24, 32]],
           [ 5, 35, 1002, 1014, [5, 13]],
@@ -281,6 +281,12 @@ const missions = [
         'add-item',
         [
           21, 32, {type: "health", power: 2, duration: 0}
+        ]
+      ],
+      [
+        'add-item',
+        [
+          3, 19, {type: "health", power: 1, duration: 0}
         ]
       ],
       ["update-player-respawn", [63, 12]],
@@ -428,7 +434,7 @@ const missions = [
           text: "Who keeps placing these signs?",
           type: "thought",
           repeating: true,
-          condition: ["position", 66],
+          condition: ["position", 75],
           duration: 40
         },
         {

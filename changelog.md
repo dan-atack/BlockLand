@@ -1248,8 +1248,9 @@ We are at last in a position to really work on the first level, which can reuse 
 1. Roadmap plan: the Laboratory level will be comprised of three sections, with one mission per section:
 
 - Section 1: Cell Block Tango: You have to get into the security station through the air duct and hit the switch to open the main doors.
-- Section 2: Geothermal Plant: First taste of the game's platformishness, you must jump to gain elevation and avoid falling in the lava.
-- Section 3: Radio Station: First deployment of machine-gun baddies; player must hit 3 switches to contact the Raptor Resistance.
+- Section 2: Elevator: First taste of the game's platformishness, you must jump to gain elevation and avoid falling in the lava.
+- Section 3: Geothermal Power Station: First exposure to lava deaths; more platforming and fighting.
+- Section 4: Radio Station: Player must hit 3 switches to contact the Raptor Resistance.
 
 ### 2. Make new blocks:
 
@@ -1282,16 +1283,16 @@ We are at last in a position to really work on the first level, which can reuse 
 
 10. Place the actual baddies for the floor immediately above the cell block area, and remove the blocks that were in their place. Baddies' patrol routes should cause them to run down into the basement/cell block area.
 
-### 11. Return briefly to the map editor and carve out the general space that will form the 'search for the elevator' mission (the bulk of mission 2) and consider which new blocks to add for this area.
+### 11. Return briefly to the map editor and carve out the general space that will form the 'geothermal plant' mission (the bulk of mission 3) and consider which new blocks to add for this area.
 
 ### 12. Make new blocks:
 
-- ### Stalactite B
-- ### Four small boxes (as in, a block that looks like 4 boxes, not four individual box-like blocks)
-- ### Tape Reel Bank
-- ### Surgical bed with Broken Chains for Mission One!
-- ### Elevator double sign
-- ### Flashing Hazard Light
+- Stalactite B
+- Four small boxes (as in, a block that looks like 4 boxes, not four individual box-like blocks)
+- Large stationary gear
+- Surgical bed with Broken Chains for Mission One!
+- ### Elevator sign
+- ### Geothermal Plant double sign
 
 ### 13. For the elevator mission, you have to get out of the prison block, kill the guards and then climb to the elevator shaft entrance. First you have to escape the cell block area, then find and hit the elevator button. When you complete this mission, instead of getting on the elevator, a bunch of baddies ambush you. A special new baddie, the General (use the scientist but with slightly updated image) shouts 'kill him' before patrolling away to a distant and unreachable far-away part of the map. You then follow the tunnel that the ambush baddies came from to the 'geothermal plant' area.
 
