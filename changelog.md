@@ -1291,10 +1291,12 @@ We are at last in a position to really work on the first level, which can reuse 
 - Four small boxes (as in, a block that looks like 4 boxes, not four individual box-like blocks)
 - Large stationary gear
 - Surgical bed with Broken Chains for Mission One!
-- ### Elevator sign
+- Elevator sign
 - ### Geothermal Plant double sign
 
-### 13. For the elevator mission, you have to get out of the prison block, kill the guards and then climb to the elevator shaft entrance. First you have to escape the cell block area, then find and hit the elevator button. When you complete this mission, instead of getting on the elevator, a bunch of baddies ambush you. A special new baddie, the General (use the scientist but with slightly updated image) shouts 'kill him' before patrolling away to a distant and unreachable far-away part of the map. You then follow the tunnel that the ambush baddies came from to the 'geothermal plant' area.
+### 13. For the geothermal plant mission,
+
+### 14. For the elevator mission, you have to get out of the prison block, kill the guards and then climb to the elevator shaft entrance. First you have to escape the cell block area, then find and hit the elevator button. When you complete this mission, instead of getting on the elevator, a bunch of baddies ambush you. A special new baddie, the General (use the scientist but with slightly updated image) shouts 'kill him' before patrolling away to a distant and unreachable far-away part of the map. You then follow the tunnel that the ambush baddies came from to the 'geothermal plant' area.
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
