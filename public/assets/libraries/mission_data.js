@@ -153,7 +153,7 @@ const missions = [
           text: "That glowing terminal looks promising...",
           type: "thought",
           repeating: false,
-          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
+          condition: ["position", 61, 18],
           duration: 30
         },
       ],
@@ -307,7 +307,7 @@ const missions = [
           text: "That glowing terminal looks promising...",
           type: "thought",
           repeating: false,
-          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
+          condition: ["position", 61, 18],
           duration: 30
         },
       ],
@@ -336,21 +336,21 @@ const missions = [
   {
     levelNumber: 2,
     levelName: "Escape, Part III",
-    brief: "Looks like the elevator option isn't going to work. Luckily those fiends opened some doors in their cowardly ambush, maybe you can follow them to get out. It looks pretty hot up ahead but maybe you can follow the tunnels to the surface.",
+    brief: "Those bastards booby-trapped the elevator! Looks like you'll have to find another way out. It looks pretty hot up ahead but maybe you can follow a tunnel to the surface. Or maybe it'll be a pipe this time. Either way... watch out for that lava.",
     achievementStatement: "* SPECIMEN IS STILL ESCAPINGK. GUARD PERSONNEL PLEASE TRY HARDER. *",
     objectives: [
       [
         "Enter the Geothermal power station.",
         "Objective Achieved: Enter Geothermal Power Station",
         "position",
-        [21],
+        [66],
         1,
       ],
       [
-        "Reach the heat exchange unit at the top of the shaft.",
+        "Find the exit to the geothermal power station (hint: up is good).",
         "",
-        "position",
-        [-21],
+        "threshold",
+        { directions: ['toTheLeft', 'above'], coords: [85, 45]},
         1,
       ],
     ],
@@ -411,6 +411,13 @@ const missions = [
             [ 23, 32, 1004, 1016, [23, 40]],
             [ 41, 33, 1003, 1017, [25, 40]],
             [ 42, 33, 1004, 1018, [25, 40]],
+            [ 44, 33, 1004, 1019, [25, 40]],
+            [ 135, 29, 1005, 1020, [131, 135], 7],  // Bugs have 7 HP...
+            [ 145, 25, 1005, 1021, [143, 145], 11], // ... Or sometimes 11!
+            [ 143, 25, 1005, 1022, [136, 143], 7],
+            [ 134, 39, 1005, 1023, [128, 134], 7],
+            [ 146, 46, 1005, 1024, [137, 146], 7],
+            [ 148, 43, 1005, 1025, [141, 148], 7],
           ] 
         ],
         [
@@ -422,7 +429,19 @@ const missions = [
         [
           "add-item",
           [
-            45, 38, {type: "health", power: 2, duration: 0}
+            45, 38, {type: "health", power: 1, duration: 0}
+          ]
+        ],
+        [
+          "add-item", // In the lava pipe (bonus area)
+          [
+            88, 21, {type: "experience", power: 5, duration: 0}
+          ]
+        ],
+        [
+          "add-item",
+          [
+            148, 43, {type: "health", power: 2, duration: 0}
           ]
         ],
       ],
@@ -433,17 +452,37 @@ const missions = [
           id: 11,
           text: "Who keeps placing these signs?",
           type: "thought",
-          repeating: true,
+          repeating: false,
           condition: ["position", 75],
           duration: 40
         },
         {
-          id: 8,
+          id: 12,
           text: "That glowing terminal looks promising...",
           type: "thought",
           repeating: false,
-          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
+          condition: ["position", 61, 18],
           duration: 30
+        },
+      ],
+      baddie_1020: [
+        {
+          id: 13,
+          text: "Chzzz! Stay away, vertebrate!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 75],
+          duration: 40
+        },
+      ],
+      baddie_1021: [
+        {
+          id: 14,
+          text: "Protect the Orb!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 75],
+          duration: 40
         },
       ],
     },

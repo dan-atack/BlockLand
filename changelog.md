@@ -1292,11 +1292,17 @@ We are at last in a position to really work on the first level, which can reuse 
 - Large stationary gear
 - Surgical bed with Broken Chains for Mission One!
 - Elevator sign
-- ### Geothermal Plant double sign
+- Caution: Lava sign
 
-### 13. For the geothermal plant mission,
+13. For the elevator mission, you have to get out of the prison block, kill the guards and then climb to the elevator shaft entrance. First you have to escape the cell block area, then find and hit the elevator button. When you complete this mission, instead of getting on the elevator, a bunch of baddies ambush you.
 
-### 14. For the elevator mission, you have to get out of the prison block, kill the guards and then climb to the elevator shaft entrance. First you have to escape the cell block area, then find and hit the elevator button. When you complete this mission, instead of getting on the elevator, a bunch of baddies ambush you. A special new baddie, the General (use the scientist but with slightly updated image) shouts 'kill him' before patrolling away to a distant and unreachable far-away part of the map. You then follow the tunnel that the ambush baddies came from to the 'geothermal plant' area.
+### 14. Add a death animation for the bug baddie.
+
+### 15. Add more dialogue for the bug area.
+
+### 16. Widen some key passages slightly.
+
+### 17. Center the game in a parent div so that it's always in the middle of the screen.
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 

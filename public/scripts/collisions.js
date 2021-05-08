@@ -29,7 +29,7 @@ class Collisions {
               badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone +
                 baddie.attackRadius &&
               // AND make sure the player is more or less in the right height range:
-              Math.abs(player.y - baddie.y) < baddie.attackRadius)
+              Math.abs(player.y - baddie.y) < badDictionary[`baddie_${baddie.type}`].spriteWidth)
           ) {
             // If there's a hit, player takes damage and is knocked according to what direction you're hit from:
             player.damageReceived = baddie.currentAttackDamage || 1;
@@ -71,7 +71,7 @@ class Collisions {
               badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone +
                 baddie.attackRadius &&
               // AND make sure the player is more or less in the right height range:
-              Math.abs(player.y - baddie.y) < baddie.attackRadius)
+              Math.abs(player.y - baddie.y) < badDictionary[`baddie_${baddie.type}`].spriteWidth)
           ) {
             player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(playerHorizontalKnock, playerVerticalKnock);
@@ -136,7 +136,7 @@ class Collisions {
               badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone +
                 baddie.attackRadius &&
               // AND make sure the player is more or less in the right height range:
-              Math.abs(player.y - baddie.y) < baddie.attackRadius)
+              Math.abs(player.y - baddie.y) < badDictionary[`baddie_${baddie.type}`].spriteWidth)
           ) {
             player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
@@ -165,7 +165,7 @@ class Collisions {
               badDictionary[`baddie_${baddie.type}`].baddieBehind.dangerZone +
                 baddie.attackRadius &&
               // AND make sure the player is more or less in the right height range:
-              Math.abs(player.y - baddie.y) < baddie.attackRadius)
+              Math.abs(player.y - baddie.y) < badDictionary[`baddie_${baddie.type}`].spriteWidth)
           ) {
             player.damageReceived = baddie.currentAttackDamage || 1;
             player.getKnockedBack(-playerHorizontalKnock, playerVerticalKnock);
@@ -263,7 +263,7 @@ const badDictionary = {
   },
   baddie_1004: {
     patrolInterval: 5,
-    topSpeed: 0.125,
+    topSpeed: 0.15,
     spriteWidth: 1,
     faceToFace: {
       dangerZone: 0.8,
@@ -276,6 +276,23 @@ const badDictionary = {
     },
     backToBack: {
       dangerZone: 0.85,
+    },
+  },
+  baddie_1005: {
+    patrolInterval: 3,
+    topSpeed: 0.2,
+    spriteWidth: 1.1,
+    faceToFace: {
+      dangerZone: 1.1,
+    },
+    baddieBehind: {
+      dangerZone: 1,
+    },
+    playerBehind: {
+      dangerZone: 1,
+    },
+    backToBack: {
+      dangerZone: 1,
     },
   },
 };

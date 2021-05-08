@@ -225,7 +225,12 @@ class Baddie extends Sprite {
       // Death of a baddie: baddie sprite is replaced by a gif of them dying which plays for a certain amount of game loops:
       if (this.deathLoops === 20) {   // Passing this condition means you've just started dying.
         this.isDying = true;
-        playSound(`baddie-death-${Math.floor(Math.random() * 4)}-sound`);   // Play one of four unique baddie death sounds!!!
+        if (this.type != 1005 ) {
+          playSound(`baddie-death-${Math.floor(Math.random() * 4)}-sound`);   // Play one of four unique baddie death sounds!!!
+        } else {  // Different sound plays for non-human baddie deaths:
+          playSound(`bug-death-${Math.floor(Math.random() * 3)}-sound`);
+        }
+        
         this.domElement.src = `./assets/effects/animations/baddie-${this.type}-death.gif`;
         // ensure proper sprite orientation:
         this.facing === 'right'

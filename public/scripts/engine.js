@@ -298,8 +298,8 @@ class Engine {
     switch (instructions[0]) {
       case 'add-baddies':
         instructions[1].forEach((baddieArray) => {
-          // Correct world variable insertion (now also hacky in the extreme... yaaay...)
-          if (baddieArray.length < 6) {
+          // Determine if the baddie has never been created before, and update its root element accordingly:
+          if (typeof baddieArray[4] == 'object') {
             baddieArray.unshift(document.getElementById('world'));
           } else {
             baddieArray[0] = document.getElementById('world')
@@ -318,7 +318,7 @@ class Engine {
         break;
       case 'add-boss':
         // Ensure proper rendering point set:
-        if (instructions[1].length < 6) {
+        if (typeof baddieArray[4] == 'object') {
           instructions[1].unshift(document.getElementById('world'));
         } else {
           instructions[1][0] = document.getElementById('world')
