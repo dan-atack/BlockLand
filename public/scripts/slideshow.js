@@ -32,7 +32,6 @@ class Slideshow {
 
     advanceSlide = () => {
         // Derender previous slide, increment the current slide number, reset time remaining, then render new one:
-        console.log('advancing to next slide: ', this.currentSlide + 1);
         this.deRenderSlide();
         this.currentSlide += 1;
         const newSlide = slideData[this.currentSlide];

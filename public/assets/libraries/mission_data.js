@@ -142,18 +142,18 @@ const missions = [
       player: [
         {
           id: 0,
-          text: "No fortress can hold me!",
+          text: "No fortress can hold me!!",
           type: "thought",
           repeating: false,
-          condition: ["position", 11, 11],
-          duration: 30
+          condition: ["position", 12],
+          duration: 40
         },
         {
           id: 1,
           text: "That glowing terminal looks promising...",
           type: "thought",
           repeating: false,
-          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
+          condition: ["position", 61, 18],
           duration: 30
         },
       ],
@@ -237,7 +237,7 @@ const missions = [
       ['remove-block', [14, 15]],
       ['remove-block', [25, 15]],
       ['remove-block', [28, 15]],
-      ['remove-block', [33, 15]],
+      ['remove-block', [31, 15]],
       ['remove-block', [61, 11]],
       [
         'create-block', 
@@ -253,7 +253,7 @@ const missions = [
           [ 14, 15, 1002, 1008, [6, 15]],
           [ 25, 15, 1003, 1009, [25, 38]],
           [ 28, 15, 1002, 1010, [6, 27]],
-          [ 33, 15, 1004, 1011, [12, 33]],
+          [ 31, 15, 1004, 1011, [12, 33]],
           [ 13, 24, 1002, 1012, [13, 17]],
           [ 32, 27, 1002, 1013, [24, 32]],
           [ 5, 35, 1002, 1014, [5, 13]],
@@ -283,6 +283,12 @@ const missions = [
           21, 32, {type: "health", power: 2, duration: 0}
         ]
       ],
+      [
+        'add-item',
+        [
+          3, 19, {type: "health", power: 1, duration: 0}
+        ]
+      ],
       ["update-player-respawn", [63, 12]],
     ],
     specialFX: null,
@@ -301,7 +307,7 @@ const missions = [
           text: "That glowing terminal looks promising...",
           type: "thought",
           repeating: false,
-          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
+          condition: ["position", 61, 18],
           duration: 30
         },
       ],
@@ -330,21 +336,21 @@ const missions = [
   {
     levelNumber: 2,
     levelName: "Escape, Part III",
-    brief: "Looks like the elevator option isn't going to work. Luckily those fiends opened some doors in their cowardly ambush, maybe you can follow them to get out. It looks pretty hot up ahead but maybe you can follow the tunnels to the surface.",
+    brief: "Those bastards booby-trapped the elevator! Looks like you'll have to find another way out. It looks pretty hot up ahead but maybe you can follow a tunnel to the surface. Or maybe it'll be a pipe this time. Either way... watch out for that lava.",
     achievementStatement: "* SPECIMEN IS STILL ESCAPINGK. GUARD PERSONNEL PLEASE TRY HARDER. *",
     objectives: [
       [
         "Enter the Geothermal power station.",
         "Objective Achieved: Enter Geothermal Power Station",
         "position",
-        [21],
+        [66],
         1,
       ],
       [
-        "Reach the heat exchange unit at the top of the shaft.",
+        "Find the exit to the geothermal power station (hint: up is good).",
         "",
-        "position",
-        [-21],
+        "threshold",
+        { directions: ['toTheLeft', 'above'], coords: [85, 45]},
         1,
       ],
     ],
@@ -405,18 +411,43 @@ const missions = [
             [ 23, 32, 1004, 1016, [23, 40]],
             [ 41, 33, 1003, 1017, [25, 40]],
             [ 42, 33, 1004, 1018, [25, 40]],
+            [ 44, 33, 1004, 1019, [25, 40]],
+            [ 135, 29, 1005, 1020, [131, 135], 7],  // Bugs have 7 HP...
+            [ 145, 25, 1005, 1021, [143, 145], 11], // ... Or sometimes 11!
+            [ 143, 25, 1005, 1022, [136, 143], 7],
+            [ 134, 39, 1005, 1023, [128, 134], 7],
+            [ 146, 46, 1005, 1024, [137, 146], 7],
+            [ 148, 43, 1005, 1025, [141, 148], 7],
           ] 
         ],
         [
           "add-item",
           [
-            41, 22, {type: "experience", power: 2, duration: 0}
+            40, 30, {type: "experience", power: 2, duration: 0}
           ]
         ],
         [
-          "add-item",
+          "add-item", // In the air duct
           [
-            45, 38, {type: "health", power: 2, duration: 0}
+            45, 38, {type: "health", power: 1, duration: 0}
+          ]
+        ],
+        [
+          "add-item", // In the lava pipe 
+          [
+            88, 21, {type: "experience", power: 5, duration: 0}
+          ]
+        ],
+        [
+          "add-item", // In the bug cave
+          [
+            148, 43, {type: "health", power: 2, duration: 0}
+          ]
+        ],
+        [
+          "add-item", // In the bug cave ('the shiny')
+          [
+            144, 25, {type: "experience", power: 5, duration: 0}
           ]
         ],
       ],
@@ -427,139 +458,278 @@ const missions = [
           id: 11,
           text: "Who keeps placing these signs?",
           type: "thought",
-          repeating: true,
-          condition: ["position", 66],
+          repeating: false,
+          condition: ["position", 75],
           duration: 40
         },
         {
-          id: 8,
-          text: "That glowing terminal looks promising...",
+          id: 12,
+          text: "Who designed this place??",
           type: "thought",
           repeating: false,
-          condition: ["position", 61, 18],  // TODO: Make the 2nd coordinate matter IF there is one.
-          duration: 30
+          condition: ["position", 91, 22],
+          duration: 40
+        },
+        {
+          id: 13,
+          text: "Man, those guys were annoying!",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 127, 49],
+          duration: 40
+        },
+        {
+          id: 14,
+          text: "Ooh, nice signage!",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 104, 45],
+          duration: 40
+        },
+      ],
+      baddie_1020: [
+        {
+          id: 15,
+          text: "Chzzz! Stay away, vertebrate!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 133],
+          duration: 40
+        },
+      ],
+      baddie_1021: [
+        {
+          id: 16,
+          text: "Protect the shiny!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 143],
+          duration: 40
         },
       ],
     },
   },
   {
     levelNumber: 3,
-    levelName: 'Escape From BaconLand',
-    brief: 'As fun as it is in BaconLand, you are now concerned about its long-term effects on your cholesterol levels. Go back to the middle and see if you can find another portal.',
-    achievementStatement: 'Here... We... GO!',
+    levelName: "Escape, Part IV",
+    brief: "Just a little bit further! There's some kinda wierd tower up ahead... I dunno, maybe it's possible to activate an interdimensional portal at the top... There's still a lot raptors have yet to learn about astrophysics, but given the circumstances you might just have to take your chances. Good luck buddy, I'm sure you'll think of something!",
+    achievementStatement: "* PORTAL IS NOW OPENINGK *",
     objectives: [
       [
-        'Get to ze portal!!!',
-        "Ooh, I shouldn't have eaten so much bacon!!",
+        "Activate Power Terminal",
+        "Power Terminal Activated.",
         'position',
-        [-3, 6],
+        [126, 78],
+        1,
+      ],
+      [
+        "Activate Temporal Forcefield Terminal",
+        "Temporal Forcefield Terminal Activated.",
+        'position',
+        [105, 78],
         2,
       ],
     ],
     setupInstructions: [
+      ["update-player-respawn", [91, 46]],
+      ["remove-block", [32, 41]],
+      ["remove-block", [26, 40]],
       [
         'create-block', 
         [
-          [-3, 6], 
-          989
+          [112, 41], 
+          702,
         ]
       ],
       [
-        'clear-baddies'
+        'create-block', 
+        [
+          [113, 41], 
+          702,
+        ]
+      ],
+      [
+        "add-item", // Far side of the elevator
+        [
+          25, 40, {type: "experience", power: 7, duration: 0}
+        ]
+      ],
+      [
+        "add-item", // Room under tower
+        [
+          48, 41, {type: "health", power: 3, duration: 0}
+        ]
+      ],
+      [
+        "add-item", // Under the pipe
+        [
+          87, 53, {type: "experience", power: 6, duration: 0}
+        ]
+      ],
+      [
+        "add-item", // Under the final tower
+        [
+          115, 65, {type: "health", power: 1, duration: 0}
+        ]
+      ],
+      [
+        "add-baddies",
+        [
+          [ 76, 46, 1004, 1026, [76, 83]],
+          [ 73, 47, 1004, 1027, [73, 82]],
+          [ 64, 47, 1003, 1028, [64, 75]],
+          [ 65, 47, 1002, 1029, [65, 76]],
+          [ 66, 47, 1002, 1030, [66, 76]],
+          [ 48, 57, 1004, 1031, [48, 52]],
+          [ 49, 57, 1002, 1032, [49, 54]],
+          [ 111, 76, 1003, 1033, [111, 113]],
+          [ 121, 76, 1003, 1034, [118, 121]],
+          [ 136, 55, 1005, 1035, [122, 136], 11],
+          [ 135, 55, 1005, 1036, [122, 135], 11],
+          [ 134, 55, 1005, 1037, [122, 134], 11],
+          [ 133, 55, 1005, 1038, [122, 133], 11],
+        ]
       ]
     ],
     specialFX: null,
+    dialogue: {
+      player: [
+        {
+          id: 17,
+          text: "Hmm this place looks familiar...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 9, 47],
+          duration: 40
+        },
+        {
+          id: 18,
+          text: "Gotta activate those terminals first...",
+          type: "thought",
+          repeating: true,
+          condition: ["position", 116, 89],
+          duration: 50
+        },
+      ],
+      baddie_1026: [
+        {
+          id: 19,
+          text: "DINOSAUR SIGHTED!!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 78],
+          duration: 30
+        },
+      ],
+      baddie_1028: [
+        {
+          id: 20,
+          text: "Kill zat creature!!!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 65],
+          duration: 40
+        },
+      ],
+      baddie_1033: [
+        {
+          id: 21,
+          text: "Don't let it get to ze portal!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 112],
+          duration: 50
+        },
+      ],
+      baddie_1034: [
+        {
+          id: 22,
+          text: "Protect ze terminal!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 119],
+          duration: 50
+        },
+      ],
+      baddie_1038: [
+        {
+          id: 23,
+          text: "Our fight's not with you, dinosaur!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 130],
+          duration: 50
+        },
+      ],
+      baddie_1040: [
+        {
+          id: 24,
+          text: "Leave us alone you jerk!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 128],
+          duration: 50
+        },
+      ],
+    }
   },
   {
     levelNumber: 4,
-    levelName: 'Guerilla Warfare',
-    brief: "It looks like you're back in your own dimension again, but the area is still crawling with those Nazty creatures. Eliminate them from the sacred forest!!!",
-    achievementStatement: 'Quick! Back across the volcano!',
+    levelName: 'The Portal',
+    brief: "The portal's open! Quick, jump into it, and hold your breath for whatever comes next...",
+    achievementStatement: 'WHHHOOOOOAAAAAAAA!!!!',
     objectives: [
       [
-        'Kill all the baddies in the sacred forest',
-        'GET SOME!!!',
-        'mission-kill-count',
-        [11],
-        4,
+        'Get to ze portal!!',
+        '',
+        'position',
+        [116, 89],
+        1,
       ],
     ],
     setupInstructions: [
-      ['clear-stage'],
+      ['remove-block', [126, 77]],
+      ['remove-block', [105, 77]],
       [
-        'add-columns',
+        'create-block', 
         [
-          [31, 107], // This is dodgy - it has to know the PREVIOUS VALUE as well???
-          [-31, -107],
-        ],
-      ],
-      ['reset-stage', [fortress, treeForts, [0, SCREEN_WIDTH_IN_BLOCKS]]],
-      ['update-player-respawn', [-4, 8]],
-      ['set-world-width', 105],
-      [
-        'add-item',
-        [
-          -91, 21, {type: 'experience', power: 5, duration: 0}
+          [126, 77], 
+          740,
         ]
       ],
       [
-        'add-item',
+        'create-block', 
         [
-          -85, 41, {type: 'health', power: 5, duration: 0}
+          [105, 77], 
+          740,
         ]
       ],
       [
-        'add-item',
+        'create-block', 
         [
-          60, 15, {type: 'health', power: 2, duration: 0}
+          [116, 89], 
+          989,
         ]
-      ],
-      [
-        'add-baddies',
-        [
-          [ -20, 7, 1004, 1008, [-20, -5]],
-          [ -28, 6, 1002, 1009, [-28, -13]],
-          [ -35, 13, 1002, 1010, [-35, -20]],
-          [ -56, 7, 1004, 1012, [-56, -46]],
-          [ -64, 6, 1002, 1013, [-64, -49]],
-          [ -72, 29, 1002, 1014, [-72, -68]],
-          [ -73, 27, 1004, 1015, [-73, -70]],
-          [ -76, 23, 1002, 1016, [-76, -74]],
-          [ -77, 18, 1002, 1017, [-77, -73]],
-          [ -80, 37, 1004, 1019, [-80, -79]],
-          [ -84, 42, 1002, 1020, [-84, -79]],
-          [ -92, 28, 1002, 1021, [-92, -84]],
-        ],
       ],
     ],
     specialFX: null,
   },
   {
     levelNumber: 5,
-    levelName: 'Patrol',
-    brief: "They've sent out a patrol to get you! Take them out, then get back across the volcano and find a way into that fortress-looking place on the other side...",
-    achievementStatement: "It's open - GET IN THERE!",
+    levelName: 'Bacon Land',
+    brief: "Thank you for playing Block Land, soon to be renamed something else to avoid copyright infringement.",
+    achievementStatement: "",
     objectives: [
       [
-        'Wipe out the patrol and enter the Fortress.',
+        'Wait for the release of version 1.5.3 in roughly another year.',
         '',
         'position',
-        [-6],
-        1
+        [-1000],
+        1000
       ]
     ],
     setupInstructions: [
-      ['update-player-respawn', [-81, 42]],
-      [
-        'add-baddies',
-        [
-          [ -45, 13, 1002, 1034, [-80, -44]],
-          [ -46, 12, 1002, 1035, [-80, -45]],
-          [ -47, 11, 1004, 1036, [-80, -46]],
-          [ -48, 11, 1004, 1022, [-80, -47]],
-          [ -49, 10, 1002, 1023, [-80, -48]],
-        ]
-      ],
+      
     ],  
     specialFX: null,
   },

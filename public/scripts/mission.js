@@ -63,7 +63,7 @@ class Mission {
       }
     });
     if (this.objectivesRemaining.length === 0 && !this.victoryMessageAwarded) {
-      playSound('mission-achievement-sound');
+      playSound(`mission-${this.levelNumber}-achievement-sound`);
       if (this.levelNumber === 0) {
         makeArrow([document.getElementById('sidebar'), -8, 9, 0, 0]);
       }

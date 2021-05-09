@@ -22,7 +22,7 @@ class Columns {
     // block Printer function will take these arguments, skillfully inserted into the block printer's logic.
     this.currentBiomeLeft = wetlands;
     this.currentLeftwardBiomeIdx = 0;
-    this.currentBiomeRight = laboratory1;
+    this.currentBiomeRight = laboratory;
     this.currentRightwardBiomeIdx = 0;
   }
 

@@ -33,7 +33,8 @@ class Baddie extends Sprite {
     this.runningGifMaxFrames = 4;
     this.runningFramesShown = 0;
     // Range within which baddie can 'see' the player:
-    this.lineOfSight = 3;
+    this.lineOfSight = 4;
+    if (this.type === 1005) this.lineOfSight = 7; // Bugs sense you from further away!
     this.enemySpotted = false; // This variable will control whether to attack, and is set by the lookAhead method called each round.
     // Baddies stick around so you can watch them die, but we say they're dying so they can't harm you while they perish:
     this.isDying = false;
@@ -105,8 +106,11 @@ class Baddie extends Sprite {
             case 1004:
               this.gunshotAttack();
               break;
+            case 1005:
+              this.bugAttack();
+              break;
             default:
-              // No attack is the default behaviour.
+              // No attack is the default behaviour for human baddies.
           }  
         }
         // Reset jump height history if movement has been successful:
@@ -225,7 +229,12 @@ class Baddie extends Sprite {
       // Death of a baddie: baddie sprite is replaced by a gif of them dying which plays for a certain amount of game loops:
       if (this.deathLoops === 20) {   // Passing this condition means you've just started dying.
         this.isDying = true;
-        playSound(`baddie-death-${Math.floor(Math.random() * 4)}-sound`);   // Play one of four unique baddie death sounds!!!
+        if (this.type != 1005 ) {
+          playSound(`baddie-death-${Math.floor(Math.random() * 4)}-sound`);   // Play one of four unique baddie death sounds!!!
+        } else {  // Different sound plays for non-human baddie deaths:
+          playSound(`bug-death-${Math.floor(Math.random() * 3)}-sound`);
+        }
+        
         this.domElement.src = `./assets/effects/animations/baddie-${this.type}-death.gif`;
         // ensure proper sprite orientation:
         this.facing === 'right'
@@ -272,6 +281,15 @@ class Baddie extends Sprite {
     this.currentAttackKnockback = 0.75;
     this.attack('gunshot');
     playSound('gunshot-sound');
+  }
+
+  bugAttack = () => {
+    this.attackRadius = 0.1;
+    this.attackCountdown = 24;
+    this.currentAttackDamage = 1;
+    this.currentAttackKnockback = 0.5;
+    this.attack('slash');
+    playSound('bug-attack-sound');
   }
 
 }

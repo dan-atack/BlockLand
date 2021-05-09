@@ -19,11 +19,11 @@ class Engine {
     this.verticalOffset = 0;
     // The screenScrollDistance attribute tells the engine how far from the side of the screen to get before it starts scrolling.
     // A value of 1 means wait till you're right at the edge.
-    this.screenScrollDistance = 4;
+    this.screenScrollDistance = 6;
     // Same principle applies to the vertical:
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
-    this.player = new Player(document.getElementById('world'), 10, 9);
+    this.player = new Player(document.getElementById('world'), 12, 9);
     // The Baddies will be in an array, since their numbers will be many:
     this.baddies = [];
     // Since the amount of baddies will fluctuate, we wish to keep track of the statistics:
@@ -73,7 +73,7 @@ class Engine {
     // Game loop will only run when game is "on"; main file's any key sets this to true when you start; dying should make it false.
     this.gameOn = false;   
     // Use this to update player respawn coordinates:
-    this.playerRespawnCoords = [10, 9];
+    this.playerRespawnCoords = [12, 9];
     // Finally, run the setup instructions for the first level (all other levels will be setup by the game loop process):
     this.mission.setupInstructions.forEach((instruction) => {
       this.setupNextMission(instruction);
@@ -298,8 +298,8 @@ class Engine {
     switch (instructions[0]) {
       case 'add-baddies':
         instructions[1].forEach((baddieArray) => {
-          // Correct world variable insertion (now also hacky in the extreme... yaaay...)
-          if (baddieArray.length < 6) {
+          // Determine if the baddie has never been created before, and update its root element accordingly:
+          if (typeof baddieArray[4] == 'object') {
             baddieArray.unshift(document.getElementById('world'));
           } else {
             baddieArray[0] = document.getElementById('world')
@@ -318,7 +318,7 @@ class Engine {
         break;
       case 'add-boss':
         // Ensure proper rendering point set:
-        if (instructions[1].length < 6) {
+        if (typeof baddieArray[4] == 'object') {
           instructions[1].unshift(document.getElementById('world'));
         } else {
           instructions[1][0] = document.getElementById('world')
