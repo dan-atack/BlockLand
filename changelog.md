@@ -1283,9 +1283,9 @@ We are at last in a position to really work on the first level, which can reuse 
 
 10. Place the actual baddies for the floor immediately above the cell block area, and remove the blocks that were in their place. Baddies' patrol routes should cause them to run down into the basement/cell block area.
 
-### 11. Return briefly to the map editor and carve out the general space that will form the 'geothermal plant' mission (the bulk of mission 3) and consider which new blocks to add for this area.
+11. Return briefly to the map editor and carve out the general space that will form the 'geothermal plant' mission (the bulk of mission 3) and consider which new blocks to add for this area.
 
-### 12. Make new blocks:
+12. Make new blocks:
 
 - Stalactite B
 - Four small boxes (as in, a block that looks like 4 boxes, not four individual box-like blocks)
@@ -1296,13 +1296,29 @@ We are at last in a position to really work on the first level, which can reuse 
 
 13. For the elevator mission, you have to get out of the prison block, kill the guards and then climb to the elevator shaft entrance. First you have to escape the cell block area, then find and hit the elevator button. When you complete this mission, instead of getting on the elevator, a bunch of baddies ambush you.
 
-### 14. Add a death animation for the bug baddie.
+14. Add a death animation for the bug baddie.
 
-### 15. Add more dialogue for the bug area.
+15. Add more dialogue for the bug area.
 
-### 16. Widen some key passages slightly.
+16. Widen some key passages slightly.
 
 ### 17. Center the game in a parent div so that it's always in the middle of the screen.
+
+18. Add an attack for the bug baddie; no damage increase just play that sound! Also do it more often then the other baddies fire their attacks.
+
+19. Increase Engine screen scroll distance to 5.
+
+20. Final Mission: Activate the Portal Generator and escape!
+
+### 21. Replace generic level end sound with mission-specific sounds:
+
+### - Level One: Clanking Jail Door
+
+### - Level Two: Klaxon
+
+### - Level Three: Drumbeat (current default sound)
+
+### - Level Four: Intergalactic
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 

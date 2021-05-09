@@ -19,7 +19,7 @@ class Engine {
     this.verticalOffset = 0;
     // The screenScrollDistance attribute tells the engine how far from the side of the screen to get before it starts scrolling.
     // A value of 1 means wait till you're right at the edge.
-    this.screenScrollDistance = 4;
+    this.screenScrollDistance = 6;
     // Same principle applies to the vertical:
     this.verticalScreenScrollDistance = 3;
     // The player is created through the game engine so it can handle everything that happens to you:
