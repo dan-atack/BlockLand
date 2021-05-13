@@ -39,22 +39,55 @@ class Dialogue extends Entity {
     repositionToParent(x, y, horizontalOffset, verticalOffset, facing) {
         if (facing === 'right') {
             this.x = x - 1.5;
-            this.bubbleTick.style.transform = 'rotateY(0deg)';
+            this.bubbleTick.classList.remove('facing-left');
         } else {
             this.x = x - 4;
-            this.bubbleTick.style.transform = 'rotateY(180deg)';
+            this.bubbleTick.classList.add('facing-left');
         }
-        // Override normal rules if subject is too close to the edge of the screen:
-        if (x - horizontalOffset > 17) {
-            this.x = x - 5;
-            this.bubbleTick.style.transform = 'rotateY(180deg)';
-        } else if (x - horizontalOffset < 3) {
-            this.x = x + 1;
-            this.bubbleTick.style.transform = 'rotateY(0deg)';
-        }
+        this.avoidHorizontalEdge(x, horizontalOffset);
         // TODO: Use V-offset to override regular positioning if subject is too close to the toporbottom
-        this.y = y + 1.5;
+        this.avoidVerticalEdge(y, verticalOffset, facing);
         this.horizontalTranslate(horizontalOffset);
         this.verticalTranslate(verticalOffset);
+    }
+
+    avoidHorizontalEdge = (x, horizontalOffset) => {
+        // Override normal rules if subject is too close to the edge of the screen:
+        if (x - horizontalOffset > SCREEN_WIDTH_IN_BLOCKS - 4) {
+            this.x = x - 5;
+            this.bubbleTick.classList.add('facing-left');
+        } else if (x - horizontalOffset < 3) {
+            this.x = x + 1;
+            this.bubbleTick.classList.remove('facing-left');
+        }
+    }
+
+    avoidVerticalEdge = (y, verticalOffset, facing) => {
+        // Override position if subject is too close to the vertical edge as well:
+        if (y - verticalOffset > SCREEN_HEIGHT_IN_BLOCKS - 3) {
+            this.y = y - 3.5;
+            // Invert bubble tick if speech is too high:
+            this.bubbleTick.classList.add('bubble-tick-from-above');
+            // Flip to face the baddie:
+            if (facing === 'right') {
+                this.bubbleTick.classList.remove('facing-left');
+                this.bubbleTick.classList.remove('bubble-tick-vertical-left');
+                this.bubbleTick.classList.add('bubble-tick-vertical-right');
+            } else {
+                this.bubbleTick.classList.remove('bubble-tick-vertical-right');
+                this.bubbleTick.classList.remove('facing-left');
+                this.bubbleTick.classList.add('bubble-tick-vertical-left');
+            }
+        } else if (y - verticalOffset < 3) {
+            this.bubbleTick.classList.remove('bubble-tick-from-above');
+            this.bubbleTick.classList.remove('bubble-tick-vertical-right');
+            this.bubbleTick.classList.remove('bubble-tick-vertical-left');
+            this.y = y + 2.5;
+        } else {
+            this.y = y + 1.5;   // Regular bubble tick orientation (1.5 blocks above the utterer is a good default position).
+            this.bubbleTick.classList.remove('bubble-tick-from-above');
+            this.bubbleTick.classList.remove('bubble-tick-vertical-right');
+            this.bubbleTick.classList.remove('bubble-tick-vertical-left');
+        }
     }
 }
