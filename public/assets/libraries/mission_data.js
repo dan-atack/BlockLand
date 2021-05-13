@@ -704,13 +704,13 @@ const missions = [
           740,
         ]
       ],
-      // [
-      //   'create-block', 
-      //   [
-      //     [116, 89], 
-      //     989,
-      //   ]
-      // ],
+      [
+        'create-block', 
+        [
+          [3, 49], 
+          989,
+        ]
+      ],
     ],
     specialFX: null,
   },
@@ -730,6 +730,7 @@ const missions = [
     ],
     setupInstructions: [
       ['clear-stage'],
+      ['clear-baddies'],
       ['update-player-respawn', [3, 30]],
       ['reset-stage', [purgatory, purgatory]],
     ],  
@@ -738,26 +739,26 @@ const missions = [
       player: [
         {
           id: 25,
-          text: "I hope this isn't it...",
+          text: "Uh oh...",
           type: "thought",
           repeating: false,
-          condition: ["position", 118],
+          condition: ["position", 30],
           duration: 40
         },
         {
           id: 26,
-          text: "Oh dear...",
+          text: "Oh no, I'm in the dev sandbox!",
           type: "thought",
           repeating: false,
-          condition: ["position", 140],
+          condition: ["position", 90],
           duration: 50
         },
         {
           id: 27,
-          text: "Oh dear...",
+          text: "Is this purgatory?",
           type: "thought",
           repeating: false,
-          condition: ["position", 90],
+          condition: ["position", -60],
           duration: 50
         },
       ],
