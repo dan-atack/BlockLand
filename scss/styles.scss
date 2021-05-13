@@ -160,8 +160,9 @@ body {
   background-color: #0d0f0d;
   color: white;
   display: flex;
-  max-height: 88vh;
   font-family: 'Russo One', sans-serif;
+  justify-content: center;
+  align-items: center;
 }
 
 .sign-in {
@@ -233,7 +234,6 @@ body {
   width: 60%;
   height: 84%;
   margin-top: 2%;
-  margin-left: 4%;
   font-size: 36px;
   display: flex;
   flex-direction: column;
@@ -299,7 +299,6 @@ body {
   z-index: 3;
   bottom: 80%;
   left: 50%;
-  margin-left: -60px;
   opacity: 0;
   transition: opacity 0.3s;
   font-size: 12px;
@@ -394,7 +393,6 @@ body {
 
 .slideshow {
   margin-top: 1%;
-  margin-left: 10%;
   height: 720px;
   width: 768px;
   border: 1px solid white;
@@ -458,6 +456,19 @@ body {
   height: 32px;
   width: 32px;
   z-index: 150;
+}
+
+.bubble-tick-from-above {
+  bottom: 0px;
+  top: -32px;
+}
+
+.bubble-tick-vertical-right {
+  transform: rotateX(180deg);
+}
+
+.bubble-tick-vertical-left {
+  transform: rotateZ(180deg);
 }
 
 .popup {
@@ -583,7 +594,6 @@ body {
 
 .world {
   margin-top: 1%;
-  margin-left: 10%;
   border: 2px solid #ffaee5;
   width: $world-width-in-blocks * $block-width;
   height: $world-height-in-blocks * $block-width;

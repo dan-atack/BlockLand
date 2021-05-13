@@ -65,7 +65,7 @@ class Mission {
     if (this.objectivesRemaining.length === 0 && !this.victoryMessageAwarded) {
       playSound(`mission-${this.levelNumber}-achievement-sound`);
       if (this.levelNumber === 0) {
-        makeArrow([document.getElementById('sidebar'), -8, 9, 0, 0]);
+        makeArrow([document.getElementById('sidebar'), -8, 11, 0, 0]);
       }
       document.getElementById('inGameMenuButton').classList.add('levelup-menu-shine'); // menu shines briefly when mission changes
       // if this is the first mission, make a popup announcement pointing to the menu

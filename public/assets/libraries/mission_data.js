@@ -110,7 +110,7 @@ const missions = [
       [   // Instruction 1:
         "add-baddies",
         [
-          [ 24, 15, 1003, 1001, [18, 24]],  // last number here must never exceed initial x value or baddie might fall off the edge.
+          [ 23, 20, 1003, 1001, [18, 23]],  // last number here must never exceed initial x value or baddie might fall off the edge.
           [ 30, 9, 1003, 1002, [23, 30]],
           [ 42, 9, 1002, 1003, [39, 42]],
           [ 55, 11, 1003, 1004, [46, 55]],
@@ -253,7 +253,7 @@ const missions = [
           [ 14, 15, 1002, 1008, [6, 15]],
           [ 25, 15, 1003, 1009, [25, 38]],
           [ 28, 15, 1002, 1010, [6, 27]],
-          [ 31, 15, 1004, 1011, [12, 33]],
+          [ 31, 15, 1004, 1011, [12, 31]],
           [ 13, 24, 1002, 1012, [13, 17]],
           [ 32, 27, 1002, 1013, [24, 32]],
           [ 5, 35, 1002, 1014, [5, 13]],
@@ -472,7 +472,7 @@ const missions = [
         },
         {
           id: 13,
-          text: "Man, those guys were annoying!",
+          text: "What spineless jerks!",
           type: "thought",
           repeating: false,
           condition: ["position", 127, 49],
@@ -604,9 +604,9 @@ const missions = [
         },
         {
           id: 18,
-          text: "Gotta activate those terminals first...",
+          text: "Gotta activate both terminals first...",
           type: "thought",
-          repeating: true,
+          repeating: false,
           condition: ["position", 116, 89],
           duration: 50
         },
@@ -683,7 +683,7 @@ const missions = [
         'Get to ze portal!!',
         '',
         'position',
-        [116, 89],
+        [3],
         1,
       ],
     ],
@@ -704,19 +704,19 @@ const missions = [
           740,
         ]
       ],
-      [
-        'create-block', 
-        [
-          [116, 89], 
-          989,
-        ]
-      ],
+      // [
+      //   'create-block', 
+      //   [
+      //     [116, 89], 
+      //     989,
+      //   ]
+      // ],
     ],
     specialFX: null,
   },
   {
-    levelNumber: 5,
-    levelName: 'Bacon Land',
+    levelNumber: 4,
+    levelName: 'The Forest of Eternity',
     brief: "Thank you for playing Block Land, soon to be renamed something else to avoid copyright infringement.",
     achievementStatement: "",
     objectives: [
@@ -729,85 +729,38 @@ const missions = [
       ]
     ],
     setupInstructions: [
-      
+      ['clear-stage'],
+      ['update-player-respawn', [3, 30]],
+      ['reset-stage', [purgatory, purgatory]],
     ],  
     specialFX: null,
-  },
-  {
-    levelNumber: 6,
-    levelName: 'Fortress',
-    brief: "Infiltrate their fortress and kill the chief scientist dude.",
-    achievementStatement: 'Well it looks like BlockLand is safe... but for how long?',
-    objectives: [
-      [
-        'Kill the Nazty scientist',
-        "That's for the space-time continuum!",
-        'kill-particular-individual',
-        [1033],
-        10,
-      ],
-    ],
-    setupInstructions: [
-      ['update-player-respawn', [-2, 8]],
-      ['remove-block', [1, 10]],
-      ['remove-block', [1, 9]],
-      ['remove-block', [1, 8]],
-      ['remove-block', [1, 7]],
-      ['remove-block', [1, 6]],
-      ['remove-block', [1, 5]],
-      ['remove-block', [2, 10]],
-      ['remove-block', [0, 10]],
-      [
-        'add-baddies',
-        [
-          [ 6, 10, 1002, 1024, [4, 6]],
-          [ 13, 9, 1002, 1025, [8, 13]],
-          [ 17, 3, 1002, 1037, [14, 17]],
-          [ 22, 9, 1002, 1026, [17, 22]],
-          [ 32, 14, 1002, 1027, [31, 32]],
-          [ 38, 14, 1002, 1028, [36, 38]],
-          [ 42, 11, 1002, 1029, [41, 42]],
-          [ 48, 15, 1002, 1030, [43, 48]],
-          [ 63, 3, 1002, 1031, [59, 63]],
-          [ 78, 22, 1002, 1032, [77, 78]],
-          [ 85, 28, 1002, 1038, [84, 85]],
-          [ 86, 31, 1002, 1039, [85, 86]],
-          [ 87, 11, 1002, 1040, [77, 87]],
-          [ 88, 11, 1002, 1041, [77, 88]],
-          [ 88, 11, 1002, 1042, [77, 88]],
-        ],
-      ],
-      ['add-boss', [ 97, 30, 1003, 1033, [91, 97]]],
-    ],
-    specialFX:[
-      {
-        target: 'world',
-        effect: 'rumbling',
-        duration: 1.25,
-      },
-    ],
     dialogue: {
-      baddie_1033: [
+      player: [
         {
-          id: 10,
-          text: 'Well well Mister Dinosaur we meet at last!',
-          type: 'speech',   // or thought
-          repeating: true,
-          condition: ['position', 95],   // x coordinate only?
+          id: 25,
+          text: "I hope this isn't it...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 118],
+          duration: 40
+        },
+        {
+          id: 26,
+          text: "Oh dear...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 140],
+          duration: 50
+        },
+        {
+          id: 27,
+          text: "Oh dear...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 90],
           duration: 50
         },
       ],
     }
-  },
-  {
-    levelNumber: 6,
-    levelName: 'Ruins',
-    brief: 'Woo hoo, BlockLaaaanddddd!!!',
-    achievementStatement: '',
-    objectives: [
-      ['Thank you for Enjoying', 'BlockLand', 'position', [2000], 10000]
-    ],
-    setupInstructions: null,
-    specialFX: null,
   },
 ]; // end of missions list

@@ -383,11 +383,14 @@ class Engine {
         this.blocks.currentRightwardBiomeIdx = 0;
         break;
       case 'reset-stage':
-        const [rightBiome, leftBiome, columns] = instructions[1];
+        // This takes a pair of new biomes and starts printing them outward from the player's current position (player starts in the righthand biome):
+        const [rightBiome, leftBiome] = instructions[1];
+        const rightmostColumn = this.horizontalOffset;
+        const leftmostColumn = SCREEN_WIDTH_IN_BLOCKS + this.horizontalOffset;
         let buildArea = [];
         for (
-          let i = columns[0] + this.horizontalOffset;
-          i <= columns[1] + this.horizontalOffset;
+          let i = rightmostColumn;
+          i <= leftmostColumn;
           i++
         ) {
           buildArea.push(i);
@@ -400,12 +403,15 @@ class Engine {
         for (let i = 0; i < negativeNumsLength; i++) {
           buildArea.push(negatives.pop());
         }
+        // Set new biomes and reset their indexes:
         this.blocks.currentBiomeRight = rightBiome;
+        this.currentRightwardBiomeIdx = 0;
         this.blocks.currentBiomeLeft = leftBiome;
+        this.currentLeftwardBiomeIdx = 0;
         this.blocks.biomeBuilder(buildArea);
         for (
-          let i = columns[0] + this.horizontalOffset;
-          i <= columns[1] + this.horizontalOffset;
+          let i = rightmostColumn;
+          i <= leftmostColumn;
           i++
         ) {
           this.blocks[`column_${i}`].blocks.forEach((block) => {

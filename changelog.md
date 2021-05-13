@@ -1271,7 +1271,7 @@ We are at last in a position to really work on the first level, which can reuse 
 
 4. Place some 'standing baddie' blocks on the level above you as though they're looking down at your struggle. Also add one or two real ones to patrol around and say some (one-time) remarks.
 
-### 5. If necessary, add logic to the dialogue's placement algorithm to adjust its height if it's too high up.
+5. If necessary, add logic to the dialogue's placement algorithm to adjust its height if it's too high up.
 
 6. In the game, measure the locations of the blocks that need to be removed when the gates open, as well as the positions of the baddie blocks that will need to be replaced with actual dudes.
 
@@ -1302,7 +1302,7 @@ We are at last in a position to really work on the first level, which can reuse 
 
 16. Widen some key passages slightly.
 
-### 17. Center the game in a parent div so that it's always in the middle of the screen.
+17. Center the game in a parent div so that it's always in the middle of the screen.
 
 18. Add an attack for the bug baddie; no damage increase just play that sound! Also do it more often then the other baddies fire their attacks.
 
@@ -1310,25 +1310,73 @@ We are at last in a position to really work on the first level, which can reuse 
 
 20. Final Mission: Activate the Portal Generator and escape!
 
-### 21. Replace generic level end sound with mission-specific sounds:
+21. Replace generic level end sound with mission-specific sounds:
 
-### - Level One: Clanking Jail Door
+- Level One: Clanking Jail Door
 
-### - Level Two: Klaxon
+- Level Two: Klaxon
 
-### - Level Three: Drumbeat (current default sound)
+- Level Three: Drumbeat (current default sound)
 
-### - Level Four: Intergalactic
+- Level Four: Intergalactic
+
+## Version 1.5.3 - Level Two: The Conclusion
+
+After you escape via the portal, you arrive in the middle of an ancient forest, with tall trees and deep caves to explore. Initially this will just be the game's end, but we can gradually add new content. For now a large explorable world seems like a graceful enough way to cap off the initial BlockLand experience. Plus maybe we can add a final boss fight or something. And fix all of the issues not dealt with in Version 1.5.2 and re-triage the bug list. Then deploy again.
+
+1. Use the map editor to create a new map to render in place of the laboratory biome when the level transition happens.
+
+2. Have the final mission setup de-render the world and replace it with the new forest biome.
+
+3. Figure out what's wrong with the new level - where are you being teleported, what works, etc. Then fix it... Addendum: The fault is caused by the Player being to the far right of the map's origin point (x = 0) when the map change occurs. Sadly, it seems that the best way to fix this is to restructure the final mission of the Laboratory level to take the player in the opposite direction than the one they're currently sent, so that they are near (i.e. within 6 blocks) of that zero point. Test this in a rudimentary way to see if it actually works before proceeding with a sophisticated level design.
+
+4. [Imported from the previous 'ticket']: Make dialogue position respond to utterer proximity to the vertical edges as well.
+
+5. [Imported from the previous 'ticket']: Center the game in a parent div so that it's always in the middle of the screen.
+
+### 6. See what's up with the Boss class's height styling, and try to fix that up.
+
+### 7. Add a new script for the boss that incorporates detecting the player's location and turning to face them (perhaps after a brief delay?)
+
+### 8. Add new baddie sprite for boss, the Uber Trooper: A Genetically Altered Soldier bred with dinosaur (DNA? RNA? Plague joke, anyone?) with scaly skin and a massive chain gun, as well as the classic gasmask/helmet combo. He will have more HP than any other enemy you've encoutered, and if you're within range he'll light you up, but he's a little on the slow side...
+
+### 9. Honestly, level 4 should be about beating this boss character, and therefore some reconstructive surgery is needed to structure that mission around the fight. Addendum: Especially now since we've got to redirect the player back to X = 0, there's gonna be quite a lot of editing done to make the last phase of the game fun, as well as functional! Remember the vat of acid idea when designing this area.
+
+### 10. Add new attack logic for how the Boss baddie's attack works: The attack can:
+
+### - Sense obstacles in its path
+
+### - Increase its range as the attack countdown progresses
+
+### - DESTROY BLOCKS THAT GET IN ITS WAY??
+
+### 11. Touch up the artwork in the pre-game slideshow, just a little bit;
+
+### - More gadetry in frame 1 BG
+
+### - Alter tank turret and add more explosions over the jungle in frame 2
+
+### - A few more trees in the BG of frame 3 (this is probably the strongest frame overall, thus needing the least work done)
+
+### - Stripes for the raptor in frame 4, and the word RESIST emblazoned at the bottom!
+
+### 12. Make a small sign with the word 'ACID' on it, and change the Swamp water's name in the blocktionary. And make it lethal. AND give the swamp water surface tiles the 'green glow' feature!
+
+### 13. Game balance adjusting: You should be able to scrape together enough XP to get to level 3 by the time you reach the boss fight. For added fun, add a steroids item to a supply room and have the player jump over a vat of now lethal swamp water (repurposed as 'acid') to gain some XP/bonus health before the fight!
+
+### 14. Artistic alteration for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
+
+### 15. Bonus if the game actually requires you to get the boss to chew up the terrain with his gun before you can progress (although killing him will open a prison door as an alternate way forward... either way this would require the implementation of the 'objective achievements can alter the map' and 'some objectives may be optional' features, which are concepts worthy of exploration).
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
-### 1. Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
+### 1. [NOT DOING] Refactor Baddie creation data in mission_data file to use dictionary objects instead of arrays. Every Baddie must be updated to use the new format and the Engine's Baddie and Boss creation cases in the level setup function must be reconfigured to read dictionaries instead of objects... It will be painful but it is better this way in the long run.
 
-### 2. Convert the rest of the Mission Data file to JSON format, and update Missions and Objectives Classes correspondingly.
+### 2. [NOT DOING] Convert the rest of the Mission Data file to JSON format, and update Missions and Objectives Classes correspondingly.
 
-### 3. Before there are too many of them, refactor the Class Components to evolve from a basic Element parent class.
+### 3. [NOT DOING] Before there are too many of them, refactor the Class Components to evolve from a basic Element parent class.
 
-### 4. Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
+### 4. [NOT DOING] Go through Engine methods and see if some of them can be abstracted out to helper files that are then called from smaller, cleaner code blocks.
 
 ### 5. For the Collisions system (And accompanying 'Baddie Dictionary') the goal should be to keep the logic tree of who-faces-whom, but abstract the code blocks within to just one or two function calls to determine: A) player attack range? B) baddie effectiveness range.
 
@@ -1354,7 +1402,7 @@ We are at last in a position to really work on the first level, which can reuse 
 
 ### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
-### 10. It looks as thought a lot of baddies and items are being perpetually rendered and de-rendered offscreen... Stop that from happening so much. Addendum: It's not as bad as it looks; mostly they're simply checking to see if they should render, but not going all the way... test this though?!!
+### 10. It looks as thought a lot of baddies and items are being perpetually rendered and de-rendered offscreen... Stop that from happening so much. Addendum: It's not as bad as it looks; mostly they're simply checking to see if they should render, but not going all the way... Please to confirm before closingk!
 
 11. Falling into lava should really be lethal to the Baddies too. Addendum: LET 'EM BURN! LET 'EM BURN!!!
 
@@ -1366,29 +1414,29 @@ We are at last in a position to really work on the first level, which can reuse 
 
 ### 15. When you die and respawn after finishing a level, the baddies and goodies from the previous level are not respawned. Not necessarily an issue that requires a coded fix per se, but something to keep in mind during level design process (such that, if you complete a mission, you should be transported away from the opportunity to go back and look for things that won't be there any more).
 
-### 16. There's an error when you skip the pre-game slideshow on line 56 of slideshow.js.
+16. There's an error when you skip the pre-game slideshow on line 56 of slideshow.js.
 
 ### 17. Boss class baddie currently has messed up styling; flattened kind of look.
 
-### 18. In production version, the arrow pointing to the main menu after the player's first levelup/mission accomplishment is too low, since there is no player/logout section in the production version to push the button as far down as it appears in dev mode. Raise the arrow approximately one block's height.
+### 18. In production version, the arrow pointing to the main menu after the player's first levelup/mission accomplishment is too low, since there is no player/logout section in the production version to push the button as far down as it appears in dev mode. Raise the arrow approximately one block's height. Addendum: Raise by another... one block let's say.
 
 # PHASE X - Art Department:
 
-### 1. Touch up water and swamp-water block images to make them more transparent... OR alter the player sprite's
+### 1. [NOT DOING] Touch up water and swamp-water block images to make them more transparent.
 
-### 2. Vortex effect (spin and blur) for level 3 (interdimensional) and teleportation in general.
+### 2. [Probably not doing, but it's still a good idea] Vortex effect (spin and blur) for level 3 (interdimensional) and teleportation in general.
 
-### 3. New block type: Singed - like they've been burned by time bubbles/explosions/god knows what!
+### 3. New block type: Singed rock, singed concrete - like they've been burned by time bubbles/explosions/god knows what!
 
-### 4. Sign post blocks (alt. size rules for some block types???? Built as readable property in the Blocktionary???)
+4. Sign post blocks
 
-### 5. Add a new backdrop for the background story page (new SCSS rules for back-story class and App creates the element).
+### 5. [Not doing since we have an intro slideshow] Add a new backdrop for the background story page (new SCSS rules for back-story class and App creates the element).
 
 ### 6. Can we make dialogues disappear non-instantaneously by adding some sort of fade-out property to them as they are de-rendered?
 
-### 7. Make dialogue position respond to utterer proximity to the vertical edges as well. Perhaps see if the horizontal compensator can be made a bit less jumpy as well (offset takes a variable instead of a hard-coded value).
+### 7. [SELECTED FOR DEVELOPMENT] Make dialogue position respond to utterer proximity to the vertical edges as well. Perhaps see if the horizontal compensator can be made a bit less jumpy as well (offset takes the screen scroll distance instead of a hard-coded value).
 
-### 8. Artistic note for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
+### 8. [SELECTED FOR DEVELOPMENT] Artistic note for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
 
 # Food for Future Thought/ General Notes:
 
