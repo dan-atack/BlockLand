@@ -1334,7 +1334,7 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 5. [Imported from the previous 'ticket']: Center the game in a parent div so that it's always in the middle of the screen.
 
-### 6. See what's up with the Boss class's height styling, and try to fix that up.
+### 6. See what's up with the Boss class's height styling, and try to fix that up. Addendum: It's not just the boss, it's #YesAllBaddies. Must be a rogue style override baked into their instructions somewhere, as it seems to override the class designations applied to these types of units.
 
 ### 7. Add a new script for the boss that incorporates detecting the player's location and turning to face them (perhaps after a brief delay?)
 

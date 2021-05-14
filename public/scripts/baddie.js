@@ -183,11 +183,6 @@ class Baddie extends Sprite {
       this.jump();
       this.jumping = false;
     }
-    if (this.crouching) {
-      this.crouch();
-    } else {
-      this.standUp();
-    }
   };
 
   updateImage = () => {
@@ -241,6 +236,7 @@ class Baddie extends Sprite {
           ? (this.domElement.style.transform = 'rotateY(0deg)')
           : 'rotate&(180deg)';
       }
+      console.log('dying?')
       this.domElement.style.width = `${PLAYER_WIDTH}px`;
       this.domElement.style.height = `${PLAYER_WIDTH}px`;
       this.domElement.style.zIndex = 100;

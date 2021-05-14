@@ -119,6 +119,9 @@ const missions = [
         ],
       ],  // End of instruction 1
       [
+        "add-boss", [16, 9, 1003, 9999, [6, 16]]
+      ],
+      [
         "add-item",
         [
           37, 9, {type: "health", power: 2, duration: 0}

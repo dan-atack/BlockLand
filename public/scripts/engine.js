@@ -318,7 +318,7 @@ class Engine {
         break;
       case 'add-boss':
         // Ensure proper rendering point set:
-        if (typeof baddieArray[4] == 'object') {
+        if (typeof instructions[1][4] == 'object') {
           instructions[1].unshift(document.getElementById('world'));
         } else {
           instructions[1][0] = document.getElementById('world')

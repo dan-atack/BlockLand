@@ -1,14 +1,14 @@
 class Boss extends Baddie {
-  constructor(root, xStart, yStart, baddieType = 1003, baddieSerial, xRange, hitpoints=10) {
-    super(root, xStart, yStart, (baddieType = 1003), baddieSerial, xRange, hitpoints);
+  constructor(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints=25) {
+    super(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints);
     this.domElement.classList.add('boss');
     this.patrolInterval = 9;
     // Bosses have bigger everything:
     this.attackAnimationWidth = 1.5;
     this.spriteWidth = 1.5;
     // Override normal styling to make bosses bigger:
-    this.domElement.style.width = `${BOSS_WIDTH}px`;
-    this.domElement.style.height = `${BOSS_WIDTH}px`;
+    // this.domElement.style.width = `${BOSS_WIDTH}px`;
+    // this.domElement.style.height = `${BOSS_WIDTH}px`;
   }
 
     handleDeath() {
