@@ -190,6 +190,8 @@ class Sprite extends Entity {
     this.attackAnimation.style.zIndex = 10;
     if (this.id === 'player') {
       this.attackAnimation.className = 'player-attack';
+    } else if (this.type === 1006) {
+      this.attackAnimation.className = 'boss-attack';
     } else {
       this.attackAnimation.className = 'attack';
     }

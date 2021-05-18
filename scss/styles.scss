@@ -233,7 +233,7 @@ body {
   position: relative;
   width: 60%;
   height: 84%;
-  margin-top: 5%;
+  margin-top: 4%;
   font-size: 36px;
   display: flex;
   flex-direction: column;
@@ -392,7 +392,7 @@ body {
 }
 
 .slideshow {
-  margin-top: 5%;
+  margin-top: 4%;
   height: 720px;
   width: 768px;
   border: 1px solid white;
@@ -526,6 +526,11 @@ body {
   height: 28px;
 }
 
+.boss-attack {
+  position: absolute;
+  margin-bottom: 12px;
+}
+
 .damage {
   position: absolute;
   z-index: 1000;
@@ -593,7 +598,7 @@ body {
 }
 
 .world {
-  margin-top: 5%;
+  margin-top: 4%;
   border: 2px solid #ffaee5;
   width: $world-width-in-blocks * $block-width;
   height: $world-height-in-blocks * $block-width;
@@ -622,7 +627,7 @@ body {
 
 .sidebar-container {
   position: relative;
-  margin-top: 5%;
+  margin-top: 4%;
   margin-left: 1%;
   box-sizing: border-box;
   display: flex;

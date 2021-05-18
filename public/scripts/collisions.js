@@ -262,7 +262,7 @@ const badDictionary = {
     },
   },
   baddie_1004: {
-    patrolInterval: 5,
+    patrolInterval: 4,
     topSpeed: 0.15,
     spriteWidth: 1,
     faceToFace: {
@@ -293,6 +293,23 @@ const badDictionary = {
     },
     backToBack: {
       dangerZone: 1,
+    },
+  },
+  baddie_1006: {
+    patrolInterval: 4,
+    topSpeed: 0.2,
+    spriteWidth: 1.5,
+    faceToFace: {
+      dangerZone: 1.5,
+    },
+    baddieBehind: {
+      dangerZone: 1.5,
+    },
+    playerBehind: {
+      dangerZone: 1,
+    },
+    backToBack: {
+      dangerZone: 1.25,
     },
   },
 };

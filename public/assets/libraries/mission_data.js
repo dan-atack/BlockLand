@@ -119,7 +119,7 @@ const missions = [
         ],
       ],  // End of instruction 1
       [
-        "add-boss", [16, 9, 1003, 9999, [6, 16]]
+        "add-boss", [16, 9, 1006, 9999, [10, 18]]
       ],
       [
         "add-item",

@@ -1334,15 +1334,35 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 5. [Imported from the previous 'ticket']: Center the game in a parent div so that it's always in the middle of the screen.
 
-### 6. See what's up with the Boss class's height styling, and try to fix that up. Addendum: It's not just the boss, it's #YesAllBaddies. Must be a rogue style override baked into their instructions somewhere, as it seems to override the class designations applied to these types of units.
+6. See what's up with the Boss class's height styling, and try to fix that up. Addendum: It's not just the boss, it's #YesAllBaddies. Must be a rogue style override baked into their instructions somewhere, as it seems to override the class designations applied to these types of units.
 
-### 7. Add a new script for the boss that incorporates detecting the player's location and turning to face them (perhaps after a brief delay?)
+7. Add a new patrol script for the boss that incorporates detecting the player's location and turning to face them (perhaps after a brief delay?)
 
-### 8. Add new baddie sprite for boss, the Uber Trooper: A Genetically Altered Soldier bred with dinosaur (DNA? RNA? Plague joke, anyone?) with scaly skin and a massive chain gun, as well as the classic gasmask/helmet combo. He will have more HP than any other enemy you've encoutered, and if you're within range he'll light you up, but he's a little on the slow side...
+- Detect player location
 
-### 9. Honestly, level 4 should be about beating this boss character, and therefore some reconstructive surgery is needed to structure that mission around the fight. Addendum: Especially now since we've got to redirect the player back to X = 0, there's gonna be quite a lot of editing done to make the last phase of the game fun, as well as functional! Remember the vat of acid idea when designing this area.
+- Determine if facing player
 
-### 10. Add new attack logic for how the Boss baddie's attack works: The attack can:
+- If facing player, advance (or attack if in range)
+
+- If not facing player, turn around
+
+- Add a delay before commencing attacks - the CHAIN GUN SPIN UP!!!
+
+8. Add new baddie sprite for boss, the Uber Trooper: A Genetically Altered Soldier bred with dinosaur (DNA? RNA? Plague joke, anyone?) with scaly skin and a massive chain gun, as well as the classic gasmask/helmet combo. He will have more HP than any other enemy you've encoutered, and if you're within range he'll light you up, but he's a little on the slow side...
+
+9. When adding this baddie to the baddie dictionary, ensure their sprite width property is 1.5; you can also remove this property from the Boss class constructor as it doesn't get read by the collisions detector.
+
+### 9. A) Remaining Boss-related features (basic list... see below for more):
+
+### - The Boss seems to have a hard time jumping over things. Fix that.
+
+- The gatling gunfire animation isn't translated with the baddie's 'sprite width' property incorporated into its offset, so it is rendered too close to the boss's actual body.
+
+### - Boss needs a moving gif, and also a dying gif. Both should be fairly dramatic.
+
+### 10. Honestly, level 4 should be about beating this boss character, and therefore some reconstructive surgery is needed to structure that mission around the fight. Addendum: Especially now since we've got to redirect the player back to X = 0, there's gonna be quite a lot of editing done to make the last phase of the game fun, as well as functional! Remember the vat of acid idea when designing this area.
+
+### 11. Add new attack logic for how the Boss baddie's attack works: The attack can:
 
 ### - Sense obstacles in its path
 
@@ -1350,7 +1370,7 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 ### - DESTROY BLOCKS THAT GET IN ITS WAY??
 
-### 11. Touch up the artwork in the pre-game slideshow, just a little bit;
+### 12. Touch up the artwork in the pre-game slideshow, just a little bit;
 
 ### - More gadetry in frame 1 BG
 
@@ -1360,13 +1380,13 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 ### - Stripes for the raptor in frame 4, and the word RESIST emblazoned at the bottom!
 
-### 12. Make a small sign with the word 'ACID' on it, and change the Swamp water's name in the blocktionary. And make it lethal. AND give the swamp water surface tiles the 'green glow' feature!
+### 13. Make a small sign with the word 'ACID' on it, and change the Swamp water's name in the blocktionary. And make it lethal. AND give the swamp water surface tiles the 'green glow' feature!
 
-### 13. Game balance adjusting: You should be able to scrape together enough XP to get to level 3 by the time you reach the boss fight. For added fun, add a steroids item to a supply room and have the player jump over a vat of now lethal swamp water (repurposed as 'acid') to gain some XP/bonus health before the fight!
+### 14. Game balance adjusting: You should be able to scrape together enough XP to get to level 3 by the time you reach the boss fight. For added fun, add a steroids item to a supply room and have the player jump over a vat of now lethal swamp water (repurposed as 'acid') to gain some XP/bonus health before the fight!
 
-### 14. Artistic alteration for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
+### 15. Artistic alteration for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
 
-### 15. Bonus if the game actually requires you to get the boss to chew up the terrain with his gun before you can progress (although killing him will open a prison door as an alternate way forward... either way this would require the implementation of the 'objective achievements can alter the map' and 'some objectives may be optional' features, which are concepts worthy of exploration).
+### 16. Bonus if the game actually requires you to get the boss to chew up the terrain with his gun before you can progress (although killing him will open a prison door as an alternate way forward... either way this would require the implementation of the 'objective achievements can alter the map' and 'some objectives may be optional' features, which are concepts worthy of exploration).
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
@@ -1398,7 +1418,7 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 7. For some reason, Baconland is being rendered with a bunch of tree pieces from the previous level! This must be fixed before the next deployment! Addendum: they weren't the previous level, BaconLand was simply too small to completely fill the entire screen if entered from a rightward approach, so the extraneous tiles were in fact a default map being generated as filler by the Columns module - exactly as it is meant to function!
 
-### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements. Addendum: It's not the baddie removal process but the horizontal/vertical translation process that is causing the cleanup to fail. Probably. And it seems to only affect repeating messages, so... good luck with that.
+### 8. It also appears that the Engine reset process's Baddie cleanup routine, since it no longer 'kills' the Baddies, needs to include instructions to eliminate any outstanding Dialogue bubble elements. Addendum: It's not the baddie removal process but the horizontal/vertical translation process that is causing the cleanup to fail. Probably. And it seems to only affect repeating messages, so... good luck with that. Double addendum: It's nothing to do with dying at all; it seems to be something which only affects repeating messages though, that much is confirmed. Probably a glitch in the instructions for the final de-render. Investigate further!
 
 ### 9. Blocks created when the world renders sometimes appear just a moment before being translated to the correct position - not a terrible glitch but a bit of an eyesore... See if that can be tightened up somehow.
 
@@ -1434,7 +1454,7 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 ### 6. Can we make dialogues disappear non-instantaneously by adding some sort of fade-out property to them as they are de-rendered?
 
-### 7. [SELECTED FOR DEVELOPMENT] Make dialogue position respond to utterer proximity to the vertical edges as well. Perhaps see if the horizontal compensator can be made a bit less jumpy as well (offset takes the screen scroll distance instead of a hard-coded value).
+7. [SELECTED FOR DEVELOPMENT] Make dialogue position respond to utterer proximity to the vertical edges as well. Perhaps see if the horizontal compensator can be made a bit less jumpy as well (offset takes the screen scroll distance instead of a hard-coded value).
 
 ### 8. [SELECTED FOR DEVELOPMENT] Artistic note for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
 

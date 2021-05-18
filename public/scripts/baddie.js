@@ -236,7 +236,6 @@ class Baddie extends Sprite {
           ? (this.domElement.style.transform = 'rotateY(0deg)')
           : 'rotate&(180deg)';
       }
-      console.log('dying?')
       this.domElement.style.width = `${PLAYER_WIDTH}px`;
       this.domElement.style.height = `${PLAYER_WIDTH}px`;
       this.domElement.style.zIndex = 100;

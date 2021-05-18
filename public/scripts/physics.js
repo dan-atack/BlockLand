@@ -286,6 +286,8 @@ class Physics {
 
     // G - Update Surface
     this.determineSurface();
+    // H - Update gridY again, in case it wasn't updated already:
+    this.subject.gridY = Math.round(this.subject.y);
   }
 
   // Determine what you're standing on. NOTE: Tweak to allow jumping when you're > 50% over a ledge:
