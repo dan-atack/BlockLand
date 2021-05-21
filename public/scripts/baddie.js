@@ -189,17 +189,13 @@ class Baddie extends Sprite {
     const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
     if (moving && this.runningFramesShown === 0) {  // If moving but have not yet shown any running frames, you have just started to run.
       // Make sure to use the right sprite for either the player of whatever baddie we're supposed to see:
-      this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-running.gif`;
+      this.displayRunningGif();
       this.runningFramesShown += 1;
     }
     else if (!moving && this.runningFramesShown === this.runningGifMaxFrames) { // If you don't have momentum but are 'running' then you have just stopped:
       this.displayStandingGif();
       this.runningFramesShown = 0;
     }
-  }
-
-  displayStandingGif = () => {
-    this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-standing.gif`;
   }
 
   // Verify obstruction: If one is trying to leave from the same place as one's last attempt was made from, one is stuck:
@@ -273,7 +269,7 @@ class Baddie extends Sprite {
     this.attackRadius = 4;
     this.attackCountdown = 6;
     this.currentAttackDamage = 1;
-    this.currentAttackKnockback = 0.75;
+    this.currentAttackKnockback = 0.5;
     this.attack('gunshot');
     playSound('gunshot-sound');
   }

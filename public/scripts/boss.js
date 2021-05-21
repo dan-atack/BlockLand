@@ -1,9 +1,10 @@
 class Boss extends Baddie {
-  constructor(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints=25) {
+  constructor(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints=1) {
     super(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints);
     this.domElement.classList.add('boss');
     this.patrolInterval = 4;
     // Bosses have bigger everything:
+    this.deathLoops = 75;   // How long the sprite hangs around after getting killed - if adjusting, be sure to also change it in the handleDeath function too.
     this.spriteWidth = 2; // Okay, so this is... hackis in extremis, since this property is ALSO in the baddie dictionary, *and* it's a different number in there, but I had to do it because this is the value that the Sprite's attack positioner looks for when it calculates rightward-facing X-offset!
     this.lineOfSight = 4;
     this.attackAnimationWidth = 2;
@@ -39,6 +40,7 @@ class Boss extends Baddie {
     this.heightRelativeToPlayer = this.y - playerCoords[1];
   }
 
+  // Boss patrol script is essentially the "follow the player" script:
   patrol = () => {
     if (!this.isDying && this.hasBeenRendered) {
       this.patrolTick += 1;
@@ -57,10 +59,12 @@ class Boss extends Baddie {
             } else if (this.facingPlayer && this.heightRelativeToPlayer === 0) {
               this.movingRight = true;
               this.movingLeft = false;
-            // Otherwise if the player is NOT on the same elevation, hang loose and console log it (for now):
+            // If the player is NOT on the same elevation, still advance, but console log the elevation difference:
+            // NOTE that this situation occurs when the player is on another level, OR when the boss has just jumped.
             } else if (this.facingPlayer) {
-              this.movingRight = false;
+              this.movingRight = true;
               this.movingLeft = false;
+              // console.log(`elevation delta with player: ${this.heightRelativeToPlayer}`);
             // Finally, if the player is behind the baddie, turn around:
             } else {
               this.movingRight = false;
@@ -74,10 +78,12 @@ class Boss extends Baddie {
             } else if (this.facingPlayer && this.heightRelativeToPlayer === 0) {
               this.movingRight = false;
               this.movingLeft = true;
-            // Otherwise if the player is NOT on the same elevation, hang loose and console log it (for now):
+            // If the player is NOT on the same elevation, still advance, but console log the elevation difference:
+            // NOTE that this situation occurs when the player is on another level, OR when the boss has just jumped.
             } else if (this.facingPlayer) {
               this.movingRight = false;
-              this.movingLeft = false;
+              this.movingLeft = true;
+              // console.log(`elevation delta with player: ${this.heightRelativeToPlayer}`);
             // Finally, if the player is behind the baddie, turn around:
             } else {
               this.movingRight = true;
@@ -91,10 +97,17 @@ class Boss extends Baddie {
 
   advanceFiringSequence = () => {
     if (this.firingSequenceCountdown === 12) {
+      // Stop walking when shooting the gun:
+      this.domElement.src = `./assets/sprites/baddie-${this.type}-standing.gif`;
       playSound('gatling-gun-windup-sound');
+      // this.domElement.src = `assets/sprites/baddie-${this.type}-standing.gif`;
     }
     if (this.firingSequenceCountdown === 9) {
       this.gatlingGunAttack();
+    }
+    if (this.firingSequenceCountdown === 1) {
+      // Resume movement animation when firing is completed:
+      this.domElement.src = `./assets/sprites/baddie-${this.type}-running.gif`;
     }
     this.firingSequenceCountdown -= 1;
   }
@@ -110,15 +123,22 @@ class Boss extends Baddie {
       this.facing === 'right' ? this.movingRight = false : this.movingLeft = false;
       // Reset jump evaluator:
       this.lastJumpInitialHeight = null;
-      // If the baddie encounters an obstacle, jump:
+      // If the baddie encounters an obstacle, jump, and attempt to advance in the direction it is currently facing:
     } else if (this.verifyXObstruction()) {
       this.jumping = true;
+      if (this.facing === 'right') {
+        this.movingRight = true;
+        this.movingLeft = false;
+      } else {
+        this.movingRight = false;
+        this.movingLeft = true;
+      }
     }
   }
 
   gatlingGunAttack = () => {
     this.attackRadius = 5;
-    this.attackCountdown = 50;
+    this.attackCountdown = 48;
     this.currentAttackDamage = 2;
     this.currentAttackKnockback = 0.5;
     this.attack('gatling-gun');
@@ -129,7 +149,8 @@ class Boss extends Baddie {
   // Engine can check a baddie for deathLoops and remove them when the counter reaches zero:
   if (this.deathLoops > 0) {
     // Death of a baddie: baddie sprite is replaced by a gif of them dying which plays for a certain amount of game loops:
-      if (this.deathLoops === 20) {
+      if (this.deathLoops === 75) {
+        playSound('boss-death-sound');
         this.domElement.src = `./assets/effects/animations/baddie-${this.type}-death.gif`;
         // ensure proper sprite orientation:
         this.facing === 'right'
@@ -147,6 +168,12 @@ class Boss extends Baddie {
       this.isDying = false;
       this.isDead = true;
       this.deRender();
+    }
+    if (this.attackAnimation) {     // Halt any ongoing attack animation/effect immediately when baddie starts to die.
+      this.haltAttack();
+    }
+    if (this.currentDialogue) {     // Halt any ongoing dialogue bubbles immediately when baddie starts to die.
+      this.cleanupDialogue();
     }
   }
 

@@ -112,14 +112,22 @@ class Sprite extends Entity {
   updateImage = () => {
     const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
     if (moving && !this.running) {  // If you have momentum but have not yet declared running, you have just started to run.
-      // Make sure to use the right sprite for either the player of whatever baddie we're supposed to see:
-      this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-running.gif`;
+      // Make sure to use the right sprite for either the player or whatever baddie we're supposed to see:
+      this.displayRunningGif();
       this.running = true;
     }
     else if (!moving && this.running) { // If you don't have momentum but are 'running' then you have just stopped:
-      this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-standing.gif`;
+      this.displayStandingGif();
       this.running = false;
     }
+  }
+
+  displayStandingGif = () => {
+    this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-standing.gif`;
+  }
+
+  displayRunningGif = () => {
+    this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-running.gif`;
   }
 
   // Final stage of the new movement process: Movement Request Handler calls movement functions each game cycle

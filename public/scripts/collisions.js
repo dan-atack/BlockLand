@@ -306,10 +306,10 @@ const badDictionary = {
       dangerZone: 1.5,
     },
     playerBehind: {
-      dangerZone: 1,
+      dangerZone: 1.125,
     },
     backToBack: {
-      dangerZone: 1.25,
+      dangerZone: 1.125,
     },
   },
 };

@@ -1352,17 +1352,17 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 9. When adding this baddie to the baddie dictionary, ensure their sprite width property is 1.5; you can also remove this property from the Boss class constructor as it doesn't get read by the collisions detector.
 
-### 9. A) Remaining Boss-related features (basic list... see below for more):
+### 10. A) Remaining Boss-related features (basic list... see below for more):
 
-### - The Boss seems to have a hard time jumping over things. Fix that.
+- The Boss seems to have a hard time jumping over things. Fix that.
 
 - The gatling gunfire animation isn't translated with the baddie's 'sprite width' property incorporated into its offset, so it is rendered too close to the boss's actual body.
 
 ### - Boss needs a moving gif, and also a dying gif. Both should be fairly dramatic.
 
-### 10. Honestly, level 4 should be about beating this boss character, and therefore some reconstructive surgery is needed to structure that mission around the fight. Addendum: Especially now since we've got to redirect the player back to X = 0, there's gonna be quite a lot of editing done to make the last phase of the game fun, as well as functional! Remember the vat of acid idea when designing this area.
+### 11. Honestly, level 4 should be about beating this boss character, and therefore some reconstructive surgery is needed to structure that mission around the fight. Addendum: Especially now since we've got to redirect the player back to X = 0, there's gonna be quite a lot of editing done to make the last phase of the game fun, as well as functional! Remember the vat of acid idea when designing this area.
 
-### 11. Add new attack logic for how the Boss baddie's attack works: The attack can:
+### 12. Add new attack logic for how the Boss baddie's attack works: The attack can:
 
 ### - Sense obstacles in its path
 
@@ -1370,7 +1370,7 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 ### - DESTROY BLOCKS THAT GET IN ITS WAY??
 
-### 12. Touch up the artwork in the pre-game slideshow, just a little bit;
+### 13. Touch up the artwork in the pre-game slideshow, just a little bit;
 
 ### - More gadetry in frame 1 BG
 
@@ -1380,13 +1380,15 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 ### - Stripes for the raptor in frame 4, and the word RESIST emblazoned at the bottom!
 
-### 13. Make a small sign with the word 'ACID' on it, and change the Swamp water's name in the blocktionary. And make it lethal. AND give the swamp water surface tiles the 'green glow' feature!
+### 14. Make a small sign with the word 'ACID' on it, and change the Swamp water's name in the blocktionary. And make it lethal. AND give the swamp water surface tiles the 'green glow' feature!
 
-### 14. Game balance adjusting: You should be able to scrape together enough XP to get to level 3 by the time you reach the boss fight. For added fun, add a steroids item to a supply room and have the player jump over a vat of now lethal swamp water (repurposed as 'acid') to gain some XP/bonus health before the fight!
+### 15. Game balance adjusting: You should be able to scrape together enough XP to get to level 3 by the time you reach the boss fight. For added fun, add a steroids item to a supply room and have the player jump over a vat of now lethal swamp water (repurposed as 'acid') to gain some XP/bonus health before the fight!
 
-### 15. Artistic alteration for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
+### 16. Artistic alteration for the background: spotlights should be two solid triangles of light rather than the line formation that we currently have.
 
-### 16. Bonus if the game actually requires you to get the boss to chew up the terrain with his gun before you can progress (although killing him will open a prison door as an alternate way forward... either way this would require the implementation of the 'objective achievements can alter the map' and 'some objectives may be optional' features, which are concepts worthy of exploration).
+### 17. Bonus if the game actually requires you to get the boss to chew up the terrain with his gun before you can progress (although killing him will open a prison door as an alternate way forward... either way this would require the implementation of the 'objective achievements can alter the map' and 'some objectives may be optional' features, which are concepts worthy of exploration).
+
+### 18. Final, FINAL thing: make a nearly static image of the player character clinging to the side of the frame. If we're gonna keep that physics bug and call it a feature, we might as well own it and give it a nice visual!
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 

@@ -228,8 +228,8 @@ class Engine {
         this.handleItemUpdates();
         // Then, update baddies' various tickers:
         this.handleBaddieUpdates();
-        // Initiate collision detection between objects in motion:
-        this.collisions.compare(3, this.baddies);
+        // Initiate collision detection between objects in motion (first argument = max distance at which to calculate for collision):
+        this.collisions.compare(5, this.baddies);
         this.baddies.forEach((baddie) => {
           baddie.handleCollisions();
           if (baddie.checkForTerrainDeath()) {
