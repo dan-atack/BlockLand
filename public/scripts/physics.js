@@ -91,7 +91,6 @@ class Physics {
   }
 
   collisionCheckUp() {
-    // if (this.subject.y < SCREEN_HEIGHT / PLAYER_WIDTH) {
     // define the distance to the next row as the difference between current y position and y position CEIL (dist is positive):
     this.yDist = Math.ceil(this.subject.y) - this.subject.y;
     // Test for the next block/s to the right (use floor(x) and upper and lower y-values to catch all):
@@ -104,10 +103,6 @@ class Physics {
         Math.ceil(this.subject.x),
         Math.ceil(this.subject.y + 1)
       );
-    // } else {
-    //   this.subject.y = SCREEN_HEIGHT / PLAYER_WIDTH;
-    //   this.yObstruction = 100;
-    // }
   }
 
   collisionCheckDown() {
@@ -291,6 +286,8 @@ class Physics {
 
     // G - Update Surface
     this.determineSurface();
+    // H - Update gridY again, in case it wasn't updated already:
+    this.subject.gridY = Math.round(this.subject.y);
   }
 
   // Determine what you're standing on. NOTE: Tweak to allow jumping when you're > 50% over a ledge:

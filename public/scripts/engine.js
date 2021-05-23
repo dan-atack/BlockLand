@@ -228,8 +228,8 @@ class Engine {
         this.handleItemUpdates();
         // Then, update baddies' various tickers:
         this.handleBaddieUpdates();
-        // Initiate collision detection between objects in motion:
-        this.collisions.compare(3, this.baddies);
+        // Initiate collision detection between objects in motion (first argument = max distance at which to calculate for collision):
+        this.collisions.compare(5, this.baddies);
         this.baddies.forEach((baddie) => {
           baddie.handleCollisions();
           if (baddie.checkForTerrainDeath()) {
@@ -243,13 +243,12 @@ class Engine {
         this.mission.manageAchievements();
         // The game will freeze if you finish a mission, then unfreeze after a few seconds and load a new mission:
         if (this.mission.objectivesRemaining.length == 0) this.updateMission();
+        // Dialogue handler updates:
+        this.handleMissionDialogue();
+        this.player.updateDialogueCountdown();
         // Lastly, check for DEATH: First the player checks, then the engine follows up in case of death:
         this.player.checkForDeath();
         this.checkForPlayerDeath();
-        // Dialogue handler updates:
-        this.handleMissionDialogue();
-        this.baddies.forEach((baddie) => baddie.updateDialogueCountdown());
-        this.player.updateDialogueCountdown();
         // Sidebar elements are updated:
         this.updateSidebarDisplays();
         // Refresh the universe every 50 ms
@@ -318,7 +317,7 @@ class Engine {
         break;
       case 'add-boss':
         // Ensure proper rendering point set:
-        if (typeof baddieArray[4] == 'object') {
+        if (typeof instructions[1][4] == 'object') {
           instructions[1].unshift(document.getElementById('world'));
         } else {
           instructions[1][0] = document.getElementById('world')
@@ -461,6 +460,7 @@ class Engine {
                     this.player.handleDialogue(saying); // If there is no Y coordinate, also show the dialogue.
                   }
                 }
+                break;
             }
           } else {
             switch (saying.condition[0]) {
@@ -473,6 +473,16 @@ class Engine {
                   }
                 } catch {
                   // If the baddie is dead he says nothing.
+                }
+                break;
+              case 'onDeath': // This should be something the baddie only says if they have just started dying:
+                try {
+                  const baddie = this.baddies.find((baddie) => baddie.id === character);
+                  if (baddie.isDying && baddie.rendered) {
+                    baddie.handleDialogue(saying);
+                  }
+                } catch {
+                  // If there's no baddie matching our description, don't do anything.
                 }
             }
           }
@@ -671,7 +681,8 @@ class Engine {
       baddie.lookAhead([this.player.x, this.player.gridY]); // Grid Y is used to make an easy match with baddie's height.
       baddie.horizontalTranslate(this.horizontalOffset);
       baddie.verticalTranslate(this.verticalOffset);
-      baddie.advanceAttackCountdown()
+      baddie.advanceAttackCountdown();
+      baddie.updateDialogueCountdown();
       baddie.patrol();
       baddie.updateImage();
       baddie.handleMovementRequests();

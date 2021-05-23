@@ -36,12 +36,10 @@ class Player extends Sprite {
     // Item/special status management:
     // Item Effect is a dictionary containing the property that is affected, how much it is affected, and for how long:
     this.itemEffect = {properties: [], value: 0, timeRemaining: 0};
-    // God mode in dev mode:
-    // if (DEV_MODE) {
-    //   this.maxHP = 10;
-    //   this.currentHP = 10;
-    //   this.jumpImpulse = 1;
-    // }
+    // Keep track of height value over one cycle to check if the player is gripping the walls:
+    this.previousY = 0;
+    this.previousX = 0;
+    this.previousWallCling = false;
   }
 
   // Movement responder comes in two parts: Part I - Keydown responder series:
@@ -167,6 +165,31 @@ class Player extends Sprite {
       };
     }
     makePopup(popupData);
+  }
+
+  // Runs each cycle to determine what image to use based on the player's state of motion:
+  updateImage = () => {
+    const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
+    const wallCling = (this.previousY === this.y && this.x === this.previousX && this.standingOn.id === '000') // Are you not on the ground, yet stationary?
+    this.previousY = this.y // Set the 'previous' value for the next round
+    this.previousX = this.x // Set previous X value too so any movement cancels the clinging animation.
+    if (wallCling) {  // If the player is clinging to the wall animate that - then nobody can call it a bug anymore :D
+      this.domElement.src = 'assets/sprites/player-wall-cling.gif';
+    } else {
+      if (moving && !this.running) {  // If you have momentum but have not yet declared running, you have just started to run.
+        // Make sure to use the right sprite for either the player or whatever baddie we're supposed to see:
+        this.displayRunningGif();
+        this.running = true;
+      } else if (!moving && this.running) { // If you don't have momentum but are 'running' then you have just stopped:
+        this.displayStandingGif();
+        this.running = false;
+      }
+    }
+    if (!wallCling && this.previousWallCling) { // When wall cling has just stopped being the case, go back to standing:
+      this.displayStandingGif();
+      this.running = false;
+    }
+    this.previousWallCling = wallCling;  // Keep track of when this switches back to false to render the 'standing' gif.
   }
 
   // item = data from mission_data, props = list of Sprite properties affected (e.g. topSpeed, jumpImpulse, etc.)

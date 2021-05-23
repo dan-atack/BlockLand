@@ -112,14 +112,22 @@ class Sprite extends Entity {
   updateImage = () => {
     const moving = this.movingLeft || this.movingRight  // Do you have momentum right now?
     if (moving && !this.running) {  // If you have momentum but have not yet declared running, you have just started to run.
-      // Make sure to use the right sprite for either the player of whatever baddie we're supposed to see:
-      this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-running.gif`;
+      // Make sure to use the right sprite for either the player or whatever baddie we're supposed to see:
+      this.displayRunningGif();
       this.running = true;
     }
     else if (!moving && this.running) { // If you don't have momentum but are 'running' then you have just stopped:
-      this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-standing.gif`;
+      this.displayStandingGif();
       this.running = false;
     }
+  }
+
+  displayStandingGif = () => {
+    this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-standing.gif`;
+  }
+
+  displayRunningGif = () => {
+    this.domElement.src = `./assets/sprites/${this.id === 'player' ? 'player' : `baddie-${this.type}`}-running.gif`;
   }
 
   // Final stage of the new movement process: Movement Request Handler calls movement functions each game cycle
@@ -190,6 +198,8 @@ class Sprite extends Entity {
     this.attackAnimation.style.zIndex = 10;
     if (this.id === 'player') {
       this.attackAnimation.className = 'player-attack';
+    } else if (this.type === 1006) {
+      this.attackAnimation.className = 'boss-attack';
     } else {
       this.attackAnimation.className = 'attack';
     }
@@ -285,8 +295,12 @@ class Sprite extends Entity {
   handleDialogue = (dialogue) => {
     if (this.dialogueCountdown === 0) {   // Wait until the countdown for any current dialogue finishes.
       if (!this.dialoguesUttered.includes(dialogue.id) || dialogue.repeating) {
-        if (!this.dialoguesUttered.includes(dialogue.id)) this.dialoguesUttered.push(dialogue.id);
-        this.createDialogue(dialogue);        
+        if (!this.dialoguesUttered.includes(dialogue.id)) {
+          this.dialoguesUttered.push(dialogue.id);
+          this.createDialogue(dialogue);
+        } else {
+          this.createDialogue(dialogue);
+        }    
       }
     } else if (this.dialogueCountdown === 1) {  // De-render a frame before the next dialogue appears
       this.cleanupDialogue();

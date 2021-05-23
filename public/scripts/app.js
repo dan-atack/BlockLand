@@ -304,9 +304,12 @@ class App {
         if (this.engine.gameOn) {
             this.engine.gameOn = false;
             document.getElementById('pauseButton').innerText = 'UnPause';
+            // Lastly, make the baddies all stand still:
+            this.engine.baddies.forEach((baddie) => baddie.displayStandingGif());
         } else {
             this.engine.gameOn = true;
             document.getElementById('pauseButton').innerText = 'Pause';
+            this.engine.baddies.forEach((baddie) => baddie.displayRunningGif());
         }
     }
 

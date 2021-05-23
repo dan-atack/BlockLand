@@ -42,4 +42,4 @@
 
 ## Special Thanks
 
-The game's visual assets are entirely homemade, mostly with MS Paint, but a special thanks must go out to EZGif.com and Lunapic.com for their great services to the visual department. An equally big shoutout to SoundJay.com and to Audiotrimmer.com for the game's dynamic sound FX. You guys rock!
+The game's visual assets are entirely homemade, mostly with MS Paint, but a special thanks must go out to EZGif.com and Lunapic.com for their great services to the visual department. An equally big shoutout to SoundJay.com, Zapsplat.com, FreeSound.com and to Audiotrimmer.com for the game's dynamic sound FX. You guys rock!
