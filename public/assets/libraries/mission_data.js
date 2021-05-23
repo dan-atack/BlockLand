@@ -92,7 +92,7 @@
 const missions = [
   // Mission 0 - The Starting Screen:
   {
-    levelNumber: 0,
+    levelNumber: 0, // Level number determines index position as well as which sound to play when the mission is accomplished.
     levelName: "Escape, Part I",
     brief: "You've been taken to some kind of science dungeon! Find some kind of control panel or exit switch or something and get the heck outta here!",
     achievementStatement: "* ZE CELL BLOCK DOORS ARE NOW OPENINGK *",
@@ -112,15 +112,12 @@ const missions = [
         [
           [ 23, 20, 1003, 1001, [18, 23]],  // last number here must never exceed initial x value or baddie might fall off the edge.
           [ 30, 9, 1003, 1002, [23, 30]],
-          [ 42, 9, 1002, 1003, [39, 42]],
+          [ 45, 9, 1002, 1003, [40, 43]],
           [ 55, 11, 1003, 1004, [46, 55]],
           [ 63, 12, 1002, 1005, [46, 63]],
           [ 61, 12, 1002, 1006, [47, 61]]
         ],
       ],  // End of instruction 1
-      [
-        "add-boss", [16, 9, 1006, 9999, [10, 18]]
-      ],
       [
         "add-item",
         [
@@ -149,7 +146,7 @@ const missions = [
           type: "thought",
           repeating: false,
           condition: ["position", 12],
-          duration: 40
+          duration: 50
         },
         {
           id: 1,
@@ -157,7 +154,7 @@ const missions = [
           type: "thought",
           repeating: false,
           condition: ["position", 61, 18],
-          duration: 30
+          duration: 60
         },
       ],
       baddie_1001: [
@@ -167,7 +164,7 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 22],
-          duration: 40,
+          duration: 80,
         },
       ],
       baddie_1002: [
@@ -177,7 +174,7 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 28],
-          duration: 20,
+          duration: 30,
         },
       ],
       baddie_1003: [
@@ -186,7 +183,7 @@ const missions = [
           text: "Did you hear zat?",
           type: "speech",
           repeating: false,
-          condition: ["position", 41],
+          condition: ["position", 42],
           duration: 50,
         },
       ],
@@ -197,7 +194,7 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 50],
-          duration: 25,
+          duration: 60,
         },
       ],
       baddie_1005: [
@@ -207,7 +204,7 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 60],
-          duration: 20,
+          duration: 50,
         },
       ],
     }
@@ -221,8 +218,8 @@ const missions = [
       [
         "Escape from the holding cells",
         "Objective Achieved: Escape from Holding Cells",
-        "threshold",
-        { directions: ['toTheLeft', 'above'], coords: [9, 15]},
+        "position",
+        [ 8 ],
         2,
       ],
       [
@@ -303,15 +300,15 @@ const missions = [
           type: "thought",
           repeating: true,
           condition: ["position", 26, 33],
-          duration: 40
+          duration: 50
         },
         {
           id: 8,
-          text: "That glowing terminal looks promising...",
+          text: "I wonder what I'll do with this experience.",
           type: "thought",
           repeating: false,
-          condition: ["position", 61, 18],
-          duration: 30
+          condition: ["position", 3, 44],
+          duration: 60
         },
       ],
       baddie_1009: [
@@ -321,17 +318,17 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 26],
-          duration: 40
+          duration: 80
         },
       ],
       baddie_1011: [
         {
           id: 10,
-          text: "Screw bayonets-- LOCK UND LOAD!!",
+          text: "Screw bayonets - LOCK UND LOAD!!",
           type: "speech",
           repeating: false,
           condition: ["position", 28],
-          duration: 40
+          duration: 60
         },
       ]
     },
@@ -350,7 +347,7 @@ const missions = [
         1,
       ],
       [
-        "Find the exit to the geothermal power station (hint: up is good).",
+        "Find the exit to the geothermal power station",
         "",
         "threshold",
         { directions: ['toTheLeft', 'above'], coords: [85, 45]},
@@ -361,8 +358,8 @@ const missions = [
         ['update-player-respawn', [38, 35]],
         ['clear-baddies'],
         ['remove-block', [38, 33]], // Control panel - replace with red version
-        ['remove-block', [38, 37]],
-        ['remove-block', [39, 37]],
+        // ['remove-block', [38, 37]],  // Air ducts above elevator panel - uncomment for dev mode shortcut.
+        // ['remove-block', [39, 37]],
         ['remove-block', [41, 33]],
         ['remove-block', [39, 22]],
         [
@@ -463,7 +460,7 @@ const missions = [
           type: "thought",
           repeating: false,
           condition: ["position", 75],
-          duration: 40
+          duration: 50
         },
         {
           id: 12,
@@ -471,15 +468,15 @@ const missions = [
           type: "thought",
           repeating: false,
           condition: ["position", 91, 22],
-          duration: 40
+          duration: 50
         },
         {
           id: 13,
-          text: "What spineless jerks!",
+          text: "Spineless jerks!",
           type: "thought",
           repeating: false,
           condition: ["position", 127, 49],
-          duration: 40
+          duration: 50
         },
         {
           id: 14,
@@ -487,7 +484,7 @@ const missions = [
           type: "thought",
           repeating: false,
           condition: ["position", 104, 45],
-          duration: 40
+          duration: 50
         },
       ],
       baddie_1020: [
@@ -497,7 +494,7 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 133],
-          duration: 40
+          duration: 50
         },
       ],
       baddie_1021: [
@@ -507,7 +504,7 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 143],
-          duration: 40
+          duration: 50
         },
       ],
     },
@@ -515,42 +512,20 @@ const missions = [
   {
     levelNumber: 3,
     levelName: "Escape, Part IV",
-    brief: "Just a little bit further! There's some kinda wierd tower up ahead... I dunno, maybe it's possible to activate an interdimensional portal at the top... There's still a lot raptors have yet to learn about astrophysics, but given the circumstances you might just have to take your chances. Good luck buddy, I'm sure you'll think of something!",
-    achievementStatement: "* PORTAL IS NOW OPENINGK *",
+    brief: "Just a little bit further! It looks like there's some kinda wierd structure up ahead where you might be able to open an interdimensional portal, or something. On the plus side, you haven't had to fight any huge ugly boss baddies yet, so let's hope that trend continues...",
+    achievementStatement: "* SPECIMEN HAS REACHED CONTAINMENT CHAMBER.\nDEPLOY ZE EXPERIMENTAL HYBRID SOLDIER. *",
     objectives: [
       [
-        "Activate Power Terminal",
-        "Power Terminal Activated.",
-        'position',
-        [126, 78],
+        "Find the portal activation control center",
+        "",
+        "position",
+        [32],
         1,
-      ],
-      [
-        "Activate Temporal Forcefield Terminal",
-        "Temporal Forcefield Terminal Activated.",
-        'position',
-        [105, 78],
-        2,
       ],
     ],
     setupInstructions: [
-      ["update-player-respawn", [91, 46]],
-      ["remove-block", [32, 41]],
-      ["remove-block", [26, 40]],
-      [
-        'create-block', 
-        [
-          [112, 41], 
-          702,
-        ]
-      ],
-      [
-        'create-block', 
-        [
-          [113, 41], 
-          702,
-        ]
-      ],
+      ["update-player-respawn", [92, 46]],
+      ["remove-block", [26, 40]],   // Elevator shaft entrance
       [
         "add-item", // Far side of the elevator
         [
@@ -566,13 +541,13 @@ const missions = [
       [
         "add-item", // Under the pipe
         [
-          87, 53, {type: "experience", power: 6, duration: 0}
+          94, 53, {type: "experience", power: 7, duration: 0}
         ]
       ],
       [
-        "add-item", // Under the final tower
+        "add-item", // Right outside arena area
         [
-          115, 65, {type: "health", power: 1, duration: 0}
+          42, 50, {type: "health", power: 3, duration: 0}
         ]
       ],
       [
@@ -585,32 +560,26 @@ const missions = [
           [ 66, 47, 1002, 1030, [66, 76]],
           [ 48, 57, 1004, 1031, [48, 52]],
           [ 49, 57, 1002, 1032, [49, 54]],
-          [ 111, 76, 1003, 1033, [111, 113]],
-          [ 121, 76, 1003, 1034, [118, 121]],
-          [ 136, 55, 1005, 1035, [122, 136], 11],
-          [ 135, 55, 1005, 1036, [122, 135], 11],
-          [ 134, 55, 1005, 1037, [122, 134], 11],
-          [ 133, 55, 1005, 1038, [122, 133], 11],
         ]
-      ]
+      ],
     ],
     specialFX: null,
     dialogue: {
       player: [
         {
           id: 17,
-          text: "Hmm this place looks familiar...",
+          text: "Hmm I don't like the look of this place...",
           type: "thought",
           repeating: false,
-          condition: ["position", 9, 47],
-          duration: 40
+          condition: ["position", 39],
+          duration: 50
         },
         {
           id: 18,
-          text: "Gotta activate both terminals first...",
+          text: "Darn, it's locked!",
           type: "thought",
           repeating: false,
-          condition: ["position", 116, 89],
+          condition: ["position", 33, 57],
           duration: 50
         },
       ],
@@ -621,7 +590,7 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 78],
-          duration: 30
+          duration: 40
         },
       ],
       baddie_1028: [
@@ -631,46 +600,6 @@ const missions = [
           type: "speech",
           repeating: false,
           condition: ["position", 65],
-          duration: 40
-        },
-      ],
-      baddie_1033: [
-        {
-          id: 21,
-          text: "Don't let it get to ze portal!",
-          type: "speech",
-          repeating: false,
-          condition: ["position", 112],
-          duration: 50
-        },
-      ],
-      baddie_1034: [
-        {
-          id: 22,
-          text: "Protect ze terminal!",
-          type: "speech",
-          repeating: false,
-          condition: ["position", 119],
-          duration: 50
-        },
-      ],
-      baddie_1038: [
-        {
-          id: 23,
-          text: "Our fight's not with you, dinosaur!",
-          type: "speech",
-          repeating: false,
-          condition: ["position", 130],
-          duration: 50
-        },
-      ],
-      baddie_1040: [
-        {
-          id: 24,
-          text: "Leave us alone you jerk!",
-          type: "speech",
-          repeating: false,
-          condition: ["position", 128],
           duration: 50
         },
       ],
@@ -678,56 +607,297 @@ const missions = [
   },
   {
     levelNumber: 4,
-    levelName: 'The Portal',
-    brief: "The portal's open! Quick, jump into it, and hold your breath for whatever comes next...",
-    achievementStatement: 'WHHHOOOOOAAAAAAAA!!!!',
+    levelName: "Escape, Part V: BOSS FIGHT",
+    brief: "Looks like we done jinxed it regarding the ol' boss fight possibility. If you survive, I reckon this'll be a good lesson in humility. My advice for right now though: try to come at him from behind.",
+    achievementStatement: "* EXPERIMENTAL UBER SOLDIER HAS BEEN KILLED. *\n* REDUCINGK HYBRID RESEARCH FUNDING. *",
     objectives: [
       [
-        'Get to ze portal!!',
-        '',
-        'position',
-        [3],
+        "Kill that abomination!",
+        "",
+        "kill-particular-individual",
+        [9999],
         1,
       ],
     ],
     setupInstructions: [
-      ['remove-block', [126, 77]],
-      ['remove-block', [105, 77]],
+      ["update-player-respawn", [39, 51]],
       [
-        'create-block', 
+        'create-block', // Combat arena cell door
         [
-          [126, 77], 
-          740,
+          [41, 50],
+          736,
         ]
       ],
       [
-        'create-block', 
+        'create-block', // Combat arena cell door
         [
-          [105, 77], 
-          740,
+          [23, 57], 
+          736,
         ]
       ],
       [
-        'create-block', 
+        'create-block', // Combat arena cell door
         [
-          [3, 49], 
-          989,
+          [14, 50], 
+          736,
+        ]
+      ],
+      ['add-boss', [ 25, 60, 1006, 9999, [100, 120]]],
+    ],
+    specialFX: null,
+    dialogue: {
+      player: [
+        {
+          id: 21,
+          text: "Oh boy, I'm in a tight spot!",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 39],
+          duration: 60
+        },
+        {
+          id: 22,
+          text: "Darn, it's locked!",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 31, 59],
+          duration: 60
+        },
+        {
+          id: 23,
+          text: "He's tough, but his pathfinding could use some work...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 21],
+          duration: 75
+        },
+      ],
+      baddie_9999: [
+        {
+          id: 24,
+          text: "You are an INFERIOR specimen!!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 26],
+          duration: 60
+        },
+        {
+          id: 25,
+          text: "Time to DIE, weak one!!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 33],
+          duration: 60
+        },
+        {
+          id: 26,
+          text: "Come back and FACE ME!!!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 24, 54],
+          duration: 60
+        },
+        {
+          id: 27,
+          text: "My existence was agony. Danke shoen...",
+          type: "speech",
+          repeating: false,
+          condition: ["onDeath"],
+          duration: 80
+        },
+      ],
+    }
+  },
+  {
+    levelNumber: 5,
+    levelName: "Escape, Part VI: The Portal Control Console",
+    brief: "Good job eliminating that genetic miscreant. Clearly there is much perverted science going on in this foul place. Your only hope now is to activate an interdimensional portal - probably by hopping on some more glowing terminals - then use it to escape and continue the fight. Good luck, young raptor!",
+    achievementStatement: "* DIMENSIONAL PORTAL IST OPENINGK. PLEASE STAND CLEAR *",
+    objectives: [
+      [
+        "Activate Temporal Distortion Matrix by jumping on it",
+        "* PANEL ACTIVATED. BLOOP BLEEP. *",
+        "position",
+        [14, 66],
+        1,
+      ],
+      [
+        "Configure Quantum Flux Generator (just hop on the damn panel)",
+        "",
+        "position",
+        [35, 78],
+        1,
+      ],
+    ],
+    setupInstructions: [
+      ['remove-block', [41, 50]],  // Boss cage doors
+      ['remove-block', [23, 57]],
+      ['remove-block', [14, 50]],
+      ['remove-block', [38, 49]],  // Boss cage floors
+      ['remove-block', [39, 49]],
+      ['remove-block', [32, 41]],  // Elevator shaft right-hand side entrance
+      [
+        'add-baddies',
+        [
+          [3, 57, 1004, 1033, [3, 26]],   // Stairs immediately left of the boss cage
+          [15, 65, 1003, 1034, [13, 15]], // First terminal panel
+          [29, 68, 1004, 1035, [24, 29]], // Above boss cage
+          [28, 68, 1002, 1036, [21, 28]], // Above boss cage
+          [37, 77, 1003, 1037, [31, 37]],  // By second terminal
+          [36, 77, 1002, 1038, [31, 36]]  // By second terminal
+        ]
+      ],
+      [
+        "add-item", // Far side of the elevator
+        [
+          25, 40, {type: "experience", power: 7, duration: 0}
+        ]
+      ],
+      [
+        "add-item", // Room under guard tower (near elevator)
+        [
+          48, 41, {type: "health", power: 1, duration: 0}
+        ]
+      ],
+      [
+        "add-item", // Under the pipe
+        [
+          94, 53, {type: "experience", power: 7, duration: 0}
         ]
       ],
     ],
     specialFX: null,
+    dialogue: {
+      player: [
+        {
+          id: 28,
+          text: "Got to activate both terminals first!",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 8, 103],
+          duration: 60
+        },
+      ],
+      baddie_1033: [
+        {
+          id: 29,
+          text: "Die, dino scum!!!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 4],
+          duration: 60
+        },
+      ],
+      baddie_1034: [
+        {
+          id: 30,
+          text: "Stay away from ze terminal!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 14],
+          duration: 60
+        },
+      ],
+      baddie_1037: [
+        {
+          id: 31,
+          text: "STOP HIM!!!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 36],
+          duration: 60
+        },
+      ],
+    }
   },
   {
-    levelNumber: 4,
+    levelNumber: 6,
+    levelName: "Escape, Part VII: The Portal",
+    brief: "That's it, you've opened the portal! There's still a lot raptors have yet to learn about astrophysics, but given the circumstances you might just have to take your chances. Good luck, and please let us know how it goes",
+    achievementStatement: "* DIMENSIONAL PORTAL IST OPENINGK. PLEASE STAND CLEAR *",
+    objectives: [
+      [
+        "Get to ze portal!!",
+        "",
+        "position",
+        [8, 103],
+        1,
+      ],
+    ],
+    setupInstructions: [
+      ['remove-block', [14, 65]], // De-render green consoles
+      ['remove-block', [35, 77]],
+      [
+        'create-block',           // Render red ones in their place
+        [
+          [14, 65], 
+          740,
+        ]
+      ],
+      [
+        'create-block', 
+        [
+          [35, 77], 
+          740,
+        ]
+      ],
+      [
+        'create-block',          // Render the portal
+        [
+          [8, 103], 
+          989,
+        ]
+      ],
+      [
+        'add-baddies',
+        [
+          [16, 101, 1003, 1039, [14, 16]],
+        ]
+      ]
+    ],
+    specialFX: null,
+    dialogue: {
+      player: [
+        {
+          id: 32,
+          text: "*Gulp* Here we go!",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 9, 99],
+          duration: 40
+        },
+        {
+          id: 33,
+          text: "*Gulp* Here we go!",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 7, 99],
+          duration: 40
+        },
+      ],
+      baddie_1039: [
+        {
+          id: 34,
+          text: "Stop, you fool!",
+          type: "speech",
+          repeating: false,
+          condition: ["position", 14],
+          duration: 60
+        },
+      ],
+    }
+  },
+  {
+    levelNumber: 7,
     levelName: 'The Forest of Eternity',
-    brief: "Thank you for playing Block Land, soon to be renamed something else to avoid copyright infringement.",
+    brief: "Oh no, trapped for all eternity!",
     achievementStatement: "",
     objectives: [
       [
         'Wait for the release of version 1.5.3 in roughly another year.',
         '',
         'position',
-        [-1000],
+        [-1000, 1000],
         1000
       ]
     ],
@@ -741,7 +911,7 @@ const missions = [
     dialogue: {
       player: [
         {
-          id: 25,
+          id: 35,
           text: "Uh oh...",
           type: "thought",
           repeating: false,
@@ -749,7 +919,7 @@ const missions = [
           duration: 40
         },
         {
-          id: 26,
+          id: 36,
           text: "Oh no, I'm in the dev sandbox!",
           type: "thought",
           repeating: false,
@@ -757,12 +927,28 @@ const missions = [
           duration: 50
         },
         {
-          id: 27,
+          id: 37,
           text: "Is this purgatory?",
           type: "thought",
           repeating: false,
           condition: ["position", -60],
           duration: 50
+        },
+        {
+          id: 38,
+          text: "Uh oh...",
+          type: "thought",
+          repeating: false,
+          condition: ["position", -30],
+          duration: 40
+        },
+        {
+          id: 39,
+          text: "Thanks for playing. Now get back to work!!",
+          type: "thought",
+          repeating: false,
+          condition: ["position", 3, 30],
+          duration: 120
         },
       ],
     }

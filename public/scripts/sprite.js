@@ -295,8 +295,12 @@ class Sprite extends Entity {
   handleDialogue = (dialogue) => {
     if (this.dialogueCountdown === 0) {   // Wait until the countdown for any current dialogue finishes.
       if (!this.dialoguesUttered.includes(dialogue.id) || dialogue.repeating) {
-        if (!this.dialoguesUttered.includes(dialogue.id)) this.dialoguesUttered.push(dialogue.id);
-        this.createDialogue(dialogue);        
+        if (!this.dialoguesUttered.includes(dialogue.id)) {
+          this.dialoguesUttered.push(dialogue.id);
+          this.createDialogue(dialogue);
+        } else {
+          this.createDialogue(dialogue);
+        }    
       }
     } else if (this.dialogueCountdown === 1) {  // De-render a frame before the next dialogue appears
       this.cleanupDialogue();

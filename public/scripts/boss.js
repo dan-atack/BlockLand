@@ -1,10 +1,10 @@
 class Boss extends Baddie {
-  constructor(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints=1) {
+  constructor(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints=25) {
     super(root, xStart, yStart, baddieType, baddieSerial, xRange, hitpoints);
     this.domElement.classList.add('boss');
     this.patrolInterval = 4;
     // Bosses have bigger everything:
-    this.deathLoops = 75;   // How long the sprite hangs around after getting killed - if adjusting, be sure to also change it in the handleDeath function too.
+    this.deathLoops = 80;   // How long the sprite hangs around after getting killed - if adjusting, be sure to also change it in the handleDeath function too.
     this.spriteWidth = 2; // Okay, so this is... hackis in extremis, since this property is ALSO in the baddie dictionary, *and* it's a different number in there, but I had to do it because this is the value that the Sprite's attack positioner looks for when it calculates rightward-facing X-offset!
     this.lineOfSight = 4;
     this.attackAnimationWidth = 2;
@@ -149,7 +149,7 @@ class Boss extends Baddie {
   // Engine can check a baddie for deathLoops and remove them when the counter reaches zero:
   if (this.deathLoops > 0) {
     // Death of a baddie: baddie sprite is replaced by a gif of them dying which plays for a certain amount of game loops:
-      if (this.deathLoops === 75) {
+      if (this.deathLoops === 80) {
         playSound('boss-death-sound');
         this.domElement.src = `./assets/effects/animations/baddie-${this.type}-death.gif`;
         // ensure proper sprite orientation:
@@ -168,12 +168,12 @@ class Boss extends Baddie {
       this.isDying = false;
       this.isDead = true;
       this.deRender();
+      if (this.currentDialogue) {     // Halt any ongoing dialogue bubbles only when boss is finished dying.
+        this.cleanupDialogue();
+      }
     }
     if (this.attackAnimation) {     // Halt any ongoing attack animation/effect immediately when baddie starts to die.
       this.haltAttack();
-    }
-    if (this.currentDialogue) {     // Halt any ongoing dialogue bubbles immediately when baddie starts to die.
-      this.cleanupDialogue();
     }
   }
 

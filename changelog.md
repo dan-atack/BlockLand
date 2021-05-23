@@ -1352,23 +1352,15 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 9. When adding this baddie to the baddie dictionary, ensure their sprite width property is 1.5; you can also remove this property from the Boss class constructor as it doesn't get read by the collisions detector.
 
-### 10. A) Remaining Boss-related features (basic list... see below for more):
+10. A) Remaining Boss-related features (basic list... see below for more):
 
 - The Boss seems to have a hard time jumping over things. Fix that.
 
 - The gatling gunfire animation isn't translated with the baddie's 'sprite width' property incorporated into its offset, so it is rendered too close to the boss's actual body.
 
-### - Boss needs a moving gif, and also a dying gif. Both should be fairly dramatic.
+- Boss needs a moving gif, and also a dying gif. Both should be fairly dramatic.
 
-### 11. Honestly, level 4 should be about beating this boss character, and therefore some reconstructive surgery is needed to structure that mission around the fight. Addendum: Especially now since we've got to redirect the player back to X = 0, there's gonna be quite a lot of editing done to make the last phase of the game fun, as well as functional! Remember the vat of acid idea when designing this area.
-
-### 12. Add new attack logic for how the Boss baddie's attack works: The attack can:
-
-### - Sense obstacles in its path
-
-### - Increase its range as the attack countdown progresses
-
-### - DESTROY BLOCKS THAT GET IN ITS WAY??
+11. Honestly, level 4 should be about beating this boss character, and therefore some reconstructive surgery is needed to structure that mission around the fight. Addendum: Especially now since we've got to redirect the player back to X = 0, there's gonna be quite a lot of editing done to make the last phase of the game fun, as well as functional! Remember the vat of acid idea when designing this area.
 
 ### 13. Touch up the artwork in the pre-game slideshow, just a little bit;
 
@@ -1388,7 +1380,7 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 ### 17. Bonus if the game actually requires you to get the boss to chew up the terrain with his gun before you can progress (although killing him will open a prison door as an alternate way forward... either way this would require the implementation of the 'objective achievements can alter the map' and 'some objectives may be optional' features, which are concepts worthy of exploration).
 
-### 18. Final, FINAL thing: make a nearly static image of the player character clinging to the side of the frame. If we're gonna keep that physics bug and call it a feature, we might as well own it and give it a nice visual!
+18. Final, FINAL thing: make a nearly static image of the player character clinging to the side of the frame. If we're gonna keep that physics bug and call it a feature, we might as well own it and give it a nice visual!
 
 # Remaining Tasks for Refactoring / Thoughts for the Future:
 
@@ -1438,7 +1430,7 @@ After you escape via the portal, you arrive in the middle of an ancient forest, 
 
 16. There's an error when you skip the pre-game slideshow on line 56 of slideshow.js.
 
-### 17. Boss class baddie currently has messed up styling; flattened kind of look.
+17. Boss class baddie currently has messed up styling; flattened kind of look.
 
 ### 18. In production version, the arrow pointing to the main menu after the player's first levelup/mission accomplishment is too low, since there is no player/logout section in the production version to push the button as far down as it appears in dev mode. Raise the arrow approximately one block's height. Addendum: Raise by another... one block let's say.
 
